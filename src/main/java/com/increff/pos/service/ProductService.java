@@ -22,9 +22,10 @@ public class ProductService {
 	private BrandDao bdao;
 
 	@Transactional(rollbackOn = ApiException.class)
-	public void add(ProductPojo p) throws ApiException{
+	public ProductPojo add(ProductPojo p) throws ApiException{
 		validate(p);
 		dao.insert(p);
+		return p;
 	}
 
 	@Transactional

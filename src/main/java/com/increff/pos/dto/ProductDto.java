@@ -30,11 +30,11 @@ public class ProductDto {
     @Autowired
     BrandService brandService;
 
-    public void add(ProductForm f) throws ApiException {
+    public ProductPojo add(ProductForm f) throws ApiException {
         ProductPojo p = ConvertUtil.convert(f);
         NormalizeUtil.normalize(p);
 		ValidateUtil.validateProduct(p);
-        svc.add(p);
+        return svc.add(p);
     }
 
     public ProductData get(int id) throws ApiException {
