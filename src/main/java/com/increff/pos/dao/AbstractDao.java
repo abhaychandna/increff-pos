@@ -21,4 +21,15 @@ public abstract class AbstractDao {
 		return em;
 	}
 
+	public <T> void insert(T b) {
+		em.persist(b);
+	}
+
+	public <T> T select(Class<T> c, int id) {
+		return em.find(c, id);
+	}
+
+	public <T> void update(T b) {
+	}
+
 }
