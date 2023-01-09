@@ -11,8 +11,9 @@ public class TestUtil {
         return brandForm;
     }
 
-    public static ProductForm getProductFormDto(String brand, String category, String name, double mrp) {
+    public static ProductForm getProductFormDto(String barcode, String brand, String category, String name, double mrp) {
         ProductForm productForm = new ProductForm();
+        productForm.setBarcode(barcode);
         productForm.setBrand(brand);
         productForm.setCategory(category);
         productForm.setName(name);
