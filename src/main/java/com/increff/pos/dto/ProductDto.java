@@ -33,7 +33,7 @@ public class ProductDto {
     public void add(ProductForm f) throws ApiException {
         ProductPojo p = ConvertUtil.convert(f);
         NormalizeUtil.normalize(p);
-		ValidateUtil.validate(p);
+		ValidateUtil.validateProduct(p);
         svc.add(p);
     }
 
@@ -54,7 +54,7 @@ public class ProductDto {
     public void update(int id, ProductForm f) throws ApiException {
         ProductPojo p = ConvertUtil.convert(f);
         NormalizeUtil.normalize(p);
-		ValidateUtil.validate(p);
+		ValidateUtil.validateProduct(p);
         svc.update(id, p);
     }
 
