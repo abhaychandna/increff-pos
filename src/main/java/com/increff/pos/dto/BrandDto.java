@@ -14,6 +14,9 @@ import com.increff.pos.service.BrandService;
 import com.increff.pos.util.StringUtil;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.NormalizeUtil;
+import com.increff.pos.util.ValidateUtil;
+
+
 @Component
 public class BrandDto {
     
@@ -23,7 +26,7 @@ public class BrandDto {
     public BrandPojo add(BrandForm f) throws ApiException {
         BrandPojo p = ConvertUtil.convert(f);
         NormalizeUtil.normalize(p);
-		validate(p);
+		ValidateUtil.validateBrand(p);
         return svc.add(p);
     }
 
@@ -44,18 +47,12 @@ public class BrandDto {
     public void update(int id, BrandForm f) throws ApiException {
         BrandPojo p = ConvertUtil.convert(f);
         NormalizeUtil.normalize(p);
-		validate(p);
+		ValidateUtil.validateBrand(p);
         svc.update(id, p);
     }
 
 
 
 
-    // QUES : Create ValidateUtil for this too ?? 
-	protected static void validate(BrandPojo p) throws ApiException {
-		if(StringUtil.isEmpty(p.getBrand()))
-			throw new ApiException("Brand cannot be empty");
-		if(StringUtil.isEmpty(p.getCategory()))
-			throw new ApiException("Category cannot be empty");
-	}
+
 }
