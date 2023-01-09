@@ -70,7 +70,7 @@ public class ProductService {
 
 	
 	@Transactional
-	private ProductPojo getByBarcode(String barcode) throws ApiException{
+    public ProductPojo getByBarcode(String barcode) throws ApiException{
 		ProductPojo p = new ProductPojo();
 		p.setBarcode(barcode);
 		List<ProductPojo> products = dao.filter(p);
