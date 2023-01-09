@@ -71,7 +71,7 @@ public class BrandTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testAddDuplicate() throws ApiException {
+    public void testAddDuplicateBrandCategory() throws ApiException {
         BrandForm f = TestUtil.getBrandFormDto("adidas","tshirts");
         BrandPojo p = brandDto.add(f);
         
