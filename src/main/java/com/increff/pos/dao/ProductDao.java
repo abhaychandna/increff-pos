@@ -33,11 +33,6 @@ public class ProductDao extends AbstractDao{
 
 		Root<ProductPojo> root = cq.from(ProductPojo.class);
 		List<Predicate> predicates = new ArrayList<Predicate>();
-		System.out.println("id: " + p.getId());
-		System.out.println("barcode: " + p.getBarcode());
-		System.out.println("name: " + p.getName());
-		System.out.println("mrp: " + p.getMrp());
-		System.out.println("brand_category: " + p.getBrand_category());
 
 		if(p.getId() != 0)
 			predicates.add(cb.equal(root.get("id"), p.getId()));
