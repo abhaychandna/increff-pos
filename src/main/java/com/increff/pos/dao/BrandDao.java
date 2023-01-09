@@ -28,6 +28,7 @@ public class BrandDao extends AbstractDao{
 		BrandPojo p = new BrandPojo();
 		p.setBrand(brand);
 		p.setCategory(category);
+		System.out.println("BrandDao.getByBrandCategory brand: " + brand + " category: " + category + "");
 		return filter(p);
 	}
 
@@ -38,20 +39,14 @@ public class BrandDao extends AbstractDao{
 		Root<BrandPojo> root = cq.from(BrandPojo.class);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
-		//id, brand, category
-		System.out.println("id: " + p.getId());
-		System.out.println("brand: " + p.getBrand());
-		System.out.println("category: " + p.getCategory());
-
 		if(p.getId() != 0)
 			predicates.add(cb.equal(root.get("id"), p.getId()));
 		if(p.getBrand() != null)
 			predicates.add(cb.equal(root.get("brand"), p.getBrand()));
 		if(p.getCategory() != null)
 			predicates.add(cb.equal(root.get("category"), p.getCategory()));
-		for (Predicate predicate : predicates) {
-			cq.where(cb.and(predicate));
-		}
+		cq.where(cb.and(predicates.toArray(Predicate[]::new)));
+
 		TypedQuery<BrandPojo> query = em.createQuery(cq);
 		return query.getResultList();
 	}

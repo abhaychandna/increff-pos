@@ -44,10 +44,8 @@ public class ProductDao extends AbstractDao{
 			predicates.add(cb.equal(root.get("mrp"), p.getMrp()));
 		if(p.getBrand_category() != 0)
 			predicates.add(cb.equal(root.get("brand_category"), p.getBrand_category()));
+		cq.where(cb.and(predicates.toArray(Predicate[]::new)));
 
-		for (Predicate predicate : predicates) {
-			cq.where(cb.and(predicate));
-		}
 
 		TypedQuery<ProductPojo> query = em.createQuery(cq);
 		return query.getResultList();
