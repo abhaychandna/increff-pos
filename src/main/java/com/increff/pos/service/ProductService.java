@@ -24,7 +24,6 @@ public class ProductService {
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(ProductPojo p) throws ApiException{
 		validate(p);
-		System.out.println(p.getMrp());
 		dao.insert(p);
 	}
 
@@ -39,8 +38,18 @@ public class ProductService {
 
 	@Transactional(rollbackOn = ApiException.class)
 	public void update(int id, ProductPojo p) throws ApiException{
-		validate(p);
 		ProductPojo ex = getCheck(id);
+		
+		ProductPojo obj = new ProductPojo();
+		obj.setBarcode(p.getBarcode());
+		List<ProductPojo> products = dao.filter(obj);
+		if(products.size() != 0){
+			ProductPojo product = products.get(0);
+			if(product.getId() != ex.getId())
+				throw new ApiException("Product with barcode: " + p.getBarcode() + " already exists");
+		}
+		
+		
 		ex.setBarcode(p.getBarcode());
 		ex.setName(p.getName());
 		ex.setMrp(p.getMrp());
@@ -76,11 +85,6 @@ public class ProductService {
 		product.setBarcode(p.getBarcode());
 		if(dao.filter(product).size() == 1)
 			throw new ApiException("Product with barcode: " + p.getBarcode() + " already exists");
-		
-		BrandPojo brand = new BrandPojo();
-		brand.setId(p.getBrand_category());
-		if(bdao.filter(brand).size() == 0)
-			throw new ApiException("Brand Category does not exist");
 	}
  	
 }
