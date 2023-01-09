@@ -1,6 +1,5 @@
 package com.increff.pos.dto;
 
-import com.increff.pos.dto.BrandDto;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.pojo.BrandPojo;
@@ -12,6 +11,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -70,6 +70,21 @@ public class BrandTest extends AbstractUnitTest {
         assertEquals("hoodies",d.getCategory());
     }
 
+    @Test
+    public void testAddDuplicate() throws ApiException {
+        BrandForm f = TestUtil.getBrandFormDto("adidas","tshirts");
+        BrandPojo p = brandDto.add(f);
+        
+        // Adding same branc/category twice shuld throw error 
+        boolean error = false;
+        try{
+            brandDto.add(f);
+        }
+        catch (ApiException e){
+            error = true;
+        }
+        assertTrue(error);
+    }
     /*
     @Test
     public void testGetByBrandCategory() throws ApiException {
