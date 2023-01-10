@@ -197,8 +197,8 @@ function displayUploadData(){
 }
 
 function displayBrand(data){
-	$("#Brand-edit-form input[name=name]").val(data.brand);	
-	$("#Brand-edit-form input[name=age]").val(data.category);	
+	$("#Brand-edit-form input[name=brand]").val(data.brand);	
+	$("#Brand-edit-form input[name=category]").val(data.category);	
 	$("#Brand-edit-form input[name=id]").val(data.id);	
 	$('#edit-Brand-modal').modal('toggle');
 }
