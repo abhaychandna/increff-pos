@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import com.increff.pos.model.ProductSearchForm;
 import com.increff.pos.pojo.ProductPojo;
+import com.increff.pos.service.ApiException;
 
 @Repository
 public class ProductDao extends AbstractDao{
