@@ -19,12 +19,10 @@ public class ProductService {
 
 	@Autowired
 	private ProductDao dao;
-	@Autowired
-	private BrandDao bdao;
 
 	@Transactional(rollbackOn = ApiException.class)
 	public ProductPojo add(ProductPojo p) throws ApiException{
-		validate(p);
+		checkBarcodeDoesntExist(p);
 		dao.insert(p);
 		return p;
 	}
@@ -81,12 +79,15 @@ public class ProductService {
 	}
  
 	@Transactional
-	private void validate(ProductPojo p) throws ApiException{
-		ProductSearchForm product = new ProductSearchForm();
-		product.setBarcode(p.getBarcode());
-		// TODO : Create getByBarcdoe in Dao layer 
-		if(dao.filter(product).size() == 1)
+	private void checkBarcodeDoesntExist(ProductPojo p) throws ApiException{
+		try{
+			ProductPojo exists = dao.getByBarcode(p.getBarcode());
+			// Throw exception if obj exists 
 			throw new ApiException("Product with barcode: " + p.getBarcode() + " already exists");
+		}
+		catch(ApiException e){
+			// Do nothing
+		}
 	}
  	
 }
