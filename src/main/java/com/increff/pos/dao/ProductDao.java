@@ -32,6 +32,15 @@ public class ProductDao extends AbstractDao{
         return query.getResultList();
 	}
 
+	public ProductPojo getByBarcode(String barcode) throws ApiException{
+		ProductSearchForm p = new ProductSearchForm();
+		p.setBarcode(barcode);
+		List<ProductPojo> list = filter(p);
+		if(list.size() == 0)
+			throw new ApiException("Product does not exist with barcode: " + barcode);
+		return list.get(0);
+	}
+
 	public List<ProductPojo> filter(ProductSearchForm p){
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<ProductPojo> cq = cb.createQuery(ProductPojo.class);
