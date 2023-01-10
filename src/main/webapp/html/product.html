@@ -1,0 +1,219 @@
+<!doctype html>
+
+<html lang="en">
+
+<head th:replace="snippets.html :: name_head"></head>
+
+<body>
+
+	<nav th:replace="snippets.html :: name_app_navbar"></nav>
+
+	<div class="container">
+
+		<h3>Products</h3>
+
+		<!-- Top row with form-->
+		<div class="row">
+			<div class="col-12">
+				<form class="form-inline" id="Product-form">
+					
+					<!-- Barcode, Product, category, mrp, name -->
+					<div class="form-group">
+						<label for="inputbarcode" class="col-sm-2 col-form-label">barcode</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" name="barcode" id="inputbarcode"
+								placeholder="enter barcode">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="brand-select" class="col-sm-2 col-form-label">brand</label>
+						<div class="col-sm-10">
+							<select placeholder="Select Brand" data-search="true" id="brand-select" name="brand-dropdown">
+								<option disabled selected value> -- select an option -- </option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="category-select" class="col-sm-2 col-form-label">category</label>
+						<div class="col-sm-10">
+							<select placeholder="Select Category" data-search="true" id="category-select" name="category-dropdown">
+								<option disabled selected value> -- select an option -- </option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputmrp" class="col-sm-2 col-form-label">mrp</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" name="mrp" id="inputmrp"
+								placeholder="enter mrp">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputname" class="col-sm-2 col-form-label">name</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" name="name" id="inputname"
+								placeholder="enter name">
+						</div>
+					</div>
+					<button type="button" class="btn btn-primary" id="add-Product">Add</button>
+					&nbsp;
+					<button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+					&nbsp;
+					<button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+				</form>
+			</div>
+		</div>
+
+
+		<!-- Blank Row -->
+		<div class="row">
+			&nbsp;
+		</div>
+		<div class="row">
+
+			<!-- Table -->
+			<div class="col-12">
+				<table class="table table-striped" id="Product-table">
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Barcode</th>
+							<th scope="col">Brand</th>
+							<th scope="col">Category</th>
+							<th scope="col">MRP</th>
+							<th scope="col">Name</th>
+							<th scope="col">Actions</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>Romil Jain</td>
+							<td>30</td>
+							<td>Edit | Delete</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>Rajul Jain</td>
+							<td>31</td>
+							<td>Edit | Delete</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>Anaisha Jain</td>
+							<td>7</td>
+							<td>Edit | Delete</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+
+		<!-- Product Edit Modal -->
+		<div class="modal" tabindex="-1" role="dialog" id="edit-Product-modal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Edit Product</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form class="form-inline" id="Product-edit-form">
+					
+							<!-- Barcode, Product, category, mrp, name -->
+							<div class="form-group">
+								<label for="inputbarcode" class="col-sm-2 col-form-label">barcode</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="barcode" id="inputbarcode"
+										placeholder="enter barcode">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="brand-edit-select" class="col-sm-2 col-form-label">brand</label>
+								<div class="col-sm-10">
+									<select placeholder="Select Brand" data-search="true" id="brand-edit-select" name="brand">
+										<option disabled selected value> -- select an option -- </option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="category-edit-select" class="col-sm-2 col-form-label">category</label>
+								<div class="col-sm-10">
+									<select placeholder="Select Category" data-search="true" id="category-edit-select" name="category">
+										<option disabled selected value> -- select an option -- </option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputmrp" class="col-sm-2 col-form-label">mrp</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="mrp" id="inputmrp"
+										placeholder="enter mrp">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputname" class="col-sm-2 col-form-label">name</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="name" id="inputname"
+										placeholder="enter name">
+								</div>
+							</div>
+							<input type="hidden" name="id">
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" id="update-Product">Update</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Product Edit Modal -->
+		<div class="modal" tabindex="-1" role="dialog" id="upload-Product-modal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title">Upload Product</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div class="modal-body">
+						<div class="Product-file">
+							<input type="file" class="custom-file-input" id="ProductFile">
+							<label class="custom-file-label" for="ProductFile" id="ProductFileName">Choose file</label>
+						</div>
+
+						<br>
+						Rows: <span id="rowCount">0</span>,
+						Processed: <span id="processCount">0</span>,
+						Errors: <span id="errorCount">0</span>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" id="process-data">Upload</button>
+						<button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div> <!-- Container end-->
+
+	<footer th:replace="snippets.html :: name_footer"></footer>
+
+	<script th:src="@{/static/product.js}" />
+	</script>
+
+</body>
+
+</html>
