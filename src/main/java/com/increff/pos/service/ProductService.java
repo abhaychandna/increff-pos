@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.increff.pos.dao.BrandDao;
 import com.increff.pos.dao.ProductDao;
+import com.increff.pos.model.ProductSearchForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.util.StringUtil;
@@ -41,7 +42,7 @@ public class ProductService {
 	public void update(int id, ProductPojo p) throws ApiException{
 		ProductPojo ex = getCheck(id);
 		
-		ProductPojo obj = new ProductPojo();
+		ProductSearchForm obj = new ProductSearchForm();
 		obj.setBarcode(p.getBarcode());
 		List<ProductPojo> products = dao.filter(obj);
 		if(products.size() != 0){
@@ -60,7 +61,7 @@ public class ProductService {
 
 	@Transactional
 	private ProductPojo getCheck(int id) throws ApiException{
-		ProductPojo p = new ProductPojo();
+		ProductSearchForm p = new ProductSearchForm();
 		p.setId(id);
 		List<ProductPojo> products = dao.filter(p);
 		if(products.size() == 0)
@@ -71,19 +72,19 @@ public class ProductService {
 	
 	@Transactional
     public ProductPojo getByBarcode(String barcode) throws ApiException{
-		ProductPojo p = new ProductPojo();
+		ProductSearchForm p = new ProductSearchForm();
 		p.setBarcode(barcode);
 		List<ProductPojo> products = dao.filter(p);
 		if(products.size() == 0)
 			throw new ApiException("Product does not exist with barcode: " + barcode);
 		return products.get(0);
 	}
-
-	// QUES : Where to put database validations ?? Is this OK ?? 
+ 
 	@Transactional
 	private void validate(ProductPojo p) throws ApiException{
-		ProductPojo product = new ProductPojo();
+		ProductSearchForm product = new ProductSearchForm();
 		product.setBarcode(p.getBarcode());
+		// TODO : Create getByBarcdoe in Dao layer 
 		if(dao.filter(product).size() == 1)
 			throw new ApiException("Product with barcode: " + p.getBarcode() + " already exists");
 	}

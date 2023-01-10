@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
+import com.increff.pos.model.ProductSearchForm;
 import com.increff.pos.pojo.ProductPojo;
 
 @Repository
@@ -31,21 +32,19 @@ public class ProductDao extends AbstractDao{
         return query.getResultList();
 	}
 
-	public List<ProductPojo> filter(ProductPojo p){
+	public List<ProductPojo> filter(ProductSearchForm p){
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<ProductPojo> cq = cb.createQuery(ProductPojo.class);
 
 		Root<ProductPojo> root = cq.from(ProductPojo.class);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
-		if(p.getId() != 0)
+		if(p.getId() != null)
 			predicates.add(cb.equal(root.get("id"), p.getId()));
 		if(p.getBarcode() != null)
 			predicates.add(cb.equal(root.get("barcode"), p.getBarcode()));
 		if(p.getName() != null)
 			predicates.add(cb.equal(root.get("name"), p.getName()));
-		if(p.getMrp() != 0.0)
-			predicates.add(cb.equal(root.get("mrp"), p.getMrp()));
 		if(p.getBrand_category() != 0)
 			predicates.add(cb.equal(root.get("brand_category"), p.getBrand_category()));
 		cq.where(cb.and(predicates.toArray(Predicate[]::new)));
