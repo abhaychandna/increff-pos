@@ -23,8 +23,12 @@ public class ProductDao extends AbstractDao{
 	private EntityManager em;
 
 	public List<ProductPojo> selectAll(){
-		ProductPojo p = new ProductPojo();
-		return filter(p);
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<ProductPojo> cq = cb.createQuery(ProductPojo.class);
+		Root<ProductPojo> root = cq.from(ProductPojo.class);
+		CriteriaQuery<ProductPojo> all = cq.select(root);
+		TypedQuery<ProductPojo> query = em.createQuery(all);
+        return query.getResultList();
 	}
 
 	public List<ProductPojo> filter(ProductPojo p){

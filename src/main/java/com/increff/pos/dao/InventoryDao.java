@@ -23,8 +23,12 @@ public class InventoryDao extends AbstractDao{
 	private EntityManager em;
 
 	public List<InventoryPojo> selectAll(){
-		InventoryPojo p = new InventoryPojo();
-		return filter(p);
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<InventoryPojo> cq = cb.createQuery(InventoryPojo.class);
+		Root<InventoryPojo> root = cq.from(InventoryPojo.class);
+		CriteriaQuery<InventoryPojo> all = cq.select(root);
+		TypedQuery<InventoryPojo> query = em.createQuery(all);
+        return query.getResultList();
 	}
 
 	public List<InventoryPojo> filter(InventoryPojo p){
