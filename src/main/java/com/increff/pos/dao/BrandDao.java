@@ -20,8 +20,12 @@ public class BrandDao extends AbstractDao{
 	private EntityManager em;
 	
 	public List<BrandPojo> selectAll() {
-		BrandPojo p = new BrandPojo();
-		return filter(p);
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<BrandPojo> cq = cb.createQuery(BrandPojo.class);
+		Root<BrandPojo> root = cq.from(BrandPojo.class);
+		CriteriaQuery<BrandPojo> all = cq.select(root);
+		TypedQuery<BrandPojo> query = em.createQuery(all);
+        return query.getResultList();
 	}
 
 	public List<BrandPojo> getByBrandCategory(String brand, String category) {
