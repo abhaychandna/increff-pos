@@ -7,23 +7,32 @@ import org.springframework.stereotype.Component;
 
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
+import com.increff.pos.model.InventoryData;
+import com.increff.pos.model.InventoryForm;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.BrandPojo;
+import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
+import com.increff.pos.service.ProductService;
 
 @Component
 public class ConvertUtil {
 
 	private static BrandService bService;
+	private static ProductService productService;
+
 	@Autowired
 	BrandService brandService;
+	@Autowired
+	ProductService pService;
 
 	@PostConstruct
 	private void init(){
 		bService = this.brandService;
+		productService = this.pService;
 	}
 
     public static BrandData convert(BrandPojo p) {
@@ -62,5 +71,19 @@ public class ConvertUtil {
 		f.setName(p.getName());
 		f.setId(p.getId());
 		return f;
+	}
+
+	public static InventoryPojo convert(InventoryForm f) throws ApiException {
+		InventoryPojo p = new InventoryPojo();
+		p.setId(productService.getByBarcode(f.getBarcode()).getId());
+		p.setQuantity(f.getQuantity());
+		return p;
+	}
+	public static InventoryData convert(InventoryPojo p) throws ApiException{
+		InventoryData d = new InventoryData();
+		d.setBarcode(productService.get(p.getId()).getBarcode());
+		d.setQuantity(p.getQuantity());
+		d.setId(p.getId());
+		return d;
 	}
 }
