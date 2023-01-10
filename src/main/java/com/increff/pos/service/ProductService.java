@@ -59,35 +59,26 @@ public class ProductService {
 
 	@Transactional
 	private ProductPojo getCheck(int id) throws ApiException{
-		ProductSearchForm p = new ProductSearchForm();
-		p.setId(id);
-		List<ProductPojo> products = dao.filter(p);
-		if(products.size() == 0)
-			throw new ApiException("Product does not exist with id: " + id);
-		return products.get(0);
+		return dao.select(ProductPojo.class, id);
 	}
 
 	
 	@Transactional
     public ProductPojo getByBarcode(String barcode) throws ApiException{
-		ProductSearchForm p = new ProductSearchForm();
-		p.setBarcode(barcode);
-		List<ProductPojo> products = dao.filter(p);
-		if(products.size() == 0)
-			throw new ApiException("Product does not exist with barcode: " + barcode);
-		return products.get(0);
+		return dao.getByBarcode(barcode);
 	}
  
 	@Transactional
 	private void checkBarcodeDoesntExist(ProductPojo p) throws ApiException{
 		try{
-			ProductPojo exists = dao.getByBarcode(p.getBarcode());
-			// Throw exception if obj exists 
-			throw new ApiException("Product with barcode: " + p.getBarcode() + " already exists");
+			ProductPojo exists = dao.getByBarcode(p.getBarcode()); 
 		}
 		catch(ApiException e){
-			// Do nothing
+			return;
 		}
+		// throw exception as barcode already exists 
+		throw new ApiException("Product with barcode: " + p.getBarcode() + " already exists");
+
 	}
  	
 }
