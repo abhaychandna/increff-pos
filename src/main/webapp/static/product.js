@@ -222,8 +222,12 @@ function displayUploadData(){
 }
 
 function displayProduct(data){
-	$("#Product-edit-form input[name=name]").val(data.product);	
-	$("#Product-edit-form input[name=age]").val(data.category);	
+	$("#Product-edit-form input[name=barcode]").val(data.barcode);
+	$("#Product-edit-form input[name=brand]").val(data.brand);
+	$("#Product-edit-form input[name=mrp]").val(data.mrp);
+	$("#Product-edit-form input[name=name]").val(data.name);	
+	$("#Product-edit-form input[name=category]").val(data.category);
+	
 	$("#Product-edit-form input[name=id]").val(data.id);	
 	$('#edit-Product-modal').modal('toggle');
 }
