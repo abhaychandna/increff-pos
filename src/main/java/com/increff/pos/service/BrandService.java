@@ -59,6 +59,9 @@ public class BrandService {
 	}
 
 	public BrandPojo getCheckBrandCategory(String brand, String category) throws ApiException {
+		if (brand == null || category == null) {
+			throw new ApiException("Brand or Category cannot be null");
+		}
 		List<BrandPojo> brands = dao.getByBrandCategory(brand, category);
 		if (brands.size() == 0) {
 			throw new ApiException("Brand Category pair does not exist");
