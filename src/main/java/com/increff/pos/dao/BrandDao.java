@@ -28,7 +28,6 @@ public class BrandDao extends AbstractDao{
 		BrandPojo p = new BrandPojo();
 		p.setBrand(brand);
 		p.setCategory(category);
-		System.out.println("BrandDao.getByBrandCategory brand: " + brand + " category: " + category + "");
 		return filter(p);
 	}
 
