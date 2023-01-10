@@ -26,9 +26,7 @@ import com.increff.pos.util.ValidateUtil;
 public class ProductDto {
     
     @Autowired
-    ProductService svc;
-    @Autowired
-    BrandService brandService;
+    private ProductService svc;
 
     public ProductPojo add(ProductForm f) throws ApiException {
         ProductPojo p = ConvertUtil.convert(f);
