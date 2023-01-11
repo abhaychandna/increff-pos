@@ -33,9 +33,9 @@ public class TestUtil {
         inventoryDto = this.iDto;
 	}
 
-    public static ProductPojo createProductWithBrand(String barcode, String brand, String category, String name, double mrp) throws ApiException {
+    public static ProductData createProductWithBrand(String barcode, String brand, String category, String name, double mrp) throws ApiException {
         createBrand(brand, category);
-        ProductPojo p = createProduct(barcode, brand, category, name, mrp);
+        ProductData p = createProduct(barcode, brand, category, name, mrp);
         return p;
     }
 
@@ -45,10 +45,10 @@ public class TestUtil {
         return brandData;
     }
 
-    public static ProductPojo createProduct(String barcode, String brand, String category, String name, double mrp) throws ApiException {
-        ProductForm f = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
-        ProductPojo p = productDto.add(f);
-        return p;
+    public static ProductData createProduct(String barcode, String brand, String category, String name, double mrp) throws ApiException {
+        ProductForm productForm = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
+        ProductData productData = productDto.add(productForm);
+        return productData;
     }
 
     public static InventoryPojo createInventory(String barcode, String brand, String category, String name, double mrp, int quantity) throws ApiException {

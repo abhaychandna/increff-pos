@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.increff.pos.dao.ProductDao;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.ProductData;
@@ -22,6 +23,8 @@ public class ProductTest extends AbstractUnitTest{
     
     @Autowired
     private ProductDto productDto;
+    @Autowired
+    private ProductDao productDao;
     @Autowired 
     private BrandDto brandDto;
     
@@ -39,17 +42,17 @@ public class ProductTest extends AbstractUnitTest{
         
         //ProductPojo p = createProductWithBrand(barcode, brand, category, name, mrp)
 
-        BrandForm bf = TestUtil.getBrandFormDto(brand,category);
-        BrandData brandData = brandDto.add(bf);
+        BrandForm brandForm = TestUtil.getBrandFormDto(brand,category);
+        BrandData brandData = brandDto.add(brandForm);
 
+        ProductForm productForm = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
+        ProductData productData = productDto.add(productForm);
 
-        ProductForm f = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
-        ProductPojo p = productDto.add(f);
-
-        assertEquals(brandData.getId(), p.getBrand_category());
-        assertEquals(barcode, p.getBarcode());
-        assertEquals(name, p.getName());
-        assertEquals(mrp, p.getMrp(), tolerance);
+        ProductPojo product = productDao.select(ProductPojo.class, productData.getId());
+        assertEquals(brandData.getId(), product.getBrand_category());
+        assertEquals(barcode, product.getBarcode());
+        assertEquals(name, product.getName());
+        assertEquals(mrp, product.getMrp(), tolerance);
     }
 
     @Test
@@ -60,11 +63,11 @@ public class ProductTest extends AbstractUnitTest{
         String name = "polo";
         double mrp = 100.5;
 
-        ProductForm f = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
+        ProductForm productForm = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
         
         boolean error = false;
         try{
-            ProductPojo p = productDto.add(f);
+            productDto.add(productForm);
         }
         catch(ApiException e){
             error = true;
@@ -81,10 +84,10 @@ public class ProductTest extends AbstractUnitTest{
         double mrp = 100.5;
 
         TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
-        ProductForm f = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
+        ProductForm productForm = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
         boolean error = false;
         try{
-            ProductPojo p1 = productDto.add(f);
+            productDto.add(productForm);
         }
         catch(ApiException e){
             error = true;
@@ -100,15 +103,15 @@ public class ProductTest extends AbstractUnitTest{
         String name = "polo";
         double mrp = 100.5;
 
-        ProductPojo p = TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
-        ProductData d = productDto.get(p.getId());
+        ProductData productData = TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
+        ProductPojo product = productDao.select(ProductPojo.class, productData.getId());
         
-        assertEquals(p.getId(), d.getId());
-        assertEquals(brand, d.getBrand());
-        assertEquals(category, d.getCategory());
-        assertEquals(p.getBarcode(), d.getBarcode());
-        assertEquals(p.getName(), d.getName());
-        assertEquals(p.getMrp(), d.getMrp(), tolerance);
+        assertEquals(product.getId(), productData.getId());
+        assertEquals(brand, productData.getBrand());
+        assertEquals(category, productData.getCategory());
+        assertEquals(product.getBarcode(), productData.getBarcode());
+        assertEquals(product.getName(), productData.getName());
+        assertEquals(product.getMrp(), productData.getMrp(), tolerance);
     }
 
     @Test
@@ -134,15 +137,14 @@ public class ProductTest extends AbstractUnitTest{
         String name = "polo";
         double mrp = 100.5;
 
-        ProductPojo p = TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
-        ProductData d = productDto.get(p.getId());
-        
-        assertEquals(p.getId(), d.getId());
-        assertEquals(brand, d.getBrand());
-        assertEquals(category, d.getCategory());
-        assertEquals(p.getBarcode(), d.getBarcode());
-        assertEquals(p.getName(), d.getName());
-        assertEquals(p.getMrp(), d.getMrp(), tolerance);
+        ProductData productData = TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
+        ProductPojo product = productDao.select(ProductPojo.class, productData.getId());
+        assertEquals(product.getId(), productData.getId());
+        assertEquals(brand, productData.getBrand());
+        assertEquals(category, productData.getCategory());
+        assertEquals(product.getBarcode(), productData.getBarcode());
+        assertEquals(product.getName(), productData.getName());
+        assertEquals(product.getMrp(), productData.getMrp(), tolerance);
         
         String newBrand = "nike";
         String newCategory = "shoes";
@@ -152,15 +154,15 @@ public class ProductTest extends AbstractUnitTest{
         
         TestUtil.createBrand(newBrand, newCategory);
         ProductForm f = TestUtil.getProductFormDto(newBarcode,newBrand,newCategory,newName,newMrp);
-        productDto.update(p.getId(), f);
+        productDto.update(productData.getId(), f);
         
-        ProductData d1 = productDto.get(p.getId());
+        productData = productDto.get(product.getId());
         
-        assertEquals(p.getId(), d1.getId());
-        assertEquals(newBrand, d1.getBrand());
-        assertEquals(newCategory, d1.getCategory());
-        assertEquals(newBarcode, d1.getBarcode());
-        assertEquals(newName, d1.getName());
-        assertEquals(newMrp, d1.getMrp(), tolerance);
+        assertEquals(product.getId(), productData.getId());
+        assertEquals(newBrand, productData.getBrand());
+        assertEquals(newCategory, productData.getCategory());
+        assertEquals(newBarcode, productData.getBarcode());
+        assertEquals(newName, productData.getName());
+        assertEquals(newMrp, productData.getMrp(), tolerance);
     }
 }

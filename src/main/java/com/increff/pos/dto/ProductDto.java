@@ -28,11 +28,12 @@ public class ProductDto {
     @Autowired
     private ProductService svc;
 
-    public ProductPojo add(ProductForm f) throws ApiException {
+    public ProductData add(ProductForm f) throws ApiException {
         ProductPojo p = ConvertUtil.convert(f);
         NormalizeUtil.normalize(p);
 		ValidateUtil.validateProduct(p);
-        return svc.add(p);
+        ProductPojo productPojo = svc.add(p);
+        return ConvertUtil.convert(productPojo);
     }
 
     public ProductData get(int id) throws ApiException {
