@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -21,24 +22,24 @@ public class BrandTest extends AbstractUnitTest {
 
     @Test
     public void testAddBrand() throws ApiException {
-        BrandForm f = TestUtil.getBrandFormDto("adidas","tshirts");
-        BrandData brandData = brandDto.add(f);
+        BrandForm brandForm = TestUtil.getBrandFormDto("adidas","tshirts");
+        BrandData brandData = brandDto.add(brandForm);
         assertEquals("adidas",brandData.getBrand());
         assertEquals("tshirts",brandData.getCategory());
     }
 
     @Test
     public void testAddNormalize() throws ApiException {
-        BrandForm f = TestUtil.getBrandFormDto(" ADIDAS ","tshirts");
-        BrandData brandData = brandDto.add(f);
+        BrandForm brandForm = TestUtil.getBrandFormDto(" ADIDAS ","tshirts");
+        BrandData brandData = brandDto.add(brandForm);
         assertEquals("adidas",brandData.getBrand());
         assertEquals("tshirts",brandData.getCategory());
     }
 
     @Test
     public void testGetBrand() throws ApiException {
-        BrandForm f = TestUtil.getBrandFormDto("adidas","tshirts");
-        BrandData brandData = brandDto.add(f);
+        BrandForm brandForm = TestUtil.getBrandFormDto("adidas","tshirts");
+        BrandData brandData = brandDto.add(brandForm);
         int id = brandData.getId();
         brandData = brandDto.get(id);
         assertEquals("adidas",brandData.getBrand());
@@ -47,12 +48,12 @@ public class BrandTest extends AbstractUnitTest {
 
     @Test
     public void testGetAllBrand() throws ApiException {
-        BrandForm f = TestUtil.getBrandFormDto("B1","C");
-        brandDto.add(f);
-        f = TestUtil.getBrandFormDto("B2","C");
-        brandDto.add(f);
-        f = TestUtil.getBrandFormDto("B3","C");
-        brandDto.add(f);
+        BrandForm brandForm = TestUtil.getBrandFormDto("B1","C");
+        brandDto.add(brandForm);
+        brandForm = TestUtil.getBrandFormDto("B2","C");
+        brandDto.add(brandForm);
+        brandForm = TestUtil.getBrandFormDto("B3","C");
+        brandDto.add(brandForm);
         
         List<BrandData> reqList = brandDto.getAll();
         assertEquals(3,reqList.size());
@@ -60,10 +61,10 @@ public class BrandTest extends AbstractUnitTest {
 
     @Test
     public void testUpdateBrand() throws ApiException {
-        BrandForm f = TestUtil.getBrandFormDto("adidas","tshirts");
-        BrandData brandData = brandDto.add(f);
-        f.setCategory("hoodies");
-        brandDto.update(brandData.getId(),f);
+        BrandForm brandForm = TestUtil.getBrandFormDto("adidas","tshirts");
+        BrandData brandData = brandDto.add(brandForm);
+        brandForm.setCategory("hoodies");
+        brandDto.update(brandData.getId(),brandForm);
 
         BrandData d = brandDto.get(brandData.getId());
         assertEquals("adidas",d.getBrand());
@@ -72,13 +73,13 @@ public class BrandTest extends AbstractUnitTest {
 
     @Test
     public void testAddDuplicateBrandCategory() throws ApiException {
-        BrandForm f = TestUtil.getBrandFormDto("adidas","tshirts");
-        BrandData brandData = brandDto.add(f);
+        BrandForm brandForm = TestUtil.getBrandFormDto("adidas","tshirts");
+        brandDto.add(brandForm);
         
-        // Adding same branc/category twice shuld throw error 
+        // Adding same branc/category twice shuld throw error
         boolean error = false;
         try{
-            brandDto.add(f);
+            brandDto.add(brandForm);
         }
         catch (ApiException e){
             error = true;
