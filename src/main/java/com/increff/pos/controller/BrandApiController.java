@@ -19,31 +19,32 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
+@RequestMapping(path = "/api")
 public class BrandApiController {
 
 	@Autowired
 	private BrandDto dto;
 	
 	@ApiOperation(value = "Adds a brand")
-	@RequestMapping(path="/api/brands", method=RequestMethod.POST)
+	@RequestMapping(path="/brands", method=RequestMethod.POST)
 	public void add(@RequestBody BrandForm f) throws ApiException {
 		dto.add(f);
 	}
 
 	@ApiOperation(value = "Gets an brand by ID")
-	@RequestMapping(path = "/api/brands/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/brands/{id}", method = RequestMethod.GET)
 	public BrandData get(@PathVariable int id) throws ApiException {
 		return dto.get(id);
 	}
 
 	@ApiOperation(value = "Gets list of all brands")
-	@RequestMapping(path = "/api/brands", method = RequestMethod.GET)
+	@RequestMapping(path = "/brands", method = RequestMethod.GET)
 	public List<BrandData> getAll() {
 		return dto.getAll();
 	}
 
 	@ApiOperation(value = "Updates an brand")
-	@RequestMapping(path = "/api/brands/{id}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/brands/{id}", method = RequestMethod.PUT)
 	public void update(@PathVariable int id, @RequestBody BrandForm f) throws ApiException {
 		dto.update(id, f);
 	}

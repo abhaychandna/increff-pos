@@ -19,30 +19,31 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
+@RequestMapping(path = "/api")
 public class InventoryApiController {
 
 	@Autowired
 	private InventoryDto dto;
 	
 	@ApiOperation(value = "Adds a Inventory")
-	@RequestMapping(path = "/api/inventory", method = RequestMethod.POST)
+	@RequestMapping(path = "/inventory", method = RequestMethod.POST)
 	public void add(@RequestBody InventoryForm f) throws ApiException {
 		dto.add(f);
 	}
 
 	@ApiOperation(value = "Gets a Inventory by ID")
-	@RequestMapping(path = "/api/inventory/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/inventory/{id}", method = RequestMethod.GET)
 	public InventoryData get(@PathVariable int id) throws ApiException {
 		return dto.get(id);
 	}
 
 	@ApiOperation(value="Gets all Inventory")
-	@RequestMapping(path = "/api/inventory", method = RequestMethod.GET)
+	@RequestMapping(path = "/inventory", method = RequestMethod.GET)
 	public List<InventoryData> getAll() throws ApiException{
 		return dto.getAll();
 	}
  
-	@RequestMapping(path = "/api/inventory", method = RequestMethod.PUT)
+	@RequestMapping(path = "/inventory", method = RequestMethod.PUT)
 	public void update(@RequestBody InventoryForm f) throws ApiException{
 		dto.update(f);
 	}
