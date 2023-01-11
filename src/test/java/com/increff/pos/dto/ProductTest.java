@@ -125,7 +125,7 @@ public class ProductTest extends AbstractUnitTest{
         TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
         
         TestUtil.createProduct("abcdef13", brand, category, name, mrp);
-        List<ProductData> d = productDto.getAll();
+        List<ProductData> d = productDto.getAll(0,10);
         assertEquals(d.size(), 2);
     }
 
