@@ -17,8 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.increff.pos.pojo.BrandPojo;
 @Repository
 public class BrandDao extends AbstractDao{
-	@PersistenceContext
-	private EntityManager em;
+
 	
 	public List<BrandPojo> selectAll() {
 		CriteriaBuilder cb = em.getCriteriaBuilder();

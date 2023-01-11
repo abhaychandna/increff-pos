@@ -22,8 +22,7 @@ import com.increff.pos.service.ApiException;
 @Repository
 public class ProductDao extends AbstractDao{
 
-	@PersistenceContext
-	private EntityManager em;
+
 
 	public List<ProductPojo> selectAll(){
 		CriteriaBuilder cb = em.getCriteriaBuilder();

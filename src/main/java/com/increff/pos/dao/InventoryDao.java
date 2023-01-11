@@ -19,8 +19,7 @@ import com.increff.pos.pojo.InventoryPojo;
 @Repository
 public class InventoryDao extends AbstractDao{
 
-	@PersistenceContext
-	private EntityManager em;
+
 
 	public List<InventoryPojo> selectAll(){
 		CriteriaBuilder cb = em.getCriteriaBuilder();
