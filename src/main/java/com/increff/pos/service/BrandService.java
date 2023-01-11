@@ -30,8 +30,8 @@ public class BrandService {
 		return getCheck(id);
 	}
 
-	public List<BrandPojo> getAll() {
-		return dao.selectAll();
+	public List<BrandPojo> getAll(Integer pageNo, Integer pageSize) {
+		return dao.selectAll(pageNo, pageSize, BrandPojo.class);
 	}
 
 	public void update(int id, BrandPojo brand) throws ApiException {

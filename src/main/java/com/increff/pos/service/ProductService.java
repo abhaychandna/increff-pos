@@ -28,8 +28,8 @@ public class ProductService {
 		return getCheck(id);
 	}
 
-	public List<ProductPojo> getAll() {
-		return dao.selectAll();
+	public List<ProductPojo> getAll(Integer pageNo, Integer pageSize) {
+		return dao.selectAll(pageNo, pageSize, ProductPojo.class);
 	}
 
 	public void update(int id, ProductPojo product) throws ApiException {

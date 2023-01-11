@@ -15,20 +15,19 @@ import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.NormalizeUtil;
 import com.increff.pos.util.ValidateUtil;
 
-
 @Component
 public class InventoryDto {
-    
+
     @Autowired
     InventoryService svc;
-    
+
     public InventoryData add(InventoryForm inventoryForm) throws ApiException {
-        InventoryPojo inventory = ConvertUtil.convert(inventoryForm);        
+        InventoryPojo inventory = ConvertUtil.convert(inventoryForm);
         NormalizeUtil.normalize(inventory);
-		ValidateUtil.validateInventory(inventory);
-        try{
+        ValidateUtil.validateInventory(inventory);
+        try {
             svc.get(inventory.getId());
-        }catch(ApiException e){
+        } catch (ApiException e) {
             inventory = svc.add(inventory);
             return ConvertUtil.convert(inventory);
         }
@@ -37,11 +36,11 @@ public class InventoryDto {
 
     public InventoryData get(int id) throws ApiException {
         InventoryPojo inventory = svc.get(id);
-		return ConvertUtil.convert(inventory);
+        return ConvertUtil.convert(inventory);
     }
 
-    public List<InventoryData> getAll() throws ApiException{
-        List<InventoryPojo> brands = svc.getAll();
+    public List<InventoryData> getAll(Integer pageNo, Integer pageSize) throws ApiException {
+        List<InventoryPojo> brands = svc.getAll(pageNo, pageSize);
         List<InventoryData> respList = new ArrayList<InventoryData>();
         for (InventoryPojo p : brands) {
             respList.add(ConvertUtil.convert(p));
@@ -52,7 +51,7 @@ public class InventoryDto {
     public void update(InventoryForm f) throws ApiException {
         InventoryPojo inventory = ConvertUtil.convert(f);
         NormalizeUtil.normalize(inventory);
-		ValidateUtil.validateInventory(inventory);
+        ValidateUtil.validateInventory(inventory);
         svc.update(inventory.getId(), inventory);
     }
 }

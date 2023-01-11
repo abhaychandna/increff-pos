@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.increff.pos.dto.BrandDto;
@@ -24,9 +25,9 @@ public class BrandApiController {
 
 	@Autowired
 	private BrandDto dto;
-	
+
 	@ApiOperation(value = "Adds a brand")
-	@RequestMapping(path="/brands", method=RequestMethod.POST)
+	@RequestMapping(path = "/brands", method = RequestMethod.POST)
 	public void add(@RequestBody BrandForm f) throws ApiException {
 		dto.add(f);
 	}
@@ -39,8 +40,8 @@ public class BrandApiController {
 
 	@ApiOperation(value = "Gets list of all brands")
 	@RequestMapping(path = "/brands", method = RequestMethod.GET)
-	public List<BrandData> getAll() {
-		return dto.getAll();
+	public List<BrandData> getAll(@RequestParam Integer pageNo, @RequestParam Integer pageSize) throws ApiException {
+		return dto.getAll(pageNo, pageSize);
 	}
 
 	@ApiOperation(value = "Updates an brand")

@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.config.SetFactoryBean;
 import org.springframework.stereotype.Repository;
 
 import com.increff.pos.pojo.BrandPojo;
@@ -17,15 +18,6 @@ import com.increff.pos.pojo.BrandPojo;
 public class BrandDao extends AbstractDao{
 
 	
-	public List<BrandPojo> selectAll() {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<BrandPojo> cq = cb.createQuery(BrandPojo.class);
-		Root<BrandPojo> root = cq.from(BrandPojo.class);
-		CriteriaQuery<BrandPojo> all = cq.select(root);
-		TypedQuery<BrandPojo> query = em.createQuery(all);
-        return query.getResultList();
-	}
-
 	public List<BrandPojo> getByBrandCategory(String brand, String category) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<BrandPojo> cq = cb.createQuery(BrandPojo.class);

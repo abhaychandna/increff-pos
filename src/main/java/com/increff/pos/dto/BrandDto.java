@@ -35,8 +35,8 @@ public class BrandDto {
 		return ConvertUtil.convert(brand);
     }
 
-    public List<BrandData> getAll(){
-        List<BrandPojo> brands = svc.getAll();
+    public List<BrandData> getAll(Integer pageNo, Integer pageSize) throws ApiException {
+        List<BrandPojo> brands = svc.getAll(pageNo, pageSize);
         List<BrandData> respList = new ArrayList<BrandData>();
         for (BrandPojo brand : brands) {
             respList.add(ConvertUtil.convert(brand));

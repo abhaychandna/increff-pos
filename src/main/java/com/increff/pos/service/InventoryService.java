@@ -28,8 +28,8 @@ public class InventoryService {
 		return getCheck(id);
 	}
 
-	public List<InventoryPojo> getAll() {
-		return dao.selectAll();
+	public List<InventoryPojo> getAll(Integer pageNo, Integer pageSize) {
+		return dao.selectAll(pageNo, pageSize, InventoryPojo.class);
 	}
 
 	public void update(int id, InventoryPojo inventory) throws ApiException {

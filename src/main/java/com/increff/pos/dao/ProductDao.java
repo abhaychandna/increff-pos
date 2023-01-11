@@ -19,17 +19,6 @@ import com.increff.pos.service.ApiException;
 @Repository
 public class ProductDao extends AbstractDao{
 
-
-
-	public List<ProductPojo> selectAll(){
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<ProductPojo> cq = cb.createQuery(ProductPojo.class);
-		Root<ProductPojo> root = cq.from(ProductPojo.class);
-		CriteriaQuery<ProductPojo> all = cq.select(root);
-		TypedQuery<ProductPojo> query = em.createQuery(all);
-        return query.getResultList();
-	}
-
 	public ProductPojo getByBarcode(String barcode) throws ApiException{
 		ProductSearchForm p = new ProductSearchForm();
 		p.setBarcode(barcode);

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.increff.pos.dto.ProductDto;
@@ -24,7 +25,7 @@ public class ProductApiController {
 
 	@Autowired
 	private ProductDto dto;
-	
+
 	@ApiOperation(value = "Adds a product")
 	@RequestMapping(path = "/products", method = RequestMethod.POST)
 	public void add(@RequestBody ProductForm f) throws ApiException {
@@ -37,19 +38,15 @@ public class ProductApiController {
 		return dto.get(id);
 	}
 
-	@ApiOperation(value="Gets all products")
+	@ApiOperation(value = "Gets all products")
 	@RequestMapping(path = "/products", method = RequestMethod.GET)
-	public List<ProductData> getAll() throws ApiException{
-		return dto.getAll();
+	public List<ProductData> getAll(@RequestParam Integer pageNo, @RequestParam Integer pageSize) throws ApiException {
+		return dto.getAll(pageNo, pageSize);
 	}
- 
-	
+
 	@RequestMapping(path = "/products/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable int id, @RequestBody ProductForm f) throws ApiException{
+	public void update(@PathVariable int id, @RequestBody ProductForm f) throws ApiException {
 		dto.update(id, f);
 	}
-
-
-
 
 }

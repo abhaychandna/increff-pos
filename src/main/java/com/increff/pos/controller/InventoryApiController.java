@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.increff.pos.dto.InventoryDto;
@@ -24,7 +25,7 @@ public class InventoryApiController {
 
 	@Autowired
 	private InventoryDto dto;
-	
+
 	@ApiOperation(value = "Adds a Inventory")
 	@RequestMapping(path = "/inventory", method = RequestMethod.POST)
 	public void add(@RequestBody InventoryForm f) throws ApiException {
@@ -37,14 +38,14 @@ public class InventoryApiController {
 		return dto.get(id);
 	}
 
-	@ApiOperation(value="Gets all Inventory")
+	@ApiOperation(value = "Gets all Inventory")
 	@RequestMapping(path = "/inventory", method = RequestMethod.GET)
-	public List<InventoryData> getAll() throws ApiException{
-		return dto.getAll();
+	public List<InventoryData> getAll(@RequestParam Integer pageNo, @RequestParam Integer pageSize) throws ApiException {
+		return dto.getAll(pageNo, pageSize);
 	}
- 
+
 	@RequestMapping(path = "/inventory", method = RequestMethod.PUT)
-	public void update(@RequestBody InventoryForm f) throws ApiException{
+	public void update(@RequestBody InventoryForm f) throws ApiException {
 		dto.update(f);
 	}
 }
