@@ -3,19 +3,14 @@ package com.increff.pos.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
-import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
-import com.increff.pos.service.BrandService;
 import com.increff.pos.service.ProductService;
-import com.increff.pos.util.StringUtil;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.NormalizeUtil;
 import com.increff.pos.util.ValidateUtil;
@@ -28,17 +23,17 @@ public class ProductDto {
     @Autowired
     private ProductService svc;
 
-    public ProductData add(ProductForm f) throws ApiException {
-        ProductPojo p = ConvertUtil.convert(f);
-        NormalizeUtil.normalize(p);
-		ValidateUtil.validateProduct(p);
-        ProductPojo productPojo = svc.add(p);
+    public ProductData add(ProductForm form) throws ApiException {
+        ProductPojo product = ConvertUtil.convert(form);
+        NormalizeUtil.normalize(product);
+		ValidateUtil.validateProduct(product);
+        ProductPojo productPojo = svc.add(product);
         return ConvertUtil.convert(productPojo);
     }
 
     public ProductData get(int id) throws ApiException {
-        ProductPojo p = svc.get(id);
-		return ConvertUtil.convert(p);
+        ProductPojo product = svc.get(id);
+		return ConvertUtil.convert(product);
     }
 
     public List<ProductData> getAll() throws ApiException{
@@ -50,11 +45,11 @@ public class ProductDto {
         return respList;
     }
 
-    public void update(int id, ProductForm f) throws ApiException {
-        ProductPojo p = ConvertUtil.convert(f);
-        NormalizeUtil.normalize(p);
-		ValidateUtil.validateProduct(p);
-        svc.update(id, p);
+    public void update(int id, ProductForm form) throws ApiException {
+        ProductPojo product = ConvertUtil.convert(form);
+        NormalizeUtil.normalize(product);
+		ValidateUtil.validateProduct(product);
+        svc.update(id, product);
     }
 
 

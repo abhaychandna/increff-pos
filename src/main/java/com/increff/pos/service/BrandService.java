@@ -18,12 +18,12 @@ public class BrandService {
 	@Autowired
 	private BrandDao dao;
 	
-	public BrandPojo add(BrandPojo p) throws ApiException {
-		List<BrandPojo> brands = dao.getByBrandCategory(p.getBrand(), p.getCategory());
+	public BrandPojo add(BrandPojo brand) throws ApiException {
+		List<BrandPojo> brands = dao.getByBrandCategory(brand.getBrand(), brand.getCategory());
 		if (brands.size()>0)
 			throw new ApiException("Brand Category pair already exists");
-		dao.insert(p);
-		return p;
+		dao.insert(brand);
+		return brand;
 	}
 
 	public BrandPojo get(int id) throws ApiException {
@@ -34,25 +34,25 @@ public class BrandService {
 		return dao.selectAll();
 	}
 
-	public void update(int id, BrandPojo p) throws ApiException {
+	public void update(int id, BrandPojo brand) throws ApiException {
 
-		BrandPojo ex = getCheck(id);
+		BrandPojo existing = getCheck(id);
 
-		List<BrandPojo> brands = dao.getByBrandCategory(p.getBrand(), p.getCategory());
+		List<BrandPojo> brands = dao.getByBrandCategory(brand.getBrand(), brand.getCategory());
 		if (brands.size()>0)
 			throw new ApiException("Brand Category pair already exists");
 		
-		ex.setBrand(p.getBrand());
-		ex.setCategory(p.getCategory());
-		dao.update(ex);
+		existing.setBrand(brand.getBrand());
+		existing.setCategory(brand.getCategory());
+		dao.update(existing);
 	}
 
 	private BrandPojo getCheck(int id) throws ApiException {
-		BrandPojo p = dao.select(BrandPojo.class, id);
-		if (Objects.isNull(p)) {
+		BrandPojo brand = dao.select(BrandPojo.class, id);
+		if (Objects.isNull(brand)) {
 			throw new ApiException("Brand with given ID does not exist, id: " + id);
 		}
-		return p;
+		return brand;
 	}
 
 	public BrandPojo getCheckBrandCategory(String brand, String category) throws ApiException {

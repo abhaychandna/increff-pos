@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -41,19 +39,19 @@ public class BrandDao extends AbstractDao{
         return query.getResultList();
 	}
 
-	public List<BrandPojo> filter(BrandPojo p){
+	public List<BrandPojo> filter(BrandPojo brand){
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<BrandPojo> cq = cb.createQuery(BrandPojo.class);
 
 		Root<BrandPojo> root = cq.from(BrandPojo.class);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
-		if(p.getId() != 0)
-			predicates.add(cb.equal(root.get("id"), p.getId()));
-		if(Objects.nonNull(p.getBrand()))
-			predicates.add(cb.equal(root.get("brand"), p.getBrand()));
-		if(Objects.nonNull(p.getCategory()))
-			predicates.add(cb.equal(root.get("category"), p.getCategory()));
+		if(brand.getId() != 0)
+			predicates.add(cb.equal(root.get("id"), brand.getId()));
+		if(Objects.nonNull(brand.getBrand()))
+			predicates.add(cb.equal(root.get("brand"), brand.getBrand()));
+		if(Objects.nonNull(brand.getCategory()))
+			predicates.add(cb.equal(root.get("category"), brand.getCategory()));
 		cq.where(cb.and(predicates.toArray(Predicate[]::new)));
 
 		TypedQuery<BrandPojo> query = em.createQuery(cq);

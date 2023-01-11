@@ -17,13 +17,13 @@ public class UserService {
 	@Autowired
 	private UserDao dao;
 
-	public void add(UserPojo p) throws ApiException {
-		normalize(p);
-		UserPojo existing = dao.select(p.getEmail());
+	public void add(UserPojo user) throws ApiException {
+		normalize(user);
+		UserPojo existing = dao.select(user.getEmail());
 		if (existing != null) {
 			throw new ApiException("User with given email already exists");
 		}
-		dao.insert(p);
+		dao.insert(user);
 	}
 
 	public UserPojo get(String email) throws ApiException {
@@ -38,8 +38,8 @@ public class UserService {
 		dao.delete(id);
 	}
 
-	protected static void normalize(UserPojo p) {
-		p.setEmail(p.getEmail().toLowerCase().trim());
-		p.setRole(p.getRole().toLowerCase().trim());
+	protected static void normalize(UserPojo user) {
+		user.setEmail(user.getEmail().toLowerCase().trim());
+		user.setRole(user.getRole().toLowerCase().trim());
 	}
 }

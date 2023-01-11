@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.increff.pos.dao.InventoryDao;
-import com.increff.pos.dao.ProductDao;
 import com.increff.pos.pojo.InventoryPojo;
 
 @Service
@@ -19,10 +18,10 @@ public class InventoryService {
 	@Autowired
 	private InventoryDao dao;
 	
-	public InventoryPojo add(InventoryPojo p) throws ApiException {
+	public InventoryPojo add(InventoryPojo inventory) throws ApiException {
 				
-		dao.insert(p);
-		return p;
+		dao.insert(inventory);
+		return inventory;
 	}
 
 	public InventoryPojo get(int id) throws ApiException {
@@ -33,18 +32,18 @@ public class InventoryService {
 		return dao.selectAll();
 	}
 
-	public void update(int id, InventoryPojo p) throws ApiException {
-		InventoryPojo ex = getCheck(id);
+	public void update(int id, InventoryPojo inventory) throws ApiException {
+		InventoryPojo existing = getCheck(id);
 
-		ex.setQuantity(p.getQuantity());
-		dao.update(ex);
+		existing.setQuantity(inventory.getQuantity());
+		dao.update(existing);
 	}
 
 	public InventoryPojo getCheck(int id) throws ApiException {
-		InventoryPojo p = dao.select(InventoryPojo.class, id);
-		if (Objects.isNull(p)) {
+		InventoryPojo inventory = dao.select(InventoryPojo.class, id);
+		if (Objects.isNull(inventory)) {
 			throw new ApiException("Inventory with given ID does not exist, id: " + id);
 		}
-		return p;
+		return inventory;
 	}
 }

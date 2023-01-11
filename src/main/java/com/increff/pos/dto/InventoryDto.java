@@ -11,7 +11,6 @@ import com.increff.pos.model.InventoryForm;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.InventoryService;
-import com.increff.pos.util.StringUtil;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.NormalizeUtil;
 import com.increff.pos.util.ValidateUtil;
@@ -37,8 +36,8 @@ public class InventoryDto {
     }
 
     public InventoryData get(int id) throws ApiException {
-        InventoryPojo p = svc.get(id);
-		return ConvertUtil.convert(p);
+        InventoryPojo inventory = svc.get(id);
+		return ConvertUtil.convert(inventory);
     }
 
     public List<InventoryData> getAll() throws ApiException{
@@ -51,9 +50,9 @@ public class InventoryDto {
     }
 
     public void update(InventoryForm f) throws ApiException {
-        InventoryPojo p = ConvertUtil.convert(f);
-        NormalizeUtil.normalize(p);
-		ValidateUtil.validateInventory(p);
-        svc.update(p.getId(), p);
+        InventoryPojo inventory = ConvertUtil.convert(f);
+        NormalizeUtil.normalize(inventory);
+		ValidateUtil.validateInventory(inventory);
+        svc.update(inventory.getId(), inventory);
     }
 }

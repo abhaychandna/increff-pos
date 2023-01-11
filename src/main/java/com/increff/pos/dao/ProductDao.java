@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -42,21 +39,21 @@ public class ProductDao extends AbstractDao{
 		return list.get(0);
 	}
 
-	public List<ProductPojo> filter(ProductSearchForm p){
+	public List<ProductPojo> filter(ProductSearchForm searchForm){
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<ProductPojo> cq = cb.createQuery(ProductPojo.class);
 
 		Root<ProductPojo> root = cq.from(ProductPojo.class);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
-		if(Objects.nonNull(p.getId()))
-			predicates.add(cb.equal(root.get("id"), p.getId()));
-		if(Objects.nonNull(p.getBarcode()))
-			predicates.add(cb.equal(root.get("barcode"), p.getBarcode()));
-		if(Objects.nonNull(p.getName()))
-			predicates.add(cb.equal(root.get("name"), p.getName()));
-		if(Objects.nonNull(p.getBrand_category()))
-			predicates.add(cb.equal(root.get("brand_category"), p.getBrand_category()));
+		if(Objects.nonNull(searchForm.getId()))
+			predicates.add(cb.equal(root.get("id"), searchForm.getId()));
+		if(Objects.nonNull(searchForm.getBarcode()))
+			predicates.add(cb.equal(root.get("barcode"), searchForm.getBarcode()));
+		if(Objects.nonNull(searchForm.getName()))
+			predicates.add(cb.equal(root.get("name"), searchForm.getName()));
+		if(Objects.nonNull(searchForm.getBrandCategory()))
+			predicates.add(cb.equal(root.get("brandCategory"), searchForm.getBrandCategory()));
 		cq.where(cb.and(predicates.toArray(Predicate[]::new)));
 
 
