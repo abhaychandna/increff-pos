@@ -55,7 +55,7 @@ public class ProductDao extends AbstractDao{
 			predicates.add(cb.equal(root.get("barcode"), p.getBarcode()));
 		if(p.getName() != null)
 			predicates.add(cb.equal(root.get("name"), p.getName()));
-		if(p.getBrand_category() != 0)
+		if(p.getBrand_category() != null)
 			predicates.add(cb.equal(root.get("brand_category"), p.getBrand_category()));
 		cq.where(cb.and(predicates.toArray(Predicate[]::new)));
 
