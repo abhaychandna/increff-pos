@@ -23,14 +23,15 @@ public class InventoryDto {
     @Autowired
     InventoryService svc;
     
-    public InventoryPojo add(InventoryForm f) throws ApiException {
-        InventoryPojo p = ConvertUtil.convert(f);        
-        NormalizeUtil.normalize(p);
-		ValidateUtil.validateInventory(p);
+    public InventoryData add(InventoryForm inventoryForm) throws ApiException {
+        InventoryPojo inventory = ConvertUtil.convert(inventoryForm);        
+        NormalizeUtil.normalize(inventory);
+		ValidateUtil.validateInventory(inventory);
         try{
-            svc.get(p.getId());
+            svc.get(inventory.getId());
         }catch(ApiException e){
-            return svc.add(p);
+            inventory = svc.add(inventory);
+            return ConvertUtil.convert(inventory);
         }
         throw new ApiException("Inventory with given Barcode already exists");
     }

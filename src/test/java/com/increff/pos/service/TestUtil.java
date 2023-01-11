@@ -51,16 +51,16 @@ public class TestUtil {
         return productData;
     }
 
-    public static InventoryPojo createInventory(String barcode, String brand, String category, String name, double mrp, int quantity) throws ApiException {
+    public static InventoryData createInventory(String barcode, String brand, String category, String name, double mrp, int quantity) throws ApiException {
         createProductWithBrand(barcode, brand, category, name, mrp);
-        InventoryForm f = TestUtil.getInventoryFormDto(barcode,quantity);
-        InventoryPojo p = inventoryDto.add(f);
-        return p;
+        InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode,quantity);
+        InventoryData inventoryData = inventoryDto.add(inventoryForm);
+        return inventoryData;
     }
-    public static InventoryPojo createInventorySingle(String barcode, int quantity) throws ApiException {
-        InventoryForm f = TestUtil.getInventoryFormDto(barcode,quantity);
-        InventoryPojo p = inventoryDto.add(f);
-        return p;
+    public static InventoryData createInventorySingle(String barcode, int quantity) throws ApiException {
+        InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode,quantity);
+        InventoryData inventoryData = inventoryDto.add(inventoryForm);
+        return inventoryData;
     }
     public static BrandForm getBrandFormDto(String brand, String category) {
         BrandForm brandForm = new BrandForm();

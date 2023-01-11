@@ -34,10 +34,10 @@ public class InventoryTest extends AbstractUnitTest{
         String category = "tshirts";
         String name = "polo";
         int mrp = 100;
-        InventoryPojo p = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
-        ProductData d = productDto.get(p.getId());
-        assertEquals(quantity, p.getQuantity());
-        assertEquals(d.getBarcode(), barcode);
+        InventoryData inventoryData = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+        ProductData productData = productDto.get(inventoryData.getId());
+        assertEquals(quantity, inventoryData.getQuantity());
+        assertEquals(productData.getBarcode(), barcode);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class InventoryTest extends AbstractUnitTest{
         int quantity = 10;
         boolean error = false;
         try{
-            InventoryPojo p = TestUtil.createInventorySingle(barcode, quantity);
+            InventoryData p = TestUtil.createInventorySingle(barcode, quantity);
         }
         catch(ApiException e){
             error = true;
@@ -65,7 +65,7 @@ public class InventoryTest extends AbstractUnitTest{
         
         boolean error = false;
         try{
-            InventoryPojo p = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+            InventoryData p = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         }
         catch(ApiException e){
             error = true;
@@ -81,10 +81,10 @@ public class InventoryTest extends AbstractUnitTest{
         String category = "tshirts";
         String name = "polo";
         int mrp = 100;
-        InventoryPojo p = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+        InventoryData p = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         boolean error = false;
         try{
-            InventoryPojo p1 = TestUtil.createInventorySingle(barcode, quantity);
+            InventoryData p1 = TestUtil.createInventorySingle(barcode, quantity);
         }
         catch(ApiException e){
             error = true;
@@ -100,15 +100,15 @@ public class InventoryTest extends AbstractUnitTest{
         String category = "tshirts";
         String name = "polo";
         int mrp = 100;
-        InventoryPojo p = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
-        ProductData d = productDto.get(p.getId());
-        assertEquals(quantity, p.getQuantity());
-        assertEquals(d.getBarcode(), barcode);
+        InventoryData inventoryData = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+        ProductData productData = productDto.get(inventoryData.getId());
+        assertEquals(quantity, inventoryData.getQuantity());
+        assertEquals(productData.getBarcode(), barcode);
         
         int newQuantity = 50;
-        InventoryForm f = TestUtil.getInventoryFormDto(barcode, newQuantity);
-        inventoryDto.update(f);
-        InventoryData newData = inventoryDto.get(p.getId());
+        InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode, newQuantity);
+        inventoryDto.update(inventoryForm);
+        InventoryData newData = inventoryDto.get(inventoryData.getId());
         assertEquals(newQuantity, newData.getQuantity());
     }
 
@@ -118,8 +118,8 @@ public class InventoryTest extends AbstractUnitTest{
         int quantity = 10;
         boolean error = false;
         try{
-            InventoryForm f = TestUtil.getInventoryFormDto(barcode, quantity);
-            inventoryDto.update(f);
+            InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode, quantity);
+            inventoryDto.update(inventoryForm);
         }
         catch(ApiException e){
             error = true;
@@ -135,10 +135,10 @@ public class InventoryTest extends AbstractUnitTest{
         String category = "tshirts";
         String name = "polo";
         int mrp = 100;
-        InventoryPojo p = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
-        InventoryData d = inventoryDto.get(p.getId());
-        assertEquals(quantity, d.getQuantity());
-        assertEquals(barcode, d.getBarcode());
+        InventoryData inventoryData = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+        inventoryData = inventoryDto.get(inventoryData.getId());
+        assertEquals(quantity, inventoryData.getQuantity());
+        assertEquals(barcode, inventoryData.getBarcode());
     }
 
 }
