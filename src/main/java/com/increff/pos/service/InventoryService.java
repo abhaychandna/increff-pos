@@ -1,6 +1,7 @@
 package com.increff.pos.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.transaction.Transactional;
 
@@ -45,7 +46,7 @@ public class InventoryService {
 	@Transactional
 	public InventoryPojo getCheck(int id) throws ApiException {
 		InventoryPojo p = dao.select(InventoryPojo.class, id);
-		if (p == null) {
+		if (Objects.isNull(p)) {
 			throw new ApiException("Inventory with given ID does not exist, id: " + id);
 		}
 		return p;

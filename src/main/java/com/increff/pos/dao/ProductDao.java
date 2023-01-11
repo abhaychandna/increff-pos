@@ -2,6 +2,7 @@ package com.increff.pos.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -49,13 +50,13 @@ public class ProductDao extends AbstractDao{
 		Root<ProductPojo> root = cq.from(ProductPojo.class);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
-		if(p.getId() != null)
+		if(Objects.nonNull(p.getId()))
 			predicates.add(cb.equal(root.get("id"), p.getId()));
-		if(p.getBarcode() != null)
+		if(Objects.nonNull(p.getBarcode()))
 			predicates.add(cb.equal(root.get("barcode"), p.getBarcode()));
-		if(p.getName() != null)
+		if(Objects.nonNull(p.getName()))
 			predicates.add(cb.equal(root.get("name"), p.getName()));
-		if(p.getBrand_category() != null)
+		if(Objects.nonNull(p.getBrand_category()))
 			predicates.add(cb.equal(root.get("brand_category"), p.getBrand_category()));
 		cq.where(cb.and(predicates.toArray(Predicate[]::new)));
 

@@ -2,6 +2,7 @@ package com.increff.pos.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -50,9 +51,9 @@ public class BrandDao extends AbstractDao{
 
 		if(p.getId() != 0)
 			predicates.add(cb.equal(root.get("id"), p.getId()));
-		if(p.getBrand() != null)
+		if(Objects.nonNull(p.getBrand()))
 			predicates.add(cb.equal(root.get("brand"), p.getBrand()));
-		if(p.getCategory() != null)
+		if(Objects.nonNull(p.getCategory()))
 			predicates.add(cb.equal(root.get("category"), p.getCategory()));
 		cq.where(cb.and(predicates.toArray(Predicate[]::new)));
 

@@ -1,6 +1,7 @@
 package com.increff.pos.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.transaction.Transactional;
 
@@ -52,14 +53,14 @@ public class BrandService {
 	@Transactional
 	private BrandPojo getCheck(int id) throws ApiException {
 		BrandPojo p = dao.select(BrandPojo.class, id);
-		if (p == null) {
+		if (Objects.isNull(p)) {
 			throw new ApiException("Brand with given ID does not exist, id: " + id);
 		}
 		return p;
 	}
 
 	public BrandPojo getCheckBrandCategory(String brand, String category) throws ApiException {
-		if (brand == null || category == null) {
+		if (Objects.isNull(brand) || Objects.isNull(category)) {
 			throw new ApiException("Brand or Category cannot be null");
 		}
 		List<BrandPojo> brands = dao.getByBrandCategory(brand, category);
