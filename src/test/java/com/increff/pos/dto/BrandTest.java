@@ -20,39 +20,31 @@ public class BrandTest extends AbstractUnitTest {
 
     @Test
     public void testAddBrand() throws ApiException {
-        BrandForm brandForm = TestUtil.getBrandFormDto("adidas", "tshirts");
-        BrandData brandData = brandDto.add(brandForm);
+        BrandData brandData = TestUtil.createBrand("adidas", "tshirts");
         assertEquals("adidas", brandData.getBrand());
         assertEquals("tshirts", brandData.getCategory());
     }
 
     @Test
     public void testAddNormalize() throws ApiException {
-        BrandForm brandForm = TestUtil.getBrandFormDto(" ADIDAS ", "tshirts");
-        BrandData brandData = brandDto.add(brandForm);
+        BrandData brandData = TestUtil.createBrand(" ADIDAS ", " TshirTs");
         assertEquals("adidas", brandData.getBrand());
         assertEquals("tshirts", brandData.getCategory());
     }
 
     @Test
     public void testGetBrand() throws ApiException {
-        BrandForm brandForm = TestUtil.getBrandFormDto("adidas", "tshirts");
-        BrandData brandData = brandDto.add(brandForm);
-        int id = brandData.getId();
-        brandData = brandDto.get(id);
+        BrandData brandData = TestUtil.createBrand("adidas", "tshirts");
+        brandData = brandDto.get(brandData.getId());
         assertEquals("adidas", brandData.getBrand());
         assertEquals("tshirts", brandData.getCategory());
     }
 
     @Test
     public void testGetAllBrand() throws ApiException {
-        BrandForm brandForm = TestUtil.getBrandFormDto("B1", "C");
-        brandDto.add(brandForm);
-        brandForm = TestUtil.getBrandFormDto("B2", "C");
-        brandDto.add(brandForm);
-        brandForm = TestUtil.getBrandFormDto("B3", "C");
-        brandDto.add(brandForm);
-
+        TestUtil.createBrand("adidas", "tshirts");
+        TestUtil.createBrand("nike", "tshirts");
+        TestUtil.createBrand("puma", "tshirts");
         List<BrandData> reqList = brandDto.getAll(0, 10);
         assertEquals(3, reqList.size());
     }
@@ -64,9 +56,9 @@ public class BrandTest extends AbstractUnitTest {
         brandForm.setCategory("hoodies");
         brandDto.update(brandData.getId(), brandForm);
 
-        BrandData d = brandDto.get(brandData.getId());
-        assertEquals("adidas", d.getBrand());
-        assertEquals("hoodies", d.getCategory());
+        brandData = brandDto.get(brandData.getId());
+        assertEquals("adidas", brandData.getBrand());
+        assertEquals("hoodies", brandData.getCategory());
     }
 
     @Test
