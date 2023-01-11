@@ -54,7 +54,11 @@ public class ProductService {
 	}
 
 	private ProductPojo getCheck(int id) throws ApiException {
-		return dao.select(ProductPojo.class, id);
+		ProductPojo product = dao.select(ProductPojo.class, id);
+		if (Objects.isNull(product)) {
+			throw new ApiException("Brand with given ID does not exist, id: " + id);
+		}
+		return product;
 	}
 
 	public ProductPojo getByBarcode(String barcode) throws ApiException {
