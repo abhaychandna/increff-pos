@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(indexes = {
-    @Index(name = "brandCategoryIdIndex", columnList = "brand_category"),
+    @Index(name = "brandCategoryIdIndex", columnList = "brandCategory"),
     @Index(name = "barcodeIndex", columnList = "barcode", unique = true),
   })
 @Entity
@@ -23,7 +23,7 @@ public class ProductPojo {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     private String barcode;
-    private int brand_category;
+    private int brandCategory;
     private String name;
     private double mrp;
 

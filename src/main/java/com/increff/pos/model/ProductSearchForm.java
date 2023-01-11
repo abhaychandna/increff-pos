@@ -7,6 +7,6 @@ import lombok.Setter;
 public class ProductSearchForm extends ProductForm {
 	private Integer id;
     private String barcode;
-    private Integer brand_category;
+    private Integer brandCategory;
     private String name;
 }

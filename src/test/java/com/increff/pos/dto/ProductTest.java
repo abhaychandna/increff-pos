@@ -49,7 +49,7 @@ public class ProductTest extends AbstractUnitTest{
         ProductData productData = productDto.add(productForm);
 
         ProductPojo product = productDao.select(ProductPojo.class, productData.getId());
-        assertEquals(brandData.getId(), product.getBrand_category());
+        assertEquals(brandData.getId(), product.getBrandCategory());
         assertEquals(barcode, product.getBarcode());
         assertEquals(name, product.getName());
         assertEquals(mrp, product.getMrp(), tolerance);

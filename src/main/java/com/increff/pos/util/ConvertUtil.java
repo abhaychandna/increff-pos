@@ -9,10 +9,13 @@ import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
+import com.increff.pos.model.OrderItemData;
+import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
+import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
@@ -50,12 +53,12 @@ public class ConvertUtil {
 		return p;
 	}
 
-
+	// TODO : Add seperate brand and category input here 
 	public static ProductPojo convert(ProductForm f) throws ApiException {
 		ProductPojo p = new ProductPojo();
 		p.setBarcode(f.getBarcode());
         BrandPojo brand = bService.getCheckBrandCategory(f.getBrand(), f.getCategory());
-		p.setBrand_category(brand.getId());
+		p.setBrandCategory(brand.getId());
 		p.setMrp(f.getMrp());
 		p.setName(f.getName());
 		return p;
@@ -64,7 +67,7 @@ public class ConvertUtil {
 	public static ProductData convert(ProductPojo p) throws ApiException{
 		ProductData f = new ProductData();
 		f.setBarcode(p.getBarcode());
-        BrandPojo brand = bService.get(p.getBrand_category());
+        BrandPojo brand = bService.get(p.getBrandCategory());
 		f.setBrand(brand.getBrand());
         f.setCategory(brand.getCategory());
 		f.setMrp(p.getMrp());
@@ -84,6 +87,24 @@ public class ConvertUtil {
 		d.setBarcode(productService.get(p.getId()).getBarcode());
 		d.setQuantity(p.getQuantity());
 		d.setId(p.getId());
+		return d;
+	}
+
+	public static OrderItemPojo convert(OrderItemForm f) throws ApiException{
+		OrderItemPojo p = new OrderItemPojo();
+		p.setProductId(productService.getByBarcode(f.getBarcode()).getId());
+		p.setSellingPrice(f.getSellingPrice());
+		p.setQuantity(f.getQuantity());
+		return p;
+	}
+
+	public static OrderItemData convert(OrderItemPojo p) throws ApiException {
+		OrderItemData d = new OrderItemData();
+		d.setBarcode(productService.get(p.getProductId()).getBarcode());
+		d.setId( p.getId());
+		d.setOrderId(p.getOrderId());
+		d.setQuantity(p.getQuantity());
+		d.setSellingPrice(p.getSellingPrice());
 		return d;
 	}
 }

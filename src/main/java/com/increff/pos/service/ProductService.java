@@ -50,7 +50,7 @@ public class ProductService {
 		ex.setBarcode(p.getBarcode());
 		ex.setName(p.getName());
 		ex.setMrp(p.getMrp());
-		ex.setBrand_category(p.getBrand_category());
+		ex.setBrandCategory(p.getBrandCategory());
 		dao.update(ex);
 	}
 
