@@ -1,4 +1,5 @@
 package com.increff.pos.pojo;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,14 +17,19 @@ import lombok.Setter;
     @Index(name="productIdIndex", columnList = "productId"),
 })
 @Setter
-public class OrderItemPojo {
+public class OrderItemPojo extends AbstractPojo{
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="id", nullable=false)
     private int id;
+    @Column(name="orderId", nullable=false)
     private int orderId;
+    @Column(name="productId", nullable=false)
     private int productId;
+    @Column(name="quantity", nullable=false)
     private int quantity;
+    @Column(name="sellingPrice", nullable=false)
     private double sellingPrice;
 
 }
