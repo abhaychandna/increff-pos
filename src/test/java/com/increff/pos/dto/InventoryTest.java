@@ -23,8 +23,6 @@ public class InventoryTest extends AbstractUnitTest{
     
     @Autowired
     private InventoryDto inventoryDto;
-    @Autowired 
-    private BrandDto brandDto;
     @Autowired
     private ProductDto productDto;
 

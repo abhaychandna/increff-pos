@@ -39,10 +39,10 @@ public class TestUtil {
         return p;
     }
 
-    public static BrandPojo createBrand(String brand, String category) throws ApiException{
+    public static BrandData createBrand(String brand, String category) throws ApiException{
         BrandForm bf = TestUtil.getBrandFormDto(brand,category);
-        BrandPojo bp = brandDto.add(bf);
-        return bp;
+        BrandData brandData = brandDto.add(bf);
+        return brandData;
     }
 
     public static ProductPojo createProduct(String barcode, String brand, String category, String name, double mrp) throws ApiException {

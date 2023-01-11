@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
@@ -39,13 +40,13 @@ public class ProductTest extends AbstractUnitTest{
         //ProductPojo p = createProductWithBrand(barcode, brand, category, name, mrp)
 
         BrandForm bf = TestUtil.getBrandFormDto(brand,category);
-        BrandPojo bp = brandDto.add(bf);
+        BrandData brandData = brandDto.add(bf);
 
 
         ProductForm f = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
         ProductPojo p = productDto.add(f);
 
-        assertEquals(bp.getId(), p.getBrand_category());
+        assertEquals(brandData.getId(), p.getBrand_category());
         assertEquals(barcode, p.getBarcode());
         assertEquals(name, p.getName());
         assertEquals(mrp, p.getMrp(), tolerance);

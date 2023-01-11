@@ -23,11 +23,12 @@ public class BrandDto {
     @Autowired
     BrandService svc;
 
-    public BrandPojo add(BrandForm f) throws ApiException {
+    public BrandData add(BrandForm f) throws ApiException {
         BrandPojo p = ConvertUtil.convert(f);
         NormalizeUtil.normalize(p);
 		ValidateUtil.validateBrand(p);
-        return svc.add(p);
+        p = svc.add(p);
+        return ConvertUtil.convert(p); 
     }
 
     public BrandData get(int id) throws ApiException {
