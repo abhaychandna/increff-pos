@@ -15,28 +15,25 @@ import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.util.StringUtil;
 
 @Service
+@Transactional(rollbackOn = ApiException.class)
 public class ProductService {
 
 	@Autowired
 	private ProductDao dao;
 
-	@Transactional(rollbackOn = ApiException.class)
 	public ProductPojo add(ProductPojo p) throws ApiException{
 		checkBarcodeDoesntExist(p);
 		dao.insert(p);
 		return p;
 	}
 
-	@Transactional
 	public ProductPojo get(int id) throws ApiException{
 		return getCheck(id);
 	}
-	@Transactional
 	public List<ProductPojo> getAll(){
 		return dao.selectAll();
 	}
 
-	@Transactional(rollbackOn = ApiException.class)
 	public void update(int id, ProductPojo p) throws ApiException{
 		ProductPojo ex = getCheck(id);
 		
@@ -57,18 +54,15 @@ public class ProductService {
 		dao.update(ex);
 	}
 
-	@Transactional
 	private ProductPojo getCheck(int id) throws ApiException{
 		return dao.select(ProductPojo.class, id);
 	}
 
 	
-	@Transactional
     public ProductPojo getByBarcode(String barcode) throws ApiException{
 		return dao.getByBarcode(barcode);
 	}
  
-	@Transactional
 	private void checkBarcodeDoesntExist(ProductPojo p) throws ApiException{
 		try{
 			ProductPojo exists = dao.getByBarcode(p.getBarcode()); 

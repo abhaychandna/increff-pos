@@ -12,12 +12,12 @@ import com.increff.pos.dao.BrandDao;
 import com.increff.pos.pojo.BrandPojo;
 
 @Service
+@Transactional(rollbackOn = ApiException.class)
 public class BrandService {
 
 	@Autowired
 	private BrandDao dao;
 	
-	@Transactional(rollbackOn = ApiException.class)
 	public BrandPojo add(BrandPojo p) throws ApiException {
 		List<BrandPojo> brands = dao.getByBrandCategory(p.getBrand(), p.getCategory());
 		if (brands.size()>0)
@@ -26,17 +26,14 @@ public class BrandService {
 		return p;
 	}
 
-	@Transactional(rollbackOn = ApiException.class)
 	public BrandPojo get(int id) throws ApiException {
 		return getCheck(id);
 	}
 
-	@Transactional
 	public List<BrandPojo> getAll() {
 		return dao.selectAll();
 	}
 
-	@Transactional(rollbackOn  = ApiException.class)
 	public void update(int id, BrandPojo p) throws ApiException {
 
 		BrandPojo ex = getCheck(id);
@@ -50,7 +47,6 @@ public class BrandService {
 		dao.update(ex);
 	}
 
-	@Transactional
 	private BrandPojo getCheck(int id) throws ApiException {
 		BrandPojo p = dao.select(BrandPojo.class, id);
 		if (Objects.isNull(p)) {
