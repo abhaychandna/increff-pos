@@ -4,11 +4,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Table(indexes = {
+    @Index(name = "brandCategoryIdIndex", columnList = "brand_category"),
+    @Index(name = "barcodeIndex", columnList = "barcode", unique = true),
+  })
 @Entity
 public class ProductPojo {
     
