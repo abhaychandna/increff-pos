@@ -30,6 +30,16 @@ public class BrandDto {
         return ConvertUtil.convert(brand); 
     }
 
+    public void bulkAdd(List<BrandForm> forms) throws ApiException {
+        /*
+         * Design of bulk 
+         * What if some fail dto level validations (Eg null etc)
+         * What if some fail service level validations (Eg duplicate)
+         * What if some fail db level validations (Eg same brand category uploaded twice. Whule checking db it will say not null,
+         * but while adding it will give error)
+         */  
+    }
+
     public BrandData get(int id) throws ApiException {
         BrandPojo brand = svc.get(id);
 		return ConvertUtil.convert(brand);
