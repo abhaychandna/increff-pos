@@ -34,24 +34,25 @@ public class ProductService {
 		return dao.selectAll();
 	}
 
-	public void update(int id, ProductPojo p) throws ApiException{
-		ProductPojo ex = getCheck(id);
+	public void update(int id, ProductPojo product) throws ApiException{
+		ProductPojo existing = getCheck(id);
 		
-		ProductSearchForm obj = new ProductSearchForm();
-		obj.setBarcode(p.getBarcode());
-		List<ProductPojo> products = dao.filter(obj);
-		if(products.size() != 0){
-			ProductPojo product = products.get(0);
-			if(product.getId() != ex.getId())
-				throw new ApiException("Product with barcode: " + p.getBarcode() + " already exists");
+		// Check if barcode already exists for another product
+		ProductPojo productBarcode = null;
+		try{
+			productBarcode = getByBarcode(product.getBarcode());	
 		}
+		catch(ApiException e){
+			// do nothing
+		}
+		if(Objects.nonNull(productBarcode) && productBarcode.getId() != id)
+			throw new ApiException("Product with barcode: " + product.getBarcode() + " already exists for another product");
 		
-		
-		ex.setBarcode(p.getBarcode());
-		ex.setName(p.getName());
-		ex.setMrp(p.getMrp());
-		ex.setBrandCategory(p.getBrandCategory());
-		dao.update(ex);
+		existing.setBarcode(product.getBarcode());
+		existing.setName(product.getName());
+		existing.setMrp(product.getMrp());
+		existing.setBrandCategory(product.getBrandCategory());
+		dao.update(existing);
 	}
 
 	private ProductPojo getCheck(int id) throws ApiException{
