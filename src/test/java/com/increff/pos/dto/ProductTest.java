@@ -2,6 +2,7 @@ package com.increff.pos.dto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -64,15 +65,13 @@ public class ProductTest extends AbstractUnitTest{
         double mrp = 100.5;
 
         ProductForm productForm = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
-        
-        boolean error = false;
         try{
             productDto.add(productForm);
         }
         catch(ApiException e){
-            error = true;
+            return;
         }
-        assertTrue(error);
+        fail();
     }
 
     @Test
@@ -85,14 +84,13 @@ public class ProductTest extends AbstractUnitTest{
 
         TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
         ProductForm productForm = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
-        boolean error = false;
         try{
             productDto.add(productForm);
         }
         catch(ApiException e){
-            error = true;
+            return;
         }
-        assertTrue(error);
+        fail();
     }
     
     @Test

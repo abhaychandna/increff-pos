@@ -1,7 +1,7 @@
 package com.increff.pos.dto;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -74,15 +74,14 @@ public class BrandTest extends AbstractUnitTest {
         BrandForm brandForm = TestUtil.getBrandFormDto("adidas", "tshirts");
         brandDto.add(brandForm);
 
-        // Adding same branc/category twice shuld throw error
-        boolean error = false;
+        // Adding same brand/category twice should throw error
         try {
             brandDto.add(brandForm);
         } catch (ApiException e) {
-            error = true;
+            // Test passed if add throws error
+            return;
         }
-        assertTrue(error);
-        // TODO : Assert.Fail
+        fail();
     }
 
 }

@@ -2,6 +2,7 @@ package com.increff.pos.dto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -44,14 +45,13 @@ public class InventoryTest extends AbstractUnitTest{
     public void testAddInventoryBarcodeDoesntExist() throws ApiException{
         String barcode = "abcdef12";
         int quantity = 10;
-        boolean error = false;
         try{
-            InventoryData p = TestUtil.createInventorySingle(barcode, quantity);
+            TestUtil.createInventorySingle(barcode, quantity);
         }
         catch(ApiException e){
-            error = true;
+            return;
         }
-        assertTrue(error);
+        fail();
     }
 
     @Test
@@ -63,14 +63,13 @@ public class InventoryTest extends AbstractUnitTest{
         String name = "polo";
         int mrp = 100;
         
-        boolean error = false;
         try{
-            InventoryData p = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+            TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         }
         catch(ApiException e){
-            error = true;
+            return;
         }
-        assertTrue(error);
+        fail();
     }
 
     @Test
@@ -84,12 +83,12 @@ public class InventoryTest extends AbstractUnitTest{
         InventoryData p = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         boolean error = false;
         try{
-            InventoryData p1 = TestUtil.createInventorySingle(barcode, quantity);
+            TestUtil.createInventorySingle(barcode, quantity);
         }
         catch(ApiException e){
-            error = true;
+            return;
         }
-        assertTrue(error);
+        fail();
     }
 
     @Test
@@ -116,15 +115,14 @@ public class InventoryTest extends AbstractUnitTest{
     public void testUpdateInventoryDoesntExist() throws ApiException {
         String barcode = "abcdef12";
         int quantity = 10;
-        boolean error = false;
         try{
             InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode, quantity);
             inventoryDto.update(inventoryForm);
         }
         catch(ApiException e){
-            error = true;
+            return;
         }
-        assertTrue(error);
+        fail();
     }
 
     @Test
