@@ -30,24 +30,4 @@ public class InventoryDao extends AbstractDao{
 		TypedQuery<InventoryPojo> query = em.createQuery(all);
         return query.getResultList();
 	}
-
-	public List<InventoryPojo> filter(InventoryPojo p){
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<InventoryPojo> cq = cb.createQuery(InventoryPojo.class);
-
-		Root<InventoryPojo> root = cq.from(InventoryPojo.class);
-		List<Predicate> predicates = new ArrayList<Predicate>();
-
-
-		if(p.getId() != 0)
-			predicates.add(cb.equal(root.get("id"), p.getId()));
-		if(p.getQuantity() != 0)
-			predicates.add(cb.equal(root.get("quantity"), p.getQuantity()));
-		for (Predicate predicate : predicates) {
-			cq.where(cb.and(predicate));
-		}
-
-		TypedQuery<InventoryPojo> query = em.createQuery(cq);
-		return query.getResultList();
-	}
 }
