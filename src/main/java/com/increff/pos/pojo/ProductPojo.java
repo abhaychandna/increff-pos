@@ -1,5 +1,6 @@
 package com.increff.pos.pojo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,10 +22,15 @@ public class ProductPojo {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="id", nullable=false)
     private int id;
+    @Column(name="barcode", nullable=false)
     private String barcode;
+    @Column(name="brandCategory", nullable=false)
     private int brandCategory;
+    @Column(name="name", nullable=false)
     private String name;
+    @Column(name="mrp", nullable=false)
     private double mrp;
 
 }
