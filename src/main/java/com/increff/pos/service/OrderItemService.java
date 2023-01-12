@@ -55,14 +55,15 @@ public class OrderItemService {
 	}
 
 	public void update(Integer id, OrderItemPojo item) throws ApiException {
+		System.out.println("service.update");
 		OrderItemPojo existing = getCheck(id);
 
 		Integer extra = item.getQuantity() - existing.getQuantity();
 		if(extra > 0){
-			inventoryService.reduceInventory(item.getProductId(), extra);
+			inventoryService.reduceInventory(existing.getProductId(), extra);
 		}
 		else if(extra < 0){
-			inventoryService.increaseInventory(item.getProductId(), -extra);
+			inventoryService.increaseInventory(existing.getProductId(), -extra);
 		}
 		else{
 			return;
