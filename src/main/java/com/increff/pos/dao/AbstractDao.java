@@ -26,8 +26,9 @@ public abstract class AbstractDao {
 		return em;
 	}
 
-	public <T> void insert(T b) {
+	public <T> T insert(T b) {
 		em.persist(b);
+		return b;
 	}
 
 	public <T> T select(Class<T> c, Integer id) {
