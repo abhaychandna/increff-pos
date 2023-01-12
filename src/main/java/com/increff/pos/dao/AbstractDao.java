@@ -31,7 +31,7 @@ public abstract class AbstractDao {
 		return b;
 	}
 
-	public <T> T select(Class<T> c, Integer id) {
+	public <T,R> T select(Class<T> c, R id) {
 		return em.find(c, id);
 	}
 
