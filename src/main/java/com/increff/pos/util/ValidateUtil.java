@@ -4,6 +4,8 @@ import javax.transaction.Transactional;
 
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
+import com.increff.pos.pojo.OrderItemPojo;
+import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 
@@ -31,5 +33,14 @@ public class ValidateUtil {
 	public static void validateInventory(InventoryPojo p) throws ApiException {
 		if(p.getQuantity()<0)
 			throw new ApiException("Quantity should be positive");
+	}
+
+	public static void validateOrderItem(OrderItemPojo p) throws ApiException {
+		if(p.getQuantity()<=0)
+			throw new ApiException("Quantity should be positive");
+		if(p.getSellingPrice()<0)
+			throw new ApiException("Selling Price cannot be negative");
+	}
+	public static void validateOrder(OrderPojo p) throws ApiException {
 	}
 }
