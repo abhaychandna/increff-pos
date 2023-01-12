@@ -30,6 +30,6 @@ public class OrderItemPojo extends AbstractPojo{
     @Column(name="quantity", nullable=false)
     private Integer quantity;
     @Column(name="sellingPrice", nullable=false)
-    private double sellingPrice;
+    private Double sellingPrice;
 
 }

@@ -1,7 +1,6 @@
 package com.increff.pos.dto;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
@@ -14,7 +13,6 @@ import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
-import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.AbstractUnitTest;
 import com.increff.pos.service.ApiException;
@@ -29,7 +27,7 @@ public class ProductTest extends AbstractUnitTest{
     @Autowired 
     private BrandDto brandDto;
     
-    private double tolerance = 1e-6;
+    private Double tolerance = 1e-6;
     
 
 
@@ -39,7 +37,7 @@ public class ProductTest extends AbstractUnitTest{
         String category = "tshirts";
         String barcode = "abcdef12";
         String name = "polo";
-        double mrp = 100.5;
+        Double mrp = 100.5;
         
         //ProductPojo p = createProductWithBrand(barcode, brand, category, name, mrp)
 
@@ -62,7 +60,7 @@ public class ProductTest extends AbstractUnitTest{
         String category = "tshirts";
         String barcode = "abcdef12";
         String name = "polo";
-        double mrp = 100.5;
+        Double mrp = 100.5;
 
         ProductForm productForm = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
         try{
@@ -80,7 +78,7 @@ public class ProductTest extends AbstractUnitTest{
         String category = "tshirts";
         String barcode = "abcdef12";
         String name = "polo";
-        double mrp = 100.5;
+        Double mrp = 100.5;
 
         TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
         ProductForm productForm = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
@@ -99,7 +97,7 @@ public class ProductTest extends AbstractUnitTest{
         String category = "tshirts";
         String barcode = "abcdef12";
         String name = "polo";
-        double mrp = 100.5;
+        Double mrp = 100.5;
 
         ProductData productData = TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
         ProductPojo product = productDao.select(ProductPojo.class, productData.getId());
@@ -118,7 +116,7 @@ public class ProductTest extends AbstractUnitTest{
         String category = "tshirts";
         String barcode = "abcdef12";
         String name = "polo";
-        double mrp = 100.5;
+        Double mrp = 100.5;
 
         TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
         
@@ -133,7 +131,7 @@ public class ProductTest extends AbstractUnitTest{
         String category = "tshirts";
         String barcode = "abcdef12";
         String name = "polo";
-        double mrp = 100.5;
+        Double mrp = 100.5;
 
         ProductData productData = TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
         ProductPojo product = productDao.select(ProductPojo.class, productData.getId());
@@ -148,7 +146,7 @@ public class ProductTest extends AbstractUnitTest{
         String newCategory = "shoes";
         String newBarcode = "abcdef13";
         String newName = "polo";
-        double newMrp = 200.5;
+        Double newMrp = 200.5;
         
         TestUtil.createBrand(newBrand, newCategory);
         ProductForm f = TestUtil.getProductFormDto(newBarcode,newBrand,newCategory,newName,newMrp);

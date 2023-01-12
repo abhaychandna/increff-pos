@@ -35,7 +35,7 @@ public class TestUtil {
         inventoryDto = this.iDto;
 	}
 
-    public static ProductData createProductWithBrand(String barcode, String brand, String category, String name, double mrp) throws ApiException {
+    public static ProductData createProductWithBrand(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
         createBrand(brand, category);
         ProductData p = createProduct(barcode, brand, category, name, mrp);
         return p;
@@ -47,13 +47,13 @@ public class TestUtil {
         return brandData;
     }
 
-    public static ProductData createProduct(String barcode, String brand, String category, String name, double mrp) throws ApiException {
+    public static ProductData createProduct(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
         ProductForm productForm = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
         ProductData productData = productDto.add(productForm);
         return productData;
     }
 
-    public static InventoryData createInventory(String barcode, String brand, String category, String name, double mrp, Integer quantity) throws ApiException {
+    public static InventoryData createInventory(String barcode, String brand, String category, String name, Double mrp, Integer quantity) throws ApiException {
         createProductWithBrand(barcode, brand, category, name, mrp);
         InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode,quantity);
         InventoryData inventoryData = inventoryDto.add(inventoryForm);
@@ -71,7 +71,7 @@ public class TestUtil {
         return brandForm;
     }
 
-    public static ProductForm getProductFormDto(String barcode, String brand, String category, String name, double mrp) {
+    public static ProductForm getProductFormDto(String barcode, String brand, String category, String name, Double mrp) {
         ProductForm productForm = new ProductForm();
         productForm.setBarcode(barcode);
         productForm.setBrand(brand);
