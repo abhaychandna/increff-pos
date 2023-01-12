@@ -29,7 +29,7 @@ public class ProductDto {
         return ConvertUtil.convert(productPojo);
     }
 
-    public ProductData get(int id) throws ApiException {
+    public ProductData get(Integer id) throws ApiException {
         ProductPojo product = svc.get(id);
         return ConvertUtil.convert(product);
     }
@@ -43,7 +43,7 @@ public class ProductDto {
         return respList;
     }
 
-    public void update(int id, ProductForm form) throws ApiException {
+    public void update(Integer id, ProductForm form) throws ApiException {
         ProductPojo product = ConvertUtil.convert(form);
         NormalizeUtil.normalize(product);
         ValidateUtil.validateProduct(product);

@@ -34,7 +34,7 @@ public class UserService {
 		return dao.selectAll();
 	}
 
-	public void delete(int id) {
+	public void delete(Integer id) {
 		dao.delete(id);
 	}
 

@@ -5,5 +5,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BrandData extends BrandForm {
-	private int id;
+	private Integer id;
 }

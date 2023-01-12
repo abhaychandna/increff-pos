@@ -23,11 +23,11 @@ public class InventoryTest extends AbstractUnitTest {
     @Test
     public void testAddInventory() throws ApiException {
         String barcode = "abcdef12";
-        int quantity = 10;
+        Integer quantity = 10;
         String brand = "adidas";
         String category = "tshirts";
         String name = "polo";
-        int mrp = 100;
+        Integer mrp = 100;
         InventoryData inventoryData = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         ProductData productData = productDto.get(inventoryData.getId());
         assertEquals(quantity, inventoryData.getQuantity());
@@ -37,7 +37,7 @@ public class InventoryTest extends AbstractUnitTest {
     @Test
     public void testAddInventoryBarcodeDoesntExist() throws ApiException {
         String barcode = "abcdef12";
-        int quantity = 10;
+        Integer quantity = 10;
         try {
             TestUtil.createInventorySingle(barcode, quantity);
         } catch (ApiException e) {
@@ -49,11 +49,11 @@ public class InventoryTest extends AbstractUnitTest {
     @Test
     public void testAddInventoryNegativeQuantity() throws ApiException {
         String barcode = "abcdef12";
-        int quantity = -10;
+        Integer quantity = -10;
         String brand = "adidas";
         String category = "tshirts";
         String name = "polo";
-        int mrp = 100;
+        Integer mrp = 100;
 
         try {
             TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
@@ -66,11 +66,11 @@ public class InventoryTest extends AbstractUnitTest {
     @Test
     public void testAddInventoryAlreadyExists() throws ApiException {
         String barcode = "abcdef12";
-        int quantity = 10;
+        Integer quantity = 10;
         String brand = "adidas";
         String category = "tshirts";
         String name = "polo";
-        int mrp = 100;
+        Integer mrp = 100;
         InventoryData p = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         boolean error = false;
         try {
@@ -84,17 +84,17 @@ public class InventoryTest extends AbstractUnitTest {
     @Test
     public void testUpdateInventory() throws ApiException {
         String barcode = "abcdef12";
-        int quantity = 10;
+        Integer quantity = 10;
         String brand = "adidas";
         String category = "tshirts";
         String name = "polo";
-        int mrp = 100;
+        Integer mrp = 100;
         InventoryData inventoryData = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         ProductData productData = productDto.get(inventoryData.getId());
         assertEquals(quantity, inventoryData.getQuantity());
         assertEquals(productData.getBarcode(), barcode);
 
-        int newQuantity = 50;
+        Integer newQuantity = 50;
         InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode, newQuantity);
         inventoryDto.update(inventoryForm);
         InventoryData newData = inventoryDto.get(inventoryData.getId());
@@ -104,7 +104,7 @@ public class InventoryTest extends AbstractUnitTest {
     @Test
     public void testUpdateInventoryDoesntExist() throws ApiException {
         String barcode = "abcdef12";
-        int quantity = 10;
+        Integer quantity = 10;
         try {
             InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode, quantity);
             inventoryDto.update(inventoryForm);
@@ -117,11 +117,11 @@ public class InventoryTest extends AbstractUnitTest {
     @Test
     public void testGet() throws ApiException {
         String barcode = "abcdef12";
-        int quantity = 10;
+        Integer quantity = 10;
         String brand = "adidas";
         String category = "tshirts";
         String name = "polo";
-        int mrp = 100;
+        Integer mrp = 100;
         InventoryData inventoryData = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         inventoryData = inventoryDto.get(inventoryData.getId());
         assertEquals(quantity, inventoryData.getQuantity());

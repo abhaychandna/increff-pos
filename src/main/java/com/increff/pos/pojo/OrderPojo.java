@@ -24,7 +24,7 @@ public class OrderPojo extends AbstractPojo{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id", nullable=false)
-    private int id;
+    private Integer id;
     @Column(name="time", nullable=false)
     private Date time;
 }

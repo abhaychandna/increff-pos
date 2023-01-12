@@ -14,8 +14,8 @@ public class InventoryPojo {
 
 	@Id
 	@Column(name="id", nullable=false)
-	private int id;
+	private Integer id;
 	@Column(name="quantity", nullable=false)
-	private int quantity;
+	private Integer quantity;
 
 }

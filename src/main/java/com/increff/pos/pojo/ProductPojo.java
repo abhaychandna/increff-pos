@@ -23,11 +23,11 @@ public class ProductPojo {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id", nullable=false)
-    private int id;
+    private Integer id;
     @Column(name="barcode", nullable=false)
     private String barcode;
     @Column(name="brandCategory", nullable=false)
-    private int brandCategory;
+    private Integer brandCategory;
     @Column(name="name", nullable=false)
     private String name;
     @Column(name="mrp", nullable=false)

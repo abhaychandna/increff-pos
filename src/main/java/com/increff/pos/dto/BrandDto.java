@@ -40,7 +40,7 @@ public class BrandDto {
          */  
     }
 
-    public BrandData get(int id) throws ApiException {
+    public BrandData get(Integer id) throws ApiException {
         BrandPojo brand = svc.get(id);
 		return ConvertUtil.convert(brand);
     }
@@ -54,7 +54,7 @@ public class BrandDto {
         return respList;
     }
 
-    public void update(int id, BrandForm f) throws ApiException {
+    public void update(Integer id, BrandForm f) throws ApiException {
         BrandPojo brand = ConvertUtil.convert(f);
         NormalizeUtil.normalize(brand);
 		ValidateUtil.validateBrand(brand);

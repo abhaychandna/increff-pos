@@ -22,13 +22,13 @@ public class OrderItemPojo extends AbstractPojo{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id", nullable=false)
-    private int id;
+    private Integer id;
     @Column(name="orderId", nullable=false)
-    private int orderId;
+    private Integer orderId;
     @Column(name="productId", nullable=false)
-    private int productId;
+    private Integer productId;
     @Column(name="quantity", nullable=false)
-    private int quantity;
+    private Integer quantity;
     @Column(name="sellingPrice", nullable=false)
     private double sellingPrice;
 

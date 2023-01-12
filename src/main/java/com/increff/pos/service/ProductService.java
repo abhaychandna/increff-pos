@@ -24,7 +24,7 @@ public class ProductService {
 		return product;
 	}
 
-	public ProductPojo get(int id) throws ApiException {
+	public ProductPojo get(Integer id) throws ApiException {
 		return getCheck(id);
 	}
 
@@ -32,7 +32,7 @@ public class ProductService {
 		return dao.selectAll(pageNo, pageSize, ProductPojo.class);
 	}
 
-	public void update(int id, ProductPojo product) throws ApiException {
+	public void update(Integer id, ProductPojo product) throws ApiException {
 		ProductPojo existing = getCheck(id);
 
 		// Check if barcode already exists for another product
@@ -53,7 +53,7 @@ public class ProductService {
 		dao.update(existing);
 	}
 
-	private ProductPojo getCheck(int id) throws ApiException {
+	private ProductPojo getCheck(Integer id) throws ApiException {
 		ProductPojo product = dao.select(ProductPojo.class, id);
 		if (Objects.isNull(product)) {
 			throw new ApiException("Brand with given ID does not exist, id: " + id);

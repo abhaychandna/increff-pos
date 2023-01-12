@@ -24,7 +24,7 @@ public class InventoryService {
 		return inventory;
 	}
 
-	public InventoryPojo get(int id) throws ApiException {
+	public InventoryPojo get(Integer id) throws ApiException {
 		return getCheck(id);
 	}
 
@@ -32,14 +32,14 @@ public class InventoryService {
 		return dao.selectAll(pageNo, pageSize, InventoryPojo.class);
 	}
 
-	public void update(int id, InventoryPojo inventory) throws ApiException {
+	public void update(Integer id, InventoryPojo inventory) throws ApiException {
 		InventoryPojo existing = getCheck(id);
 
 		existing.setQuantity(inventory.getQuantity());
 		dao.update(existing);
 	}
 
-	public InventoryPojo getCheck(int id) throws ApiException {
+	public InventoryPojo getCheck(Integer id) throws ApiException {
 		InventoryPojo inventory = dao.select(InventoryPojo.class, id);
 		if (Objects.isNull(inventory)) {
 			throw new ApiException("Inventory with given ID does not exist, id: " + id);

@@ -34,7 +34,7 @@ public class InventoryDto {
         throw new ApiException("Inventory with given Barcode already exists");
     }
 
-    public InventoryData get(int id) throws ApiException {
+    public InventoryData get(Integer id) throws ApiException {
         InventoryPojo inventory = svc.get(id);
         return ConvertUtil.convert(inventory);
     }

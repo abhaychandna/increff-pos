@@ -30,7 +30,7 @@ public abstract class AbstractDao {
 		em.persist(b);
 	}
 
-	public <T> T select(Class<T> c, int id) {
+	public <T> T select(Class<T> c, Integer id) {
 		return em.find(c, id);
 	}
 

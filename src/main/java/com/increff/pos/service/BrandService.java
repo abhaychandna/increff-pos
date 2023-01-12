@@ -26,7 +26,7 @@ public class BrandService {
 		return brand;
 	}
 
-	public BrandPojo get(int id) throws ApiException {
+	public BrandPojo get(Integer id) throws ApiException {
 		return getCheck(id);
 	}
 
@@ -34,7 +34,7 @@ public class BrandService {
 		return dao.selectAll(pageNo, pageSize, BrandPojo.class);
 	}
 
-	public void update(int id, BrandPojo brand) throws ApiException {
+	public void update(Integer id, BrandPojo brand) throws ApiException {
 
 		BrandPojo existing = getCheck(id);
 
@@ -47,7 +47,7 @@ public class BrandService {
 		dao.update(existing);
 	}
 
-	private BrandPojo getCheck(int id) throws ApiException {
+	private BrandPojo getCheck(Integer id) throws ApiException {
 		BrandPojo brand = dao.select(BrandPojo.class, id);
 		if (Objects.isNull(brand)) {
 			throw new ApiException("Brand with given ID does not exist, id: " + id);

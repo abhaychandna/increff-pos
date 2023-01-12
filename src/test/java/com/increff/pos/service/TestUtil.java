@@ -8,10 +8,12 @@ import org.springframework.stereotype.Component;
 import com.increff.pos.dto.BrandDto;
 import com.increff.pos.dto.InventoryDto;
 import com.increff.pos.dto.ProductDto;
-import com.increff.pos.model.*;
-import com.increff.pos.pojo.BrandPojo;
-import com.increff.pos.pojo.InventoryPojo;
-import com.increff.pos.pojo.ProductPojo;
+import com.increff.pos.model.BrandData;
+import com.increff.pos.model.BrandForm;
+import com.increff.pos.model.InventoryData;
+import com.increff.pos.model.InventoryForm;
+import com.increff.pos.model.ProductData;
+import com.increff.pos.model.ProductForm;
 
 @Component
 public class TestUtil {
@@ -51,13 +53,13 @@ public class TestUtil {
         return productData;
     }
 
-    public static InventoryData createInventory(String barcode, String brand, String category, String name, double mrp, int quantity) throws ApiException {
+    public static InventoryData createInventory(String barcode, String brand, String category, String name, double mrp, Integer quantity) throws ApiException {
         createProductWithBrand(barcode, brand, category, name, mrp);
         InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode,quantity);
         InventoryData inventoryData = inventoryDto.add(inventoryForm);
         return inventoryData;
     }
-    public static InventoryData createInventorySingle(String barcode, int quantity) throws ApiException {
+    public static InventoryData createInventorySingle(String barcode, Integer quantity) throws ApiException {
         InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode,quantity);
         InventoryData inventoryData = inventoryDto.add(inventoryForm);
         return inventoryData;
@@ -79,7 +81,7 @@ public class TestUtil {
         return productForm;
     }
 
-    public static InventoryForm getInventoryFormDto(String barcode, int quantity){
+    public static InventoryForm getInventoryFormDto(String barcode, Integer quantity){
         InventoryForm inventoryForm = new InventoryForm();
         inventoryForm.setBarcode(barcode);
         inventoryForm.setQuantity(quantity);

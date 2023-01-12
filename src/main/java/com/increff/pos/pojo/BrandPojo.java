@@ -22,7 +22,7 @@ public class BrandPojo {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id", nullable=false)
-	private int id;
+	private Integer id;
 	@Column(name="brand", nullable=false)
     private String brand;
 	@Column(name="category", nullable=false)
