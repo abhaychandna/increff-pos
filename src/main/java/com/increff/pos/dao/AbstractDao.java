@@ -44,6 +44,14 @@ public abstract class AbstractDao {
 		return query.getResultList();
 	}
 
+	public <T> Integer getRecordsCount(Class<T> pojo) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+		Root<T> root = cq.from(pojo);
+		cq.select(cb.count(root));
+		return em.createQuery(cq).getSingleResult().intValue();
+	}
+
 	public <T> void update(T b) {
 	}
 
