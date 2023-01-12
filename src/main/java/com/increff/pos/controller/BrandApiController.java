@@ -1,7 +1,5 @@
 package com.increff.pos.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.increff.pos.dto.BrandDto;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
+import com.increff.pos.model.BrandSearchData;
 import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.Api;
@@ -40,8 +39,8 @@ public class BrandApiController {
 
 	@ApiOperation(value = "Gets list of all brands")
 	@RequestMapping(path = "/brands", method = RequestMethod.GET)
-	public List<BrandData> getAll(@RequestParam Integer pageNo, @RequestParam Integer pageSize) throws ApiException {
-		return dto.getAll(pageNo, pageSize);
+	public BrandSearchData getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
+		return dto.getAll(start/length, length, draw);
 	}
 
 	@ApiOperation(value = "Updates an brand")

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
+import com.increff.pos.model.BrandSearchData;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
@@ -45,13 +46,20 @@ public class BrandDto {
 		return ConvertUtil.convert(brand);
     }
 
-    public List<BrandData> getAll(Integer pageNo, Integer pageSize) throws ApiException {
+    public BrandSearchData getAll(Integer pageNo, Integer pageSize, Integer draw) throws ApiException {
         List<BrandPojo> brands = svc.getAll(pageNo, pageSize);
         List<BrandData> respList = new ArrayList<BrandData>();
         for (BrandPojo brand : brands) {
             respList.add(ConvertUtil.convert(brand));
         }
-        return respList;
+        
+        BrandSearchData brandSearchData= new BrandSearchData();
+        brandSearchData.setData(respList);
+        brandSearchData.setDraw(draw);
+        Integer count = svc.getRecordsCount();
+        brandSearchData.setRecordsFiltered(count);
+        brandSearchData.setRecordsTotal(count);
+        return brandSearchData;
     }
 
     public void update(Integer id, BrandForm f) throws ApiException {

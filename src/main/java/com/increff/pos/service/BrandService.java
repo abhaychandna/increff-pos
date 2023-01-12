@@ -47,6 +47,10 @@ public class BrandService {
 		dao.update(existing);
 	}
 
+	public Integer getRecordsCount() {
+		return dao.getRecordsCount(BrandPojo.class);
+	}
+
 	private BrandPojo getCheck(Integer id) throws ApiException {
 		BrandPojo brand = dao.select(BrandPojo.class, id);
 		if (Objects.isNull(brand)) {
