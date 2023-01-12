@@ -27,7 +27,7 @@ public class InventoryTest extends AbstractUnitTest {
         String brand = "adidas";
         String category = "tshirts";
         String name = "polo";
-        Integer mrp = 100;
+        Double mrp = 100.0;
         InventoryData inventoryData = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         ProductData productData = productDto.get(inventoryData.getId());
         assertEquals(quantity, inventoryData.getQuantity());
@@ -53,7 +53,7 @@ public class InventoryTest extends AbstractUnitTest {
         String brand = "adidas";
         String category = "tshirts";
         String name = "polo";
-        Integer mrp = 100;
+        Double mrp = 100.0;
 
         try {
             TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
@@ -70,7 +70,7 @@ public class InventoryTest extends AbstractUnitTest {
         String brand = "adidas";
         String category = "tshirts";
         String name = "polo";
-        Integer mrp = 100;
+        Double mrp = 100.0;
         InventoryData p = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         boolean error = false;
         try {
@@ -88,7 +88,7 @@ public class InventoryTest extends AbstractUnitTest {
         String brand = "adidas";
         String category = "tshirts";
         String name = "polo";
-        Integer mrp = 100;
+        Double mrp = 100.0;
         InventoryData inventoryData = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         ProductData productData = productDto.get(inventoryData.getId());
         assertEquals(quantity, inventoryData.getQuantity());
@@ -121,7 +121,7 @@ public class InventoryTest extends AbstractUnitTest {
         String brand = "adidas";
         String category = "tshirts";
         String name = "polo";
-        Integer mrp = 100;
+        Double mrp = 100.0;
         InventoryData inventoryData = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         inventoryData = inventoryDto.get(inventoryData.getId());
         assertEquals(quantity, inventoryData.getQuantity());
