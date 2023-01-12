@@ -1,6 +1,8 @@
 package com.increff.pos.util;
 
-import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
@@ -41,6 +43,17 @@ public class ValidateUtil {
 		if(p.getSellingPrice()<0)
 			throw new ApiException("Selling Price cannot be negative");
 	}
+	public static void validateOrderItems(List<OrderItemPojo> items) throws ApiException {
+		Set<Integer> productIds = new HashSet<Integer>();
+		for(OrderItemPojo item : items) {
+			if(productIds.contains(item.getProductId()))
+				throw new ApiException("Duplicate product id: " + item.getProductId() + " in order");
+			productIds.add(item.getProductId());	
+			validateOrderItem(item);
+		}
+	}
+
+
 	public static void validateOrderItemPut(OrderItemPojo p) throws ApiException {
 		if(p.getQuantity()<0)
 			throw new ApiException("Quantity cannot be negative");

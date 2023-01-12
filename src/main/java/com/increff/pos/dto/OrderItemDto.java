@@ -27,9 +27,9 @@ public class OrderItemDto {
         for (OrderItemForm form : forms) {
             OrderItemPojo item = ConvertUtil.convert(form);
             NormalizeUtil.normalize(item);
-            ValidateUtil.validateOrderItem(item);
             items.add(item);
         }
+        ValidateUtil.validateOrderItems(items);
         items = svc.add(items);
         List<OrderItemData> itemsData = new ArrayList<OrderItemData>();
         for (OrderItemPojo item : items) {
