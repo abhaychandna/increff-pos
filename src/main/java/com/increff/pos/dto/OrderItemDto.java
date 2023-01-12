@@ -23,7 +23,6 @@ public class OrderItemDto {
     OrderItemService svc;
 
     public List<OrderItemData> add(List<OrderItemForm> forms) throws ApiException {
-        System.out.println("OrderItemDto.add()");
         List<OrderItemPojo> items = new ArrayList<OrderItemPojo>();
         for (OrderItemForm form : forms) {
             OrderItemPojo item = ConvertUtil.convert(form);
@@ -31,11 +30,9 @@ public class OrderItemDto {
             ValidateUtil.validateOrderItem(item);
             items.add(item);
         }
-        System.out.println("OrderItemDto.add() - items: " + items);
         items = svc.add(items);
         List<OrderItemData> itemsData = new ArrayList<OrderItemData>();
         for (OrderItemPojo item : items) {
-            System.out.println("OrderItemDto.add() - items: " + items);
 
             itemsData.add(ConvertUtil.convert(item));
         }
