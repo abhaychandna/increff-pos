@@ -28,24 +28,24 @@ public class OrderItemApiController {
 	private OrderItemDto dto;
 
 	@ApiOperation(value = "Adds a OrderItem")
-	@RequestMapping(path = "/OrderItems", method = RequestMethod.POST)
+	@RequestMapping(path = "/orderItems", method = RequestMethod.POST)
 	public void add(@RequestBody List<OrderItemForm> forms) throws ApiException {
 		dto.add(forms);
 	}
 
 	@ApiOperation(value = "Gets a OrderItem by ID")
-	@RequestMapping(path = "/OrderItems/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/orderItems/{id}", method = RequestMethod.GET)
 	public OrderItemData get(@PathVariable Integer id) throws ApiException {
 		return dto.get(id);
 	}
 
 	@ApiOperation(value = "Gets all OrderItems")
-	@RequestMapping(path = "/OrderItems", method = RequestMethod.GET)
+	@RequestMapping(path = "/orderItems", method = RequestMethod.GET)
 	public List<OrderItemData> getAll(@RequestParam Integer pageNo, @RequestParam Integer pageSize) throws ApiException {
 		return dto.getAll(pageNo, pageSize);
 	}
 
-	@RequestMapping(path = "/OrderItems/{id}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/orderItems/{id}", method = RequestMethod.PUT)
 	public void update(@PathVariable Integer id, @RequestBody OrderItemPutForm f) throws ApiException {
 		dto.update(id, f);
 	}
