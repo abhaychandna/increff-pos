@@ -5,12 +5,15 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
 import com.increff.pos.model.OrderItemData;
 import com.increff.pos.model.OrderItemForm;
+import com.increff.pos.model.OrderItemPutForm;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.BrandPojo;
@@ -33,27 +36,29 @@ public class ConvertUtil {
 	ProductService pService;
 
 	@PostConstruct
-	private void init(){
+	private void init() {
 		bService = this.brandService;
 		productService = this.pService;
 	}
 
+	// QUES : Where to add database calls if needed? (Eg. converting brand category
+	// string to BC_ID in conversion)
+	// Do we override the convert method for each class?
+	public static <T, R> R convert(T fromClass, Class<R> toClass) {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		R newObject = mapper.convertValue(fromClass, toClass);
+		return newObject;
+	}
+
     public static BrandData convert(BrandPojo p) {
-		BrandData d = new BrandData();
-		d.setBrand(p.getBrand());
-		d.setCategory(p.getCategory());
-		d.setId(p.getId());
-		return d;
+		return convert(p, BrandData.class);
 	}
 	
 	public static BrandPojo convert(BrandForm f) {
-		BrandPojo p = new BrandPojo();
-		p.setBrand(f.getBrand());
-		p.setCategory(f.getCategory());
-		return p;
+		return convert(f, BrandPojo.class);
 	}
 
-	// TODO : Add seperate brand and category input here 
 	public static ProductPojo convert(ProductForm f) throws ApiException {
 		ProductPojo p = new ProductPojo();
 		p.setBarcode(f.getBarcode());
