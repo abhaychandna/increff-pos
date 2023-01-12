@@ -24,6 +24,8 @@ public class OrderItemService {
 	private InventoryService inventoryService;
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private DaySalesService daySalesService;
 
 	public List<OrderItemPojo> add(List<OrderItemPojo> items) throws ApiException {
 
@@ -39,7 +41,7 @@ public class OrderItemService {
 			item.setOrderId(order.getId());
 			dao.insert(item);
 		}
-
+		daySalesService.update(items);
 		return items;
 	}
 
