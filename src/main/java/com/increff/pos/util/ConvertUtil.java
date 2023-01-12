@@ -51,10 +51,10 @@ public class ConvertUtil {
 		return newObject;
 	}
 
-    public static BrandData convert(BrandPojo p) {
+	public static BrandData convert(BrandPojo p) {
 		return convert(p, BrandData.class);
 	}
-	
+
 	public static BrandPojo convert(BrandForm f) {
 		return convert(f, BrandPojo.class);
 	}
@@ -62,19 +62,19 @@ public class ConvertUtil {
 	public static ProductPojo convert(ProductForm f) throws ApiException {
 		ProductPojo p = new ProductPojo();
 		p.setBarcode(f.getBarcode());
-        BrandPojo brand = bService.getCheckBrandCategory(f.getBrand(), f.getCategory());
+		BrandPojo brand = bService.getCheckBrandCategory(f.getBrand(), f.getCategory());
 		p.setBrandCategory(brand.getId());
 		p.setMrp(f.getMrp());
 		p.setName(f.getName());
 		return p;
 	}
 
-	public static ProductData convert(ProductPojo p) throws ApiException{
+	public static ProductData convert(ProductPojo p) throws ApiException {
 		ProductData f = new ProductData();
 		f.setBarcode(p.getBarcode());
-        BrandPojo brand = bService.get(p.getBrandCategory());
+		BrandPojo brand = bService.get(p.getBrandCategory());
 		f.setBrand(brand.getBrand());
-        f.setCategory(brand.getCategory());
+		f.setCategory(brand.getCategory());
 		f.setMrp(p.getMrp());
 		f.setName(p.getName());
 		f.setId(p.getId());
@@ -87,7 +87,8 @@ public class ConvertUtil {
 		p.setQuantity(f.getQuantity());
 		return p;
 	}
-	public static InventoryData convert(InventoryPojo p) throws ApiException{
+
+	public static InventoryData convert(InventoryPojo p) throws ApiException {
 		InventoryData d = new InventoryData();
 		d.setBarcode(productService.get(p.getId()).getBarcode());
 		d.setQuantity(p.getQuantity());
@@ -95,21 +96,22 @@ public class ConvertUtil {
 		return d;
 	}
 
-	public static OrderItemPojo convert(OrderItemForm f) throws ApiException{
-		OrderItemPojo p = new OrderItemPojo();
+	public static OrderItemPojo convert(OrderItemForm f) throws ApiException {
+		OrderItemPojo p = convert(f, OrderItemPojo.class);
 		p.setProductId(productService.getByBarcode(f.getBarcode()).getId());
-		p.setSellingPrice(f.getSellingPrice());
-		p.setQuantity(f.getQuantity());
 		return p;
 	}
 
 	public static OrderItemData convert(OrderItemPojo p) throws ApiException {
-		OrderItemData d = new OrderItemData();
+		OrderItemData d = convert(p, OrderItemData.class);
 		d.setBarcode(productService.get(p.getProductId()).getBarcode());
-		d.setId( p.getId());
-		d.setOrderId(p.getOrderId());
-		d.setQuantity(p.getQuantity());
-		d.setSellingPrice(p.getSellingPrice());
 		return d;
+	}
+
+	public static OrderItemPojo convert(OrderItemPutForm orderItemPutForm) throws ApiException {
+		OrderItemPojo p = new OrderItemPojo();
+		p.setSellingPrice(orderItemPutForm.getSellingPrice());
+		p.setQuantity(orderItemPutForm.getQuantity());
+		return p;
 	}
 }
