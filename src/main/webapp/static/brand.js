@@ -55,15 +55,7 @@ function updateBrand(event){
 
 
 function getBrandList(){
-	var url = getBrandUrl();
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(data) {
-	   		displayBrandList(data);  
-	   },
-	   error: handleAjaxError
-	});
+	$("#brand-table").DataTable().ajax.reload();
 }
 
 function deleteBrand(id){
@@ -137,23 +129,6 @@ function downloadErrors(){
 
 //UI DISPLAY METHODS
 
-function displayBrandList(data){
-	var $tbody = $('#Brand-table').find('tbody');
-	$tbody.empty();
-	for(var i in data){
-		var e = data[i];
-		
-		var buttonHtml = ' <button onclick="displayEditBrand(' + e.id + ')">edit</button>'
-		var row = '<tr>'
-		+ '<td>' + e.id + '</td>'
-		+ '<td>' + e.brand + '</td>'
-		+ '<td>'  + e.category + '</td>'
-		+ '<td>' + buttonHtml + '</td>'
-		+ '</tr>';
-        $tbody.append(row);
-	}
-}
-
 function displayEditBrand(id){
 	var url = getBrandUrl() + "/" + id;
 	$.ajax({
@@ -206,6 +181,25 @@ function displayBrand(data){
 
 //INITIALIZATION CODE
 function init(){
+
+	$('#brand-table').DataTable( {
+		"processing": true,
+		"serverSide": true,
+		"searching": false,
+		"lengthMenu": [2,5,10,20, 40, 60, 80, 100],
+		"pageLength":10,
+		"ajax": {url : getBrandUrl()},
+		"columns": [
+            { "data": "id" },
+            { "data": "brand" },
+            { "data": "category" },
+			{
+				"data":null,
+				"render":function(o){return '<button onclick="displayEditBrand(' + o.id + ')">edit</button>'}
+			}
+        ]
+	});
+
 	$('#add-Brand').click(addBrand);
 	$('#update-Brand').click(updateBrand);
 	$('#refresh-data').click(getBrandList);
@@ -216,5 +210,5 @@ function init(){
 }
 
 $(document).ready(init);
-$(document).ready(getBrandList);
+//$(document).ready(getBrandList);
 
