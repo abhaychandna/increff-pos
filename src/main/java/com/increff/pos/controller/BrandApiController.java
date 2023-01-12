@@ -35,7 +35,7 @@ public class BrandApiController {
 	}
 
 	@ApiOperation(value = "Adds multiple brands in bulk")
-	@RequestMapping(path = "/brands/bulk", method = RequestMethod.POST)
+	@RequestMapping(path = "/brands/add/bulk", method = RequestMethod.POST)
 	public List<BrandBulkAddData> bulkAdd(@RequestBody List<BrandForm> forms) throws ApiException {
 		return dto.bulkAdd(forms);
 	}

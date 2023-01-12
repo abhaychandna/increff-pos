@@ -88,38 +88,23 @@ function readFileDataCallback(results){
 }
 
 function uploadRows(){
-	//Update progress
-	updateUploadDialog();
-	//If everything processed then return
-	if(processCount==fileData.length){
-		getBrandList();
-		return;
-	}
-	
-	//Process next row
-	var row = fileData[processCount];
-	processCount++;
-	
-	var json = JSON.stringify(row);
-	var url = getBrandUrl();
+	var url = getBrandUrl() + "/add/bulk";
 
-	//Make ajax call
 	$.ajax({
-	   url: url,
-	   type: 'POST',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },	   
-	   success: function(response) {
-	   		uploadRows();  
-	   },
-	   error: function(response){
-	   		row.error=response.responseText
-	   		errorData.push(row);
-	   		uploadRows();
-	   }
-	});
+		url: url,
+		type: 'POST',
+		data: JSON.stringify(fileData),
+		headers: {
+			'Content-Type': 'application/json'
+		},	   
+		success: function(response) {
+			console.log(response);
+			errorData = response;
+			processCount = fileData.length;	 
+			
+			updateUploadDialog();
+		}
+	 });
 
 }
 
