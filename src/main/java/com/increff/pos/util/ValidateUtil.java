@@ -41,6 +41,12 @@ public class ValidateUtil {
 		if(p.getSellingPrice()<0)
 			throw new ApiException("Selling Price cannot be negative");
 	}
+	public static void validateOrderItemPut(OrderItemPojo p) throws ApiException {
+		if(p.getQuantity()<0)
+			throw new ApiException("Quantity cannot be negative");
+		if(p.getSellingPrice()<0)
+			throw new ApiException("Selling Price cannot be negative");
+	}
 	public static void validateOrder(OrderPojo p) throws ApiException {
 	}
 }
