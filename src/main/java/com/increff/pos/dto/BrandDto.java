@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.increff.pos.model.BrandBulkAddData;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.BrandSearchData;
@@ -31,16 +32,30 @@ public class BrandDto {
         return ConvertUtil.convert(brand); 
     }
 
-    public void bulkAdd(List<BrandForm> forms) throws ApiException {
-        /*
-         * Design of bulk 
-         * What if some fail dto level validations (Eg null etc)
-         * What if some fail service level validations (Eg duplicate)
-         * What if some fail db level validations (Eg same brand category uploaded twice. Whule checking db it will say not null,
-         * but while adding it will give error)
-         */  
-    }
+    // QUES : Is this format for bulkAdd correct ??
+    public List<BrandBulkAddData> bulkAdd(List<BrandForm> forms) throws ApiException {
+        BrandBulkAddData brandBulkAddData = new BrandBulkAddData();
+        List<BrandBulkAddData> errors = new ArrayList<BrandBulkAddData>();
+        List<BrandPojo> validBrands = new ArrayList<BrandPojo>();
+        for (BrandForm form : forms) {
+            try{
+                brandBulkAddData.setBrand(form.getBrand());
+                brandBulkAddData.setCategory(form.getCategory());
 
+                BrandPojo brand = ConvertUtil.convert(form);
+                NormalizeUtil.normalize(brand);
+                ValidateUtil.validateBrand(brand);
+                validBrands.add(brand);
+            }
+            catch(ApiException e){
+                brandBulkAddData.setError(e.getMessage());
+                errors.add(brandBulkAddData);
+            }
+        }
+        errors = svc.bulkAdd(validBrands, errors);
+        return errors;
+    }
+ 
     public BrandData get(Integer id) throws ApiException {
         BrandPojo brand = svc.get(id);
 		return ConvertUtil.convert(brand);
@@ -52,7 +67,7 @@ public class BrandDto {
         for (BrandPojo brand : brands) {
             respList.add(ConvertUtil.convert(brand));
         }
-        
+
         BrandSearchData brandSearchData= new BrandSearchData();
         brandSearchData.setData(respList);
         brandSearchData.setDraw(draw);

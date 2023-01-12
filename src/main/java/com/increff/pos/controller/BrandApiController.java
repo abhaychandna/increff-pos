@@ -1,5 +1,7 @@
 package com.increff.pos.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.increff.pos.dto.BrandDto;
+import com.increff.pos.model.BrandBulkAddData;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.BrandSearchData;
@@ -29,6 +32,12 @@ public class BrandApiController {
 	@RequestMapping(path = "/brands", method = RequestMethod.POST)
 	public void add(@RequestBody BrandForm f) throws ApiException {
 		dto.add(f);
+	}
+
+	@ApiOperation(value = "Adds multiple brands in bulk")
+	@RequestMapping(path = "/brands/bulk", method = RequestMethod.POST)
+	public List<BrandBulkAddData> bulkAdd(@RequestBody List<BrandForm> forms) throws ApiException {
+		return dto.bulkAdd(forms);
 	}
 
 	@ApiOperation(value = "Gets an brand by ID")
