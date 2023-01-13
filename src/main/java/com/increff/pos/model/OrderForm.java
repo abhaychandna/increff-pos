@@ -1,6 +1,5 @@
 package com.increff.pos.model;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +8,6 @@ import lombok.Setter;
 @Setter
 public class OrderForm {
 
-    private Date time;
+    private ZonedDateTime time;
 
 }

@@ -1,6 +1,6 @@
 package com.increff.pos.service;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.increff.pos.dao.OrderItemDao;
-import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 
@@ -33,7 +32,7 @@ public class OrderItemService {
 
 		// creating order
 		OrderPojo order = new OrderPojo();
-		order.setTime(new Date());
+		order.setTime(ZonedDateTime.now());
 		order = orderService.add(order);
 
 		// creating order item
@@ -45,9 +44,6 @@ public class OrderItemService {
 		return items;
 	}
 
-
-
-
 	public OrderItemPojo get(Integer id) throws ApiException {
 		return getCheck(id);
 	}
@@ -57,7 +53,6 @@ public class OrderItemService {
 	}
 
 	public void update(Integer id, OrderItemPojo item) throws ApiException {
-		System.out.println("service.update");
 		OrderItemPojo existing = getCheck(id);
 
 		Integer extra = item.getQuantity() - existing.getQuantity();

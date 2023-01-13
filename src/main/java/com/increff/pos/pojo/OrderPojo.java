@@ -1,6 +1,5 @@
 package com.increff.pos.pojo;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,5 +25,5 @@ public class OrderPojo extends AbstractPojo{
     @Column(name="id", nullable=false)
     private Integer id;
     @Column(name="time", nullable=false)
-    private Date time;
+    private ZonedDateTime time;
 }
