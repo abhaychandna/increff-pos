@@ -25,13 +25,13 @@ public class OrderApiController {
 	private OrderDto dto;
 
 	@ApiOperation(value = "Gets a Order by ID")
-	@RequestMapping(path = "/order/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/orders/{id}", method = RequestMethod.GET)
 	public OrderData get(@PathVariable Integer id) throws ApiException {
 		return dto.get(id);
 	}
 
 	@ApiOperation(value = "Gets all Order")
-	@RequestMapping(path = "/order", method = RequestMethod.GET)
+	@RequestMapping(path = "/orders", method = RequestMethod.GET)
 	public List<OrderData> getAll(@RequestParam Integer pageNo, @RequestParam Integer pageSize) throws ApiException {
 		return dto.getAll(pageNo, pageSize);
 	}
