@@ -1,5 +1,5 @@
 package com.increff.pos.pojo;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +20,7 @@ public class DaySalesPojo extends AbstractPojo{
 
     @Id
     @Column(name="date", nullable=false)
-    private Date date;
+    private ZonedDateTime date;
     @Column(name="invoicedOrdersCount", nullable=false)
     private Integer invoicedOrdersCount;
     @Column(name="invoicedItemsCount", nullable=false)

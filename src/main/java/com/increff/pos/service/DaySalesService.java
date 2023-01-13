@@ -1,7 +1,6 @@
 package com.increff.pos.service;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -22,7 +21,7 @@ public class DaySalesService {
 
 	public DaySalesPojo add(List<OrderItemPojo> items) throws ApiException {
 		DaySalesPojo daySales = new DaySalesPojo();
-		Date date = getDateWithoutTimeUsingCalendar();
+		ZonedDateTime date = getCurrentZonedDateWithoutTime();
 		daySales.setDate(date);
 		daySales.setInvoicedItemsCount(items.size());
 		daySales.setInvoicedOrdersCount(1);
@@ -34,7 +33,7 @@ public class DaySalesService {
 	public DaySalesPojo update(List<OrderItemPojo> items) throws ApiException {
 		DaySalesPojo daySales = new DaySalesPojo();
 		try{
-			Date date = getDateWithoutTimeUsingCalendar();
+			ZonedDateTime date = getCurrentZonedDateWithoutTime();
 			daySales = getCheck(date);
 		}
 		catch(ApiException e){
@@ -56,15 +55,15 @@ public class DaySalesService {
 		return totalRevenue;
 	}
 
-	public static Date getDateWithoutTimeUsingCalendar() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
-		return calendar.getTime();
+	public static ZonedDateTime getCurrentZonedDateWithoutTime(){
+		return setTimeToZero(ZonedDateTime.now());
 	}
-	public DaySalesPojo get(Date date) throws ApiException {
+	public static ZonedDateTime setTimeToZero(ZonedDateTime zdt) {
+		return zdt.withHour(0).withMinute(0).withSecond(0).withNano(0);
+	}
+
+
+	public DaySalesPojo get(ZonedDateTime date) throws ApiException {
 		return getCheck(date);
 	}
 
@@ -72,7 +71,7 @@ public class DaySalesService {
 		return dao.selectAll(pageNo, pageSize, DaySalesPojo.class);
 	}
 
-	private DaySalesPojo getCheck(Date date) throws ApiException {
+	private DaySalesPojo getCheck(ZonedDateTime date) throws ApiException {
 		DaySalesPojo daySales = dao.select(DaySalesPojo.class, date);
 		if (daySales == null)
 			throw new ApiException("DaySales does not exist with date: " + date);
