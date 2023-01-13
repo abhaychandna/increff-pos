@@ -35,12 +35,8 @@ public class ProductDao extends AbstractDao{
 		Root<ProductPojo> root = cq.from(ProductPojo.class);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
-		if(Objects.nonNull(searchForm.getId()))
-			predicates.add(cb.equal(root.get("id"), searchForm.getId()));
 		if(Objects.nonNull(searchForm.getBarcode()))
 			predicates.add(cb.equal(root.get("barcode"), searchForm.getBarcode()));
-		if(Objects.nonNull(searchForm.getName()))
-			predicates.add(cb.equal(root.get("name"), searchForm.getName()));
 		if(Objects.nonNull(searchForm.getBrandCategory()))
 			predicates.add(cb.equal(root.get("brandCategory"), searchForm.getBrandCategory()));
 		cq.where(cb.and(predicates.toArray(Predicate[]::new)));
