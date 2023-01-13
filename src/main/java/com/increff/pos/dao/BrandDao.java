@@ -29,25 +29,5 @@ public class BrandDao extends AbstractDao{
 
         TypedQuery<BrandPojo> query = em.createQuery(cq);
         return query.getResultList();
-	}
-
-	public List<BrandPojo> filter(BrandPojo brand){
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<BrandPojo> cq = cb.createQuery(BrandPojo.class);
-
-		Root<BrandPojo> root = cq.from(BrandPojo.class);
-		List<Predicate> predicates = new ArrayList<Predicate>();
-
-		if(brand.getId() != 0)
-			predicates.add(cb.equal(root.get("id"), brand.getId()));
-		if(Objects.nonNull(brand.getBrand()))
-			predicates.add(cb.equal(root.get("brand"), brand.getBrand()));
-		if(Objects.nonNull(brand.getCategory()))
-			predicates.add(cb.equal(root.get("category"), brand.getCategory()));
-		cq.where(cb.and(predicates.toArray(Predicate[]::new)));
-
-		TypedQuery<BrandPojo> query = em.createQuery(cq);
-		return query.getResultList();
-	}
-	
+	}	
 }
