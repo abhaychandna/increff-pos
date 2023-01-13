@@ -25,11 +25,11 @@ public class BrandDto {
     BrandService svc;
 
     public BrandData add(BrandForm f) throws ApiException {
-        BrandPojo brand = ConvertUtil.convert(f);
+        BrandPojo brand = convert(f);
         NormalizeUtil.normalize(brand);
 		ValidateUtil.validateBrand(brand);
         brand = svc.add(brand);
-        return ConvertUtil.convert(brand); 
+        return convert(brand); 
     }
 
     // QUES : Is this format for bulkAdd correct ??
@@ -40,7 +40,7 @@ public class BrandDto {
         for (BrandForm form : forms) {
             try{
                 
-                BrandPojo brand = ConvertUtil.convert(form);
+                BrandPojo brand = convert(form);
                 NormalizeUtil.normalize(brand);
                 ValidateUtil.validateBrand(brand);
                 brandBulkAddData.setBrand(brand.getBrand());
@@ -58,14 +58,14 @@ public class BrandDto {
  
     public BrandData get(Integer id) throws ApiException {
         BrandPojo brand = svc.get(id);
-		return ConvertUtil.convert(brand);
+		return convert(brand);
     }
 
     public BrandSearchData getAll(Integer pageNo, Integer pageSize, Integer draw) throws ApiException {
         List<BrandPojo> brands = svc.getAll(pageNo, pageSize);
         List<BrandData> respList = new ArrayList<BrandData>();
         for (BrandPojo brand : brands) {
-            respList.add(ConvertUtil.convert(brand));
+            respList.add(convert(brand));
         }
 
         BrandSearchData brandSearchData= new BrandSearchData();
@@ -78,13 +78,19 @@ public class BrandDto {
     }
 
     public void update(Integer id, BrandForm f) throws ApiException {
-        BrandPojo brand = ConvertUtil.convert(f);
+        BrandPojo brand = convert(f);
         NormalizeUtil.normalize(brand);
 		ValidateUtil.validateBrand(brand);
         svc.update(id, brand);
     }
 
+	private BrandData convert(BrandPojo p) {
+		return ConvertUtil.convert(p, BrandData.class);
+	}
 
+	private BrandPojo convert(BrandForm f) {
+		return ConvertUtil.convert(f, BrandPojo.class);
+	}
 
 
 
