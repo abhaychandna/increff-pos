@@ -24,7 +24,7 @@ public class ProductDao extends AbstractDao{
 		p.setBarcode(barcode);
 		List<ProductPojo> list = filter(p);
 		if(list.size() == 0)
-			throw new ApiException("Product does not exist with barcode: " + barcode);
+			return null;
 		return list.get(0);
 	}
 

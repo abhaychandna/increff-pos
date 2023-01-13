@@ -60,14 +60,21 @@ public class ProductService {
 		}
 		return product;
 	}
+	private ProductPojo getCheckBarcode(String barcode) throws ApiException {
+		ProductPojo product = dao.getByBarcode(barcode);
+		if (Objects.isNull(product)) {
+			throw new ApiException("Brand with given barcode does not exist, barcode: " + barcode);
+		}
+		return product;
+	}
 
 	public ProductPojo getByBarcode(String barcode) throws ApiException {
-		return dao.getByBarcode(barcode);
+		return getCheckBarcode(barcode);
 	}
 
 	private void checkBarcodeDoesntExist(String barcode) throws ApiException {
 		try {
-			dao.getByBarcode(barcode);
+			getCheckBarcode(barcode);
 		} catch (ApiException e) {
 			return;
 		}
