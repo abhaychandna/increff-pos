@@ -39,12 +39,12 @@ public class BrandDto {
         List<BrandPojo> validBrands = new ArrayList<BrandPojo>();
         for (BrandForm form : forms) {
             try{
-                brandBulkAddData.setBrand(form.getBrand());
-                brandBulkAddData.setCategory(form.getCategory());
-
+                
                 BrandPojo brand = ConvertUtil.convert(form);
                 NormalizeUtil.normalize(brand);
                 ValidateUtil.validateBrand(brand);
+                brandBulkAddData.setBrand(brand.getBrand());
+                brandBulkAddData.setCategory(brand.getCategory());
                 validBrands.add(brand);
             }
             catch(ApiException e){
