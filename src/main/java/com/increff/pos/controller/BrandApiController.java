@@ -49,7 +49,7 @@ public class BrandApiController {
 	@ApiOperation(value = "Gets list of all brands")
 	@RequestMapping(path = "/brands", method = RequestMethod.GET)
 	public BrandSearchData getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
-		return dto.getAll(start/length, length, draw);
+		return dto.getAll(start, length, draw);
 	}
 
 	@ApiOperation(value = "Updates an brand")
