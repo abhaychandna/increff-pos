@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +16,12 @@ import lombok.Setter;
 @Setter
 @Table(indexes = {
     @Index(name = "brandCategoryIdIndex", columnList = "brandCategory"),
-    @Index(name = "barcodeIndex", columnList = "barcode", unique = true),
-  })
+    @Index(name = "barcodeIndex", columnList = "barcode"),
+      },
+  uniqueConstraints = { 
+      @UniqueConstraint(name = "UniqueBarcode", columnNames = { "barcode"})
+     }
+)
 @Entity
 public class ProductPojo {
     
