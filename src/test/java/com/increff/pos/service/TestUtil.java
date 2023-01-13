@@ -21,7 +21,6 @@ import com.increff.pos.util.ConvertUtil;
 @Component
 public class TestUtil {
 
-    private static BrandDto brandDto;
     private static ProductDto productDto;
     private static InventoryDto inventoryDto;
     private static BrandDao brandDao;
@@ -37,7 +36,6 @@ public class TestUtil {
 
 	@PostConstruct
 	private void init(){
-        brandDto = this.bDto;
         productDto = this.pDto;
         inventoryDto = this.iDto;
         brandDao = this.bDao;
@@ -51,10 +49,9 @@ public class TestUtil {
 
     public static BrandData createBrand(String brand, String category) throws ApiException{
         BrandForm bf = TestUtil.getBrandFormDto(brand,category);
-        BrandPojo brandPojo = ConvertUtil.convert(bf);
+        BrandPojo brandPojo = ConvertUtil.convert(bf, BrandPojo.class);
         brandPojo = brandDao.insert(brandPojo);
-        //brandPojo = brandDao.select(BrandPojo.class, brandPojo.getBrand());
-        BrandData brandData = ConvertUtil.convert(brandPojo);
+        BrandData brandData = ConvertUtil.convert(brandPojo, BrandData.class);
         return brandData;
     }
 
