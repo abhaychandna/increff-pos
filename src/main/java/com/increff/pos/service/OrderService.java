@@ -43,5 +43,8 @@ public class OrderService {
 		return order;
 	}
 
+	public Integer getRecordsCount() {
+		return dao.getRecordsCount(OrderService.class);
+	}
 
 }

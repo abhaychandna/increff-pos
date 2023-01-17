@@ -83,4 +83,8 @@ public class ProductService {
 
 	}
 
+	public Integer getRecordsCount() {
+		return dao.getRecordsCount(ProductPojo.class);
+	}
+
 }

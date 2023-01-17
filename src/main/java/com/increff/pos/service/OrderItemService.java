@@ -79,4 +79,8 @@ public class OrderItemService {
 	public List<OrderItemPojo> getByOrderId(Integer id) throws ApiException {
 		return dao.selectByOrderId(id);
 	}
+	
+	public Integer getRecordsCount() {
+		return dao.getRecordsCount(OrderItemPojo.class);
+	}
 }

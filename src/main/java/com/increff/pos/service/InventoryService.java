@@ -71,4 +71,8 @@ public class InventoryService {
 		}
 		return inventory;
 	}
+
+	public Integer getRecordsCount() {
+		return dao.getRecordsCount(InventoryPojo.class);
+	}
 }
