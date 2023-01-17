@@ -28,6 +28,10 @@ public class OrderService {
 		return getCheck(id);
 	}
 
+	public List<OrderPojo> filterByDate(ZonedDateTime start, ZonedDateTime end) {
+		return dao.filterByDate(start, end);
+	}
+
 	public List<OrderPojo> getAll(Integer pageNo, Integer pageSize) {
 		return dao.selectAll(pageNo, pageSize, OrderPojo.class);
 	}
