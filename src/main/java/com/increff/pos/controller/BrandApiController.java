@@ -14,7 +14,7 @@ import com.increff.pos.dto.BrandDto;
 import com.increff.pos.model.BrandBulkAddData;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
-import com.increff.pos.model.BrandSearchData;
+import com.increff.pos.model.PaginatedData;
 import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.Api;
@@ -48,7 +48,7 @@ public class BrandApiController {
 
 	@ApiOperation(value = "Gets list of all brands")
 	@RequestMapping(path = "/brands", method = RequestMethod.GET)
-	public BrandSearchData getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
+	public PaginatedData<BrandData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
 		return dto.getAll(start, length, draw);
 	}
 

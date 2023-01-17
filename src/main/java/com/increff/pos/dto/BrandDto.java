@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.increff.pos.model.BrandBulkAddData;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
-import com.increff.pos.model.BrandSearchData;
+import com.increff.pos.model.PaginatedData;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
@@ -61,7 +61,7 @@ public class BrandDto {
 		return convert(brand);
     }
 
-    public BrandSearchData getAll(Integer start, Integer length, Integer draw) throws ApiException {
+    public PaginatedData<BrandData> getAll(Integer start, Integer length, Integer draw) throws ApiException {
         Integer pageNo = start/length;
         Integer pageSize = length;
         List<BrandPojo> brands = svc.getAll(pageNo, pageSize);
@@ -70,7 +70,7 @@ public class BrandDto {
             respList.add(convert(brand));
         }
 
-        BrandSearchData brandSearchData= new BrandSearchData();
+        PaginatedData<BrandData> brandSearchData= new PaginatedData<BrandData>();
         brandSearchData.setData(respList);
         brandSearchData.setDraw(draw);
         Integer count = svc.getRecordsCount();

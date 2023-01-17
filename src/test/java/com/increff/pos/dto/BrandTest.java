@@ -48,7 +48,7 @@ public class BrandTest extends AbstractUnitTest {
         TestUtil.createBrand("adidas", "tshirts");
         TestUtil.createBrand("nike", "tshirts");
         TestUtil.createBrand("puma", "tshirts");
-        BrandSearchData brandSearchData = brandDto.getAll(0, 10, 0);
+        PaginatedData<BrandData> brandSearchData = brandDto.getAll(0, 10, 0);
         assertEquals(3, brandSearchData.getData().size());
     }
 

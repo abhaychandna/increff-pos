@@ -6,8 +6,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BrandSearchData {
-    List<BrandData> data;
+public class PaginatedData<T> {
+    List<T> data;
     Integer recordsTotal;
     Integer recordsFiltered;
     Integer draw;
