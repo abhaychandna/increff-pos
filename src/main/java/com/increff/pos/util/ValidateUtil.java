@@ -4,6 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
@@ -12,6 +16,19 @@ import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 
 public class ValidateUtil {
+
+	private static String errorMessageSeparator = ".\n";
+	public static <T> void validate(T form) throws ApiException {
+		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<T>> violations = validator.validate(form);
+		if(violations.size()>0){
+			String error = "FORM ERRORS: ";
+			for(ConstraintViolation<T> v : violations) {
+				error += v.getMessage() + errorMessageSeparator;
+			}
+			throw new ApiException(error);
+		}
+	}
     
     public static void validateBrand(BrandPojo p) throws ApiException {
 		if(StringUtil.isEmpty(p.getBrand()))
