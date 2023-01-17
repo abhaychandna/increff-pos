@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.increff.pos.model.PaginatedData;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.BrandPojo;
@@ -38,13 +39,16 @@ public class ProductDto {
         return convert(product);
     }
 
-    public List<ProductData> getAll(Integer pageNo, Integer pageSize) throws ApiException {
+    public PaginatedData<ProductData> getAll(Integer start, Integer length, Integer draw) throws ApiException {
+        Integer pageNo = start/length;
+        Integer pageSize = length;
         List<ProductPojo> products = svc.getAll(pageNo, pageSize);
-        List<ProductData> productList = new ArrayList<ProductData>();
+        List<ProductData> productDatas = new ArrayList<ProductData>();
         for (ProductPojo p : products) {
-            productList.add(convert(p));
+            productDatas.add(convert(p));
         }
-        return productList;
+        Integer count = svc.getRecordsCount();
+        return new PaginatedData<ProductData>(productDatas, draw, count, count);
     }
 
     public void update(Integer id, ProductForm form) throws ApiException {
