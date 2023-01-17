@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(indexes = {
-    @Index(name="dateIndex", columnList = "date"),
+    @Index(name="UK_daysalespojo_date", columnList = "date"),
 })
 @Entity
 public class DaySalesPojo extends AbstractPojo{

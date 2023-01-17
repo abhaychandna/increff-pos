@@ -15,8 +15,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(indexes = {
-    @Index(name = "brandCategoryIdIndex", columnList = "brandCategory"),
-    @Index(name = "barcodeIndex", columnList = "barcode"),
+    @Index(name = "IX_productpojo_brand_category", columnList = "brandCategory"),
+    @Index(name = "UK_productpojo_barcode", columnList = "barcode"),
       },
   uniqueConstraints = { 
       @UniqueConstraint(name = "UniqueBarcode", columnNames = { "barcode"})

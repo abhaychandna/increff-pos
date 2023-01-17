@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(indexes = {
-    @Index(name="timeIndex", columnList = "time"),
+    @Index(name="IX_orderpojo_time", columnList = "time"),
 })
 @Entity
 public class OrderPojo extends AbstractPojo{

@@ -13,8 +13,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Table(indexes = {
-    @Index(name="orderIdIndex", columnList = "orderId"),
-    @Index(name="productIdIndex", columnList = "productId"),
+    @Index(name="IX_orderitempojo_orderId", columnList = "orderId"),
+    @Index(name="IX_orderitempojo_productId", columnList = "productId"),
 })
 @Setter
 public class OrderItemPojo extends AbstractPojo{

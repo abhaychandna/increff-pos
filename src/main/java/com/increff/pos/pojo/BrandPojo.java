@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(indexes = {
-	@Index(name="brandCategoryIndex", columnList = "brand, category"),
+	@Index(name="UX_brandpojo_brand_category", columnList = "brand, category"),
   })
 @Entity
 public class BrandPojo {
