@@ -1,6 +1,5 @@
 package com.increff.pos.service;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,7 +31,6 @@ public class OrderItemService {
 
 		// creating order
 		OrderPojo order = new OrderPojo();
-		order.setTime(ZonedDateTime.now());
 		order = orderService.add(order);
 
 		// creating order item

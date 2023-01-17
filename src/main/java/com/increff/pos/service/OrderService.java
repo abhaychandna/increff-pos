@@ -1,5 +1,6 @@
 package com.increff.pos.service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.increff.pos.dao.OrderDao;
-import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 
 @Service
@@ -19,6 +19,7 @@ public class OrderService {
 	private OrderDao dao;
 
 	public OrderPojo add(OrderPojo order) throws ApiException {
+		order.setTime(ZonedDateTime.now());
 		dao.insert(order);
 		return order;
 	}
