@@ -11,4 +11,12 @@ public class PaginatedData<T> {
     Integer recordsTotal;
     Integer recordsFiltered;
     Integer draw;
+    
+    public PaginatedData(List<T> data, Integer draw, Integer recordsTotal, Integer recordsFiltered) {
+        this.data = data;
+        this.recordsTotal = recordsTotal;
+        this.recordsFiltered = recordsFiltered;
+        this.draw = draw;
+    }
+
 }
