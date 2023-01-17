@@ -15,8 +15,7 @@ import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ConvertUtil;
-import com.increff.pos.util.NormalizeUtil;
-import com.increff.pos.util.ValidateUtil;
+import com.increff.pos.util.PreProcessingUtil;
 
 @Component
 public class ProductDto {
@@ -27,9 +26,8 @@ public class ProductDto {
     private BrandService brandService;
     
     public ProductData add(ProductForm form) throws ApiException {
+        PreProcessingUtil.normalizeAndValidate(form);
         ProductPojo product = convert(form);
-        NormalizeUtil.normalize(product);
-        ValidateUtil.validateProduct(product);
         ProductPojo productPojo = svc.add(product);
         return convert(productPojo);
     }
@@ -52,9 +50,8 @@ public class ProductDto {
     }
 
     public void update(Integer id, ProductForm form) throws ApiException {
+        PreProcessingUtil.normalizeAndValidate(form);
         ProductPojo product = convert(form);
-        NormalizeUtil.normalize(product);
-        ValidateUtil.validateProduct(product);
         svc.update(id, product);
     }
 

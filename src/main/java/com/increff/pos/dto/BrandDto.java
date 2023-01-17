@@ -14,8 +14,7 @@ import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
 import com.increff.pos.util.ConvertUtil;
-import com.increff.pos.util.NormalizeUtil;
-import com.increff.pos.util.ValidateUtil;
+import com.increff.pos.util.PreProcessingUtil;
 
 
 @Component
@@ -24,10 +23,9 @@ public class BrandDto {
     @Autowired
     BrandService svc;
 
-    public BrandData add(BrandForm f) throws ApiException {
-        BrandPojo brand = convert(f);
-        NormalizeUtil.normalize(brand);
-		ValidateUtil.validateBrand(brand);
+    public BrandData add(BrandForm form) throws ApiException {
+        PreProcessingUtil.normalizeAndValidate(form);
+        BrandPojo brand = convert(form);
         brand = svc.add(brand);
         return convert(brand); 
     }
@@ -39,10 +37,8 @@ public class BrandDto {
         List<BrandPojo> validBrands = new ArrayList<BrandPojo>();
         for (BrandForm form : forms) {
             try{
-                
+                PreProcessingUtil.normalizeAndValidate(form);
                 BrandPojo brand = convert(form);
-                NormalizeUtil.normalize(brand);
-                ValidateUtil.validateBrand(brand);
                 brandBulkAddData.setBrand(brand.getBrand());
                 brandBulkAddData.setCategory(brand.getCategory());
                 validBrands.add(brand);
@@ -73,10 +69,9 @@ public class BrandDto {
         return new PaginatedData<BrandData>(brandDatas, draw, count, count);
     }
 
-    public void update(Integer id, BrandForm f) throws ApiException {
-        BrandPojo brand = convert(f);
-        NormalizeUtil.normalize(brand);
-		ValidateUtil.validateBrand(brand);
+    public void update(Integer id, BrandForm form) throws ApiException {
+        PreProcessingUtil.normalizeAndValidate(form);
+        BrandPojo brand = convert(form);
         svc.update(id, brand);
     }
 

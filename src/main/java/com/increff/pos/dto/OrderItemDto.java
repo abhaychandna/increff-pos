@@ -15,8 +15,7 @@ import com.increff.pos.service.ApiException;
 import com.increff.pos.service.OrderItemService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ConvertUtil;
-import com.increff.pos.util.NormalizeUtil;
-import com.increff.pos.util.ValidateUtil;
+import com.increff.pos.util.PreProcessingUtil;
 
 @Component
 public class OrderItemDto {
@@ -29,11 +28,12 @@ public class OrderItemDto {
     public List<OrderItemData> add(List<OrderItemForm> forms) throws ApiException {
         List<OrderItemPojo> items = new ArrayList<OrderItemPojo>();
         for (OrderItemForm form : forms) {
+            // TODO : REMOVE THIS ?? since validateOrderItems is being called ahead
+            PreProcessingUtil.normalizeAndValidate(form);
             OrderItemPojo item = convert(form);
-            NormalizeUtil.normalize(item);
             items.add(item);
         }
-        ValidateUtil.validateOrderItems(items);
+        PreProcessingUtil.validateOrderItems(items);
         items = svc.add(items);
         List<OrderItemData> itemsData = new ArrayList<OrderItemData>();
         for (OrderItemPojo item : items) {
@@ -61,9 +61,8 @@ public class OrderItemDto {
     }
 
     public void update(Integer id, OrderItemPutForm form) throws ApiException {
+        PreProcessingUtil.normalizeAndValidate(form);
         OrderItemPojo p = ConvertUtil.convert(form, OrderItemPojo.class);
-        NormalizeUtil.normalize(p);
-        ValidateUtil.validateOrderItemPut(p);
         svc.update(id, p);
     }
 

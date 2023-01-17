@@ -14,8 +14,7 @@ import com.increff.pos.service.ApiException;
 import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ConvertUtil;
-import com.increff.pos.util.NormalizeUtil;
-import com.increff.pos.util.ValidateUtil;
+import com.increff.pos.util.PreProcessingUtil;
 
 @Component
 public class InventoryDto {
@@ -26,9 +25,8 @@ public class InventoryDto {
     private ProductService productService;
 
     public InventoryData add(InventoryForm inventoryForm) throws ApiException {
+        PreProcessingUtil.normalizeAndValidate(inventoryForm);
         InventoryPojo inventory = convert(inventoryForm);
-        NormalizeUtil.normalize(inventory);
-        ValidateUtil.validateInventory(inventory);
         return convert(svc.add(inventory));
     }
 
@@ -49,10 +47,9 @@ public class InventoryDto {
         return new PaginatedData<InventoryData>(inventoryDatas, draw, count, count);
     }
 
-    public void update(InventoryForm f) throws ApiException {
-        InventoryPojo inventory = convert(f);
-        NormalizeUtil.normalize(inventory);
-        ValidateUtil.validateInventory(inventory);
+    public void update(InventoryForm form) throws ApiException {
+        PreProcessingUtil.normalizeAndValidate(form);
+        InventoryPojo inventory = convert(form);
         svc.update(inventory.getId(), inventory);
     }
 
