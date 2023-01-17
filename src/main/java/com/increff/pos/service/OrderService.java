@@ -44,7 +44,7 @@ public class OrderService {
 	}
 
 	public Integer getRecordsCount() {
-		return dao.getRecordsCount(OrderService.class);
+		return dao.getRecordsCount(OrderPojo.class);
 	}
 
 }
