@@ -69,14 +69,8 @@ public class BrandDto {
         for (BrandPojo brand : brands) {
             brandDatas.add(convert(brand));
         }
-
-        PaginatedData<BrandData> brandSearchData= new PaginatedData<BrandData>();
-        brandSearchData.setData(brandDatas);
-        brandSearchData.setDraw(draw);
         Integer count = svc.getRecordsCount();
-        brandSearchData.setRecordsFiltered(count);
-        brandSearchData.setRecordsTotal(count);
-        return brandSearchData;
+        return new PaginatedData<BrandData>(brandDatas, draw, count, count);
     }
 
     public void update(Integer id, BrandForm f) throws ApiException {
