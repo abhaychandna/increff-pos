@@ -65,13 +65,13 @@ public class BrandDto {
         Integer pageNo = start/length;
         Integer pageSize = length;
         List<BrandPojo> brands = svc.getAll(pageNo, pageSize);
-        List<BrandData> respList = new ArrayList<BrandData>();
+        List<BrandData> brandDatas = new ArrayList<BrandData>();
         for (BrandPojo brand : brands) {
-            respList.add(convert(brand));
+            brandDatas.add(convert(brand));
         }
 
         PaginatedData<BrandData> brandSearchData= new PaginatedData<BrandData>();
-        brandSearchData.setData(respList);
+        brandSearchData.setData(brandDatas);
         brandSearchData.setDraw(draw);
         Integer count = svc.getRecordsCount();
         brandSearchData.setRecordsFiltered(count);
