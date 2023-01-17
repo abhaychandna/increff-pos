@@ -3,14 +3,12 @@ package com.increff.pos.dto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
-import com.increff.pos.model.BrandSearchData;
+import com.increff.pos.model.PaginatedData;
 import com.increff.pos.service.AbstractUnitTest;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.TestUtil;

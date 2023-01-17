@@ -3,14 +3,13 @@ package com.increff.pos.dto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.increff.pos.dao.ProductDao;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
+import com.increff.pos.model.PaginatedData;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.ProductPojo;
@@ -121,8 +120,8 @@ public class ProductTest extends AbstractUnitTest{
         TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
         
         TestUtil.createProduct("abcdef13", brand, category, name, mrp);
-        List<ProductData> d = productDto.getAll(0,10);
-        assertEquals(d.size(), 2);
+        PaginatedData<ProductData> d = productDto.getAll(0,10, 1);
+        assertEquals(d.getData().size(), 2);
     }
 
     @Test
