@@ -20,7 +20,10 @@ public class InventoryService {
 	private InventoryDao dao;
 	
 	public InventoryPojo add(InventoryPojo inventory) throws ApiException {
-				
+        InventoryPojo existing = dao.select(InventoryPojo.class, inventory.getId());
+		if (Objects.nonNull(existing)) {
+			throw new ApiException("Inventory already exists");
+        }
 		dao.insert(inventory);
 		return inventory;
 	}

@@ -28,13 +28,7 @@ public class InventoryDto {
         InventoryPojo inventory = convert(inventoryForm);
         NormalizeUtil.normalize(inventory);
         ValidateUtil.validateInventory(inventory);
-        try {
-            svc.get(inventory.getId());
-        } catch (ApiException e) {
-            inventory = svc.add(inventory);
-            return convert(inventory);
-        }
-        throw new ApiException("Inventory with given Barcode already exists");
+        return convert(svc.add(inventory));
     }
 
     public InventoryData get(Integer id) throws ApiException {
