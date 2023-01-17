@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.increff.pos.model.OrderItemData;
 import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.model.OrderItemPutForm;
+import com.increff.pos.model.PaginatedData;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.OrderItemService;
@@ -47,13 +48,16 @@ public class OrderItemDto {
         return convert(p);
     }
 
-    public List<OrderItemData> getAll(Integer pageNo, Integer pageSize) throws ApiException {
+    public PaginatedData<OrderItemData> getAll(Integer start, Integer length, Integer draw) throws ApiException {
+        Integer pageNo = start/length;
+        Integer pageSize = length;
         List<OrderItemPojo> items = svc.getAll(pageNo, pageSize);
-        List<OrderItemData> respList = new ArrayList<OrderItemData>();
-        for (OrderItemPojo p : items) {
-            respList.add(convert(p)); 
+        List<OrderItemData> itemDatas = new ArrayList<OrderItemData>();
+        for (OrderItemPojo item : items) {
+            itemDatas.add(convert(item));
         }
-        return respList;
+        Integer count = svc.getRecordsCount();
+        return new PaginatedData<OrderItemData>(itemDatas, draw, count, count);
     }
 
     public void update(Integer id, OrderItemPutForm form) throws ApiException {

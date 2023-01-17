@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
+import com.increff.pos.model.PaginatedData;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.InventoryService;
@@ -36,13 +37,16 @@ public class InventoryDto {
         return convert(inventory);
     }
 
-    public List<InventoryData> getAll(Integer pageNo, Integer pageSize) throws ApiException {
-        List<InventoryPojo> brands = svc.getAll(pageNo, pageSize);
-        List<InventoryData> respList = new ArrayList<InventoryData>();
-        for (InventoryPojo p : brands) {
-            respList.add(convert(p));
+    public PaginatedData<InventoryData> getAll(Integer start, Integer length, Integer draw) throws ApiException {
+        Integer pageNo = start/length;
+        Integer pageSize = length;
+        List<InventoryPojo> inventories = svc.getAll(pageNo, pageSize);
+        List<InventoryData> inventoryDatas = new ArrayList<InventoryData>();
+        for (InventoryPojo p : inventories) {
+            inventoryDatas.add(convert(p));
         }
-        return respList;
+        Integer count = svc.getRecordsCount();
+        return new PaginatedData<InventoryData>(inventoryDatas, draw, count, count);
     }
 
     public void update(InventoryForm f) throws ApiException {
