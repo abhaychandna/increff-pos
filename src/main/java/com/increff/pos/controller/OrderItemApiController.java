@@ -14,6 +14,7 @@ import com.increff.pos.dto.OrderItemDto;
 import com.increff.pos.model.OrderItemData;
 import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.model.OrderItemPutForm;
+import com.increff.pos.model.PaginatedData;
 import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.Api;
@@ -41,8 +42,8 @@ public class OrderItemApiController {
 
 	@ApiOperation(value = "Gets all OrderItems")
 	@RequestMapping(path = "/order-items", method = RequestMethod.GET)
-	public List<OrderItemData> getAll(@RequestParam Integer pageNo, @RequestParam Integer pageSize) throws ApiException {
-		return dto.getAll(pageNo, pageSize);
+	public PaginatedData<OrderItemData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
+		return dto.getAll(start, length, draw);
 	}
 
 	@RequestMapping(path = "/order-items/{id}", method = RequestMethod.PUT)

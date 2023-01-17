@@ -1,7 +1,5 @@
 package com.increff.pos.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.increff.pos.dto.InventoryDto;
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
+import com.increff.pos.model.PaginatedData;
 import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.Api;
@@ -40,8 +39,8 @@ public class InventoryApiController {
 
 	@ApiOperation(value = "Gets all Inventory")
 	@RequestMapping(path = "/inventory", method = RequestMethod.GET)
-	public List<InventoryData> getAll(@RequestParam Integer pageNo, @RequestParam Integer pageSize) throws ApiException {
-		return dto.getAll(pageNo, pageSize);
+	public PaginatedData<InventoryData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
+		return dto.getAll(start, length, draw);
 	}
 
 	@RequestMapping(path = "/inventory", method = RequestMethod.PUT)
