@@ -36,4 +36,11 @@ public class ReportApiController {
 		return dto.inventoryReport();
 	}
 
+	@ApiOperation(value = "Sales Report")
+	@RequestMapping(path = "/reports/sales", method = RequestMethod.POST)
+	public List<SalesReportData> salesReport(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String brand, @RequestParam String category) throws ApiException {
+		return dto.salesReport(startDate, endDate, brand, category);
+	}
+
+
 }

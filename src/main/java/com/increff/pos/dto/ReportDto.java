@@ -1,5 +1,6 @@
 package com.increff.pos.dto;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,11 +65,14 @@ public class ReportDto {
 		return inventoryReportDatas;
 	}
 
-    public List<SalesReportData> salesReport(String startDate, String endDate, String brand, String category) throws ApiException {
-        // TODO : Convert Date String to ZonedDateTime
-        List<SalesReportData> salesReportDatas = new ArrayList<SalesReportData>();
-        // TODO : Add date filters
-        List<OrderPojo> orders = orderService.getAll(0, 1000);
+    public List<SalesReportData> salesReport(String strStartDate, String strEndDate, String brand, String category) throws ApiException {
+        // DateFormat 2023-01-01T19:07:34.190912345+05:30[Asia/Calcutta]
+        // TODO : Change date format
+        // QUES : Best way to input Dates ? Unix Timestamp ? YYYYY-MM-DD ? 
+        ZonedDateTime startDate = null, endDate = null;
+        startDate = ZonedDateTime.parse(strStartDate);
+        endDate = ZonedDateTime.parse(strEndDate);
+        List<OrderPojo> orders = orderService.filterByDate(startDate, endDate);
         
         HashMap<Integer, List<String>> brandCategoryMap = new HashMap<>();
         HashMap<Integer, Integer> quantityMap = new HashMap<>();
@@ -96,6 +100,7 @@ public class ReportDto {
             }
         }
 
+        List<SalesReportData> salesReportDatas = new ArrayList<SalesReportData>();
         for(Integer productId : quantityMap.keySet()){
             List<String> brandCategory = brandCategoryMap.get(productId);
             SalesReportData salesReportData = new SalesReportData();
