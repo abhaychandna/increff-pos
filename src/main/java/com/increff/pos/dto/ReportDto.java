@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.increff.pos.model.InventoryReportData;
 import com.increff.pos.model.SalesReportData;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
@@ -36,11 +37,11 @@ public class ReportDto {
     private OrderItemService orderItemService;
 
 
-    public List<SalesReportData> inventoryReport() throws ApiException {
+    public List<InventoryReportData> inventoryReport() throws ApiException {
         // TODO : Change pageNo and pageSize
 		Integer pageNo = 0, pageSize = 1000;
 		List<InventoryPojo> inventory = inventoryService.getAll(pageNo, pageSize);
-		List<SalesReportData> inventoryReportDatas = new ArrayList<SalesReportData>();
+		List<InventoryReportData> inventoryReportDatas = new ArrayList<InventoryReportData>();
 
 		HashMap<Integer, Integer> quantityMap = new HashMap<>(); 
 		for (InventoryPojo inv : inventory) {
@@ -53,7 +54,7 @@ public class ReportDto {
 		
 		for (Integer key : quantityMap.keySet()) {
 			BrandPojo brand = brandService.get(key);
-			SalesReportData inventoryReportData = new SalesReportData();
+			InventoryReportData inventoryReportData = new InventoryReportData();
             inventoryReportData.setBrand(brand.getBrand());
 			inventoryReportData.setCategory(brand.getCategory());
 			inventoryReportData.setQuantity(quantityMap.get(key));
