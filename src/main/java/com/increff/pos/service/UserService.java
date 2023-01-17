@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.increff.pos.dao.UserDao;
 import com.increff.pos.pojo.UserPojo;
-import com.increff.pos.util.NormalizeUtil;
 
 @Service
 @Transactional(rollbackOn = ApiException.class)
@@ -19,7 +18,6 @@ public class UserService {
 	private UserDao dao;
 
 	public void add(UserPojo user) throws ApiException {
-		NormalizeUtil.normalize(user);
 		UserPojo existing = dao.select(user.getEmail());
 		if (existing != null) {
 			throw new ApiException("User with given email already exists");
