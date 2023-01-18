@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.increff.pos.model.InventoryReportData;
 import com.increff.pos.model.SalesReportData;
+import com.increff.pos.model.SalesReportForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
@@ -67,13 +68,12 @@ public class ReportDto {
 		return inventoryReportDatas;
 	}
 
-    public List<SalesReportData> salesReport(String strStartDate, String strEndDate, String brand, String category) throws ApiException {
+    public List<SalesReportData> salesReport(SalesReportForm form) throws ApiException {
         // DateFormat 2023-01-01T19:07:34.190912345+05:30[Asia/Calcutta]
         // TODO : Change date format
-        // QUES : Best way to input Dates ? Unix Timestamp ? YYYYY-MM-DD ? 
-        ZonedDateTime startDate = null, endDate = null;
-        startDate = ZonedDateTime.parse(strStartDate);
-        endDate = ZonedDateTime.parse(strEndDate);
+        ZonedDateTime startDate = form.getStartDate(), endDate = form.getEndDate();
+        //startDate = ZonedDateTime.parse(strStartDate);
+        //endDate = ZonedDateTime.parse(strEndDate);
         List<OrderPojo> orders = orderService.filterByDate(startDate, endDate);
         
         HashMap<Integer, List<String>> brandCategoryMap = new HashMap<>();
