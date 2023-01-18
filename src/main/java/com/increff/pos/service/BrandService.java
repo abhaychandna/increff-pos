@@ -89,5 +89,9 @@ public class BrandService {
 		return brands.get(0);
 	}
 
+	public <T> List<BrandPojo> getByColumn(String column, List<T> values){
+		return dao.selectByColumn(BrandPojo.class, column, values);
+	}
+
 
 }
