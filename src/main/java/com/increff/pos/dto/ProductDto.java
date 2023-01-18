@@ -37,9 +37,8 @@ public class ProductDto {
         return convert(product);
     }
 
-    public PaginatedData<ProductData> getAll(Integer start, Integer length, Integer draw) throws ApiException {
-        Integer pageNo = start/length;
-        Integer pageSize = length;
+    public PaginatedData<ProductData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
+        Integer pageNo = start/pageSize;
         List<ProductPojo> products = svc.getAll(pageNo, pageSize);
         List<ProductData> productDatas = new ArrayList<ProductData>();
         for (ProductPojo p : products) {

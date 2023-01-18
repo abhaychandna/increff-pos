@@ -48,8 +48,8 @@ public class OrderApiController {
 
 	@ApiOperation(value = "Gets all Order")
 	@RequestMapping(path = "", method = RequestMethod.GET)
-	public PaginatedData<OrderData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
-		return orderDto.getAll(start, length, draw);
+	public PaginatedData<OrderData> getAll(@RequestParam Integer start, @RequestParam Integer pageSize, @RequestParam Integer draw) throws ApiException {
+		return orderDto.getAll(start, pageSize, draw);
 	}
 
 }

@@ -35,9 +35,8 @@ public class InventoryDto {
         return convert(inventory);
     }
 
-    public PaginatedData<InventoryData> getAll(Integer start, Integer length, Integer draw) throws ApiException {
-        Integer pageNo = start/length;
-        Integer pageSize = length;
+    public PaginatedData<InventoryData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
+        Integer pageNo = start/pageSize;
         List<InventoryPojo> inventories = svc.getAll(pageNo, pageSize);
         List<InventoryData> inventoryDatas = new ArrayList<InventoryData>();
         for (InventoryPojo p : inventories) {

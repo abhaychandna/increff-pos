@@ -57,9 +57,8 @@ public class BrandDto {
 		return convert(brand);
     }
 
-    public PaginatedData<BrandData> getAll(Integer start, Integer length, Integer draw) throws ApiException {
-        Integer pageNo = start/length;
-        Integer pageSize = length;
+    public PaginatedData<BrandData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
+        Integer pageNo = start/pageSize;
         List<BrandPojo> brands = svc.getAll(pageNo, pageSize);
         List<BrandData> brandDatas = new ArrayList<BrandData>();
         for (BrandPojo brand : brands) {

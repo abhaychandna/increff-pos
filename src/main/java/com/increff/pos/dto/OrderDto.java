@@ -35,9 +35,8 @@ public class OrderDto {
         return ConvertUtil.convert(p, OrderData.class);
     }
 
-    public PaginatedData<OrderData> getAll(Integer start, Integer length, Integer draw) throws ApiException {
-        Integer pageNo = start/length;
-        Integer pageSize = length;
+    public PaginatedData<OrderData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
+        Integer pageNo = start/pageSize;
         List<OrderPojo> orders = orderService.getAll(pageNo, pageSize);
         List<OrderData> orderDatas = new ArrayList<OrderData>();
         for (OrderPojo p : orders) {
@@ -70,9 +69,8 @@ public class OrderDto {
         return convert(p);
     }
 
-    public PaginatedData<OrderItemData> getAllItems(Integer start, Integer length, Integer draw) throws ApiException {
-        Integer pageNo = start/length;
-        Integer pageSize = length;
+    public PaginatedData<OrderItemData> getAllItems(Integer start, Integer pageSize, Integer draw) throws ApiException {
+        Integer pageNo = start/pageSize;
         List<OrderItemPojo> items = orderItemService.getAll(pageNo, pageSize);
         List<OrderItemData> itemDatas = new ArrayList<OrderItemData>();
         for (OrderItemPojo item : items) {
