@@ -56,4 +56,21 @@ public abstract class AbstractDao {
 	public <T> void update(T b) {
 	}
 
+	public <T> List<T> selectMultiple(Class<T> c, String column, String value) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<T> cq = cb.createQuery(c);
+		Root<T> root = cq.from(c);
+		cq.where(cb.equal(root.get(column), value));
+		TypedQuery<T> query = em.createQuery(cq);
+		return query.getResultList();
+	}
+
+	public <T> T selectByColumn(Class<T> c, String column, String value) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<T> cq = cb.createQuery(c);
+		Root<T> root = cq.from(c);
+		cq.where(cb.equal(root.get(column), value));
+		TypedQuery<T> query = em.createQuery(cq);
+		return query.getSingleResult();
+	}
 }
