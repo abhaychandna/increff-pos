@@ -1,7 +1,9 @@
 package com.increff.pos.dto;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,17 +50,15 @@ public class OrderDto {
 
     public List<OrderItemData> add(List<OrderItemForm> forms) throws ApiException {
         List<OrderItemPojo> items = new ArrayList<OrderItemPojo>();
+        PreProcessingUtil.normalizeAndValidate(forms);
+        checkDuplicateBarcodesInOrder(forms);
         for (OrderItemForm form : forms) {
-            // TODO : REMOVE THIS ?? since validateOrderItems is being called ahead
-            PreProcessingUtil.normalizeAndValidate(form);
             OrderItemPojo item = convert(form);
             items.add(item);
         }
-        PreProcessingUtil.validateOrderItems(items);
         items = orderService.add(items);
         List<OrderItemData> itemsData = new ArrayList<OrderItemData>();
         for (OrderItemPojo item : items) {
-
             itemsData.add(convert(item));
         }
         return itemsData;
@@ -98,4 +98,12 @@ public class OrderDto {
         return itemData;
     }
 
+    private void checkDuplicateBarcodesInOrder(List<OrderItemForm> items) throws ApiException {
+        Set<String> barcodes = new HashSet<String>();
+        for(OrderItemForm item : items) {
+            if(barcodes.contains(item.getBarcode()))
+                throw new ApiException("Duplicate barcode: " + item.getBarcode() + " in order");
+            barcodes.add(item.getBarcode());
+        }
+    }
 }
