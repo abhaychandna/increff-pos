@@ -44,6 +44,14 @@ public abstract class AbstractDao {
 		query.setFirstResult(pageNo * pageSize).setMaxResults(pageSize);
 		return query.getResultList();
 	}
+	public <T> List<T> selectAll(Class<T> pojo) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<T> cq = cb.createQuery(pojo);
+		Root<T> root = cq.from(pojo);
+		CriteriaQuery<T> all = cq.select(root);
+		TypedQuery<T> query = em.createQuery(all);
+		return query.getResultList();
+	}
 
 	public <T> Integer getRecordsCount(Class<T> pojo) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
