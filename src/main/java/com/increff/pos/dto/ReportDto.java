@@ -40,9 +40,7 @@ public class ReportDto {
 
 
     public List<InventoryReportData> inventoryReport() throws ApiException {
-        // TODO : Change pageNo and pageSize
-		Integer pageNo = 0, pageSize = 1000;
-		List<InventoryPojo> inventory = inventoryService.getAll(pageNo, pageSize);
+		List<InventoryPojo> inventory = inventoryService.getAll();
 		List<InventoryReportData> inventoryReportDatas = new ArrayList<InventoryReportData>();
 
 		HashMap<Integer, Integer> brandCategoryToQuantity = new HashMap<>(); 

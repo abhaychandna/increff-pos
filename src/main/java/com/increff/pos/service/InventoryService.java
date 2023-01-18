@@ -36,6 +36,10 @@ public class InventoryService {
 		return dao.selectAll(pageNo, pageSize, InventoryPojo.class);
 	}
 
+	public List<InventoryPojo> getAll() {
+		return dao.selectAll(InventoryPojo.class);
+	}
+
 	public void update(Integer id, InventoryPojo inventory) throws ApiException {
 		InventoryPojo existing = getCheck(id);
 
