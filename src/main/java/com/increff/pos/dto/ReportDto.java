@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,21 +44,21 @@ public class ReportDto {
 		List<InventoryPojo> inventory = inventoryService.getAll(pageNo, pageSize);
 		List<InventoryReportData> inventoryReportDatas = new ArrayList<InventoryReportData>();
 
-		HashMap<Integer, Integer> quantityMap = new HashMap<>(); 
+		HashMap<Integer, Integer> brandCategoryToQuantity = new HashMap<>(); 
 		for (InventoryPojo inv : inventory) {
 			Integer brandCategoryId = productService.get(inv.getId()).getBrandCategory();
-            Integer quantity =  quantityMap.get(brandCategoryId);
-            if(quantity == null) quantity = 0;
-            quantityMap.put(brandCategoryId, quantity + inv.getQuantity());
+            Integer quantity =  brandCategoryToQuantity.get(brandCategoryId);
+            if(Objects.isNull(quantity)) quantity = 0;
+            brandCategoryToQuantity.put(brandCategoryId, quantity + inv.getQuantity());
 		}
-		System.out.println(quantityMap);
+		System.out.println(brandCategoryToQuantity);
 		
-		for (Integer key : quantityMap.keySet()) {
+		for (Integer key : brandCategoryToQuantity.keySet()) {
 			BrandPojo brand = brandService.get(key);
 			InventoryReportData inventoryReportData = new InventoryReportData();
             inventoryReportData.setBrand(brand.getBrand());
 			inventoryReportData.setCategory(brand.getCategory());
-			inventoryReportData.setQuantity(quantityMap.get(key));
+			inventoryReportData.setQuantity(brandCategoryToQuantity.get(key));
 			// print all 
 			System.out.println(inventoryReportData.getBrand() + " " + inventoryReportData.getCategory() + " " + inventoryReportData.getQuantity());
             inventoryReportDatas.add(inventoryReportData);
