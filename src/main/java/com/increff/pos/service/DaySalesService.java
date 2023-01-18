@@ -42,8 +42,6 @@ public class DaySalesService {
 		daySales.setInvoicedItemsCount(daySales.getInvoicedItemsCount() + items.size());
 		daySales.setInvoicedOrdersCount(daySales.getInvoicedOrdersCount() + 1);
 		daySales.setTotalRevenue(daySales.getTotalRevenue() + totalRevenue(items));
-		dao.update(daySales);
-		
 		return daySales;
 	}
 

@@ -40,7 +40,7 @@ public class InventoryService {
 		InventoryPojo existing = getCheck(id);
 
 		existing.setQuantity(inventory.getQuantity());
-		dao.update(existing);
+		
 	}
 
 	public void reduceInventory(List<OrderItemPojo> items) throws ApiException {
@@ -54,12 +54,10 @@ public class InventoryService {
 			throw new ApiException("Insufficient inventory for productId: " + productId + ". Available: " + inventory.getQuantity() + ", Required: " + quantity);
 		}
 		inventory.setQuantity(inventory.getQuantity() - quantity);
-		dao.update(inventory);
 	}
 	public void increaseInventory(Integer productId, Integer quantity) throws ApiException {
 		InventoryPojo inventory = get(productId);
 		inventory.setQuantity(inventory.getQuantity() + quantity);
-		dao.update(inventory);
 	}
 
 

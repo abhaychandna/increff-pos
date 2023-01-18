@@ -50,7 +50,7 @@ public class ProductService {
 		existing.setName(product.getName());
 		existing.setMrp(product.getMrp());
 		existing.setBrandCategory(product.getBrandCategory());
-		dao.update(existing);
+		
 	}
 
 	private ProductPojo getCheck(Integer id) throws ApiException {

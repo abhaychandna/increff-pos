@@ -50,7 +50,7 @@ public class OrderItemService {
 		}
 		existing.setQuantity(item.getQuantity());
 		existing.setSellingPrice(item.getSellingPrice());
-		dao.update(existing);
+		
 	}
 
 	public OrderItemPojo getCheck(Integer id) throws ApiException {

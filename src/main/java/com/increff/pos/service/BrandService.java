@@ -63,7 +63,7 @@ public class BrandService {
 		
 		existing.setBrand(brand.getBrand());
 		existing.setCategory(brand.getCategory());
-		dao.update(existing);
+		
 	}
 
 	public Integer getRecordsCount() {
