@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -80,5 +81,19 @@ public abstract class AbstractDao {
 		cq.where(cb.equal(root.get(column), value));
 		TypedQuery<T> query = em.createQuery(cq);
 		return query.getSingleResult();
+	}
+
+	public <T,R> List<T> selectByColumn(Class<T> clazz, String column, List<R> values) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<T> cq = cb.createQuery(clazz);
+		Root<T> root = cq.from(clazz);
+
+		In<R> inClause = cb.in(root.get(column));
+		for (R val : values) {
+			inClause.value(val);
+		}
+		cq.select(root).where(inClause);
+		TypedQuery<T> query = em.createQuery(cq);
+		return query.getResultList();
 	}
 }
