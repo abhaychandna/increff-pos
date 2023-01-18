@@ -41,30 +41,31 @@ public class ReportDto {
 
     public List<InventoryReportData> inventoryReport() throws ApiException {
 		List<InventoryPojo> inventory = inventoryService.getAll();
-		List<InventoryReportData> inventoryReportDatas = new ArrayList<InventoryReportData>();
-
-		HashMap<Integer, Integer> brandCategoryToQuantity = new HashMap<>(); 
-		for (InventoryPojo inv : inventory) {
-			Integer brandCategoryId = productService.get(inv.getId()).getBrandCategory();
-            Integer quantity =  brandCategoryToQuantity.get(brandCategoryId);
-            if(Objects.isNull(quantity)) quantity = 0;
-            brandCategoryToQuantity.put(brandCategoryId, quantity + inv.getQuantity());
-		}
-		System.out.println(brandCategoryToQuantity);
-		
-		for (Integer key : brandCategoryToQuantity.keySet()) {
-			BrandPojo brand = brandService.get(key);
-			InventoryReportData inventoryReportData = new InventoryReportData();
-            inventoryReportData.setBrand(brand.getBrand());
-			inventoryReportData.setCategory(brand.getCategory());
-			inventoryReportData.setQuantity(brandCategoryToQuantity.get(key));
-			// print all 
-			System.out.println(inventoryReportData.getBrand() + " " + inventoryReportData.getCategory() + " " + inventoryReportData.getQuantity());
-            inventoryReportDatas.add(inventoryReportData);
-        }
-
-		return inventoryReportDatas;
+		HashMap<Integer, Integer> brandCategoryIdToQuantity = getQuantitiesForBrandCategoryIds(inventory);
+        return getInventoryReport(brandCategoryIdToQuantity);
 	}
+
+    private List<InventoryReportData> getInventoryReport(HashMap<Integer, Integer> brandCategoryIdToQuantity) throws ApiException {
+        List<InventoryReportData> inventoryReportList = new ArrayList<InventoryReportData>();
+		for (Integer brandCategoryId : brandCategoryIdToQuantity.keySet()) {
+			BrandPojo brand = brandService.get(brandCategoryId); // TODO : Make in query and get all brands at once 
+			InventoryReportData inventoryReportData = new InventoryReportData(brand.getBrand(), brand.getCategory(),
+                     brandCategoryIdToQuantity.get(brandCategoryId));
+            inventoryReportList.add(inventoryReportData);
+        }
+        return inventoryReportList;
+    }
+
+    private HashMap<Integer, Integer> getQuantitiesForBrandCategoryIds(List<InventoryPojo> inventory) throws ApiException {
+        HashMap<Integer, Integer> brandCategoryIdToQuantity = new HashMap<>();
+        for (InventoryPojo inv : inventory) {
+			Integer brandCategoryId = productService.get(inv.getId()).getBrandCategory();
+            Integer quantity =  brandCategoryIdToQuantity.get(brandCategoryId);
+            if(Objects.isNull(quantity)) quantity = 0;
+            brandCategoryIdToQuantity.put(brandCategoryId, quantity + inv.getQuantity());
+		}
+        return brandCategoryIdToQuantity;
+    }
 
     public List<SalesReportData> salesReport(SalesReportForm form) throws ApiException {
         // DateFormat 2023-01-01T19:07:34.190912345+05:30[Asia/Calcutta]
