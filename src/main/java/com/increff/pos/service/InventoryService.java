@@ -40,11 +40,9 @@ public class InventoryService {
 		return dao.selectAll(InventoryPojo.class);
 	}
 
-	public void update(Integer id, InventoryPojo inventory) throws ApiException {
+	public void update(Integer id, Integer quantity) throws ApiException {
 		InventoryPojo existing = getCheck(id);
-
-		existing.setQuantity(inventory.getQuantity());
-		
+		existing.setQuantity(quantity);
 	}
 
 	public void reduceInventory(List<OrderItemPojo> items) throws ApiException {

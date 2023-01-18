@@ -49,7 +49,7 @@ public class InventoryDto {
     public void update(InventoryForm form) throws ApiException {
         PreProcessingUtil.normalizeAndValidate(form);
         InventoryPojo inventory = convert(form);
-        svc.update(inventory.getId(), inventory);
+        svc.update(inventory.getId(), form.getQuantity());
     }
 
     private InventoryPojo convert(InventoryForm inventoryForm) throws ApiException {
