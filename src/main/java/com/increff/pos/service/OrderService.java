@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.increff.pos.dao.OrderDao;
+import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 
 @Service
@@ -17,11 +18,27 @@ public class OrderService {
 
 	@Autowired
 	private OrderDao dao;
+	@Autowired
+	private InventoryService inventoryService;
+	@Autowired
+	private OrderItemService orderItemService;
+	@Autowired
+	private DaySalesService daySalesService;
 
-	public OrderPojo add(OrderPojo order) throws ApiException {
+	public List<OrderItemPojo> add(List<OrderItemPojo> items) throws ApiException {
+		inventoryService.reduceInventory(items);
+		
+		OrderPojo order = new OrderPojo();
 		order.setTime(ZonedDateTime.now());
 		dao.insert(order);
-		return order;
+
+		for (OrderItemPojo item : items) {
+			item.setOrderId(order.getId());
+		}
+		orderItemService.add(items);
+		
+		daySalesService.update(items);
+		return items;
 	}
 
 	public OrderPojo get(Integer id) throws ApiException {
