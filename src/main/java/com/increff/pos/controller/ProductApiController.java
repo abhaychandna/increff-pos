@@ -19,31 +19,31 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
-@RequestMapping(path = "/api")
+@RequestMapping(path = "/api/products")
 public class ProductApiController {
 
 	@Autowired
 	private ProductDto dto;
 
 	@ApiOperation(value = "Adds a product")
-	@RequestMapping(path = "/products", method = RequestMethod.POST)
+	@RequestMapping(path = "", method = RequestMethod.POST)
 	public void add(@RequestBody ProductForm f) throws ApiException {
 		dto.add(f);
 	}
 
 	@ApiOperation(value = "Gets a product by ID")
-	@RequestMapping(path = "/products/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public ProductData get(@PathVariable Integer id) throws ApiException {
 		return dto.get(id);
 	}
 
 	@ApiOperation(value = "Gets all products")
-	@RequestMapping(path = "/products", method = RequestMethod.GET)
+	@RequestMapping(path = "", method = RequestMethod.GET)
 	public PaginatedData<ProductData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
 		return dto.getAll(start, length, draw);
 	}
 
-	@RequestMapping(path = "/products/{id}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)
 	public void update(@PathVariable Integer id, @RequestBody ProductForm f) throws ApiException {
 		dto.update(id, f);
 	}

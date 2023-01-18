@@ -17,20 +17,20 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
-@RequestMapping(path = "/api")
+@RequestMapping(path = "/api/orders")
 public class OrderApiController {
 
 	@Autowired
 	private OrderDto dto;
 
 	@ApiOperation(value = "Gets a Order by ID")
-	@RequestMapping(path = "/orders/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public OrderData get(@PathVariable Integer id) throws ApiException {
 		return dto.get(id);
 	}
 
 	@ApiOperation(value = "Gets all Order")
-	@RequestMapping(path = "/orders", method = RequestMethod.GET)
+	@RequestMapping(path = "", method = RequestMethod.GET)
 	public PaginatedData<OrderData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
 		return dto.getAll(start, length, draw);
 	}

@@ -18,20 +18,20 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
-@RequestMapping(path = "/api")
+@RequestMapping(path = "/api/reports/")
 public class ReportApiController {
 
 	@Autowired
 	private ReportDto dto;
 
 	@ApiOperation(value = "Inventory Report")
-	@RequestMapping(path = "/reports/inventory", method = RequestMethod.GET)
+	@RequestMapping(path = "inventory", method = RequestMethod.GET)
 	public List<InventoryReportData> inventoryReport() throws ApiException {
 		return dto.inventoryReport();
 	}
 
 	@ApiOperation(value = "Sales Report")
-	@RequestMapping(path = "/reports/sales", method = RequestMethod.GET)
+	@RequestMapping(path = "sales", method = RequestMethod.GET)
 	public List<SalesReportData> salesReport(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String brand, @RequestParam String category) throws ApiException {
 		return dto.salesReport(startDate, endDate, brand, category);
 	}

@@ -22,32 +22,32 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
-@RequestMapping(path = "/api")
+@RequestMapping(path = "/api/brands")
 public class BrandApiController {
 
 	@Autowired
 	private BrandDto dto;
 
 	@ApiOperation(value = "Adds a brand")
-	@RequestMapping(path = "/brands", method = RequestMethod.POST)
+	@RequestMapping(path = "", method = RequestMethod.POST)
 	public void add(@RequestBody BrandForm f) throws ApiException {
 		dto.add(f);
 	}
 
 	@ApiOperation(value = "Adds multiple brands in bulk")
-	@RequestMapping(path = "/brands/add/bulk", method = RequestMethod.POST)
+	@RequestMapping(path = "/add/bulk", method = RequestMethod.POST)
 	public List<BrandBulkAddData> bulkAdd(@RequestBody List<BrandForm> forms) throws ApiException {
 		return dto.bulkAdd(forms);
 	}
 
 	@ApiOperation(value = "Gets an brand by ID")
-	@RequestMapping(path = "/brands/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public BrandData get(@PathVariable Integer id) throws ApiException {
 		return dto.get(id);
 	}
 
 	@ApiOperation(value = "Gets list of all brands")
-	@RequestMapping(path = "/brands", method = RequestMethod.GET)
+	@RequestMapping(path = "", method = RequestMethod.GET)
 	public PaginatedData<BrandData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
 		return dto.getAll(start, length, draw);
 	}
