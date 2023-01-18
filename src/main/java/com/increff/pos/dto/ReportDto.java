@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,14 +42,17 @@ public class ReportDto {
 
     public List<InventoryReportData> inventoryReport() throws ApiException {
 		List<InventoryPojo> inventory = inventoryService.getAll();
-		HashMap<Integer, Integer> brandCategoryIdToQuantity = getQuantitiesForBrandCategoryIds(inventory);
+		HashMap<Integer, Integer> brandCategoryIdToQuantity = getBrandIdToQuantityMap(inventory);
         return getInventoryReport(brandCategoryIdToQuantity);
 	}
 
     private List<InventoryReportData> getInventoryReport(HashMap<Integer, Integer> brandCategoryIdToQuantity) throws ApiException {
-        List<InventoryReportData> inventoryReportList = new ArrayList<InventoryReportData>();
-		for (Integer brandCategoryId : brandCategoryIdToQuantity.keySet()) {
-			BrandPojo brand = brandService.get(brandCategoryId); // TODO : Make in query and get all brands at once 
+        List<Integer> brandCategoryIdList = brandCategoryIdToQuantity.keySet().stream().collect(Collectors.toList());
+        HashMap<Integer, BrandPojo> brandIdToBrandPojo = getBrandIdToBrandPojoMap(brandCategoryIdList);
+
+        List<InventoryReportData> inventoryReportList = new ArrayList<InventoryReportData>();   
+        for (Integer brandCategoryId : brandCategoryIdToQuantity.keySet()) {
+			BrandPojo brand = brandIdToBrandPojo.get(brandCategoryId);
 			InventoryReportData inventoryReportData = new InventoryReportData(brand.getBrand(), brand.getCategory(),
                      brandCategoryIdToQuantity.get(brandCategoryId));
             inventoryReportList.add(inventoryReportData);
@@ -56,7 +60,14 @@ public class ReportDto {
         return inventoryReportList;
     }
 
-    private HashMap<Integer, Integer> getQuantitiesForBrandCategoryIds(List<InventoryPojo> inventory) throws ApiException {
+    private HashMap<Integer, BrandPojo> getBrandIdToBrandPojoMap(List<Integer> brandCategoryIdList) {
+        List<BrandPojo> brands = brandService.getByColumn("id", brandCategoryIdList);
+        HashMap<Integer, BrandPojo> brandIdToBrandPojo = new HashMap<>();
+		for(BrandPojo brand:brands) brandIdToBrandPojo.put(brand.getId(), brand);
+        return brandIdToBrandPojo;
+    }
+
+    private HashMap<Integer, Integer> getBrandIdToQuantityMap(List<InventoryPojo> inventory) throws ApiException {
         HashMap<Integer, Integer> brandCategoryIdToQuantity = new HashMap<>();
         for (InventoryPojo inv : inventory) {
 			Integer brandCategoryId = productService.get(inv.getId()).getBrandCategory();
