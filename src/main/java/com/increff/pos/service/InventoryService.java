@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.increff.pos.dao.InventoryDao;
 import com.increff.pos.pojo.InventoryPojo;
-import com.increff.pos.pojo.OrderItemPojo;
 
 @Service
 @Transactional(rollbackOn = ApiException.class)
@@ -45,11 +44,6 @@ public class InventoryService {
 		existing.setQuantity(quantity);
 	}
 
-	public void reduceInventory(List<OrderItemPojo> items) throws ApiException {
-		for (OrderItemPojo item : items) {
-			reduceInventory(item.getProductId(), item.getQuantity());
-		}
-	}
 	public void reduceInventory(Integer productId, Integer quantity) throws ApiException {
 		InventoryPojo inventory = get(productId);
 		if(inventory.getQuantity() < quantity) {

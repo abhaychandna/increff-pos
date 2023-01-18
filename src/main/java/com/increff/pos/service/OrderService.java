@@ -26,7 +26,8 @@ public class OrderService {
 	private DaySalesService daySalesService;
 
 	public List<OrderItemPojo> add(List<OrderItemPojo> items) throws ApiException {
-		inventoryService.reduceInventory(items);
+
+		for(OrderItemPojo item : items)	inventoryService.reduceInventory(item.getProductId(), item.getQuantity());
 		
 		OrderPojo order = new OrderPojo();
 		order.setTime(ZonedDateTime.now());
