@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SalesReportForm {
-	private ZonedDateTime startDate;
-	private ZonedDateTime endDate;
+	private String startDate;
+	private String endDate;
 	private String brand;
 	private String category;
 }
