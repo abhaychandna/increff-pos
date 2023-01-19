@@ -2,6 +2,8 @@ package com.increff.pos.dto;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +19,7 @@ import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
 import com.increff.pos.service.InventoryService;
@@ -78,54 +81,103 @@ public class ReportDto {
         return brandCategoryIdToQuantity;
     }
 
+
+
+
+
     public List<SalesReportData> salesReport(SalesReportForm form) throws ApiException {
         // DateFormat 2023-01-01T19:07:34.190912345+05:30[Asia/Calcutta]
         // TODO : Change date format
-        ZonedDateTime startDate = form.getStartDate(), endDate = form.getEndDate();
-        //startDate = ZonedDateTime.parse(strStartDate);
-        //endDate = ZonedDateTime.parse(strEndDate);
-        List<OrderPojo> orders = orderService.filterByDate(startDate, endDate);
+        ZonedDateTime startDate =  ZonedDateTime .parse(form.getStartDate()), endDate = ZonedDateTime .parse(form.getEndDate());
+
         
-        HashMap<Integer, List<String>> brandCategoryMap = new HashMap<>();
-        HashMap<Integer, Integer> quantityMap = new HashMap<>();
-        HashMap<Integer, Double> revenueMap = new HashMap<>();
+        // Print start and end date
+        /*
+        System.out.println("startDate : " + startDate.getDayOfMonth() + "/" + startDate.getMonthValue() + "/" + startDate.getYear());
+        System.out.println("endDate : " + endDate.getDayOfMonth() + "/" + endDate.getMonthValue() + "/" + endDate.getYear());
+        System.out.println("orderIds : " + orderIds.size());
 
-        for (OrderPojo order:  orders){
-            Integer orderId = order.getId();
-            List<OrderItemPojo> orderItems = orderItemService.getByOrderId(orderId);
-            for (OrderItemPojo orderItem: orderItems){
-                Integer productId = orderItem.getProductId();
-                if(!brandCategoryMap.containsKey(productId)){
-                    Integer brandCategoryId = productService.get(productId).getBrandCategory();
-                    BrandPojo brandPojo = brandService.get(brandCategoryId);
-                    brandCategoryMap.put(productId, List.of(brandPojo.getBrand(), brandPojo.getCategory()));
-                }
-                // TODO : Add brand and category filters
-                Integer quantity = orderItem.getQuantity();
-                Double revenue = orderItem.getSellingPrice();
-                if(quantityMap.containsKey(productId)){
-                    quantity += 1;
-                    revenue += revenueMap.get(productId);
-                }
-                quantityMap.put(productId, quantity);
-                revenueMap.put(productId, revenue);
-            }
-        }
 
-        List<SalesReportData> salesReportDatas = new ArrayList<SalesReportData>();
-        for(Integer productId : quantityMap.keySet()){
-            List<String> brandCategory = brandCategoryMap.get(productId);
-            SalesReportData salesReportData = new SalesReportData();
-            salesReportData.setBrand(brandCategory.get(0));
-            salesReportData.setCategory(brandCategory.get(1));
-            salesReportData.setQuantity(quantityMap.get(productId));
-            salesReportData.setRevenue(revenueMap.get(productId));
-            // print all 
-            System.out.println(salesReportData.getBrand() + " " + salesReportData.getCategory() + " " + salesReportData.getQuantity() + " " + salesReportData.getRevenue());
-            salesReportDatas.add(salesReportData);
-        }
-        return salesReportDatas;
+        System.out.println("orderItems : " + orderItems.size());
+        */
+        
+        List<BrandPojo> brands = getBrandPojoList(form.getBrand(), form.getCategory());
+        if(brands.isEmpty()) return Collections.emptyList();
+        List<Integer> productIds = getProductIds(brands);
+        if(productIds.isEmpty()) return Collections.emptyList();
+
+        List<OrderItemPojo> orderItems = getOrderItems(startDate, endDate, productIds);
+        if(orderItems.isEmpty()) return Collections.emptyList(); 
+
+        HashMap<Integer, List<String>> productIdToBrandCategory = getProductIdToBrandCategoryMap(productIds);
+
+        return getSalesReport(orderItems, productIds, productIdToBrandCategory);
+
     }
 
+    private List<Integer> getProductIds(List<BrandPojo> brands) {
+        List<Integer> brandIds = brands.stream().map(BrandPojo::getId).collect(Collectors.toList());
+        return productService.getByColumn("brandCategory", brandIds).stream().map(ProductPojo::getId).collect(Collectors.toList());
+    }
+
+    private List<Integer> getOrderIds(ZonedDateTime startDate, ZonedDateTime endDate) {
+        return orderService.filterByDate(startDate, endDate).stream().map(OrderPojo::getId).collect(Collectors.toList());
+    }
+
+    private List<OrderItemPojo> getOrderItems(ZonedDateTime startDate, ZonedDateTime endDate, List<Integer> productIds){
+        List<Integer> orderIds = getOrderIds(startDate, endDate);
+        // TODO : Move product Id filter to service layer 
+        return orderItemService.getByColumn("orderId", orderIds).stream().filter(e->productIds.contains(e.getProductId())).collect(Collectors.toList());
+    }
+
+    private List<SalesReportData> getSalesReport(List<OrderItemPojo> orderItems, List<Integer> productIds, HashMap<Integer, List<String>> productIdToBrandCategory) {
+        // print all inputs 
+        System.out.println("orderItems : " + orderItems.size());
+        System.out.println("productIds : " + productIds.size());
+        System.out.println("productIdToBrandCategory : " + productIdToBrandCategory.size());
+        productIdToBrandCategory.forEach((k,v)->{
+            System.out.println("k : " + k + " v : " + v);
+        });
+        HashMap<Integer, SalesReportData> productIdToSalesReportData = new HashMap<Integer, SalesReportData>();
+        orderItems.forEach(item->{
+            Integer productId = item.getProductId();
+            List<String> brandCategory = productIdToBrandCategory.get(productId);
+            String brand = brandCategory.get(0), category = brandCategory.get(1);
+            SalesReportData salesReportData = productIdToSalesReportData.getOrDefault(productId,
+                    new SalesReportData(brand, category, 0 , 0.0));
+
+            salesReportData.setQuantity(salesReportData.getQuantity() + item.getQuantity());
+            salesReportData.setRevenue(salesReportData.getRevenue() + (item.getSellingPrice() * item.getQuantity()));
+            productIdToSalesReportData.put(productId, salesReportData);
+        });
+        return new ArrayList<SalesReportData>(productIdToSalesReportData.values());
+    }
+
+    private HashMap<Integer, List<String>> getProductIdToBrandCategoryMap(List<Integer> productIds) {
+        HashMap<Integer, List<String>> productIdToBrandCategory = new HashMap<Integer, List<String>>();
+        List<ProductPojo> products = productService.getByColumn("id", productIds);
+        List<Integer> brandCategoryIds = products.stream().map(ProductPojo::getBrandCategory).collect(Collectors.toList());
+        List<BrandPojo> brands = brandService.getByColumn("id", brandCategoryIds);
+        // TODO : VERIFY BRAND AND PRODUCT INDEXES ARE SAME !! 
+        for(Integer i=0; i<productIds.size(); i++){
+            List<String> brandCategory = new ArrayList<String>();
+            brandCategory.add(brands.get(i).getBrand());
+            brandCategory.add(brands.get(i).getCategory());
+            productIdToBrandCategory.put(productIds.get(i), brandCategory);
+        }
+        return productIdToBrandCategory;
+    }
+
+    private List<BrandPojo> getBrandPojoList(String brand, String category) throws ApiException {
+        if (Objects.isNull(brand) && Objects.isNull(category)) return brandService.getAll();
+        if(Objects.nonNull(category) && Objects.nonNull(brand)) {
+            List<BrandPojo> brands = brandService.getByColumn("category", Arrays.asList(category));
+            return brands.stream().filter(b->b.getBrand().equals(brand)).collect(Collectors.toList());
+        }
+        if(Objects.nonNull(category)) return brandService.getByColumn("category", Arrays.asList(category));
+        if(Objects.nonNull(brand)) return brandService.getByColumn("brand", Arrays.asList(brand));
+
+        return Collections.emptyList();
+    }
 
 }
