@@ -38,9 +38,9 @@ public class PreProcessingUtil {
     
 	public static <T> void normalize(T form) throws ApiException{
 		for(java.lang.reflect.Field f : form.getClass().getDeclaredFields()) {
-			try {
+			try {					
+				f.setAccessible(true);
 				if(f.getType().equals(String.class) && Objects.nonNull(f.get(form))) {
-					f.setAccessible(true);
 					f.set(form, StringUtil.toLowerCase(f.get(form).toString()).trim());
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
