@@ -68,4 +68,7 @@ public class OrderItemService {
 	public Integer getRecordsCount() {
 		return dao.getRecordsCount(OrderItemPojo.class);
 	}
+	public <T> List<OrderItemPojo> getByColumn(String column, List<T> values){
+		return dao.selectByColumn(OrderItemPojo.class, column, values);
+	}
 }

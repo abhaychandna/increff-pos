@@ -87,4 +87,8 @@ public class ProductService {
 		return dao.getRecordsCount(ProductPojo.class);
 	}
 
+	public <T> List<ProductPojo> getByColumn(String column, List<T> values){
+		return dao.selectByColumn(ProductPojo.class, column, values);
+	}
+
 }
