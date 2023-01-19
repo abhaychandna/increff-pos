@@ -101,7 +101,13 @@ function uploadRows(){
 			console.log(response);
 			errorData = response;
 			processCount = fileData.length;	 
-			
+
+			updateUploadDialog();
+		},
+		error: function(response){
+			errorData = JSON.parse(response.responseJSON.message) ;
+			console.log(errorData);
+			processCount = fileData.length;
 			updateUploadDialog();
 		}
 	 });
