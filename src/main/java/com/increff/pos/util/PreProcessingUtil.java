@@ -1,6 +1,7 @@
 package com.increff.pos.util;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -38,7 +39,7 @@ public class PreProcessingUtil {
 	public static <T> void normalize(T form) throws ApiException{
 		for(java.lang.reflect.Field f : form.getClass().getDeclaredFields()) {
 			try {
-				if(f.getType().equals(String.class)) {
+				if(f.getType().equals(String.class) && Objects.nonNull(f.get(form))) {
 					f.setAccessible(true);
 					f.set(form, StringUtil.toLowerCase(f.get(form).toString()).trim());
 				}
