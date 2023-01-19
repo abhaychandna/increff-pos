@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.dto.BrandDto;
-import com.increff.pos.model.BrandBulkAddData;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.PaginatedData;
@@ -36,8 +36,8 @@ public class BrandApiController {
 
 	@ApiOperation(value = "Adds multiple brands in bulk")
 	@RequestMapping(path = "/add/bulk", method = RequestMethod.POST)
-	public List<BrandBulkAddData> bulkAdd(@RequestBody List<BrandForm> forms) throws ApiException {
-		return dto.bulkAdd(forms);
+	public void bulkAdd(@RequestBody List<BrandForm> forms) throws ApiException, JsonProcessingException {
+		dto.bulkAdd(forms);
 	}
 
 	@ApiOperation(value = "Gets an brand by ID")

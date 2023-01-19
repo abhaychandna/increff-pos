@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.increff.pos.dao.BrandDao;
-import com.increff.pos.model.BrandBulkAddData;
 import com.increff.pos.pojo.BrandPojo;
 
 @Service
@@ -28,21 +27,8 @@ public class BrandService {
 	}
 
 	
-	public List<BrandBulkAddData> bulkAdd(List<BrandPojo> brands, List<BrandBulkAddData> errors) throws ApiException {
-		
-		BrandBulkAddData brandBulkAddData = new BrandBulkAddData();
-		for (BrandPojo brand : brands) {
-			try{
-				add(brand);
-			}
-			catch(ApiException e){
-				brandBulkAddData.setBrand(brand.getBrand());
-				brandBulkAddData.setCategory(brand.getCategory());
-				brandBulkAddData.setError(e.getMessage());
-				errors.add(brandBulkAddData);
-			}
-		}
-		return errors;
+	public void bulkAdd(List<BrandPojo> brands) throws ApiException {
+		brands.stream().forEach(e->dao.insert(e));
 	} 
 
 	public BrandPojo get(Integer id) throws ApiException {
