@@ -39,8 +39,8 @@ public class InventoryApiController {
 
 	@ApiOperation(value = "Gets all Inventory")
 	@RequestMapping(path = "", method = RequestMethod.GET)
-	public PaginatedData<InventoryData> getAll(@RequestParam Integer start, @RequestParam Integer pageSize, @RequestParam Integer draw) throws ApiException {
-		return dto.getAll(start, pageSize, draw);
+	public PaginatedData<InventoryData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
+		return dto.getAll(start, length, draw);
 	}
 
 	@RequestMapping(path = "", method = RequestMethod.PUT)

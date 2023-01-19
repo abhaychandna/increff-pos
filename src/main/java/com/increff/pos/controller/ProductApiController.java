@@ -39,8 +39,8 @@ public class ProductApiController {
 
 	@ApiOperation(value = "Gets all products")
 	@RequestMapping(path = "", method = RequestMethod.GET)
-	public PaginatedData<ProductData> getAll(@RequestParam Integer start, @RequestParam Integer pageSize, @RequestParam Integer draw) throws ApiException {
-		return dto.getAll(start, pageSize, draw);
+	public PaginatedData<ProductData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
+		return dto.getAll(start, length, draw);
 	}
 
 	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)
