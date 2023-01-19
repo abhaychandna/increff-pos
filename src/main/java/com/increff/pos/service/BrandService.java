@@ -94,4 +94,9 @@ public class BrandService {
 	}
 
 
+	public List<BrandPojo> getAll() {
+		return dao.selectAll(BrandPojo.class);
+	}
+
+
 }
