@@ -1,5 +1,6 @@
 package com.increff.pos.dao;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -84,6 +85,7 @@ public abstract class AbstractDao {
 	}
 
 	public <T,R> List<T> selectByColumn(Class<T> clazz, String column, List<R> values) {
+		if(values.isEmpty()) return Collections.emptyList(); 
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<T> cq = cb.createQuery(clazz);
 		Root<T> root = cq.from(clazz);
