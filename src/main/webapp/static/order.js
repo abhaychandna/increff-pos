@@ -1,4 +1,7 @@
 var wholeOrder = []
+var alertErrorMessages = [];
+// TODO : Remove testing variable from here
+var globalData;
 
 function getOrderItemUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
@@ -44,6 +47,25 @@ function displayOrderItemList(data){
 
 }
 
+function displayOrderItemViewList(data){
+	var $tbody = $('#order-view-table').find('tbody');
+	$tbody.empty();
+
+    for(var i in data) {
+        var e = data[i];  
+        var buttonHtml = '<button onclick="deleteOrderItem('+i+')" class="btn">Delete<i class="fa-regular fa-circle-xmark"></i></button>';
+        var row = '<tr>'
+            + '<td>' + data[i].barcode + '</td>'
+            + '<td>'  + data[i].quantity + '</td>'
+            + '<td>'  + data[i].sellingPrice + '</td>'
+            //+ '<td>'  + buttonHtml + '</td>'
+            + '</tr>';
+
+        $tbody.append(row);
+    }
+
+}
+
 function checkOrderItemExist() {
     for(i in wholeOrder) {
         var barcode = JSON.parse(wholeOrder[i]).barcode;
@@ -58,47 +80,6 @@ function checkOrderItemExist() {
     return -1;
 }
 
-
-function changeQty(vars) {
-    var barcode = vars[0];
-    console.log(barcode);
-    var quantity = parseInt(vars[1]);
-    //console.log(quantity);
-    // console.log(wholeOrder);
-    for(i in wholeOrder) {
-        let data = {}
-        var temp_barcode = JSON.parse(wholeOrder[i]).barcode;
-        if(temp_barcode == barcode) {
-            var prev = parseInt(JSON.parse(wholeOrder[i]).quantity);
-            var new_quantity = prev + quantity;
-            console.log(new_quantity);
-            var string1 = new_quantity.toString();
-            console.log(string1);
-            data["barcode"]=JSON.parse(wholeOrder[i]).barcode;
-            data["quantity"]=string1;
-            data["sellingPrice"]=JSON.parse(wholeOrder[i]).sellingPrice;
-            console.log(data);
-            var new_data = JSON.stringify(data);
-            wholeOrder[i] = new_data;
-        }
-    }
-    console.log(wholeOrder);
-}
-
-function checkSellingPrice(vars) {
-    var barcode = vars[0];
-    var sp = vars[2];
-    for (i in wholeOrder) {
-        var temp_barcode = JSON.parse(wholeOrder[i]).barcode;
-        if (temp_barcode == barcode) {
-            var cur_sp = parseInt(JSON.parse(wholeOrder[i]).sellingPrice);
-            if (cur_sp == sp) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
 var barcode = []
 function getBarcode(data) {
     for (i in data) {
@@ -119,16 +100,6 @@ function getProductList() {
         },
         error: handleAjaxError
      });
-}
-
-function checkBarcode(data) {
-    for (i in barcode) {
-        if (barcode[i] == data) {
-            return true;
-        }
-
-    }
-    return false;
 }
 
 function validateBarcode(barcode){
@@ -202,14 +173,23 @@ function displayCart() {
     wholeOrder = [];
 }
 
+function displayOrderDetails(id) {
+    $('#view-order-modal').modal('toggle');
+    var url = getOrderUrl();
+    // ajax - Get request to baseUrl/{id}/items
+    $.ajax({
+        url: url + '/' + id + '/items',
+        type: 'GET',
+        success: function(data) {
+            displayOrderItemViewList(data);
+        },
+        error: handleAjaxError
+     });
+}
+
 function getOrderItemList() {
     var jsonObj = $.parseJSON('[' + wholeOrder + ']');
     console.log(jsonObj);
-}
-
-function OrderView(id) {
-    $('#order-view-modal').modal('toggle');
-
 }
 
 function displayOrderList(data) {
@@ -332,20 +312,26 @@ function init(){
 	$('#add-order-item').click(addOrderItem);
 	$('#place-order').click(placeOrder);
 	$('#refresh-data').click(getOrderList);
-
+    $('#something').click(displayOrderDetails);
     $('#Order-table').DataTable( {
 		"processing": true,
 		"serverSide": true,
 		"searching": false,
+        "ordering": false,
 		"lengthMenu": [2,5,10,20, 40, 60, 80, 100],
 		"pageLength":10,
 		"ajax": {url : getOrderUrl() + "?pageNo=0&pageSize=10"},
 		"columns": [
             { "data": "id" },
-            { "data": "time" },
+            { "data": "time",
+            "render": function (timestamp) {
+                console.log(timestamp);
+                var millisecondTimestamp = timestamp * 1000;
+                return  new Date(millisecondTimestamp).toLocaleString();
+            } },
 			{
 				"data":null,
-				"render":function(o){return '<button onclick="displayEditBrand(' + o.id + ')">edit</button>'}
+				"render":function(o){return '<button onclick="displayOrderDetails(' + o.id + ')">view</button>'}
 			}
         ]
 	});
@@ -354,5 +340,3 @@ function init(){
 
 $(document).ready(init);
 $(document).ready(getOrderItemList)
-//$(document).ready(getOrderList)
-//$(document).ready(getProductList)

@@ -130,6 +130,52 @@
         </div>
     </div>
 
+    <!-- View order Model-->
+    <div class="modal" tabindex="-1" role="dialog" id="view-order-modal">
+        <div class="modal-dialog modal-lg" style="max-width:80%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Order Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        &nbsp;
+                    </div>
+                    <div class="row">
+
+                        <!-- Table -->
+                        <div class="col-12">
+                            <table class="table table-striped" id="order-view-table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Barcode</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Selling Price</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td>Sample Data</td>
+                                    <td>0</td>
+                                    <td>ABCXYZ</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>    
+
 </div> <!-- Container end-->
 
 <footer th:replace="snippets.html :: name_footer"></footer>
