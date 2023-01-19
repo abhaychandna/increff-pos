@@ -69,6 +69,18 @@ public class OrderDto {
         return convert(p);
     }
 
+    
+    public List<OrderItemData> getItemsByOrderId(Integer orderId) throws ApiException {
+        List<Integer> orderIdList = new ArrayList<Integer>();
+        orderIdList.add(orderId);
+        List<OrderItemPojo> items = orderItemService.getByColumn("orderId", new ArrayList<>(orderIdList));
+        List<OrderItemData> itemDatas = new ArrayList<OrderItemData>();
+        for (OrderItemPojo item : items) {
+            itemDatas.add(convert(item));
+        }
+        return itemDatas;
+    }
+
     public PaginatedData<OrderItemData> getAllItems(Integer start, Integer pageSize, Integer draw) throws ApiException {
         Integer pageNo = start/pageSize;
         List<OrderItemPojo> items = orderItemService.getAll(pageNo, pageSize);
