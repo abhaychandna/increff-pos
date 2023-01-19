@@ -2,7 +2,7 @@ var wholeOrder = []
 
 function getOrderItemUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
-    return baseUrl + "/api/order-items";
+    return baseUrl + "/api/orders";
 }
 
 function getOrderUrl() {
@@ -246,6 +246,21 @@ function arrayToJson() {
     return JSON.stringify(json);
 }
 
+function getProductName(productId) {
+    var url = getProductUrl() + "/" + productId;
+    var name = "";
+    $.ajax({
+        url: url,
+        type: 'GET',
+        async: false,
+        success: function(data) {
+            name = data.name;
+        },
+        error: handleAjaxError
+     });
+    return name;
+}
+
 var E;
 function placeOrder() {
     var url = getOrderItemUrl();
@@ -267,19 +282,37 @@ function placeOrder() {
         error: function(e) {
             E = e
             console.log(e.responseJSON)
-            // e.responseJSON.message starts with Insufficient inventory 
-            // extract product id from message. Product id is writtent after "productId: " 
-            // display error message
-            var error = E.responseJSON.message.toLowerCase();
+            
+            var error = e.responseJSON.message
+            
+            error = error.toLowerCase();
             if (error.startsWith("insufficient")) {
-                startIndex = error.search(error.indexOf("productId: ") + 11);
-                endIndex = error.search(".");
-                productId = error.substring(startIndex, endIndex);
+                var searchString = "productId: "
+                searchString = searchString.toLowerCase();
+                startIndex = error.indexOf(searchString) + searchString.length;
+                // extract number after productId
+                // subs                
+                endIndex = error.indexOf(" ", startIndex);
+                croppedError = error.substring(startIndex, error.length);
+
+                // extract till first space
+                endIndex = croppedError.substring(0, croppedError.indexOf("."));
+                productId = croppedError.substring(0, endIndex);
+                // convert to integer
+                productId = parseInt(productId);
+                console.log(productId); 
+
                 // convert productId to product int
                 console.log(productId);
                 productId = parseInt(productId);
                 console.log(productId);
-                alert(error);
+                // get product name
+                var productName = getProductName(productId);
+                console.log(productName);
+
+                var newError = e.responseJSON.message.replace("productId: " + productId, "barcode: " + productName);
+                alert(newError);
+                //alert(error);
             }
         } 
     });
