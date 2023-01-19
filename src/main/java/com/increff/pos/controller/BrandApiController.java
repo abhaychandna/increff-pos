@@ -48,8 +48,8 @@ public class BrandApiController {
 
 	@ApiOperation(value = "Gets list of all brands")
 	@RequestMapping(path = "", method = RequestMethod.GET)
-	public PaginatedData<BrandData> getAll(@RequestParam Integer start, @RequestParam Integer pageSize, @RequestParam Integer draw) throws ApiException {
-		return dto.getAll(start, pageSize, draw);
+	public PaginatedData<BrandData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
+		return dto.getAll(start, length, draw);
 	}
 
 	@ApiOperation(value = "Updates an brand")
