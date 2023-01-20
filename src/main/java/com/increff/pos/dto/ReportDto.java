@@ -1,6 +1,7 @@
 package com.increff.pos.dto;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,6 +27,7 @@ import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.OrderItemService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
+import com.increff.pos.util.TimeUtil;
 
 
 @Component
@@ -86,10 +88,8 @@ public class ReportDto {
 
 
     public List<SalesReportData> salesReport(SalesReportForm form) throws ApiException {
-        // DateFormat 2023-01-01T19:07:34.190912345+05:30[Asia/Calcutta]
-        // TODO : Change date format
-        ZonedDateTime startDate =  ZonedDateTime .parse(form.getStartDate()), endDate = ZonedDateTime .parse(form.getEndDate());
-
+        ZonedDateTime startDate = TimeUtil.isoTimeStringToZonedDateTime(form.getStartDate());
+        ZonedDateTime endDate = TimeUtil.isoTimeStringToZonedDateTime(form.getEndDate());
         
         // Print start and end date
         /*
