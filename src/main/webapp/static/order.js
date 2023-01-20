@@ -1,5 +1,7 @@
 var wholeOrder = []
 var alertErrorMessages = [];
+var maxQuantity = 99999;
+var maxSellingPrice = 99999;
 // TODO : Remove testing variable from here
 var globalData;
 
@@ -120,6 +122,10 @@ function validateQuantity(quantity){
         alert("Quantity has to be positive");
         error = true;
     }
+    if(quantity > maxQuantity){
+        alert("Quantity cannot be greater than " + maxQuantity);
+        error = true;
+    }
     return error;
 }
 function validateSellingPrice(sellingPrice){
@@ -130,6 +136,10 @@ function validateSellingPrice(sellingPrice){
     }
     if(sellingPrice <= 0){
         alert("Selling Price has to be positive");
+        error = true;
+    }
+    if(sellingPrice > maxSellingPrice){
+        alert("Selling Price cannot be greater than " + maxSellingPrice);
         error = true;
     }
     return error;
