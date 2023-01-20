@@ -5,6 +5,12 @@ function getBrandUrl(){
 }
 
 //BUTTON ACTIONS
+
+function openAddBrandModal(){
+	$('#add-Brand-modal').modal('toggle');
+}
+
+
 function addBrand(event){
 	//Set the values to update
 	var $form = $("#Brand-form");
@@ -20,6 +26,7 @@ function addBrand(event){
        },	   
 	   success: function(response) {
 	   		getBrandList();  
+			resetAddDialog();
 	   },
 	   error: handleAjaxError
 	});
@@ -146,6 +153,12 @@ function resetUploadDialog(){
 	updateUploadDialog();
 }
 
+function resetAddDialog(){
+	//Reset form values
+	var $form = $("#Brand-form");
+	$form.trigger("reset");
+}
+
 function updateUploadDialog(){
 	//$('#statusView').html("" + fileData.length);
 	//$('#processCount').html("" + processCount);
@@ -197,6 +210,7 @@ function init(){
 	});
 
 	$('#add-Brand').click(addBrand);
+	$('#open-add-Brand-modal').click(openAddBrandModal)
 	$('#update-Brand').click(updateBrand);
 	$('#refresh-data').click(getBrandList);
 	$('#upload-data').click(displayUploadData);

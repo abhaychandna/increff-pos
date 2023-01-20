@@ -15,25 +15,11 @@
  <!-- Top row with form-->
  <div class="row">
 	 <div class="col-12">
-			<form class="form-inline" id="Brand-form">
-			  <div class="form-group">
-			    <label for="inputbrand" class="col-sm-2 col-form-label">brand</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="brand" id="inputbrand" placeholder="enter brand">
-			    </div>
-			  </div>
-			  <div class="form-group">
-			    <label for="inputcategory" class="col-sm-2 col-form-label">category</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="category" id="inputcategory" placeholder="enter category">
-			    </div>
-			  </div>
-			  <button type="button" class="btn btn-primary" id="add-Brand">Add</button>
+			  <button type="button" class="btn btn-primary" id="open-add-Brand-modal">Add</button>
 			  &nbsp;
 			  <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
 			  &nbsp;
 			  <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
-			</form>
 	 </div>	
 </div> 
 
@@ -81,13 +67,14 @@
       <div class="modal-body">
 			<form class="form-inline" id="Brand-edit-form">
 			  <div class="form-group">
-			    <label for="inputbrand" class="col-sm-2 col-form-label">brand</label>
+			    <label for="inputbrand" class="col-sm-2 col-form-label">Brand</label>
 			    <div class="col-sm-10">
 			      <input type="text" class="form-control" name="brand" placeholder="enter brand">
 			    </div>
 			  </div>
+			  <br>
 			  <div class="form-group">
-			    <label for="inputcategory" class="col-sm-2 col-form-label">category</label>
+			    <label for="inputcategory" class="col-sm-2 col-form-label">Category</label>
 			    <div class="col-sm-10">
 			      <input type="text" class="form-control" name="category" placeholder="enter category">
 			    </div>
@@ -103,6 +90,40 @@
   </div>
 </div>
 
+<!-- Brand add Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="add-Brand-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Brand</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+			<form class="form-inline" id="Brand-form">
+				<div class="form-group">
+					<label for="inputbrand" class="col-sm-2 col-form-label">Brand</label>
+					<div class="col-sm-10">
+					  <input type="text" class="form-control" name="brand" id="inputbrand" placeholder="enter brand">
+					</div>
+				  </div>
+				  <!-- TODO : Add new line in add modal and edit modal . <br> not working-->
+				  <div class="form-group">
+					<label for="inputcategory" class="col-sm-2 col-form-label">Category</label>
+					<div class="col-sm-10">
+					  <input type="text" class="form-control" name="category" id="inputcategory" placeholder="enter category">
+					</div>
+				  </div>
+			</form>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="add-Brand">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Brand Upload Modal -->
 <div class="modal" tabindex="-1" role="dialog" id="upload-Brand-modal">
