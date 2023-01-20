@@ -19,7 +19,6 @@ public class ProductService {
 	private ProductDao dao;
 
 	public ProductPojo add(ProductPojo product) throws ApiException {
-		checkBarcodeDoesntExist(product.getBarcode());
 		dao.insert(product);
 		return product;
 	}
@@ -60,7 +59,7 @@ public class ProductService {
 		}
 		return product;
 	}
-	private ProductPojo getCheckBarcode(String barcode) throws ApiException {
+	public ProductPojo getCheckBarcode(String barcode) throws ApiException {
 		ProductPojo product = dao.getByBarcode(barcode);
 		if (Objects.isNull(product)) {
 			throw new ApiException("Product with barcode: " + barcode + " does not exist");
@@ -70,17 +69,6 @@ public class ProductService {
 
 	public ProductPojo getByBarcode(String barcode) throws ApiException {
 		return getCheckBarcode(barcode);
-	}
-
-	private void checkBarcodeDoesntExist(String barcode) throws ApiException {
-		try {
-			getCheckBarcode(barcode);
-		} catch (ApiException e) {
-			return;
-		}
-		// throw exception as barcode already exists
-		throw new ApiException("Product with barcode: " + barcode + " already exists");
-
 	}
 
 	public Integer getRecordsCount() {

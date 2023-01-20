@@ -28,6 +28,7 @@ public class ProductDto {
     public ProductData add(ProductForm form) throws ApiException {
         PreProcessingUtil.normalizeAndValidate(form);
         ProductPojo product = convert(form);
+        checkBarcodeDoesntExist(product.getBarcode());
         ProductPojo productPojo = svc.add(product);
         return convert(productPojo);
     }
@@ -67,4 +68,13 @@ public class ProductDto {
         productData.setCategory(brand.getCategory());
         return productData;
     }
+
+    private void checkBarcodeDoesntExist(String barcode) throws ApiException {
+		try {
+			svc.getCheckBarcode(barcode);
+		} catch (ApiException e) {
+			return;
+		}
+		throw new ApiException("Product with barcode: " + barcode + " already exists");
+	}
 }
