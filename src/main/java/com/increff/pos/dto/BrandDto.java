@@ -27,7 +27,7 @@ import com.increff.pos.util.PreProcessingUtil;
 public class BrandDto {
     
     @Autowired
-    BrandService svc;
+    private BrandService svc;
 
     public BrandData add(BrandForm form) throws ApiException {
         PreProcessingUtil.normalizeAndValidate(form);
