@@ -76,5 +76,8 @@ public class DaySalesService {
 		return daySales;
 	}
 
+	public int getRecordsCount() {
+		return dao.getRecordsCount(DaySalesPojo.class);
+	}
 
 }
