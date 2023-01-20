@@ -14,4 +14,8 @@ public class TimeUtil {
         System.out.println("after conversion " + zdt);
         return zdt;
     }
+
+    public static ZonedDateTime isoTimeStringToZonedDateTime(String isoDateTime) {
+        return getZonedDateTime(isoDateTime, DateTimeFormatter.ISO_DATE_TIME);
+    }
 }
