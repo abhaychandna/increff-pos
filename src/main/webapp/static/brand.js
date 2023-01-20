@@ -89,11 +89,12 @@ function readFileDataCallback(results){
 
 function uploadRows(){
 	var url = getBrandUrl() + "/add/bulk";
-
+	var jsonData = JSON.stringify(fileData);
+	// TODO : Add file upload limit
 	$.ajax({
 		url: url,
 		type: 'POST',
-		data: JSON.stringify(fileData),
+		data: jsonData,
 		headers: {
 			'Content-Type': 'application/json'
 		},	   
@@ -101,14 +102,13 @@ function uploadRows(){
 			console.log(response);
 			errorData = response;
 			processCount = fileData.length;	 
-
-			updateUploadDialog();
+			$('#statusView').html("Upload Successful");
 		},
 		error: function(response){
 			errorData = JSON.parse(response.responseJSON.message) ;
 			console.log(errorData);
 			processCount = fileData.length;
-			updateUploadDialog();
+			$('#statusView').html("Failed to upload " + errorData.length + " rows");
 		}
 	 });
 
@@ -137,6 +137,7 @@ function resetUploadDialog(){
 	var $file = $('#BrandFile');
 	$file.val('');
 	$('#BrandFileName').html("Choose File");
+	$('#statusView').html('');
 	//Reset various counts
 	processCount = 0;
 	fileData = [];
@@ -146,9 +147,9 @@ function resetUploadDialog(){
 }
 
 function updateUploadDialog(){
-	$('#rowCount').html("" + fileData.length);
-	$('#processCount').html("" + processCount);
-	$('#errorCount').html("" + errorData.length);
+	//$('#statusView').html("" + fileData.length);
+	//$('#processCount').html("" + processCount);
+	//$('#errorCount').html("" + errorData.length);
 }
 
 function updateFileName(){
@@ -187,7 +188,10 @@ function init(){
             { "data": "category" },
 			{
 				"data":null,
-				"render":function(o){return '<button onclick="displayEditBrand(' + o.id + ')">edit</button>'}
+				"render":function(o){
+
+					return '<button type="button" class="btn btn-info" onclick="displayEditBrand(' + o.id + ')">Edit</button>'
+				}
 			}
         ]
 	});
