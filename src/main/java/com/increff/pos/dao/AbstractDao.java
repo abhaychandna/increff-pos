@@ -1,5 +1,6 @@
 package com.increff.pos.dao;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 public abstract class AbstractDao {
@@ -95,6 +97,25 @@ public abstract class AbstractDao {
 			inClause.value(val);
 		}
 		cq.select(root).where(inClause);
+		TypedQuery<T> query = em.createQuery(cq);
+		return query.getResultList();
+	}
+
+	public <T, R> List<T> selectByMultipleColumns(Class<T> clazz, List<String> columns, List<List<R>> values) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<T> cq = cb.createQuery(clazz);
+		Root<T> root = cq.from(clazz);
+
+		List<Predicate> preds = new ArrayList<>();
+		for(int i=0; i<columns.size(); i++){
+			In<R> inClause = cb.in(root.get(columns.get(i)));
+			if(values.get(i).isEmpty()) return Collections.emptyList();
+			for (R val : values.get(i)) {
+				inClause.value(val);
+			}
+			preds.add(inClause);
+		}
+		cq.where(cb.and(preds.toArray(new Predicate[] {})));
 		TypedQuery<T> query = em.createQuery(cq);
 		return query.getResultList();
 	}
