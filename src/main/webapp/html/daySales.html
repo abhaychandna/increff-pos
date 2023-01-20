@@ -1,0 +1,75 @@
+<!doctype html>
+
+<html lang="en">
+
+<head th:replace="snippets.html :: name_head"></head>
+
+<body>
+
+<nav th:replace="snippets.html :: name_app_navbar"></nav>
+
+<div class="container">
+
+<h3>DaySaless</h3>
+
+ <!-- Top row with form-->
+ <div class="row">
+	 <div class="col-12">
+			<form class="form-inline" id="DaySales-form">
+			  <div class="form-group">
+			    <label for="startDate" class="col-sm-2 col-form-label">Start Date</label>
+			    <div class="col-sm-10">
+					<input type="date" id="startDate" name="startDate">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="endDate" class="col-sm-2 col-form-label">End Date</label>
+			    <div class="col-sm-10">
+					<input type="date" id="endDate" name="endDate">
+			    </div>
+			  </div>
+			  <button type="button" class="btn btn-primary" id="filter">filter</button>
+			</form>
+	 </div>	
+</div> 
+
+
+<!-- Blank Row -->
+<div class="row">
+	&nbsp;
+</div>
+<div class="row">
+
+ <!-- Table -->
+ <div class="col-12">
+	<table class="table table-striped" id="daySales-table">
+	  <thead>
+	    <tr>
+	      <th scope="col">Date</th>
+	      <th scope="col">ItemsCount</th>
+	      <th scope="col">Category</th>
+	      <th scope="col">TotalRevenue</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr>
+	      <td>Static Date</td>
+	      <td>-1</td>
+	      <td>ABCXYZ</td>
+	      <td>-1.1</td>
+	    </tr>
+	  </tbody>
+	</table>
+
+</div>
+</div>
+
+</div> <!-- Container end-->
+
+<footer th:replace="snippets.html :: name_footer"></footer>
+
+<script th:src="@{/static/daySales.js}"/></script>
+
+</body>	
+
+</html>
