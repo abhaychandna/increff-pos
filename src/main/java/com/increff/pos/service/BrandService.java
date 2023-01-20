@@ -78,7 +78,9 @@ public class BrandService {
 	public <T> List<BrandPojo> getByColumn(String column, List<T> values){
 		return dao.selectByColumn(BrandPojo.class, column, values);
 	}
-
+	public <T> List<BrandPojo> getByMultipleColumns(List<String> columns, List<List<T>> values){
+		return dao.selectByMultipleColumns(BrandPojo.class, columns, values);
+	}
 
 	public List<BrandPojo> getAll() {
 		return dao.selectAll(BrandPojo.class);

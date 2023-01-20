@@ -71,4 +71,8 @@ public class OrderItemService {
 	public <T> List<OrderItemPojo> getByColumn(String column, List<T> values){
 		return dao.selectByColumn(OrderItemPojo.class, column, values);
 	}
+
+	public <T> List<OrderItemPojo> getByMultipleColumns(List<String> columns, List<List<T>> values){
+		return dao.selectByMultipleColumns(OrderItemPojo.class, columns, values);
+	}
 }
