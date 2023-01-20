@@ -1,5 +1,7 @@
 package com.increff.pos.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,8 +26,10 @@ public class DaySalesApiController {
 
 	@ApiOperation(value = "Gets list of all daySaless")
 	@RequestMapping(path = "", method = RequestMethod.GET)
-	public PaginatedData<DaySalesData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
-		return dto.getAll(start, length, draw);
+	public PaginatedData<DaySalesData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw, @RequestParam Optional<String> startDate, @RequestParam Optional<String> endDate) throws ApiException {
+		String startDateParam = startDate.orElse("");
+		String endDateParam = endDate.orElse("");
+		return dto.getAll(start, length, draw, startDateParam, endDateParam);
 	}
 }
 

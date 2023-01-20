@@ -73,6 +73,10 @@ public class DaySalesService {
 		return dao.selectAll(pageNo, pageSize, DaySalesPojo.class);
 	}
 
+	public List<DaySalesPojo> getAll(Integer pageNo, Integer pageSize, ZonedDateTime start, ZonedDateTime end) {
+		return dao.filterByDate(pageNo, pageSize, start, end);
+	}
+
 	private DaySalesPojo getCheck(ZonedDateTime date) throws ApiException {
 		DaySalesPojo daySales = dao.select(DaySalesPojo.class, date);
 		if (daySales == null)
