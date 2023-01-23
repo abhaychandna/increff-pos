@@ -11,14 +11,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.increff.pos.model.InventoryReportData;
-import com.increff.pos.model.PDFForm;
 import com.increff.pos.model.SalesReportData;
 import com.increff.pos.model.SalesReportForm;
 import com.increff.pos.pojo.BrandPojo;
@@ -32,6 +28,7 @@ import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.OrderItemService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
+import com.increff.pos.util.PDFApiUtil;
 import com.increff.pos.util.TimeUtil;
 
 
@@ -53,36 +50,14 @@ public class ReportDto {
 
 
 
-    private <T> String getReportPDFBase64(List<T> reportData, String xsltFilename, String outputFilename, HashMap<String, String> XMLheaders){
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        String apiUrl = "http://localhost:8000/pdf/api/pdf/generateReport";// + path;
-        //PDFForm<T> pdfForm = new PDFForm(reportData, xsltFilename, outputFilename, XMLheaders);
-        PDFForm<T> pdfForm = new PDFForm<T>();
-        pdfForm.setOutputFilename(outputFilename);
-        pdfForm.setXsltFilename(xsltFilename);
-        pdfForm.setReportData(reportData);
-        pdfForm.setHeaders(XMLheaders);
 
-        System.out.println("PDF form: " + pdfForm.getOutputFilename());
-        System.out.println("PDF form: " + pdfForm.getXsltFilename());
-        System.out.println("PDF form: " + pdfForm.getReportData());
-
-
-        ResponseEntity<String> apiResponse = RestTemplate.postForEntity(apiUrl, pdfForm, String.class);
-        String responseBody = apiResponse.getBody();
-
-
-        return responseBody;
-    }
 
     public String inventoryReport() throws ApiException{
 		List<InventoryPojo> inventory = inventoryService.getAll();
 		HashMap<Integer, Integer> brandCategoryIdToQuantity = getBrandIdToQuantityMap(inventory);
         List<InventoryReportData> reportData = getInventoryReport(brandCategoryIdToQuantity);
-        String base64  = getReportPDFBase64(reportData, "inventoryReport", "inventoryReport", null);
+        String base64  = PDFApiUtil.getReportPDFBase64(reportData, "inventoryReport", "inventoryReport", null);
         return base64;
-         
 	}
 
     private List<InventoryReportData> getInventoryReport(HashMap<Integer, Integer> brandCategoryIdToQuantity) throws ApiException {
@@ -143,7 +118,7 @@ public class ReportDto {
         
         String outputFilename = salesReportOutputFilename(startDate, endDate, form.getBrand(), form.getCategory());
         HashMap<String, String> headers = salesReportHeaders(startDate, endDate, form.getBrand(), form.getCategory());
-        getReportFile(salesReport, "salesReport", outputFilename, headers);
+        PDFApiUtil.getReportPDFBase64(salesReport, "salesReport", outputFilename, headers);
 
         return salesReport;
     }
