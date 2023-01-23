@@ -55,7 +55,7 @@
 									</fo:table-cell>
 									<fo:table-cell padding-bottom="2px" padding-top="2px">
 										<fo:block>
-											<xsl:value-of select="InvoiceForm/OrderId"/>
+											<xsl:value-of select="ReportForm/OrderId"/>
 										</fo:block>
 									</fo:table-cell>
 								</fo:table-row>
@@ -65,7 +65,7 @@
 									</fo:table-cell>
 									<fo:table-cell padding-bottom="2px" padding-top="2px">
 										<fo:block>
-											<xsl:value-of select="InvoiceForm/Time"/>
+											<xsl:value-of select="ReportForm/Time"/>
 										</fo:block>
 									</fo:table-cell>
 								</fo:table-row>
@@ -145,49 +145,9 @@
 									  <fo:block>Total Cost</fo:block>
 								   </fo:table-cell>
 								   <fo:table-cell padding-bottom="2px" padding-top="5mm">
-									  <fo:block><xsl:value-of select="InvoiceForm/totalCost"/> </fo:block>
-								   </fo:table-cell>								                            
-								</fo:table-row>
-								
-								<fo:table-row>
-								   <fo:table-cell padding-bottom="2px" padding-top="2px">
-									  <fo:block> </fo:block>
-								   </fo:table-cell>
-								   <fo:table-cell padding-bottom="2px" padding-top="2px">
-									  <fo:block> </fo:block>
-								   </fo:table-cell>
-								   <fo:table-cell padding-bottom="2px" padding-top="2px">
-									  <fo:block> </fo:block>
-								   </fo:table-cell>
-								   <fo:table-cell padding-bottom="2px" padding-top="2px">
-									  <fo:block> </fo:block>
-								   </fo:table-cell>
-								   <fo:table-cell padding-bottom="2px" padding-top="2px">
-									  <fo:block>GST (18%)</fo:block>
-								   </fo:table-cell>
-								   <fo:table-cell padding-bottom="2px" padding-top="2px">
-									  <fo:block><xsl:value-of select="InvoiceForm/gst18"/> </fo:block>
-								   </fo:table-cell>								                            
-								</fo:table-row>
-								<fo:table-row>
-								   <fo:table-cell padding-bottom="2px" padding-top="2px">
-									  <fo:block> </fo:block>
-								   </fo:table-cell>
-								   <fo:table-cell padding-bottom="2px" padding-top="2px">
-									  <fo:block> </fo:block>
-								   </fo:table-cell>
-								   <fo:table-cell padding-bottom="2px" padding-top="2px">
-									  <fo:block> </fo:block>
-								   </fo:table-cell>
-								   <fo:table-cell padding-bottom="2px" padding-top="2px">
-									  <fo:block> </fo:block>
-								   </fo:table-cell>
-								   <fo:table-cell padding-bottom="2px" padding-top="2px">
-									  <fo:block>Final Cost</fo:block>
-								   </fo:table-cell>
-								   <fo:table-cell padding-bottom="2px" padding-top="2px">
-									  <fo:block><xsl:value-of select="InvoiceForm/costAfterGst"/> </fo:block>
-								   </fo:table-cell>								                            
+								   		<!-- TODO : Add the total cost of all items -->
+										<fo:block><xsl:value-of select="sum(ReportForm/ItemsList/Items/quantity)"/></fo:block>
+								   </fo:table-cell>							                            
 								</fo:table-row>
 							</fo:table-footer>  
 
