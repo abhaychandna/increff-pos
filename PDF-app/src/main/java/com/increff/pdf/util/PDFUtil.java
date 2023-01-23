@@ -1,4 +1,4 @@
-package com.increff.pos.util;
+package com.increff.pdf.util;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -17,7 +17,7 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 
-import com.increff.pos.service.ApiException;
+import com.increff.pdf.service.ApiException;
 
 public class PDFUtil {
     public static void generatePDF(String xmlFile, File xsltFile, String pdfFile)

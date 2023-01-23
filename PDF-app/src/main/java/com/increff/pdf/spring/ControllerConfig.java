@@ -1,4 +1,4 @@
-package com.increff.pos.spring;
+package com.increff.pdf.spring;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -34,7 +34,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class ControllerConfig extends WebMvcConfigurerAdapter {
 
-	public static final String PACKAGE_CONTROLLER = "com.increff.pos.controller";
+	public static final String PACKAGE_CONTROLLER = "com.increff.pdf.controller";
 
 
 	private ApplicationContext applicationContext;
