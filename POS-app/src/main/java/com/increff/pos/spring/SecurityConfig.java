@@ -2,6 +2,7 @@ package com.increff.pos.spring;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -23,14 +24,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.requestMatchers()//
 				.antMatchers("/api/**")//
 				.antMatchers("/ui/**")//
-				.and().authorizeRequests()//
-				.antMatchers("/api/brand/**").permitAll()
-				.antMatchers("/api/admin/**").hasAuthority("admin")//
-				.antMatchers("/api/**").hasAnyAuthority("admin", "standard")//
-				.antMatchers("/ui/admin/**").hasAuthority("admin")//
-				.antMatchers("/ui/**").hasAnyAuthority("admin", "standard")//
-				// Ignore CSRF and CORS
-				.and().csrf().disable().cors().disable();
+				.and()
+				.authorizeRequests()//				
+				.antMatchers(HttpMethod.GET, "/api/brands/**").hasAnyAuthority("operator","supervisor")//
+				.antMatchers("/api/brands/**").hasAuthority("supervisor")
+				.antMatchers(HttpMethod.GET, "/api/products/**").hasAnyAuthority("operator","supervisor")//
+				.antMatchers("/api/products/**").hasAuthority("supervisor")
+				.antMatchers(HttpMethod.GET, "/api/inventory/**").hasAnyAuthority("operator","supervisor")//
+				.antMatchers("/api/inventory/**").hasAuthority("supervisor")
+				.antMatchers("/api/orders/**").hasAnyAuthority("operator","supervisor")//
+				.antMatchers("/api/daySaless/**").hasAnyAuthority("supervisor")//
+				.antMatchers("/api/reports/**").hasAnyAuthority("supervisor")//
+				.antMatchers("/api/about/**").permitAll()
+				.antMatchers("/api/admin/**").hasAuthority("supervisor")
+				.antMatchers("/api/**").hasAnyAuthority("supervisor", "operator")
+				.antMatchers("/ui/admin/**").hasAuthority("supervisor")
+				.antMatchers("/ui/**").hasAnyAuthority("supervisor", "operator")
+				.and()
+				.csrf().disable()
+				.cors().disable();
 		logger.info("Configuration complete");
 	}
 
