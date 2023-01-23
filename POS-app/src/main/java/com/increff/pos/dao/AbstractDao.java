@@ -83,7 +83,7 @@ public abstract class AbstractDao {
 		Root<T> root = cq.from(c);
 		cq.where(cb.equal(root.get(column), value));
 		TypedQuery<T> query = em.createQuery(cq);
-		return query.getSingleResult();
+		return getSingle(query);
 	}
 
 	public <T,R> List<T> selectByColumn(Class<T> clazz, String column, List<R> values) {
