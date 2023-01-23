@@ -1,7 +1,11 @@
 package com.increff.pos.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.xml.transform.TransformerException;
+
+import org.apache.fop.apps.FOPException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.increff.pos.dto.ReportDto;
-import com.increff.pos.model.InventoryReportData;
 import com.increff.pos.model.SalesReportData;
 import com.increff.pos.model.SalesReportForm;
 import com.increff.pos.service.ApiException;
@@ -27,7 +30,7 @@ public class ReportApiController {
 
 	@ApiOperation(value = "Inventory Report")
 	@RequestMapping(path = "inventory", method = RequestMethod.GET)
-	public List<InventoryReportData> inventoryReport() throws ApiException {
+	public String inventoryReport() throws ApiException, FOPException, IOException, TransformerException {
 		return dto.inventoryReport();
 	}
 

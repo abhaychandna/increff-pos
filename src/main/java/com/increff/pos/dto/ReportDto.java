@@ -1,13 +1,14 @@
 package com.increff.pos.dto;
 
+import java.io.File;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,9 @@ import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.OrderItemService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
+import com.increff.pos.util.PDFUtil;
 import com.increff.pos.util.TimeUtil;
+import com.increff.pos.util.XMLUtil;
 
 
 @Component
@@ -45,10 +48,33 @@ public class ReportDto {
     private OrderItemService orderItemService;
 
 
-    public List<InventoryReportData> inventoryReport() throws ApiException {
+    private <T> String reportDataToPDF(List<T> reportForm, String xsltFilename, String outputFilename, HashMap<String, String> headers) throws ApiException{
+        // remove ':' from outputFilename
+        outputFilename = outputFilename.replace(":", "-");
+        System.out.println("Output filename: " + outputFilename);
+        File xsltFile = new File(xsltFilename + ".xsl");
+        String xmlFile = new File(outputFilename + ".xml").getAbsolutePath();
+        String pdfFile = new File(outputFilename + ".pdf").getAbsolutePath();
+
+        try {
+            XMLUtil.generateReportXML(reportForm, xmlFile, headers);
+            PDFUtil.generatePDF(xmlFile, xsltFile, pdfFile);
+            String base64 = PDFUtil.getBase64(pdfFile);
+            return base64;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Error in generating report." + e.getMessage());
+            throw new ApiException("Error in generating report." + e.getMessage());
+        }
+    }
+
+    public String inventoryReport() throws ApiException{
 		List<InventoryPojo> inventory = inventoryService.getAll();
 		HashMap<Integer, Integer> brandCategoryIdToQuantity = getBrandIdToQuantityMap(inventory);
-        return getInventoryReport(brandCategoryIdToQuantity);
+        List<InventoryReportData> reportData = getInventoryReport(brandCategoryIdToQuantity);
+        String base64 = reportDataToPDF(reportData, "inventoryReport", "inventoryReport", null);
+        return base64;
 	}
 
     private List<InventoryReportData> getInventoryReport(HashMap<Integer, Integer> brandCategoryIdToQuantity) throws ApiException {
@@ -72,7 +98,7 @@ public class ReportDto {
         return brandIdToBrandPojo;
     }
 
-    private HashMap<Integer, Integer> getBrandIdToQuantityMap(List<InventoryPojo> inventory) throws ApiException {
+    private HashMap<Integer, Integer> getBrandIdToQuantityMap(List<InventoryPojo> inventory) throws ApiException{
         HashMap<Integer, Integer> brandCategoryIdToQuantity = new HashMap<>();
         for (InventoryPojo inv : inventory) {
 			Integer brandCategoryId = productService.get(inv.getId()).getBrandCategory();
