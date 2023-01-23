@@ -30,5 +30,6 @@ hs_err_pid*
 /target/
 
 POS-app/target/
+PDF-app/target/
 
 .settings/
