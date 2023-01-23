@@ -192,7 +192,7 @@
 							</fo:table-footer>  
 
 							<fo:table-body>
-								<xsl:for-each select="InvoiceForm/ItemsList/Items">
+								<xsl:for-each select="ReportForm/ItemsList/Items">
 									<fo:table-row border-style="double" border-width="1pt">
 										<fo:table-cell padding-bottom="2px" padding-top="2px">
 											<fo:block>
