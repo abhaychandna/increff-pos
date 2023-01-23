@@ -9,5 +9,5 @@ import lombok.Setter;
 public class InvoiceForm {
     private Integer orderId; 
     private String time;
-    private List<InvoiceItemForm> items;
+    private List<InvoiceItemData> items;
 }
