@@ -6,6 +6,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Component
 @Scope(value="session", proxyMode=ScopedProxyMode.TARGET_CLASS)
 public class InfoData implements Serializable {
@@ -14,26 +19,12 @@ public class InfoData implements Serializable {
 
 	private String message;
 	private String email;
+	private String role;
 
 	public InfoData() {
 		message = "No message";
 		email = "No email";
-	}
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+		role = "No role";
 	}
 
 }

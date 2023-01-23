@@ -67,6 +67,7 @@ public class LoginController {
 	private static Authentication convert(UserPojo p) {
 		// Create principal
 		UserPrincipal principal = new UserPrincipal();
+		principal.setRole(p.getRole());
 		principal.setEmail(p.getEmail());
 		principal.setId(p.getId());
 
