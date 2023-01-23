@@ -4,29 +4,15 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.increff.pdf.model.PDFForm;
 import com.increff.pdf.service.ApiException;
 import com.increff.pdf.util.PDFUtil;
 import com.increff.pdf.util.XMLUtil;
 
-@Service
-@Transactional(rollbackOn = ApiException.class)
-public class InvoiceDto {
-
-    // public void generateInvoice(InvoiceForm invoiceForm) throws FOPException, IOException, TransformerException, ApiException {
-    //     File xsltFile = new File("invoice.xsl");
-    //     String filename = "invoice_" + invoiceForm.getOrderId();
-    //     String xmlFile = new File(filename + ".xml").getAbsolutePath();
-    //     String pdfFile = new File(filename + ".pdf").getAbsolutePath();
-
-    //     XMLUtil.generateXML(invoiceForm, xmlFile);
-
-    //     PDFUtil.generatePDF(xmlFile, xsltFile, pdfFile);
-    // }
+@Component
+public class PDFDto {
 
     public <T> String generateReport(PDFForm<T> pdfForm) throws ApiException {
         //List<T> reportForm, String xsltFilename, String outputFilename, HashMap<String, String> headers
@@ -62,21 +48,4 @@ public class InvoiceDto {
             throw new ApiException("Error in generating report." + e.getMessage());
         }
     }
-
-    /*
-    public String getBase64(String IN_FILE) throws ApiException {
-        try {
-            XMLUtil.generateReportXML(reportForm, xmlFile, headers);
-            PDFUtil.generatePDF(xmlFile, xsltFile, pdfFile);
-            String base64 = PDFUtil.getBase64(pdfFile);
-            return base64;
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Error in generating report." + e.getMessage());
-            throw new ApiException("Error in generating report." + e.getMessage());
-        }
-        return PDFUtil.getBase64(IN_FILE);
-    }
-     */
 }

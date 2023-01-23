@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.increff.pdf.dto.InvoiceDto;
+import com.increff.pdf.dto.PDFDto;
 import com.increff.pdf.model.PDFForm;
 import com.increff.pdf.service.ApiException;
 
@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiOperation;
 public class PDFController {
     
     @Autowired
-    private InvoiceDto invoiceService;
+    private PDFDto invoiceService;
 
     // hello world
     @ApiOperation(value = "Adds multiple brands in bulk")
