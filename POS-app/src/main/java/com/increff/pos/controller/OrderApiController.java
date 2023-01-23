@@ -53,6 +53,12 @@ public class OrderApiController {
 		return orderDto.get(id);
 	}
 
+	@ApiOperation(value = "Gets a Order Invoice by ID")
+	@RequestMapping(path = "/{id}/invoice", method = RequestMethod.GET)
+	public String getInvoice(@PathVariable Integer id) throws ApiException {
+		return orderDto.getInvoice(id);
+	}
+
 	@ApiOperation(value = "Gets all Order")
 	@RequestMapping(path = "", method = RequestMethod.GET)
 	public PaginatedData<OrderData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {

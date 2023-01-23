@@ -1,6 +1,7 @@
 package com.increff.pos.dto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.increff.pos.model.InvoiceItemData;
 import com.increff.pos.model.OrderData;
 import com.increff.pos.model.OrderItemData;
 import com.increff.pos.model.OrderItemForm;
@@ -15,11 +17,13 @@ import com.increff.pos.model.OrderItemPutForm;
 import com.increff.pos.model.PaginatedData;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.OrderItemService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ConvertUtil;
+import com.increff.pos.util.PDFApiUtil;
 import com.increff.pos.util.PreProcessingUtil;
 
 @Component
@@ -31,6 +35,37 @@ public class OrderDto {
     private OrderItemService orderItemService;
     @Autowired
     private ProductService productService;
+
+
+
+    public String getInvoice(Integer id) throws ApiException {
+        OrderPojo order = orderService.get(id);
+        List<OrderItemPojo> items = orderItemService.getByOrderId(id);
+        List<InvoiceItemData> invoiceItems = new ArrayList<InvoiceItemData>();
+        // Convert to InvoiceItemForm
+
+        for(OrderItemPojo item: items) {
+            InvoiceItemData invoiceItem = new InvoiceItemData();
+            invoiceItem.setQuantity(item.getQuantity());
+            invoiceItem.setSellingPrice(item.getSellingPrice());
+            ProductPojo product = productService.get(item.getProductId());
+            invoiceItem.setBarcode(product.getBarcode());
+            invoiceItem.setProductId(product.getId());
+            invoiceItem.setName(product.getName());
+
+            invoiceItems.add(invoiceItem);
+        }        
+
+        //List<InvoiceItemData> invoiceItems = items.stream().map(item->ConvertUtil.convert(items, InvoiceItemData.class)).collect(Collectors.toList());
+        HashMap<String, String> XMLheaders = new HashMap<String, String>();
+        XMLheaders.put("OrderId", order.getId().toString());
+        XMLheaders.put("Time", order.getTime().toString());
+        String xsltFilename = "invoice";
+        String outputFilename = "invoice_" + id;
+        //PDFApiUtil.getReportPDFBase64(invoiceItems, xsltFilename, outputFilename, XMLheaders);
+        return PDFApiUtil.getReportPDFBase64(invoiceItems, xsltFilename, outputFilename, XMLheaders);
+
+    }
 
     public OrderData get(Integer id) throws ApiException {
         OrderPojo p = orderService.get(id);
