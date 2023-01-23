@@ -197,6 +197,20 @@ function displayOrderDetails(id) {
      });
 }
 
+function getInvoice(id){
+    var url = getOrderUrl();
+    url = url + '/' + id + '/invoice';
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(base64String) {
+            console.log(base64String);
+            downloadPDF(base64String);
+        },
+        error: handleAjaxError
+     });
+}
+
 function getOrderItemList() {
     var jsonObj = $.parseJSON('[' + wholeOrder + ']');
     console.log(jsonObj);
@@ -315,6 +329,9 @@ function getBrandUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/brands";
 }
+
+
+
 function init(){
 
     
@@ -341,7 +358,8 @@ function init(){
             } },
 			{
 				"data":null,
-				"render":function(o){return '<button onclick="displayOrderDetails(' + o.id + ')">view</button>'}
+				"render":function(o){return '<button onclick="displayOrderDetails(' + o.id + ')">view</button>' + 
+                        '<button onclick="getInvoice(' + o.id + ')">Invoice</button>'} 
 			}
         ]
 	});
