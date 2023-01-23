@@ -1,12 +1,19 @@
 package com.increff.pos.util;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
@@ -15,14 +22,13 @@ import org.w3c.dom.Element;
 
 import com.increff.pos.model.InvoiceForm;
 import com.increff.pos.model.InvoiceItemForm;
+import com.increff.pos.service.ApiException;  
+
 public class XMLUtil {
    public static void generateXML(InvoiceForm invoiceForm, String fileName) {
 
       try {
-         DocumentBuilderFactory dbFactory =
-         DocumentBuilderFactory.newInstance();
-         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-         Document doc = dBuilder.newDocument();
+         Document doc = getDocument();
 
         Element rootElement = doc.createElement("InvoiceForm");
         doc.appendChild(rootElement);
@@ -89,20 +95,91 @@ public class XMLUtil {
         costAfterGstElement.appendChild(doc.createTextNode(costAfterGst.toString()));
         rootElement.appendChild(costAfterGstElement);
 
-
-         // write the content into xml file
-         TransformerFactory transformerFactory = TransformerFactory.newInstance();
-         Transformer transformer = transformerFactory.newTransformer();
-         DOMSource source = new DOMSource(doc);
-         StreamResult result = new StreamResult(new File(fileName));
-         transformer.transform(source, result);
-         
-         // Output to console for testing
-         StreamResult consoleResult = new StreamResult(System.out);
-         transformer.transform(source, consoleResult);
+         transformDocumentToXML(fileName, doc);
       } catch (Exception e) {
          e.printStackTrace();
       }
    }
+   
+   
+   public static <T> void generateReportXML(List <T> reportData, String filename, HashMap<String,String> headers) throws ApiException {
+      try {
+            System.out.println("Report Data" + reportData + " " + reportData.size());
+            Document doc = getDocument();
+      
+            Element rootElement = doc.createElement("ReportForm");
+            doc.appendChild(rootElement);
+
+            addHeaders(headers, doc, rootElement);
+
+            Element itemsList = doc.createElement("ItemsList");
+            reportData.forEach(inventoryReportDataItem -> {
+      
+               Element items = doc.createElement("Items");
+      
+               for (Field field: inventoryReportDataItem.getClass().getDeclaredFields()) {
+                  field.setAccessible(true);
+                  try {
+                        System.out.println("Field Name: " + field.getName());
+      
+                        System.out.println("Field Value: " + field.get(inventoryReportDataItem));
+      
+                        Element element = doc.createElement(field.getName());
+      
+                        element.appendChild(doc.createTextNode(field.get(inventoryReportDataItem).toString()));
+                        items.appendChild(element);
+      
+                  } catch (IllegalAccessException e) {
+                        System.out.println("Error in XMLUtil");
+                        e.printStackTrace();
+                        // TODO : Unable to throw exception here ?? is it cuz of lambda expression?
+                        //throw new Exception("Failed to generate XML");
+                  }
+      
+                  itemsList.appendChild(items);
+      
+               }
+            });
+            rootElement.appendChild(itemsList);
+            transformDocumentToXML(filename, doc);
+      }
+      catch (Exception e) {
+            e.printStackTrace();
+            throw new ApiException("Failed to generate XML");
+      }
+   }
+
+
+   private static void addHeaders(HashMap<String, String> headers, Document doc, Element rootElement) {
+      if(Objects.isNull(headers) || headers.isEmpty())
+            return;
+      headers.forEach((key, value) -> {
+            Element header = doc.createElement(key);
+            header.appendChild(doc.createTextNode(value));
+            rootElement.appendChild(header);
+      });
+   }
+  
+  private static void transformDocumentToXML(String filename, Document doc)
+  throws TransformerFactoryConfigurationError, TransformerConfigurationException, TransformerException {
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      Transformer transformer = transformerFactory.newTransformer();
+      DOMSource source = new DOMSource(doc);
+      StreamResult result = new StreamResult(new File(filename));
+      transformer.transform(source, result);
+  
+      // Output to console for testing
+      StreamResult consoleResult = new StreamResult(System.out);
+      transformer.transform(source, consoleResult);
+  }
+  
+  private static Document getDocument() throws ParserConfigurationException {
+      DocumentBuilderFactory dbFactory =
+          DocumentBuilderFactory.newInstance();
+      DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+      Document doc = dBuilder.newDocument();
+  
+      return doc;
+  }
 }
 
