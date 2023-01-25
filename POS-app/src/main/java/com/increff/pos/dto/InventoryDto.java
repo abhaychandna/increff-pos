@@ -6,8 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
+import com.increff.pos.model.InventoryFormErrorData;
 import com.increff.pos.model.PaginatedData;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.service.ApiException;
@@ -28,6 +31,43 @@ public class InventoryDto {
         PreProcessingUtil.normalizeAndValidate(inventoryForm);
         InventoryPojo inventory = convert(inventoryForm);
         return convert(svc.add(inventory));
+    }
+
+    public void bulkAdd(List<InventoryForm> inventoryForms) throws ApiException, JsonProcessingException {
+        bulkAddValidate(inventoryForms);
+
+        List<InventoryPojo> validInventories = new ArrayList<InventoryPojo>();
+        List<InventoryFormErrorData> errors = new ArrayList<InventoryFormErrorData>();
+        for (InventoryForm form : inventoryForms) {
+            try {
+                InventoryPojo inventory = convert(form);
+                validInventories.add(inventory);
+            }
+            catch (ApiException e) {
+                errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), e.getMessage()));
+            }
+        }
+        if(errors.size() > 0 ) throwErrors(errors);
+        
+        svc.bulkAdd(validInventories);   
+    }
+
+    private void bulkAddValidate(List<InventoryForm> forms) throws JsonProcessingException, ApiException {
+        List<InventoryFormErrorData> errors = new ArrayList<InventoryFormErrorData>();
+        forms.forEach(form->{
+            try {
+                PreProcessingUtil.normalizeAndValidate(form);
+            } catch (ApiException e) {
+                errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), e.getMessage()));
+            }
+        });
+        if(errors.size() > 0 ) throwErrors(errors);
+    }
+
+    private void throwErrors(List<InventoryFormErrorData> errors) throws ApiException, JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(errors);
+        throw new ApiException(json);
     }
 
     public InventoryData get(Integer id) throws ApiException {
