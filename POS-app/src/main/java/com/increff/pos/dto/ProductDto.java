@@ -55,6 +55,10 @@ public class ProductDto {
         svc.update(id, product);
     }
 
+    public ProductData getByBarcode(String barcode) throws ApiException {
+        return convert(svc.getCheckBarcode(barcode));
+    }
+
     private ProductPojo convert(ProductForm productForm) throws ApiException{
 		ProductPojo product = ConvertUtil.convert(productForm, ProductPojo.class);
 		product.setBrandCategory(brandService.getCheckBrandCategory(productForm.getBrand(), productForm.getCategory()).getId());

@@ -37,6 +37,12 @@ public class ProductApiController {
 		return dto.get(id);
 	}
 
+	@ApiOperation(value = "Gets a product by barcode")
+	@RequestMapping(path="", method = RequestMethod.GET, params = "barcode")
+	public ProductData getByBarcode(@RequestParam String barcode) throws ApiException {
+		return dto.getByBarcode(barcode);
+	}
+
 	@ApiOperation(value = "Gets all products")
 	@RequestMapping(path = "", method = RequestMethod.GET)
 	public PaginatedData<ProductData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
