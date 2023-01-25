@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.increff.pos.model.BrandReportData;
 import com.increff.pos.model.InventoryReportData;
 import com.increff.pos.model.SalesReportData;
 import com.increff.pos.model.SalesReportForm;
@@ -209,6 +210,22 @@ public class ReportDto {
         if(Objects.nonNull(brand)) return brandService.getByColumn("brand", Arrays.asList(brand));
 
         return Collections.emptyList();
+    }
+
+
+
+
+    public String brandReport() throws ApiException{
+        List<BrandPojo> brands = brandService.getAll();
+        if(brands.isEmpty()) return "No brands found";
+        List<BrandReportData> reportDataList = new ArrayList<>();
+        brands.forEach(brand->{
+            reportDataList.add(new BrandReportData(brand.getBrand(), brand.getCategory()));
+        });
+
+        String base64  = PDFApiUtil.getReportPDFBase64(reportDataList, "brandReport", "brandReport", null);
+        return base64;
+
     }
 
 }
