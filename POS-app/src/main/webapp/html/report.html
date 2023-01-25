@@ -1,0 +1,88 @@
+<!doctype html>
+
+<html lang="en">
+
+<head th:replace="snippets.html :: name_head"></head>
+
+<body>
+
+<nav th:replace="snippets.html :: name_app_navbar"></nav>
+
+<div class="container">
+
+<h3>Reports</h3>
+
+
+
+<!-- Blank Row -->
+<div class="row">
+	&nbsp;
+</div>
+<div class="row">
+
+ <!-- Table -->
+ <div class="col-12">
+	<table class="table table-striped" id="brand-table">
+	  <thead>
+	    <tr>
+	      <th scope="col"></th>
+		  <th scope="col"></th>
+	    </tr>
+	  </thead>
+	  <tbody>
+		<tr>
+			<td><button class="btn btn-info" id="brand-report">Brand Report</button></td>
+			<td></td>
+		  </tr>
+	    <tr>
+	      <td><button class="btn btn-info" id="inventory-report">Inventory Report</button></td>
+		  <td></td>
+	    </tr>
+		<tr>
+			<td><button class="btn btn-info" id="sales-report">Sales Report</button></td>
+			<td>
+				<div class="col-12">
+					<form class="form" id="sales-report-form">
+					  <div class="form-group">
+						<label for="startDate" class="col-sm-2 col-form-label">Start Date</label>
+						<div class="col-sm-10">
+							<input type="date" id="startDate" name="startDate">
+						</div>
+					  </div>
+					  <div class="form-group">
+						<label for="endDate" class="col-sm-2 col-form-label">End Date</label>
+						<div class="col-sm-10">
+							<input type="date" id="endDate" name="endDate">
+						</div>
+					  </div>
+					  <label for="inputbrand" class="col-sm-2 col-form-label">Brand</label>
+					  <div class="col-sm-10">
+						<input type="text" class="form-control" name="brand" id="inputbrand" placeholder="Enter Brand">
+					  </div>
+					</div>
+					<div class="form-group">
+					  <label for="inputcategory" class="col-sm-2 col-form-label">Category</label>
+					  <div class="col-sm-10">
+						<input type="text" class="form-control" name="category" id="inputcategory" placeholder="Enter Category">
+					  </div>
+					</form>
+			 </div>	
+			</td>
+		  </tr>
+
+	  </tbody>
+	</table>
+
+ </div>
+</div>
+
+
+</div> <!-- Container end-->
+
+<footer th:replace="snippets.html :: name_footer"></footer>
+
+<script th:src="@{/static/report.js}"/></script>
+
+</body>	
+
+</html>

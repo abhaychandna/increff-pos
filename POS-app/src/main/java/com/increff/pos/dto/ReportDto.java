@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import com.increff.pos.model.InventoryReportData;
 import com.increff.pos.model.SalesReportData;
@@ -45,8 +44,6 @@ public class ReportDto {
     private OrderService orderService;
     @Autowired
     private OrderItemService orderItemService;
-    @Autowired
-    private RestTemplate RestTemplate;
 
 
 
@@ -95,22 +92,23 @@ public class ReportDto {
 
 
 
-    public List<SalesReportData> salesReport(SalesReportForm form) throws ApiException {
+    public String salesReport(SalesReportForm form) throws ApiException {
         ZonedDateTime startDate = TimeUtil.isoTimeStringToZonedDateTime(form.getStartDate());
         ZonedDateTime endDate = TimeUtil.isoTimeStringToZonedDateTime(form.getEndDate());
         
         List<BrandPojo> brands = getBrandPojoList(form.getBrand(), form.getCategory());
         System.out.println("brands : " + brands.size());
-        if(brands.isEmpty()) return Collections.emptyList();
+        // if(brands.isEmpty()) return Collections.emptyList();
         List<ProductPojo> products = getProducts(brands);
         System.out.println("products : " + products.size());
-        if(products.isEmpty()) return Collections.emptyList();
+        // if(products.isEmpty()) return Collections.emptyList();
 
         List<Integer> productIds = products.stream().map(ProductPojo::getId).collect(Collectors.toList());
         List<OrderItemPojo> orderItems = getOrderItems(startDate, endDate, productIds);
         System.out.println("orderItems : " + orderItems.size());
 
-        if(orderItems.isEmpty()) return Collections.emptyList(); 
+        if(orderItems.isEmpty()) throw new ApiException("No orders found for the given criteria"); 
+        
         HashMap<Integer, List<String>> productIdToBrandCategory = getProductIdToBrandCategoryMap(products, brands);
         System.out.println("productIdToBrandCategory : " + productIdToBrandCategory.size());
         
@@ -118,9 +116,9 @@ public class ReportDto {
         
         String outputFilename = salesReportOutputFilename(startDate, endDate, form.getBrand(), form.getCategory());
         HashMap<String, String> headers = salesReportHeaders(startDate, endDate, form.getBrand(), form.getCategory());
-        PDFApiUtil.getReportPDFBase64(salesReport, "salesReport", outputFilename, headers);
+        String base64 = PDFApiUtil.getReportPDFBase64(salesReport, "salesReport", outputFilename, headers);
 
-        return salesReport;
+        return base64;
     }
 
     private HashMap<String, String> salesReportHeaders(ZonedDateTime startDate, ZonedDateTime endDate, String brand, String category) {

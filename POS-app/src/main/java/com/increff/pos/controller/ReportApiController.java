@@ -36,7 +36,7 @@ public class ReportApiController {
 
 	@ApiOperation(value = "Sales Report")
 	@RequestMapping(path = "sales", method = RequestMethod.POST)
-	public List<SalesReportData> salesReport(@RequestBody SalesReportForm form) throws ApiException {
+	public String salesReport(@RequestBody SalesReportForm form) throws ApiException {
 		return dto.salesReport(form);
 	}
 
