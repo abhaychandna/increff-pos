@@ -32,4 +32,7 @@ public class OrderItemPojo extends AbstractPojo{
     @Column(name="sellingPrice", nullable=false)
     private Double sellingPrice;
 
+    public Double getCost() {
+        return quantity * sellingPrice;
+    }
 }
