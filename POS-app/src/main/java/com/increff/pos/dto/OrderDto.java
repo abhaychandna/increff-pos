@@ -51,10 +51,8 @@ public class OrderDto {
             return base64;
         }
         
+        Double total = 0.0;
         List<InvoiceItemData> invoiceItems = new ArrayList<InvoiceItemData>();
-
-        // Convert to InvoiceItemForm
-
         for(OrderItemPojo item: items) {
             InvoiceItemData invoiceItem = new InvoiceItemData();
             invoiceItem.setQuantity(item.getQuantity());
@@ -64,15 +62,16 @@ public class OrderDto {
             invoiceItem.setProductId(product.getId());
             invoiceItem.setName(product.getName());
 
+            total += item.getQuantity() * item.getSellingPrice();
             invoiceItems.add(invoiceItem);
         }        
 
-        //List<InvoiceItemData> invoiceItems = items.stream().map(item->ConvertUtil.convert(items, InvoiceItemData.class)).collect(Collectors.toList());
         HashMap<String, String> XMLheaders = new HashMap<String, String>();
         XMLheaders.put("OrderId", order.getId().toString());
         XMLheaders.put("Time", order.getTime().toString());
+        XMLheaders.put("Total", total.toString());
         String xsltFilename = "invoice";
-        //PDFApiUtil.getReportPDFBase64(invoiceItems, xsltFilename, outputFilename, XMLheaders);
+
         return PDFApiUtil.getReportPDFBase64(invoiceItems, xsltFilename, outputFilename, XMLheaders);
 
     }

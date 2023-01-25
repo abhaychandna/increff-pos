@@ -13,12 +13,13 @@ public class PDFForm<T> {
     private String outputFilename;
     private HashMap<String, String> headers;
     private List<T> reportData;
-    public PDFForm(List<T> reportData, String xsltFilename, String outputFilename, HashMap<String, String> headers) {
-        this.reportData = reportData;
+    public PDFForm(String xsltFilename, String outputFilename, HashMap<String, String> headers, List<T> reportData) {
         this.xsltFilename = xsltFilename;
         this.outputFilename = outputFilename;
         this.headers = headers;
+        this.reportData = reportData;
     }
     public PDFForm() {
     }
+
 }

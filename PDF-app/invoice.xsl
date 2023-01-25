@@ -154,8 +154,7 @@
 									  <fo:block>Total Cost</fo:block>
 								   </fo:table-cell>
 								   <fo:table-cell padding-bottom="2px" padding-top="5mm">
-								   		<!-- TODO : Add the total cost of all items -->
-										<fo:block><xsl:value-of select="sum(ReportForm/ItemsList/Items/quantity)"/></fo:block>
+										<fo:block><xsl:value-of select="ReportForm/Total"/></fo:block>
 								   </fo:table-cell>							                            
 								</fo:table-row>
 							</fo:table-footer>  

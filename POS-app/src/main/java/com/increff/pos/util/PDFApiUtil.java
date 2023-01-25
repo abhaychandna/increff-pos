@@ -20,18 +20,9 @@ public class PDFApiUtil {
     public static <T> String getReportPDFBase64(List<T> reportData, String xsltFilename, String outputFilename, HashMap<String, String> XMLheaders) throws ApiException{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String apiUrl = "http://localhost:8000/pdf/api/pdf/generateReport";// + path;
-        //PDFForm<T> pdfForm = new PDFForm(reportData, xsltFilename, outputFilename, XMLheaders);
-        PDFForm<T> pdfForm = new PDFForm<T>();
-        pdfForm.setOutputFilename(outputFilename);
-        pdfForm.setXsltFilename(xsltFilename);
-        pdfForm.setReportData(reportData);
-        pdfForm.setHeaders(XMLheaders);
-
-        System.out.println("PDF form: " + pdfForm.getOutputFilename());
-        System.out.println("PDF form: " + pdfForm.getXsltFilename());
-        System.out.println("PDF form: " + pdfForm.getReportData());
-
+        String apiUrl = "http://localhost:8000/pdf/api/pdf/generateReport";
+        PDFForm<T> pdfForm = new PDFForm<T>(xsltFilename, outputFilename, XMLheaders, reportData);
+        System.out.println("PDF form: " + pdfForm.getHeaders());
         RestTemplate RestTemplate = new RestTemplate();
         ResponseEntity<String> apiResponse = RestTemplate.postForEntity(apiUrl, pdfForm, String.class);
         String base64 = apiResponse.getBody();
