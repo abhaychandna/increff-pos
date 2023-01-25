@@ -16,13 +16,7 @@
     <div class="row">
         <div class="col-12">
             <form class="form-inline" id="order-form">
-                    <div class="form-group">
-                        <label for="inputCustomerName" class="col-sm-2 col-form-label">Customer Name</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="customer" id="inputCustomerName" placeholder="Enter Customer Name">
-                        </div>
-                    </div>
-                <button type="button" class="btn btn-primary" id="add-order">Add</button>
+                <button type="button" class="btn btn-primary" id="add-order" th:if="${info.getRole() == 'supervisor'}">Add</button>
                 &nbsp;
                 <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
                 </form>

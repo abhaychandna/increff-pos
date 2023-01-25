@@ -65,7 +65,7 @@
         <a class="nav-link" th:href="@{/ui/orders}">Orders</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/ui/daySales}">Day Sales</a>
+        <a class="nav-link" th:href="@{/ui/daySales}" th:if="${info.getRole() == 'supervisor'}">Day Sales</a>
       </li>
     </ul>
     

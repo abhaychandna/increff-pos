@@ -203,7 +203,7 @@ function init(){
 				"data":null,
 				"render":function(o){
 
-					return '<button type="button" class="btn btn-info" onclick="displayEditBrand(' + o.id + ')">Edit</button>'
+					return '<button type="button" class="btn btn-info" onclick="displayEditBrand(' + o.id + ')"th:if="${info.getRole() == "supervisor"}>Edit</button>'
 				}
 			}
         ]
