@@ -224,7 +224,7 @@ function getInvoice(id){
         type: 'GET',
         success: function(base64String) {
             console.log(base64String);
-            downloadPDF(base64String);
+            downloadPDF(base64String, "Invoice_orderId_" + id);
         },
         error: handleAjaxError
      });

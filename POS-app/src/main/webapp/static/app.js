@@ -53,10 +53,10 @@ function writeFileData(arr){
     tempLink.click(); 
 }
 
-function downloadPDF(base64String) {
+function downloadPDF(base64String, OUT_FILENAME) {
 	const linkSource = `data:application/pdf;base64,${base64String}`;
 	const downloadLink = document.createElement("a");
-	const fileName = "Invoice.pdf";
+	const fileName = OUT_FILENAME + ".pdf";
 	downloadLink.href = linkSource;
 	downloadLink.download = fileName;
 	downloadLink.click();

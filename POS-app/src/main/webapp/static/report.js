@@ -13,7 +13,7 @@ function brandReport() {
         type: 'GET',
         success: function (data) {
             console.log(data);
-            downloadPDF(data);
+            downloadPDF(data, "BrandReport");
         },
         error: function (response) {
             handleAjaxError(response);
@@ -28,7 +28,7 @@ function inventoryReport(){
         type: 'GET',
         success: function (data) {
             console.log(data);
-            downloadPDF(data);
+            downloadPDF(data, "InventoryReport");
         },
         error: function (response) {
             handleAjaxError(response);
@@ -76,7 +76,7 @@ function salesReport(){
         contentType: "application/json",
         success: function (data) {
             console.log(data);
-            downloadPDF(data);
+            downloadPDF(data, "SalesReport");
         },
         error: function (response) {
             handleAjaxError(response);
