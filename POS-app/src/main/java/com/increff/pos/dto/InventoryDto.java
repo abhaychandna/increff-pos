@@ -75,6 +75,11 @@ public class InventoryDto {
         return convert(inventory);
     }
 
+    public InventoryData getByBarcode(String barcode) throws ApiException {
+        InventoryPojo inventory = svc.get(productService.getByBarcode(barcode).getId());
+        return convert(inventory);
+    }
+
     public PaginatedData<InventoryData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
         Integer pageNo = start/pageSize;
         List<InventoryPojo> inventories = svc.getAll(pageNo, pageSize);

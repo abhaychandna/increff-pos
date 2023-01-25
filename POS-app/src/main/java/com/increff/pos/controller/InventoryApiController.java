@@ -52,6 +52,12 @@ public class InventoryApiController {
 		return dto.getAll(start, length, draw);
 	}
 
+	@ApiOperation(value = "Gets Inventory by ID")
+	@RequestMapping(path = "/barcode/{barcode}", method = RequestMethod.GET)
+	public InventoryData getByBarcode(@PathVariable String barcode) throws ApiException {
+		return dto.getByBarcode(barcode);
+	}
+
 	@RequestMapping(path = "", method = RequestMethod.PUT)
 	public void update(@RequestBody InventoryForm f) throws ApiException {
 		dto.update(f);
