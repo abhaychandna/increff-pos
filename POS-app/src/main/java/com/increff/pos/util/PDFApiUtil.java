@@ -6,6 +6,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -56,5 +57,15 @@ public class PDFApiUtil {
             throw new ApiException("Error in saving pdf file." + e.getMessage());
         }
     }
+
+    public static String PDFToBase64(String filename) throws ApiException {
+        File file = new File(filename);
+        try{
+            return Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(file));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ApiException("Error in reading pdf file." + e.getMessage());
+        }
+}
 
 }
