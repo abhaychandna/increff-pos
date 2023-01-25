@@ -358,8 +358,9 @@ function init(){
             } },
 			{
 				"data":null,
-				"render":function(o){return '<button onclick="displayOrderDetails(' + o.id + ')">view</button>' + 
-                        '<button onclick="getInvoice(' + o.id + ')">Invoice</button>'} 
+				"render":function(o){return '<button class="btn btn-info" onclick="displayOrderDetails(' + o.id + ')">View</button>' + 
+                        '          ' + 
+                        '<button class="btn btn-info" onclick="getInvoice(' + o.id + ')">Download Invoice</button>'} 
 			}
         ]
 	});
