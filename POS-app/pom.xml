@@ -226,6 +226,16 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.8</version>
+				<configuration>
+					<excludes>
+						<exclude>com/increff/pos/controller/*</exclude>
+						<exclude>com/increff/pos/model/data/*</exclude>
+						<exclude>com/increff/pos/model/form/*</exclude>
+						<exclude>com/increff/pos/spring/*</exclude>
+						<exclude>com/increff/pos/dao/*</exclude>
+						<exclude>com/increff/pos/pojo/*</exclude>
+					</excludes>
+				 </configuration>
 				<executions>
 					<execution>
 						<goals>
