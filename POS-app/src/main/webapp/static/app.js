@@ -56,7 +56,7 @@ function writeFileData(arr){
 function downloadPDF(base64String) {
 	const linkSource = `data:application/pdf;base64,${base64String}`;
 	const downloadLink = document.createElement("a");
-	const fileName = "abc.pdf";
+	const fileName = "Invoice.pdf";
 	downloadLink.href = linkSource;
 	downloadLink.download = fileName;
 	downloadLink.click();
