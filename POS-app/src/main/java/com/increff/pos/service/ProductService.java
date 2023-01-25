@@ -22,6 +22,10 @@ public class ProductService {
 		dao.insert(product);
 		return product;
 	}
+	
+	public void bulkAdd(List<ProductPojo> products) throws ApiException{
+		for(ProductPojo product: products)add(product);
+	}
 
 	public ProductPojo get(Integer id) throws ApiException {
 		return getCheck(id);

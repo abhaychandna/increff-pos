@@ -1,14 +1,19 @@
 package com.increff.pos.dto;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.increff.pos.model.PaginatedData;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
+import com.increff.pos.model.ProductFormErrorData;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
@@ -31,6 +36,45 @@ public class ProductDto {
         checkBarcodeDoesntExist(product.getBarcode());
         ProductPojo productPojo = svc.add(product);
         return convert(productPojo);
+    }
+
+    public void bulkAdd(List<ProductForm> forms) throws ApiException, JsonProcessingException {
+        bulkAddValidate(forms);       
+
+        List<ProductPojo> validProducts = new ArrayList<ProductPojo>();
+        List<ProductFormErrorData> errors = new ArrayList<ProductFormErrorData>();
+        forms.forEach(form->{
+            try {
+                validProducts.add(convert(form));
+            } catch (ApiException e) {
+                errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), e.getMessage()));
+            }
+        });
+        if(errors.size() > 0 ) throwErrors(errors);
+        
+        svc.bulkAdd(validProducts);   
+    }
+
+    private void bulkAddValidate(List<ProductForm> forms) throws JsonProcessingException, ApiException {
+        List<ProductFormErrorData> errors = new ArrayList<ProductFormErrorData>();
+        Set<String> barcodeSet = new HashSet<String>();
+        forms.forEach(form->{
+            try {
+                PreProcessingUtil.normalizeAndValidate(form);
+                if(barcodeSet.contains(form.getBarcode()))throw new ApiException("Duplicate Barcodes not allowed in Input");
+                checkBarcodeDoesntExist(form.getBarcode());
+                barcodeSet.add(form.getBarcode());
+            } catch (ApiException e) {
+                errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), e.getMessage()));
+            }
+        });
+        if(errors.size() > 0 ) throwErrors(errors);
+    }
+
+    private void throwErrors(List<ProductFormErrorData> errors) throws ApiException, JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(errors);
+        throw new ApiException(json);
     }
 
     public ProductData get(Integer id) throws ApiException {
