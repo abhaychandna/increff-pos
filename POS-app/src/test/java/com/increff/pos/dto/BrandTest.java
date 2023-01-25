@@ -3,9 +3,12 @@ package com.increff.pos.dto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.PaginatedData;
@@ -70,6 +73,36 @@ public class BrandTest extends AbstractUnitTest {
         // Adding same brand/category twice should throw error
         try {
             brandDto.add(brandForm);
+        } catch (ApiException e) {
+            // Test passed if add throws error
+            return;
+        }
+        fail();
+    }
+
+    @Test
+    public void testBulkAdd() throws ApiException, JsonProcessingException {
+        BrandForm brandForm1 = TestUtil.getBrandFormDto("adidas", "tshirts");
+        BrandForm brandForm2 = TestUtil.getBrandFormDto("nike", "tshirts");
+        BrandForm brandForm3 = TestUtil.getBrandFormDto("puma", "tshirts");
+        List<BrandForm> brandForms = List.of(brandForm1, brandForm2, brandForm3);
+        brandDto.bulkAdd(brandForms);
+
+        PaginatedData<BrandData> brandSearchData = brandDto.getAll(0, 10, 0);
+        assertEquals(3, brandSearchData.getData().size());
+    }
+
+    @Test
+    public void testBulkAddDuplicate() throws ApiException, JsonProcessingException {
+        BrandForm brandForm1 = TestUtil.getBrandFormDto("adidas", "tshirts");
+        BrandForm brandForm2 = TestUtil.getBrandFormDto("nike", "tshirts");
+        BrandForm brandForm3 = TestUtil.getBrandFormDto("puma", "tshirts");
+        List<BrandForm> brandForms = List.of(brandForm1, brandForm2, brandForm3);
+        brandDto.bulkAdd(brandForms);
+
+        // Adding same brand/category twice should throw error
+        try {
+            brandDto.bulkAdd(brandForms);
         } catch (ApiException e) {
             // Test passed if add throws error
             return;
