@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/api/inventory/**").hasAnyAuthority("operator","supervisor")//
 				.antMatchers("/api/inventory/**").hasAuthority("supervisor")
 				.antMatchers("/api/orders/**").hasAnyAuthority("operator","supervisor")//
-				.antMatchers("/api/daySaless/**").hasAnyAuthority("supervisor")//
+				.antMatchers("/api/daySales/**").hasAnyAuthority("supervisor")//
 				.antMatchers("/api/reports/**").hasAnyAuthority("supervisor")//
 				.antMatchers("/api/about/**").permitAll()
 				.antMatchers("/api/admin/**").hasAuthority("supervisor")

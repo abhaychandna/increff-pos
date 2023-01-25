@@ -18,13 +18,13 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
-@RequestMapping(path = "/api/daySaless")
+@RequestMapping(path = "/api/daySales")
 public class DaySalesApiController {
 
 	@Autowired
 	private DaySalesDto dto;
 
-	@ApiOperation(value = "Gets list of all daySaless")
+	@ApiOperation(value = "Gets list of all daySales")
 	@RequestMapping(path = "", method = RequestMethod.GET)
 	public PaginatedData<DaySalesData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw, @RequestParam Optional<String> startDate, @RequestParam Optional<String> endDate) throws ApiException {
 		String startDateParam = startDate.orElse("");

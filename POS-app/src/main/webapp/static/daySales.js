@@ -1,7 +1,7 @@
 
 function getDaySalesUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/daySaless";
+	return baseUrl + "/api/daySales";
 }
 function getDaySalesFilterUrl(){
 	return getDaySalesUrl() + "/filter";
