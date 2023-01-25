@@ -40,5 +40,11 @@ public class ReportApiController {
 		return dto.salesReport(form);
 	}
 
+	@ApiOperation(value = "Brand Report")
+	@RequestMapping(path = "brand", method = RequestMethod.GET)
+	public String brandReport() throws ApiException, FOPException, IOException, TransformerException {
+		return dto.brandReport();
+	}
+
 
 }
