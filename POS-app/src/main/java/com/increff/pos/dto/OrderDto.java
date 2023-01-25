@@ -1,9 +1,11 @@
 package com.increff.pos.dto;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +42,17 @@ public class OrderDto {
 
     public String getInvoice(Integer id) throws ApiException {
         OrderPojo order = orderService.get(id);
+        
         List<OrderItemPojo> items = orderItemService.getByOrderId(id);
+        
+        String outputFilename = "invoice_" + id;
+        String base64 = invoiceBase64(outputFilename);
+        if(Objects.nonNull(base64)) {
+            return base64;
+        }
+        
         List<InvoiceItemData> invoiceItems = new ArrayList<InvoiceItemData>();
+
         // Convert to InvoiceItemForm
 
         for(OrderItemPojo item: items) {
@@ -61,10 +72,18 @@ public class OrderDto {
         XMLheaders.put("OrderId", order.getId().toString());
         XMLheaders.put("Time", order.getTime().toString());
         String xsltFilename = "invoice";
-        String outputFilename = "invoice_" + id;
         //PDFApiUtil.getReportPDFBase64(invoiceItems, xsltFilename, outputFilename, XMLheaders);
         return PDFApiUtil.getReportPDFBase64(invoiceItems, xsltFilename, outputFilename, XMLheaders);
 
+    }
+
+    private String invoiceBase64(String outputFilename) throws ApiException {
+        outputFilename = outputFilename + ".pdf";
+        File file = new File(outputFilename);
+        if(file.exists()) {
+            return PDFApiUtil.PDFToBase64(outputFilename);
+        }
+        return null;        
     }
 
     public OrderData get(Integer id) throws ApiException {
