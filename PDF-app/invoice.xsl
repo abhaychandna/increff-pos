@@ -76,15 +76,24 @@
 					<fo:block space-after="1cm"> </fo:block>
 					
 					<fo:block>
-						<fo:table width="110mm" border-style="solid" border-width="2pt"  text-align="center">
-							<fo:table-column column-width="3cm"/>
-							<fo:table-column column-width="3cm"/>
-							<fo:table-column column-width="3cm"/>
-							<fo:table-column column-width="3cm"/>
-							<fo:table-column column-width="3cm"/>
-							<fo:table-column column-width="3cm"/>
-							<fo:table-header>
-								<fo:table-row>
+							<fo:table width="100%"
+							border-style="double"
+							border-width="1pt"
+							border-color="#69468D"
+							table-layout="fixed"
+							space-before="10px"
+							space-after="10px"
+							text-align="center"
+							font-size="12pt">
+							<fo:table-column />
+							<fo:table-column />
+							<fo:table-column />
+							<fo:table-column />
+							<fo:table-column />
+							<fo:table-column />
+							<fo:table-header
+							background-color="#69468D"
+							color="white">								<fo:table-row>
 									<fo:table-cell padding-bottom="2px" padding-top="2px">
 										<fo:block font-weight="bold">Item No.</fo:block>
 									</fo:table-cell>
