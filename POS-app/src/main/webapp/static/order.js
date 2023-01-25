@@ -20,6 +20,11 @@ function getProductUrl() {
     return baseUrl + "/api/products";
 }
 
+function getInventoryUrl() {
+    var baseUrl = $("meta[name=baseUrl]").attr("content")
+    return baseUrl + "/api/inventory";
+}
+
 function resetForm() {
     var element = document.getElementById("order-item-form");
     element.reset()
@@ -36,7 +41,7 @@ function displayOrderItemList(data){
 
 	for(var i in wholeOrder) {
         var e = wholeOrder[i];  
-        var buttonHtml = '<button onclick="deleteOrderItem('+i+')" class="btn">Delete<i class="fa-regular fa-circle-xmark"></i></button>';
+        var buttonHtml = '<button onclick="deleteOrderItem('+i+')" class="btn btn-danger">Delete</button>';
         var row = '<tr>'
             + '<td>' + JSON.parse(wholeOrder[i]).barcode + '</td>'
             + '<td>'  + JSON.parse(wholeOrder[i]).quantity + '</td>'
@@ -55,12 +60,10 @@ function displayOrderItemViewList(data){
 
     for(var i in data) {
         var e = data[i];  
-        var buttonHtml = '<button onclick="deleteOrderItem('+i+')" class="btn">Delete<i class="fa-regular fa-circle-xmark"></i></button>';
         var row = '<tr>'
             + '<td>' + data[i].barcode + '</td>'
             + '<td>'  + data[i].quantity + '</td>'
             + '<td>'  + data[i].sellingPrice + '</td>'
-            //+ '<td>'  + buttonHtml + '</td>'
             + '</tr>';
 
         $tbody.append(row);
@@ -68,7 +71,42 @@ function displayOrderItemViewList(data){
 
 }
 
-function checkOrderItemExist() {
+function validateInventory(barcode, quantity, inputJson) {
+    var url = getInventoryUrl() + "/barcode/" + barcode;
+    $.ajax({
+        async: false,
+        url: url,
+        type: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        success: function(response) {
+            response["quantity"];
+            if(response["quantity"] < quantity) {
+                alert("Not enough quantity in inventory. Available: " + response["quantity"]);
+                return;
+            }
+
+            var index = itemInCart();
+            if(index != -1) {
+                console.log("inside check");
+                wholeOrder[i] = inputJson;
+            }
+            else{
+                wholeOrder.push(inputJson);        
+            }
+            resetForm();
+        },
+        error: function(data) {
+            error = data.responseJSON.message;
+            alert(error);
+        }
+    });
+    displayOrderItemList(wholeOrder);
+
+}
+
+function itemInCart() {
     for(i in wholeOrder) {
         var barcode = JSON.parse(wholeOrder[i]).barcode;
         console.log(barcode);
@@ -82,13 +120,6 @@ function checkOrderItemExist() {
     return -1;
 }
 
-var barcode = []
-function getBarcode(data) {
-    for (i in data) {
-        var b = data[i].barcode;
-        barcode.push(b);
-    }
-}
 
 function getProductList() {
     var url = getProductUrl();
@@ -148,31 +179,19 @@ function validateSellingPrice(sellingPrice){
 function addOrderItem(event) {
     var $form = $("#order-item-form");
     var json = toJson($form);
-    var jsonObj = $.parseJSON(json);
     var barcode = $("#order-item-form input[name=barcode]").val();
     var quantity = $("#order-item-form input[name=quantity]").val();
     var sp = $("#order-item-form input[name=sellingPrice]").val();
-    
-    var error = false;
-
     
     var error = false;
     error = error | validateBarcode(barcode);
     error = error | validateQuantity(quantity);
     error = error | validateSellingPrice(sp);
     if(error)return;
+    console.log("No errors");
 
-    var index = checkOrderItemExist();
-    if(index != -1) {
-        console.log("inside check");
-        wholeOrder[i] = json;
-    }
-    else {
-        // TODO : Add check if barcode exists ?
-        wholeOrder.push(json)        
-    }
-    resetForm();
-    displayOrderItemList(wholeOrder)
+    validateInventory(barcode, quantity, json);
+    
 }
 
 function displayCart() {
@@ -315,9 +334,9 @@ function placeOrder() {
                 console.log(productName);
 
                 var newError = e.responseJSON.message.replace("productId: " + productId, "barcode: " + productName);
-                alert(newError);
-                //alert(error);
+                error = newError;
             }
+            alert(error);
         } 
     });
 
