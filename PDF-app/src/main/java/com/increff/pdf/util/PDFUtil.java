@@ -20,7 +20,7 @@ import org.apache.fop.apps.MimeConstants;
 import com.increff.pdf.service.ApiException;
 
 public class PDFUtil {
-    public static void generatePDF(String xmlFile, File xsltFile, String pdfFile)
+    public static String generatePDFBase64(String xmlFile, File xsltFile)
     throws ApiException {
         try {
             StreamSource xmlSource = new StreamSource(new File(xmlFile));
@@ -29,8 +29,7 @@ public class PDFUtil {
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
             OutputStream out;
 
-            out = new java.io.FileOutputStream(pdfFile);
-
+            out = new java.io.ByteArrayOutputStream();
             try {
                 Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
 
@@ -41,7 +40,10 @@ public class PDFUtil {
 
                 transformer.transform(xmlSource, res);
             } finally {
-                out.close();
+                //out.close();
+                byte[] pdfBytes = ((java.io.ByteArrayOutputStream)out).toByteArray();
+                String base64 = Base64.getEncoder().encodeToString(pdfBytes);
+                return base64;
             }
         } catch (Exception e) {
             e.printStackTrace(System.err);

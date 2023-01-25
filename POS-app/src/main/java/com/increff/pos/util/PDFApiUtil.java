@@ -1,19 +1,22 @@
 package com.increff.pos.util;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.increff.pos.model.PDFForm;
+import com.increff.pos.service.ApiException;
 
 public class PDFApiUtil {
 
-    public static <T> String getReportPDFBase64(List<T> reportData, String xsltFilename, String outputFilename, HashMap<String, String> XMLheaders){
+    public static <T> String getReportPDFBase64(List<T> reportData, String xsltFilename, String outputFilename, HashMap<String, String> XMLheaders) throws ApiException{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String apiUrl = "http://localhost:8000/pdf/api/pdf/generateReport";// + path;
@@ -30,9 +33,28 @@ public class PDFApiUtil {
 
         RestTemplate RestTemplate = new RestTemplate();
         ResponseEntity<String> apiResponse = RestTemplate.postForEntity(apiUrl, pdfForm, String.class);
-        String responseBody = apiResponse.getBody();
+        String base64 = apiResponse.getBody();
 
-        return responseBody;
+        // remove ':' from outputFilename
+        outputFilename = outputFilename.replace(":", "-");
+        System.out.println("Output filename: " + outputFilename);
+        String pdfFile = new File(outputFilename + ".pdf").getAbsolutePath();
+        // save base64 to pdf file
+        saveBase64ToPDF(base64, pdfFile);
+
+        return base64;
+    }
+
+    public static void saveBase64ToPDF(String base64, String pdfFile) throws ApiException {
+        try {
+            byte[] pdfAsBytes = Base64.getDecoder().decode(base64);
+            FileOutputStream os = new FileOutputStream(pdfFile);
+            os.write(pdfAsBytes);
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ApiException("Error in saving pdf file." + e.getMessage());
+        }
     }
 
 }

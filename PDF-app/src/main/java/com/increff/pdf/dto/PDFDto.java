@@ -26,20 +26,14 @@ public class PDFDto {
 
         List<T> reportForm = pdfForm.getReportData();
         String xsltFilename = pdfForm.getXsltFilename();
-        String outputFilename = pdfForm.getOutputFilename();
         HashMap<String, String> headers = pdfForm.getHeaders();
 
-        // remove ':' from outputFilename
-        outputFilename = outputFilename.replace(":", "-");
-        System.out.println("Output filename: " + outputFilename);
         File xsltFile = new File(xsltFilename + ".xsl");
-        String xmlFile = new File(outputFilename + ".xml").getAbsolutePath();
-        String pdfFile = new File(outputFilename + ".pdf").getAbsolutePath();
+        String xmlFile = new File("xmlFile" + ".xml").getAbsolutePath();
 
         try {
             XMLUtil.generateReportXML(reportForm, xmlFile, headers);
-            PDFUtil.generatePDF(xmlFile, xsltFile, pdfFile);
-            String base64 = PDFUtil.getBase64(pdfFile);
+            String base64 = PDFUtil.generatePDFBase64(xmlFile, xsltFile);
             return base64;
         }
         catch (Exception e){
