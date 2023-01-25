@@ -26,7 +26,7 @@ public class OrderService {
 	private DaySalesService daySalesService;
 
 	public List<OrderItemPojo> add(List<OrderItemPojo> items) throws ApiException {
-
+		if(items.isEmpty()) throw new ApiException("No items in order");
 		for(OrderItemPojo item : items)	inventoryService.reduceInventory(item.getProductId(), item.getQuantity());
 		
 		OrderPojo order = new OrderPojo();

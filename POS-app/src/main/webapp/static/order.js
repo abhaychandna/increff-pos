@@ -314,7 +314,6 @@ function placeOrder() {
                 searchString = searchString.toLowerCase();
                 startIndex = error.indexOf(searchString) + searchString.length;
                 // extract number after productId
-                // subs                
                 endIndex = error.indexOf(" ", startIndex);
                 croppedError = error.substring(startIndex, error.length);
 
@@ -335,6 +334,9 @@ function placeOrder() {
 
                 var newError = e.responseJSON.message.replace("productId: " + productId, "barcode: " + productName);
                 error = newError;
+            }
+            else{
+                error = e.responseJSON.message;
             }
             alert(error);
         } 
