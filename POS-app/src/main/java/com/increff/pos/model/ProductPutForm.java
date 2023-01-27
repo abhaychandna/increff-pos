@@ -17,4 +17,10 @@ public class ProductPutForm {
 	@Min(value = 0, message = "Mrp should be greater than or equal to 0")
 	private Double mrp;
 
+	public ProductPutForm() {
+	}
+	public ProductPutForm(String name, Double mrp) {
+		this.name = name;
+		this.mrp = mrp;
+	}
 }

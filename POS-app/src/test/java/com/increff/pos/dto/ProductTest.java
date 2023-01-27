@@ -15,6 +15,7 @@ import com.increff.pos.model.BrandData;
 import com.increff.pos.model.PaginatedData;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
+import com.increff.pos.model.ProductPutForm;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.AbstractUnitTest;
 import com.increff.pos.service.ApiException;
@@ -112,7 +113,7 @@ public class ProductTest extends AbstractUnitTest{
         Double newMrp = 200.5;
         
         TestUtil.createBrand(newBrand, newCategory);
-        ProductForm form = TestUtil.getProductFormDto(newBarcode,newBrand,newCategory,newName,newMrp);
+        ProductPutForm form = new ProductPutForm(newName, newMrp);
         productDto.update(productData.getId(), form);
         
         productData = productDto.get(product.getId());
