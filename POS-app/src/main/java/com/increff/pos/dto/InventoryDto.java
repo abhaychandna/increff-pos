@@ -33,7 +33,7 @@ public class InventoryDto {
         return convert(svc.add(inventory));
     }
 
-    public void bulkAdd(List<InventoryForm> inventoryForms) throws ApiException, JsonProcessingException {
+    public void bulkAdd(List<InventoryForm> inventoryForms) throws ApiException {
         bulkAddValidate(inventoryForms);
 
         List<InventoryPojo> validInventories = new ArrayList<InventoryPojo>();
@@ -52,7 +52,7 @@ public class InventoryDto {
         svc.bulkAdd(validInventories);   
     }
 
-    private void bulkAddValidate(List<InventoryForm> forms) throws JsonProcessingException, ApiException {
+    private void bulkAddValidate(List<InventoryForm> forms) throws ApiException {
         List<InventoryFormErrorData> errors = new ArrayList<InventoryFormErrorData>();
         forms.forEach(form->{
             try {
@@ -64,10 +64,15 @@ public class InventoryDto {
         if(errors.size() > 0 ) throwErrors(errors);
     }
 
-    private void throwErrors(List<InventoryFormErrorData> errors) throws ApiException, JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(errors);
-        throw new ApiException(json);
+    private void throwErrors(List<InventoryFormErrorData> errors) throws ApiException {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(errors);
+            throw new ApiException(json);
+        }
+        catch (JsonProcessingException e) {
+            throw new ApiException("Error in parsing error data to json");
+        }
     }
 
     public InventoryData get(Integer id) throws ApiException {
