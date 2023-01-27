@@ -123,4 +123,65 @@ public class ProductTest extends AbstractUnitTest{
         assertEquals(newName, productData.getName());
         assertEquals(newMrp, productData.getMrp(), tolerance);
     }
+
+    @Test
+    public void testGetByBarcode() throws ApiException {
+        ProductPojo product = TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
+        ProductData productData = productDto.getByBarcode(product.getBarcode());
+        
+        assertEquals(product.getId(), productData.getId());
+        assertEquals(brand, productData.getBrand());
+        assertEquals(category, productData.getCategory());
+        assertEquals(product.getBarcode(), productData.getBarcode());
+        assertEquals(product.getName(), productData.getName());
+        assertEquals(product.getMrp(), productData.getMrp(), tolerance);
+    }
+
+
+    @Test
+    public void testBulkAdd() throws ApiException, JsonProcessingException{
+        TestUtil.createBrand(brand, category);
+
+        ProductForm productForm1 = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
+        ProductForm productForm2 = TestUtil.getProductFormDto("abcdef13",brand,category,name,mrp);
+        ProductForm productForm3 = TestUtil.getProductFormDto("abcdef14",brand,category,name,mrp);
+        List<ProductForm> productForms = List.of(productForm1, productForm2, productForm3);
+
+        productDto.bulkAdd(productForms);
+        List<ProductData> productDatas = productDto.getAll(0, 10, 1).getData();
+        assertEquals(productDatas.size(), 3);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testBulkAddExisting() throws ApiException, JsonProcessingException {
+        TestUtil.createBrand(brand, category);
+
+        ProductForm productForm1 = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
+        ProductForm productForm2 = TestUtil.getProductFormDto("abcdef13",brand,category,name,mrp);
+        ProductForm productForm3 = TestUtil.getProductFormDto("abcdef14",brand,category,name,mrp);
+        List<ProductForm> productForms = List.of(productForm1, productForm2, productForm3);
+
+        productDto.bulkAdd(productForms);
+        List<ProductData> productDatas = productDto.getAll(0, 10, 1).getData();
+        assertEquals(productDatas.size(), 3);
+
+        productDto.bulkAdd(productForms);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testBulkAddDuplicateInputs() throws ApiException, JsonProcessingException {
+        TestUtil.createBrand(brand, category);
+
+        ProductForm productForm1 = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
+        ProductForm productForm2 = TestUtil.getProductFormDto("abcdef13",brand,category,name,mrp);
+        ProductForm productForm3 = TestUtil.getProductFormDto("abcdef13",brand,category,name,mrp);
+        List<ProductForm> productForms = List.of(productForm1, productForm2, productForm3);
+
+        productDto.bulkAdd(productForms);
+        List<ProductData> productDatas = productDto.getAll(0, 10, 1).getData();
+        assertEquals(productDatas.size(), 3);
+
+        productDto.bulkAdd(productForms);
+    }
+
 }
