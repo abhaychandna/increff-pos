@@ -25,6 +25,27 @@ function addProduct(event){
 	return false;
 }
 
+function displayEditProduct(id){
+	var url = getProductUrl() + "/" + id;
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   success: function(data) {
+	   		displayProduct(data);   
+	   },
+	   error: handleAjaxError
+	});	
+}
+
+function displayProduct(data){
+	$("#Product-edit-form input[name=id]").val(data.id);	
+	$("#Product-edit-form input[name=barcode]").val(data.barcode);
+	$("#Product-edit-form input[name=mrp]").val(data.mrp);
+	$("#Product-edit-form input[name=name]").val(data.name);
+	$('#edit-Product-modal').modal('toggle');
+}
+
+
 function updateProduct(event){
 	$('#edit-Product-modal').modal('toggle');
 	//Get the ID
@@ -53,15 +74,7 @@ function updateProduct(event){
 
 
 function getProductList(){
-	var url = getProductUrl();
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(data) {
-	   		displayProductList(data);  
-	   },
-	   error: handleAjaxError
-	});
+	$("#Product-table").DataTable().ajax.reload();
 }
 
 function deleteProduct(id){
@@ -94,38 +107,30 @@ function readFileDataCallback(results){
 }
 
 function uploadRows(){
-	//Update progress
-	updateUploadDialog();
-	//If everything processed then return
-	if(processCount==fileData.length){
-		getProductList();
-		return;
-	}
-	
-	//Process next row
-	var row = fileData[processCount];
-	processCount++;
-	
-	var json = JSON.stringify(row);
-	var url = getProductUrl();
-	console.log(json);
-	//Make ajax call
+	var url = getProductUrl() + "/add/bulk";
+	var jsonData = JSON.stringify(fileData);
+	// TODO : Add file upload limit
 	$.ajax({
-	   url: url,
-	   type: 'POST',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },	   
-	   success: function(response) {
-	   		uploadRows();  
-	   },
-	   error: function(response){
-	   		row.error=response.responseText
-	   		errorData.push(row);
-	   		uploadRows();
-	   }
-	});
+		url: url,
+		type: 'POST',
+		data: jsonData,
+		headers: {
+			'Content-Type': 'application/json'
+		},	   
+		success: function(response) {
+			console.log(response);
+			errorData = response;
+			processCount = fileData.length;	 
+			$('#statusView').html("Upload Successful");
+			getProductList();
+		},
+		error: function(response){
+			errorData = JSON.parse(response.responseJSON.message) ;
+			console.log(errorData);
+			processCount = fileData.length;
+			$('#statusView').html("Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
+		}
+	 });
 
 }
 
@@ -139,16 +144,24 @@ function getBrandUrl(){
 }
 
 //UI DISPLAY METHODS
+
+function openAddProductModal(){
+	$('#add-Product-modal').modal('toggle');
+}
+
 function getBrandList(){
-    var url = getBrandUrl();
+	// TODO : increase length of brandList to get all brands 
+    var url = getBrandUrl() + '?start=0&length=100&draw=1';
     $.ajax({
        url: url,
        type: 'GET',
-       success: function(data) {
+       success: function(response) {
             var brandSelect = $("#brand-select");
             var categorySelect  = $("#category-select");
             var brandEditSelect = $("#brand-edit-select");
             var categoryEditSelect  = $("#category-edit-select");
+			console.log(response)
+			data = response['data']
             for(var i in data){
                 brandSelect.append("<option value='"+data[i].brand+"'>"+data[i].brand+"</option>");
                 categorySelect.append("<option value='"+data[i].category+"'>"+data[i].category+"</option>");
@@ -235,7 +248,34 @@ function displayProduct(data){
 
 //INITIALIZATION CODE
 function init(){
+
+	$('#Product-table').DataTable( {
+		"processing": true,
+		"serverSide": true,
+		"searching": false,
+		"ordering": false,
+		"lengthMenu": [2,5,10,20, 40, 60, 80, 100],
+		"pageLength":10,
+		"ajax": {url : getProductUrl()},
+		"columns": [
+            { "data": "id" },
+			{ "data": "barcode" },
+            { "data": "brand" },
+            { "data": "category" },
+			{ "data": "name" },
+			{ "data": "mrp" },
+			{
+				"data":null,
+				"render":function(o){
+
+					return '<button type="button" class="btn btn-info" onclick="displayEditProduct(' + o.id + ')"th:if="${info.getRole() == "supervisor"}>Edit</button>'
+				}
+			}
+        ]
+	});
+
 	$('#add-Product').click(addProduct);
+	$('#open-add-Product-modal').click(openAddProductModal)
 	$('#update-Product').click(updateProduct);
 	$('#refresh-data').click(getProductList);
 	$('#upload-data').click(displayUploadData);
@@ -246,5 +286,5 @@ function init(){
 }
 
 $(document).ready(init);
-$(document).ready(getProductList);
+//$(document).ready(getProductList);
 

@@ -15,52 +15,11 @@
 		<!-- Top row with form-->
 		<div class="row">
 			<div class="col-12">
-				<form class="form-inline" id="Product-form">
-					
-					<!-- Barcode, Product, category, mrp, name -->
-					<div class="form-group">
-						<label for="inputbarcode" class="col-sm-2 col-form-label">barcode</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" name="barcode" id="inputbarcode"
-								placeholder="enter barcode">
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="brand-select" class="col-sm-2 col-form-label">brand</label>
-						<div class="col-sm-10">
-							<select placeholder="Select Brand" data-search="true" id="brand-select" name="brand">
-								<option disabled selected value> -- select an option -- </option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="category-select" class="col-sm-2 col-form-label">category</label>
-						<div class="col-sm-10">
-							<select placeholder="Select Category" data-search="true" id="category-select" name="category">
-								<option disabled selected value> -- select an option -- </option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputmrp" class="col-sm-2 col-form-label">mrp</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" name="mrp" id="inputmrp"
-								placeholder="enter mrp">
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputname" class="col-sm-2 col-form-label">name</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" name="name" id="inputname"
-								placeholder="enter name">
-						</div>
-					</div>
-					<button type="button" class="btn btn-primary" id="add-Product">Add</button>
-					&nbsp;
-					<button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
-					&nbsp;
-					<button type="button" class="btn btn-primary" id="upload-data">Upload</button>
-				</form>
+				<button type="button" class="btn btn-primary" id="open-add-Product-modal" th:if="${info.getRole() == 'supervisor'}">Add</button>
+				&nbsp;
+				<button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+				&nbsp;
+				<button type="button" class="btn btn-primary" id="upload-data" th:if="${info.getRole() == 'supervisor'}">Upload</button>
 			</div>
 		</div>
 
@@ -80,8 +39,8 @@
 							<th scope="col">Barcode</th>
 							<th scope="col">Brand</th>
 							<th scope="col">Category</th>
-							<th scope="col">MRP</th>
 							<th scope="col">Name</th>
+							<th scope="col">MRP</th>
 							<th scope="col">Actions</th>
 							
 						</tr>
@@ -89,20 +48,11 @@
 					<tbody>
 						<tr>
 							<td>1</td>
-							<td>Romil Jain</td>
-							<td>30</td>
-							<td>Edit | Delete</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>Rajul Jain</td>
-							<td>31</td>
-							<td>Edit | Delete</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>Anaisha Jain</td>
-							<td>7</td>
+							<td>Sample Data</td>
+							<td>B1</td>
+							<td>C1</td>
+							<td>N1</td>
+							<td>1.0</td>
 							<td>Edit | Delete</td>
 						</tr>
 					</tbody>
@@ -126,14 +76,14 @@
 					
 							<!-- Barcode, Product, category, mrp, name -->
 							<div class="form-group">
-								<label for="inputbarcode" class="col-sm-2 col-form-label">barcode</label>
+								<label for="inputbarcode" class="col-sm-2 col-form-label">Barcode</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" name="barcode" id="inputbarcode"
-										placeholder="enter barcode">
+										placeholder="Enter Barcode">
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="brand-edit-select" class="col-sm-2 col-form-label">brand</label>
+								<label for="brand-edit-select" class="col-sm-2 col-form-label">Brand</label>
 								<div class="col-sm-10">
 									<select placeholder="Select Brand" data-search="true" id="brand-edit-select" name="brand">
 										<option disabled selected value> -- select an option -- </option>
@@ -141,7 +91,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="category-edit-select" class="col-sm-2 col-form-label">category</label>
+								<label for="category-edit-select" class="col-sm-2 col-form-label">Category</label>
 								<div class="col-sm-10">
 									<select placeholder="Select Category" data-search="true" id="category-edit-select" name="category">
 										<option disabled selected value> -- select an option -- </option>
@@ -149,17 +99,17 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="inputmrp" class="col-sm-2 col-form-label">mrp</label>
+								<label for="inputmrp" class="col-sm-2 col-form-label">MRP</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" name="mrp" id="inputmrp"
-										placeholder="enter mrp">
+									<input type="number" class="form-control" name="mrp" id="inputmrp"
+										placeholder="Enter Mrp">
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="inputname" class="col-sm-2 col-form-label">name</label>
+								<label for="inputname" class="col-sm-2 col-form-label">Name</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" name="name" id="inputname"
-										placeholder="enter name">
+										placeholder="Enter Name">
 								</div>
 							</div>
 							<input type="hidden" name="id">
@@ -173,39 +123,97 @@
 			</div>
 		</div>
 
-
-		<!-- Product Edit Modal -->
-		<div class="modal" tabindex="-1" role="dialog" id="upload-Product-modal">
+		<!-- Product Add Modal -->
+		<div class="modal" tabindex="-1" role="dialog" id="add-Product-modal">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
-
 					<div class="modal-header">
-						<h5 class="modal-title">Upload Product</h5>
+						<h5 class="modal-title">Add Product</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-
 					<div class="modal-body">
-						<div class="Product-file">
-							<input type="file" class="custom-file-input" id="ProductFile">
-							<label class="custom-file-label" for="ProductFile" id="ProductFileName">Choose file</label>
-						</div>
-
-						<br>
-						Rows: <span id="rowCount">0</span>,
-						Processed: <span id="processCount">0</span>,
-						Errors: <span id="errorCount">0</span>
+						<form class="form-inline" id="Product-form">	
+							<!-- Barcode, Product, category, mrp, name -->
+							<div class="form-group">
+								<label for="inputbarcode" class="col-sm-2 col-form-label">Barcode</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="barcode" id="inputbarcode"
+										placeholder="Enter barcode">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="brand-select" class="col-sm-2 col-form-label">Brand</label>
+								<div class="col-sm-10">
+									<select placeholder="Select Brand" data-search="true" id="brand-select" name="brand">
+										<option disabled selected value> -- select an option -- </option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="category-select" class="col-sm-2 col-form-label">Category</label>
+								<div class="col-sm-10">
+									<select placeholder="Select Category" data-search="true" id="category-select" name="category">
+										<option disabled selected value> -- select an option -- </option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputmrp" class="col-sm-2 col-form-label">MRP</label>
+								<div class="col-sm-10">
+									<input type="number" class="form-control" name="mrp" id="inputmrp"
+										placeholder="Enter mrp">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputname" class="col-sm-2 col-form-label">Name</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="name" id="inputname"
+										placeholder="Enter name">
+								</div>
+							</div>
+						</form>
 					</div>
-
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-						<button type="button" class="btn btn-primary" id="process-data">Upload</button>
-						<button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
+						<button type="button" class="btn btn-primary" id="add-Product">Add</button>
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>		
+
+
+		<!-- Product Upload Modal -->
+		<div class="modal" tabindex="-1" role="dialog" id="upload-Product-modal">
+			<div class="modal-dialog" role="document">
+			  <div class="modal-content">
+				
+				<div class="modal-header">
+				  <h5 class="modal-title">Upload Product</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+				
+				<div class="modal-body">
+					<div class="Product-file">
+					<input type="file" class="custom-file-input" id="ProductFile">
+					<label class="custom-file-label" for="ProductFile" id="ProductFileName">Choose file</label>
+				  </div>
+				  
+				  Status : 
+				  <span id="statusView">Please Upload TSV file</span>
+				</div>
+				
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				  <button type="button" class="btn btn-primary" id="process-data">Upload</button>
+				  <button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
 
 	</div> <!-- Container end-->
 
