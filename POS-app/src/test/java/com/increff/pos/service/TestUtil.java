@@ -13,11 +13,10 @@ import com.increff.pos.dto.InventoryDto;
 import com.increff.pos.dto.ProductDto;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
-import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
-import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.BrandPojo;
+import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.util.ConvertUtil;
 
@@ -72,32 +71,28 @@ public class TestUtil {
     }
 
     public static BrandData createBrand(String brand, String category) throws ApiException{
-        BrandForm bf = TestUtil.getBrandFormDto(brand,category);
-        BrandPojo brandPojo = ConvertUtil.convert(bf, BrandPojo.class);
+        BrandPojo brandPojo = new BrandPojo(brand, category);
         brandPojo = brandDao.insert(brandPojo);
         BrandData brandData = ConvertUtil.convert(brandPojo, BrandData.class);
         return brandData;
     }
 
     public static ProductPojo createProduct(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
-        ProductForm productForm = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
-        ProductPojo product = ConvertUtil.convert(productForm, ProductPojo.class);
+        ProductPojo product = new ProductPojo(barcode, null, name, mrp);
         product.setBrandCategory(brandService.getCheckBrandCategory(brand, category).getId());
-        product = productDao.insert(product);
-        return product;
+        return productDao.insert(product);
     }
 
-    public static InventoryData createInventory(String barcode, String brand, String category, String name, Double mrp, Integer quantity) throws ApiException {
+    public static InventoryPojo createInventory(String barcode, String brand, String category, String name, Double mrp, Integer quantity) throws ApiException {
         createProductWithBrand(barcode, brand, category, name, mrp);
-        InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode,quantity);
-        InventoryData inventoryData = inventoryDto.add(inventoryForm);
-        return inventoryData;
+        return createInventorySingle(barcode, quantity);
     }
-    public static InventoryData createInventorySingle(String barcode, Integer quantity) throws ApiException {
-        InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode,quantity);
-        InventoryData inventoryData = inventoryDto.add(inventoryForm);
-        return inventoryData;
+    public static InventoryPojo createInventorySingle(String barcode, Integer quantity) throws ApiException {
+        InventoryPojo inventory = new InventoryPojo(quantity);
+        inventory.setId(productService.getByBarcode(barcode).getId());
+        return inventoryDao.insert(inventory);
     }
+    
     public static BrandForm getBrandFormDto(String brand, String category) {
         BrandForm brandForm = new BrandForm();
         brandForm.setBrand(brand);
