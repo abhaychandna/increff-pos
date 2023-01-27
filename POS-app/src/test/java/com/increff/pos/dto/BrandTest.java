@@ -1,7 +1,6 @@
 package com.increff.pos.dto;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -65,19 +64,12 @@ public class BrandTest extends AbstractUnitTest {
         assertEquals("hoodies", brandData.getCategory());
     }
 
-    @Test
-    public void testAddDuplicateBrandCategory() throws ApiException {
+    @Test(expected = ApiException.class)
+    public void testAddExistingBrandCategory() throws ApiException {
         BrandForm brandForm = TestUtil.getBrandFormDto("adidas", "tshirts");
         brandDto.add(brandForm);
 
-        // Adding same brand/category twice should throw error
-        try {
-            brandDto.add(brandForm);
-        } catch (ApiException e) {
-            // Test passed if add throws error
-            return;
-        }
-        fail();
+        brandDto.add(brandForm);
     }
 
     @Test
@@ -92,8 +84,8 @@ public class BrandTest extends AbstractUnitTest {
         assertEquals(3, brandSearchData.getData().size());
     }
 
-    @Test
-    public void testBulkAddDuplicate() throws ApiException, JsonProcessingException {
+    @Test(expected = ApiException.class)
+    public void testBulkAddExisting() throws ApiException, JsonProcessingException {
         BrandForm brandForm1 = TestUtil.getBrandFormDto("adidas", "tshirts");
         BrandForm brandForm2 = TestUtil.getBrandFormDto("nike", "tshirts");
         BrandForm brandForm3 = TestUtil.getBrandFormDto("puma", "tshirts");
@@ -101,13 +93,14 @@ public class BrandTest extends AbstractUnitTest {
         brandDto.bulkAdd(brandForms);
 
         // Adding same brand/category twice should throw error
-        try {
-            brandDto.bulkAdd(brandForms);
-        } catch (ApiException e) {
-            // Test passed if add throws error
-            return;
-        }
-        fail();
+        brandDto.bulkAdd(brandForms);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testBulkAddDuplicateInputs() throws ApiException, JsonProcessingException {
+        BrandForm brandForm1 = TestUtil.getBrandFormDto("adidas", "tshirts");
+        List<BrandForm> brandForms = List.of(brandForm1, brandForm1);
+        brandDto.bulkAdd(brandForms);
     }
 
 }
