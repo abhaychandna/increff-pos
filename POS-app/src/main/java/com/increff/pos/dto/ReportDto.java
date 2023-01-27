@@ -52,9 +52,10 @@ public class ReportDto {
 
     public String inventoryReport() throws ApiException{
 		List<InventoryPojo> inventory = inventoryService.getAll();
+        if(inventory.isEmpty()) throw new ApiException("No inventory found");
 		HashMap<Integer, Integer> brandCategoryIdToQuantity = getBrandIdToQuantityMap(inventory);
         List<InventoryReportData> reportData = getInventoryReport(brandCategoryIdToQuantity);
-        String base64  = PDFApiUtil.getReportPDFBase64(reportData, "inventoryReport", "inventoryReport", null);
+        String base64  = PDFApiUtil.getReportPDFBase64(reportData, "inventoryReport", null);
         return base64;
 	}
 
@@ -99,10 +100,9 @@ public class ReportDto {
         
         List<BrandPojo> brands = getBrandPojoList(form.getBrand(), form.getCategory());
         System.out.println("brands : " + brands.size());
-        // if(brands.isEmpty()) return Collections.emptyList();
+
         List<ProductPojo> products = getProducts(brands);
         System.out.println("products : " + products.size());
-        // if(products.isEmpty()) return Collections.emptyList();
 
         List<Integer> productIds = products.stream().map(ProductPojo::getId).collect(Collectors.toList());
         List<OrderItemPojo> orderItems = getOrderItems(startDate, endDate, productIds);
@@ -115,9 +115,8 @@ public class ReportDto {
         
         List<SalesReportData> salesReport = getSalesReport(orderItems, productIdToBrandCategory);
         
-        String outputFilename = salesReportOutputFilename(startDate, endDate, form.getBrand(), form.getCategory());
         HashMap<String, String> headers = salesReportHeaders(startDate, endDate, form.getBrand(), form.getCategory());
-        String base64 = PDFApiUtil.getReportPDFBase64(salesReport, "salesReport", outputFilename, headers);
+        String base64 = PDFApiUtil.getReportPDFBase64(salesReport, "salesReport", headers);
 
         return base64;
     }
@@ -217,13 +216,13 @@ public class ReportDto {
 
     public String brandReport() throws ApiException{
         List<BrandPojo> brands = brandService.getAll();
-        if(brands.isEmpty()) return "No brands found";
+        if(brands.isEmpty()) throw new ApiException("No brands found");
         List<BrandReportData> reportDataList = new ArrayList<>();
         brands.forEach(brand->{
             reportDataList.add(new BrandReportData(brand.getBrand(), brand.getCategory()));
         });
 
-        String base64  = PDFApiUtil.getReportPDFBase64(reportDataList, "brandReport", "brandReport", null);
+        String base64  = PDFApiUtil.getReportPDFBase64(reportDataList, "brandReport", null);
         return base64;
 
     }
