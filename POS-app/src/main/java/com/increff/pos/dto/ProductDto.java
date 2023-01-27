@@ -14,6 +14,7 @@ import com.increff.pos.model.PaginatedData;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.model.ProductFormErrorData;
+import com.increff.pos.model.ProductPutForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
@@ -85,9 +86,9 @@ public class ProductDto {
         return new PaginatedData<ProductData>(productDatas, draw, count, count);
     }
 
-    public void update(Integer id, ProductForm form) throws ApiException {
+    public void update(Integer id, ProductPutForm form) throws ApiException {
         PreProcessingUtil.normalizeAndValidate(form);
-        ProductPojo product = convert(form);
+        ProductPojo product = ConvertUtil.convert(form, ProductPojo.class);
         svc.update(id, product);
     }
 

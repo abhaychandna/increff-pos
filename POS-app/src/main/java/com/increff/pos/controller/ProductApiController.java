@@ -15,6 +15,7 @@ import com.increff.pos.dto.ProductDto;
 import com.increff.pos.model.PaginatedData;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
+import com.increff.pos.model.ProductPutForm;
 import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.Api;
@@ -59,8 +60,8 @@ public class ProductApiController {
 	}
 
 	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable Integer id, @RequestBody ProductForm f) throws ApiException {
-		dto.update(id, f);
+	public void update(@PathVariable Integer id, @RequestBody ProductPutForm form) throws ApiException {
+		dto.update(id, form);
 	}
 
 }
