@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.increff.pos.dao.BrandDao;
+import com.increff.pos.dao.InventoryDao;
+import com.increff.pos.dao.ProductDao;
 import com.increff.pos.dto.BrandDto;
 import com.increff.pos.dto.InventoryDto;
 import com.increff.pos.dto.ProductDto;
@@ -16,6 +18,7 @@ import com.increff.pos.model.InventoryForm;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.BrandPojo;
+import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.util.ConvertUtil;
 
 @Component
@@ -23,7 +26,6 @@ public class TestUtil {
 
     private static ProductDto productDto;
     private static InventoryDto inventoryDto;
-    private static BrandDao brandDao;
     @Autowired
     BrandDto bDto;
     @Autowired
@@ -31,19 +33,41 @@ public class TestUtil {
     @Autowired
     InventoryDto iDto;
 
+    private static ProductService productService;
+    private static BrandService brandService;
+    private static InventoryService inventoryService;
+    @Autowired
+    BrandService bSer;
+    @Autowired
+    InventoryService iSer;
+    @Autowired
+    ProductService pSer;
+
+    private static BrandDao brandDao;
+    private static ProductDao productDao;
+    private static InventoryDao inventoryDao;
     @Autowired
     BrandDao bDao;
+    @Autowired
+    ProductDao pDao;
+    @Autowired
+    InventoryDao iDao;
 
 	@PostConstruct
 	private void init(){
         productDto = this.pDto;
         inventoryDto = this.iDto;
-        brandDao = this.bDao;
+        productService = this.pSer;
+        inventoryService = this.iSer;
+        brandService = this.bSer;
+        brandDao = this.bDao;  
+        productDao = this.pDao;
+        inventoryDao = this.iDao;      
 	}
 
-    public static ProductData createProductWithBrand(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
+    public static ProductPojo createProductWithBrand(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
         createBrand(brand, category);
-        ProductData p = createProduct(barcode, brand, category, name, mrp);
+        ProductPojo p = createProduct(barcode, brand, category, name, mrp);
         return p;
     }
 
@@ -55,10 +79,12 @@ public class TestUtil {
         return brandData;
     }
 
-    public static ProductData createProduct(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
+    public static ProductPojo createProduct(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
         ProductForm productForm = TestUtil.getProductFormDto(barcode,brand,category,name,mrp);
-        ProductData productData = productDto.add(productForm);
-        return productData;
+        ProductPojo product = ConvertUtil.convert(productForm, ProductPojo.class);
+        product.setBrandCategory(brandService.getCheckBrandCategory(brand, category).getId());
+        product = productDao.insert(product);
+        return product;
     }
 
     public static InventoryData createInventory(String barcode, String brand, String category, String name, Double mrp, Integer quantity) throws ApiException {
