@@ -42,15 +42,7 @@ public class ProductDto {
         bulkAddValidate(forms);       
 
         List<ProductPojo> validProducts = new ArrayList<ProductPojo>();
-        List<ProductFormErrorData> errors = new ArrayList<ProductFormErrorData>();
-        forms.forEach(form->{
-            try {
-                validProducts.add(convert(form));
-            } catch (ApiException e) {
-                errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), e.getMessage()));
-            }
-        });
-        if(errors.size() > 0 ) throwErrors(errors);
+        for(ProductForm form : forms) validProducts.add(convert(form));
         
         svc.bulkAdd(validProducts);   
     }
