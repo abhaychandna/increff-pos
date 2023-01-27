@@ -15,11 +15,9 @@
     <!-- Top row with form-->
     <div class="row">
         <div class="col-12">
-            <form class="form-inline" id="order-form">
-                <button type="button" class="btn btn-primary" id="add-order" th:if="${info.getRole() == 'supervisor'}">Add</button>
-                &nbsp;
-                <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
-                </form>
+            <button type="button" class="btn btn-primary" id="add-order" th:if="${info.getRole() == 'supervisor'}">Add</button>
+            &nbsp;
+            <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
         </div>
     </div>
 
