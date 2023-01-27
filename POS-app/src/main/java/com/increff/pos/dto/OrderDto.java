@@ -46,7 +46,7 @@ public class OrderDto {
         List<OrderItemPojo> items = orderItemService.getByOrderId(id);
         
         String outputFilename = "invoice_" + id;
-        String base64 = invoiceBase64(outputFilename);
+        String base64 = getCachedInvoice(outputFilename);
         if(Objects.nonNull(base64)) {
             return base64;
         }
@@ -72,11 +72,15 @@ public class OrderDto {
         XMLheaders.put("Total", total.toString());
         String xsltFilename = "invoice";
 
-        return PDFApiUtil.getReportPDFBase64(invoiceItems, xsltFilename, outputFilename, XMLheaders);
+        base64 = PDFApiUtil.getReportPDFBase64(invoiceItems, xsltFilename, XMLheaders);
+        
+        PDFApiUtil.saveBase64ToPDF(base64, outputFilename);
+
+        return base64;
 
     }
 
-    private String invoiceBase64(String outputFilename) throws ApiException {
+    private String getCachedInvoice(String outputFilename) throws ApiException {
         outputFilename = outputFilename + ".pdf";
         File file = new File(outputFilename);
         if(file.exists()) {

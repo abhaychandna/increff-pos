@@ -27,20 +27,14 @@ public class PDFApiUtil {
         ResponseEntity<String> apiResponse = RestTemplate.postForEntity(apiUrl, pdfForm, String.class);
         String base64 = apiResponse.getBody();
 
-        // remove ':' from outputFilename
-        outputFilename = outputFilename.replace(":", "-");
-        System.out.println("Output filename: " + outputFilename);
-        String pdfFile = new File(outputFilename + ".pdf").getAbsolutePath();
-        // save base64 to pdf file
-        saveBase64ToPDF(base64, pdfFile);
-
         return base64;
     }
 
-    public static void saveBase64ToPDF(String base64, String pdfFile) throws ApiException {
+    public static void saveBase64ToPDF(String base64, String filename) throws ApiException {
+        filename = filename + ".pdf";
         try {
             byte[] pdfAsBytes = Base64.getDecoder().decode(base64);
-            FileOutputStream os = new FileOutputStream(pdfFile);
+            FileOutputStream os = new FileOutputStream(filename);
             os.write(pdfAsBytes);
             os.close();
         } catch (Exception e) {
