@@ -105,19 +105,110 @@ public class InventoryTest extends AbstractUnitTest {
         InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode, quantity);
         inventoryDto.update(inventoryForm);
     }
-    }
 
     @Test
     public void testGet() throws ApiException {
-        String barcode = "abcdef12";
+        InventoryPojo inventory = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+        InventoryData inventoryData = inventoryDto.get(inventory.getId());
+        assertEquals(quantity, inventoryData.getQuantity());
+        assertEquals(barcode, inventoryData.getBarcode());
+    }
+
+
+    @Test(expected = ApiException.class)
+    public void testGetDoesntExist() throws ApiException {
+        inventoryDto.get(1);
+    }
+
+    @Test
+    public void testGetAll() throws ApiException {
+        TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+        TestUtil.createInventory("abcdef13", brand, category, name, mrp, quantity);
+        assertEquals(2, inventoryDto.getAll(0, 10, 1).getData().size());
+    }
+
+    @Test
+    public void testGetByBarcode() throws ApiException {
+        TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+        InventoryData inventoryData = inventoryDto.getByBarcode(barcode);
+        assertEquals(quantity, inventoryData.getQuantity());
+        assertEquals(barcode, inventoryData.getBarcode());
+    }
+
+    @Test
+    public void testBulkAdd() throws ApiException {
+        String barcode1 = "abcdef12", barcode2 = "abcdef13", barcode3 = "abcdef14";
         Integer quantity = 10;
         String brand = "adidas";
         String category = "tshirts";
         String name = "polo";
         Double mrp = 100.0;
-        InventoryData inventoryData = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
-        inventoryData = inventoryDto.get(inventoryData.getId());
-        assertEquals(quantity, inventoryData.getQuantity());
-        assertEquals(barcode, inventoryData.getBarcode());
+        TestUtil.createProductWithBrand(barcode1, brand, category, name, mrp);
+        TestUtil.createProductWithBrand(barcode2, brand, category, name, mrp);
+        TestUtil.createProductWithBrand(barcode3, brand, category, name, mrp);
+        
+        List<InventoryForm> inventoryForms = new ArrayList<>();
+        inventoryForms.add(TestUtil.getInventoryFormDto(barcode1, quantity));
+        inventoryForms.add(TestUtil.getInventoryFormDto(barcode2, quantity));
+        inventoryForms.add(TestUtil.getInventoryFormDto(barcode3, quantity));
+
+        inventoryDto.bulkAdd(inventoryForms);
+        assertEquals(3, inventoryDto.getAll(0, 10, 1).getData().size());
     }
+
+    @Test
+    public void testBulkAddExisting_thenIncreaseQuantity() throws ApiException {
+        String barcode1 = "abcdef12", barcode2 = "abcdef13", barcode3 = "abcdef14";
+        Integer quantity = 10;
+        String brand = "adidas";
+        String category = "tshirts";
+        String name = "polo";
+        Double mrp = 100.0;
+        TestUtil.createProductWithBrand(barcode1, brand, category, name, mrp);
+        TestUtil.createProductWithBrand(barcode2, brand, category, name, mrp);
+        TestUtil.createProductWithBrand(barcode3, brand, category, name, mrp);
+        TestUtil.createInventorySingle(barcode3, quantity);
+
+        List<InventoryForm> inventoryForms = new ArrayList<>();
+        inventoryForms.add(TestUtil.getInventoryFormDto(barcode1, quantity));
+        inventoryForms.add(TestUtil.getInventoryFormDto(barcode2, quantity));
+        inventoryForms.add(TestUtil.getInventoryFormDto(barcode3, quantity));
+        inventoryDto.bulkAdd(inventoryForms);
+
+        List<InventoryData> inventoryData = inventoryDto.getAll(0, 10, 1).getData();
+        assertEquals(3, inventoryData.size());
+        for (InventoryData data : inventoryData) {
+            if (data.getBarcode().equals(barcode3)) {
+                Integer newQuantity = quantity + quantity;
+                assertEquals(newQuantity, data.getQuantity());
+            } else {
+                assertEquals(quantity, data.getQuantity());
+            }
+        }
+    }
+
+    @Test()
+    public void testBulkAddDuplicateInput_thenIncreaseQuantity() throws ApiException {
+
+        TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
+
+        List<InventoryForm> inventoryForms = new ArrayList<>();
+        inventoryForms.add(TestUtil.getInventoryFormDto(barcode, quantity));
+        inventoryForms.add(TestUtil.getInventoryFormDto(barcode, quantity));
+        inventoryDto.bulkAdd(inventoryForms);
+
+        List<InventoryData> inventoryData = inventoryDto.getAll(0, 10, 1).getData();
+        assertEquals(1, inventoryData.size());
+        Integer newQuantity = quantity + quantity;
+        assertEquals(newQuantity, inventoryData.get(0).getQuantity());
+    }
+
+    @Test(expected = ApiException.class)
+    public void testBulkAddBarcodeDoesntExist() throws ApiException {
+        List<InventoryForm> inventoryForms = new ArrayList<>();
+        inventoryForms.add(TestUtil.getInventoryFormDto(barcode, quantity));
+        inventoryDto.bulkAdd(inventoryForms);
+    }
+
+
 }
