@@ -15,7 +15,12 @@ function toJson($form){
 
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);
-	alert(response.message);
+	//alert(response.message);
+	Swal.fire({
+		icon: 'error',
+		title: 'Oops...',
+		text: response.message,
+	})
 }
 
 function readFileData(file, callback){
