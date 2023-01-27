@@ -1,5 +1,9 @@
 package com.increff.pos.service;
 
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,17 +11,25 @@ import org.springframework.stereotype.Component;
 
 import com.increff.pos.dao.BrandDao;
 import com.increff.pos.dao.InventoryDao;
+import com.increff.pos.dao.OrderDao;
+import com.increff.pos.dao.OrderItemDao;
 import com.increff.pos.dao.ProductDao;
+import com.increff.pos.dao.UserDao;
 import com.increff.pos.dto.BrandDto;
 import com.increff.pos.dto.InventoryDto;
 import com.increff.pos.dto.ProductDto;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.InventoryForm;
+import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.model.ProductForm;
+import com.increff.pos.model.SignupForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
+import com.increff.pos.pojo.OrderItemPojo;
+import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.pojo.ProductPojo;
+import com.increff.pos.pojo.UserPojo;
 import com.increff.pos.util.ConvertUtil;
 
 @Component
@@ -45,12 +57,21 @@ public class TestUtil {
     private static BrandDao brandDao;
     private static ProductDao productDao;
     private static InventoryDao inventoryDao;
+    private static OrderDao orderDao;
+    private static OrderItemDao orderItemDao;
+    private static UserDao userDao;
     @Autowired
     BrandDao bDao;
     @Autowired
     ProductDao pDao;
     @Autowired
     InventoryDao iDao;
+    @Autowired
+    OrderDao oDao;
+    @Autowired
+    OrderItemDao oiDao;
+    @Autowired
+    UserDao uDao;
 
 	@PostConstruct
 	private void init(){
@@ -61,7 +82,10 @@ public class TestUtil {
         brandService = this.bSer;
         brandDao = this.bDao;  
         productDao = this.pDao;
-        inventoryDao = this.iDao;      
+        inventoryDao = this.iDao;   
+        orderDao = this.oDao;
+        orderItemDao = this.oiDao; 
+        userDao = this.uDao;  
 	}
 
     public static ProductPojo createProductWithBrand(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
@@ -92,7 +116,23 @@ public class TestUtil {
         inventory.setId(productService.getByBarcode(barcode).getId());
         return inventoryDao.insert(inventory);
     }
-    
+
+    public static List<OrderItemPojo> createOrder(List<OrderItemForm> orderItemFormList) throws ApiException{
+        OrderPojo order = new OrderPojo();
+        order.setTime(ZonedDateTime.now());
+        order = orderDao.insert(order);
+
+        List<OrderItemPojo> orderItemPojoList = new ArrayList<OrderItemPojo>();
+        for(OrderItemForm orderItemForm : orderItemFormList){
+            OrderItemPojo orderItemPojo = ConvertUtil.convert(orderItemForm, OrderItemPojo.class);
+            orderItemPojo.setProductId(productService.getByBarcode(orderItemForm.getBarcode()).getId());
+            orderItemPojo.setOrderId(order.getId());
+            orderItemPojoList.add(orderItemPojo);
+            orderItemDao.insert(orderItemPojo);
+        }
+        return orderItemPojoList;
+    }
+
     public static BrandForm getBrandFormDto(String brand, String category) {
         BrandForm brandForm = new BrandForm();
         brandForm.setBrand(brand);
