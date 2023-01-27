@@ -4,6 +4,7 @@ var maxQuantity = 99999;
 var maxSellingPrice = 99999;
 // TODO : Remove testing variable from here
 var globalData;
+var E;
 
 function getOrderItemUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
@@ -136,44 +137,31 @@ function getProductList() {
 }
 
 function validateBarcode(barcode){
-    var error = false;
     if(barcode == ""){
-        alert("Barcode cannot be empty");
-        return true;
+        alertErrorMessages.push("Barcode cannot be empty");
     }
-    return error;
 }
 function validateQuantity(quantity){
-    var error = false;
     if(quantity == ""){
-        alert("Quantity cannot be empty");
-        error = true;
+        alertErrorMessages.push("Quantity cannot be empty");
     }
     if(quantity <= 0){
-        alert("Quantity has to be positive");
-        error = true;
+        alertErrorMessages.push("Quantity has to be positive");
     }
     if(quantity > maxQuantity){
-        alert("Quantity cannot be greater than " + maxQuantity);
-        error = true;
+        alertErrorMessages.push("Quantity cannot be greater than " + maxQuantity);
     }
-    return error;
 }
 function validateSellingPrice(sellingPrice){
-    var error = false;
     if(sellingPrice == ""){
-        alert("Selling Price cannot be empty");
-        error = true;
+        alertErrorMessages.push("Selling Price cannot be empty");
     }
     if(sellingPrice <= 0){
-        alert("Selling Price has to be positive");
-        error = true;
+        alertErrorMessages.push("Selling Price has to be positive");
     }
     if(sellingPrice > maxSellingPrice){
-        alert("Selling Price cannot be greater than " + maxSellingPrice);
-        error = true;
+        alertErrorMessages.push("Selling Price cannot be greater than " + maxSellingPrice);
     }
-    return error;
 }
 
 function addOrderItem(event) {
@@ -183,11 +171,19 @@ function addOrderItem(event) {
     var quantity = $("#order-item-form input[name=quantity]").val();
     var sp = $("#order-item-form input[name=sellingPrice]").val();
     
-    var error = false;
-    error = error | validateBarcode(barcode);
-    error = error | validateQuantity(quantity);
-    error = error | validateSellingPrice(sp);
-    if(error)return;
+    alertErrorMessages = [];
+    validateBarcode(barcode);
+    validateQuantity(quantity);
+    validateSellingPrice(sp);
+    if(alertErrorMessages.length > 0) {
+        var errorString = alertErrorMessages.join("<br>");
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: errorString,
+        })
+        return;
+    }
     console.log("No errors");
 
     validateInventory(barcode, quantity, json);
@@ -284,7 +280,6 @@ function getProductName(productId) {
     return name;
 }
 
-var E;
 function placeOrder() {
     var url = getOrderItemUrl();
 
@@ -299,6 +294,12 @@ function placeOrder() {
         },
         success: function(response) {
             $('#add-order-item-modal').modal('toggle');
+            Swal.fire({
+                title: 'Order Placed!',
+                text: 'Congratulations! Your order has been placed.',
+                icon: 'success',
+                confirmButtonText: 'Cool'
+              });
             getOrderList();
             wholeOrder = []
         },
@@ -380,7 +381,7 @@ function init(){
 			{
 				"data":null,
 				"render":function(o){return '<button class="btn btn-info" onclick="displayOrderDetails(' + o.id + ')">View</button>' + 
-                        '          ' + 
+                        '&nbsp;&nbsp;' + 
                         '<button class="btn btn-info" onclick="getInvoice(' + o.id + ')">Download Invoice</button>'} 
 			}
         ]
