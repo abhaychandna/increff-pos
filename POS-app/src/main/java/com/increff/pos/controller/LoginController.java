@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.increff.pos.dto.UserDto;
 import com.increff.pos.model.LoginForm;
+import com.increff.pos.model.SignupForm;
 import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.ApiOperation;
@@ -37,7 +38,7 @@ public class LoginController {
 
 	@ApiOperation(value = "Signs up a user")
 	@RequestMapping(path = "/session/signup", method = RequestMethod.POST)
-	public ModelAndView signup(HttpServletRequest req, LoginForm form) throws ApiException {
+	public ModelAndView signup(HttpServletRequest req, SignupForm form) throws ApiException {
 		return dto.signup(form);
 	}	
 

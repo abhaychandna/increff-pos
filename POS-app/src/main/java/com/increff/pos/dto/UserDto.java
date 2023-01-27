@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.increff.pos.model.InfoData;
 import com.increff.pos.model.LoginForm;
+import com.increff.pos.model.SignupForm;
 import com.increff.pos.pojo.UserPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.UserService;
@@ -31,7 +32,7 @@ public class UserDto {
     private UserService userService;
 
 
-    public ModelAndView signup(LoginForm form) throws ApiException {
+    public ModelAndView signup(SignupForm form) throws ApiException {
         try {
             PreProcessingUtil.normalizeAndValidate(form);
             UserPojo p = ConvertUtil.convert(form, UserPojo.class);
