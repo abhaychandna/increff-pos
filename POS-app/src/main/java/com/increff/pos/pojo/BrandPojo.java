@@ -18,8 +18,7 @@ import lombok.Setter;
   })
 @Entity
 public class BrandPojo {
-
-	@Id
+    @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id", nullable=false)
 	private Integer id;
@@ -27,4 +26,11 @@ public class BrandPojo {
     private String brand;
 	@Column(name="category", nullable=false)
     private String category;
+
+	public BrandPojo() {
+	}
+	public BrandPojo(String brand, String category) {
+		this.brand = brand;
+		this.category = category;
+	}
 }

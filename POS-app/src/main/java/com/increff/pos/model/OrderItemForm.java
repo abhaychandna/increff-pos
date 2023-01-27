@@ -17,4 +17,12 @@ public class OrderItemForm {
     @NotNull(message = "Selling Price may not be empty")
     @Min(value = 0, message = "Selling Price should be greater than or equal to 0")
     private Double  sellingPrice ;
+
+    public OrderItemForm() {
+    }
+    public OrderItemForm(String barcode, Integer quantity, Double sellingPrice) {
+        this.barcode = barcode;
+        this.quantity = quantity;
+        this.sellingPrice = sellingPrice;
+    }
 }

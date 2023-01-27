@@ -18,4 +18,10 @@ public class InventoryPojo {
 	@Column(name="quantity", nullable=false)
 	private Integer quantity;
 
+	public InventoryPojo() {
+	}
+	public InventoryPojo(Integer quantity) {
+		this.quantity = quantity;
+	}
+
 }

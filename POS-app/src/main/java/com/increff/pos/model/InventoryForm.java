@@ -15,4 +15,11 @@ public class InventoryForm {
 	@NotNull(message = "Quantity may not be empty")
 	@Min(value = 0, message = "Quantity should be positive")
 	private Integer quantity;
+
+	public InventoryForm() {
+	}
+	public InventoryForm(String barcode, Integer quantity) {
+		this.barcode = barcode;
+		this.quantity = quantity;
+	}
 }

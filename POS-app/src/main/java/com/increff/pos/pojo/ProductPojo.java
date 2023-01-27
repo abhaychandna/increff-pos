@@ -38,4 +38,13 @@ public class ProductPojo {
     @Column(name="mrp", nullable=false)
     private Double mrp;
 
+    public ProductPojo() {
+    }
+    public ProductPojo(String barcode, Integer brandCategory, String name, Double mrp) {
+        this.barcode = barcode;
+        this.brandCategory = brandCategory;
+        this.name = name;
+        this.mrp = mrp;
+    }
+
 }
