@@ -19,7 +19,6 @@ public class PDFDto {
         System.out.println("Service.genrateReport called ");
         
         // print pdfForm
-        System.out.println("Output Filename: " + pdfForm.getOutputFilename());
         System.out.println("XSLT Filename: " + pdfForm.getXsltFilename());
         System.out.println("Headers: " + pdfForm.getHeaders());
         System.out.println("Report Data: " + pdfForm.getReportData());

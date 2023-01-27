@@ -17,11 +17,11 @@ import com.increff.pos.service.ApiException;
 
 public class PDFApiUtil {
 
-    public static <T> String getReportPDFBase64(List<T> reportData, String xsltFilename, String outputFilename, HashMap<String, String> XMLheaders) throws ApiException{
+    public static <T> String getReportPDFBase64(List<T> reportData, String xsltFilename, HashMap<String, String> XMLheaders) throws ApiException{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String apiUrl = "http://localhost:8000/pdf/api/pdf/generateReport";
-        PDFForm<T> pdfForm = new PDFForm<T>(xsltFilename, outputFilename, XMLheaders, reportData);
+        PDFForm<T> pdfForm = new PDFForm<T>(xsltFilename, XMLheaders, reportData);
         System.out.println("PDF form: " + pdfForm.getHeaders());
         RestTemplate RestTemplate = new RestTemplate();
         ResponseEntity<String> apiResponse = RestTemplate.postForEntity(apiUrl, pdfForm, String.class);

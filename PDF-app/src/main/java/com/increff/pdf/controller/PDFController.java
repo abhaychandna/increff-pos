@@ -32,7 +32,6 @@ public class PDFController {
     @RequestMapping(path="/generateReport", method = RequestMethod.POST) 
     public <T> String generateReport(@RequestBody PDFForm<T> pdfForm) throws ApiException {
         System.out.println("In controller");
-        System.out.println("Output Filename: " + pdfForm.getOutputFilename());
         System.out.println("XSLT Filename: " + pdfForm.getXsltFilename());
         System.out.println("Headers: " + pdfForm.getHeaders());
         System.out.println("Report Data: " + pdfForm.getReportData());
