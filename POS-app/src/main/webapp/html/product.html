@@ -41,7 +41,7 @@
 							<th scope="col">Category</th>
 							<th scope="col">Name</th>
 							<th scope="col">MRP</th>
-							<th scope="col">Actions</th>
+							<th scope="col" th:if="${info.getRole() == 'supervisor'}">Actions</th>
 							
 						</tr>
 					</thead>
@@ -53,7 +53,7 @@
 							<td>C1</td>
 							<td>N1</td>
 							<td>1.0</td>
-							<td>Edit | Delete</td>
+							<td th:if="${info.getRole() == 'supervisor'}">Edit | Delete</td>
 						</tr>
 					</tbody>
 				</table>

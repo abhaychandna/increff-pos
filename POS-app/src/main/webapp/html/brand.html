@@ -38,7 +38,7 @@
 	      <th scope="col">ID</th>
 	      <th scope="col">Brand</th>
 	      <th scope="col">Category</th>
-	      <th scope="col">Actions</th>
+	      <th scope="col" th:if="${info.getRole() == 'supervisor'}">Actions</th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -46,7 +46,7 @@
 	      <td>1</td>
 	      <td>Sample Data</td>
 	      <td>ABCXYZ</td>
-	      <td>Edit | Delete</td>
+	      <td th:if="${info.getRole() == 'supervisor'}">Edit | Delete</td>
 	    </tr>
 	  </tbody>
 	</table>

@@ -183,6 +183,22 @@ function displayBrand(data){
 	$('#edit-Brand-modal').modal('toggle');
 }
 
+function tableColumns(){
+	columns = [
+		{ "data": "id" },
+		{ "data": "brand" },
+		{ "data": "category" },
+	];
+	if (userRole == 'supervisor'){
+		columns.push({
+			"data":null,
+			"render":function(o){
+				return '<button type="button" class="btn btn-info" onclick="displayEditBrand(' + o.id + ')">Edit</button>';
+			}
+		});
+	}
+	return columns;
+}
 
 //INITIALIZATION CODE
 function init(){
@@ -195,18 +211,7 @@ function init(){
 		"lengthMenu": [2,5,10,20, 40, 60, 80, 100],
 		"pageLength":10,
 		"ajax": {url : getBrandUrl()},
-		"columns": [
-            { "data": "id" },
-            { "data": "brand" },
-            { "data": "category" },
-			{
-				"data":null,
-				"render":function(o){
-
-					return '<button type="button" class="btn btn-info" onclick="displayEditBrand(' + o.id + ')"th:if="${info.getRole() == "supervisor"}>Edit</button>'
-				}
-			}
-        ]
+		"columns": tableColumns(),
 	});
 
 	$('#add-Brand').click(addBrand);

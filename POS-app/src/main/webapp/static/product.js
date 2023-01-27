@@ -245,6 +245,25 @@ function displayProduct(data){
 	$('#edit-Product-modal').modal('toggle');
 }
 
+function tableColumns(){
+	columns = [
+		{ "data": "id" },
+		{ "data": "barcode" },
+		{ "data": "brand" },
+		{ "data": "category" },
+		{ "data": "name" },
+		{ "data": "mrp" },
+	];
+	if (userRole == 'supervisor'){
+		columns.push({
+			"data":null,
+			"render":function(o){
+				return '<button type="button" class="btn btn-info" onclick="displayEditProduct(' + o.id + ')"th:if="${info.getRole() == "supervisor"}>Edit</button>'
+			}
+		});
+	}
+	return columns;
+}
 
 //INITIALIZATION CODE
 function init(){
@@ -257,21 +276,7 @@ function init(){
 		"lengthMenu": [2,5,10,20, 40, 60, 80, 100],
 		"pageLength":10,
 		"ajax": {url : getProductUrl()},
-		"columns": [
-            { "data": "id" },
-			{ "data": "barcode" },
-            { "data": "brand" },
-            { "data": "category" },
-			{ "data": "name" },
-			{ "data": "mrp" },
-			{
-				"data":null,
-				"render":function(o){
-
-					return '<button type="button" class="btn btn-info" onclick="displayEditProduct(' + o.id + ')"th:if="${info.getRole() == "supervisor"}>Edit</button>'
-				}
-			}
-        ]
+		"columns": tableColumns()
 	});
 
 	$('#add-Product').click(addProduct);
