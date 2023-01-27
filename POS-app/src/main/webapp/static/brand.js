@@ -115,7 +115,7 @@ function uploadRows(){
 			errorData = JSON.parse(response.responseJSON.message) ;
 			console.log(errorData);
 			processCount = fileData.length;
-			$('#statusView').html("Failed to upload " + errorData.length + " rows");
+			$('#statusView').html("Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
 		}
 	 });
 
