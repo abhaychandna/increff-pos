@@ -84,7 +84,12 @@ function validateInventory(barcode, quantity, inputJson) {
         success: function(response) {
             response["quantity"];
             if(response["quantity"] < quantity) {
-                alert("Not enough quantity in inventory. Available: " + response["quantity"]);
+                var errorString = "Not enough quantity in inventory. Available: " + response["quantity"];
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: errorString,
+                })
                 return;
             }
 
@@ -99,8 +104,12 @@ function validateInventory(barcode, quantity, inputJson) {
             resetForm();
         },
         error: function(data) {
-            error = data.responseJSON.message;
-            alert(error);
+            errorString = data.responseJSON.message;
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                html: errorString,
+            })
         }
     });
     displayOrderItemList(wholeOrder);
@@ -339,7 +348,12 @@ function placeOrder() {
             else{
                 error = e.responseJSON.message;
             }
-            alert(error);
+            var errorString = error;
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                html: errorString,
+            })
         } 
     });
 

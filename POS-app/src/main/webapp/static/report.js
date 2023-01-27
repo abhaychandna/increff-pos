@@ -60,7 +60,12 @@ function salesReport(){
         }
     }
     if(!json.hasOwnProperty("startDate") || !json.hasOwnProperty("endDate")){
-        alert("Please enter start date and end date");
+        var errorString = "Please select both start date and end date";
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: errorString,
+        })
         return;
     }
     json["startDate"] = new Date(json["startDate"]).toISOString();

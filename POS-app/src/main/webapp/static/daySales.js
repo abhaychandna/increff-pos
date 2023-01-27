@@ -27,7 +27,12 @@ function filterDaySalesList(){
 	var startDate = $('#startDate').val();
 	var endDate = $('#endDate').val();
 	if(startDate == "" || endDate == ""){
-		alert("Please select start date and end date");
+		var errorString = "Please select both start date and end date";
+		Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: errorString,
+        })
 		return;
 	}
 	startDate = stringToISOString(startDate);
