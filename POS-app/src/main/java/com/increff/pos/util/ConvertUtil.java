@@ -1,5 +1,8 @@
 package com.increff.pos.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -15,6 +18,13 @@ public class ConvertUtil {
 		return newObject;
 	}
 
+	public static <T, R> List<R> convert(List<T> fromClass, Class<R> toClass) {
+		List<R> newObject = new ArrayList<R>();
+		for(T t : fromClass) {
+			newObject.add(convert(t, toClass));
+		}
+		return newObject;
+	}
 
 
 }
