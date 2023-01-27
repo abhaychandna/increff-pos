@@ -34,13 +34,12 @@ public class OrderApiController {
 		orderDto.add(forms);
 	}
 
-	@ApiOperation(value = "Gets a OrderItem by ID")
+	@ApiOperation(value = "Gets list of Order Items for that Order ID")
 	@RequestMapping(path = "/{id}/items", method = RequestMethod.GET)
 	public List<OrderItemData> getItemsByOrderId(@PathVariable Integer id) throws ApiException {
 		return orderDto.getItemsByOrderId(id);
 	}
 
-	//TODO : Remove this getItem since we are getting items by orderId ?? 
 	@ApiOperation(value = "Gets a OrderItem by ID")
 	@RequestMapping(path = "/items/{id}", method = RequestMethod.GET)
 	public OrderItemData getItem(@PathVariable Integer id) throws ApiException {
