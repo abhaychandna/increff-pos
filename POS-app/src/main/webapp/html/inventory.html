@@ -15,25 +15,11 @@
  <!-- Top row with form-->
  <div class="row">
 	 <div class="col-12">
-			<form class="form-inline" id="Inventory-form">
-			  <div class="form-group">
-			    <label for="inputbarcode" class="col-sm-2 col-form-label">barcode</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="barcode" id="inputbarcode" placeholder="enter barcode">
-			    </div>
-			  </div>
-			  <div class="form-group">
-			    <label for="inputquantity" class="col-sm-2 col-form-label">quantity</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="quantity" id="inputquantity" placeholder="enter quantity">
-			    </div>
-			  </div>
-			  <button type="button" class="btn btn-primary" id="add-Inventory">Add</button>
+			  <button type="button" class="btn btn-primary" id="open-add-Inventory-modal" th:if="${info.getRole() == 'supervisor'}">Add</button>
 			  &nbsp;
 			  <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
 			  &nbsp;
-			  <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
-			</form>
+			  <button type="button" class="btn btn-primary" id="upload-data" th:if="${info.getRole() == 'supervisor'}">Upload</button>			
 	 </div>	
 </div> 
 
@@ -52,27 +38,15 @@
 	      <th scope="col">ID</th>
 	      <th scope="col">Barcode</th>
 	      <th scope="col">Quantity</th>
-		  <th scope="col">Action</th>
+		  <th scope="col" th:if="${info.getRole() == 'supervisor'}">Actions</th>
 	    </tr>
 	  </thead>
 	  <tbody>
 	    <tr>
 	      <td>1</td>
-	      <td>Romil Jain</td>
+	      <td>Sample Data</td>
 	      <td>30</td>
-	      <td>Edit | Delete</td>
-	    </tr>
-	    <tr>
-	      <td>2</td>
-	      <td>Rajul Jain</td>
-	      <td>31</td>
-	      <td>Edit | Delete</td>
-	    </tr>
-	    <tr>
-	      <td>3</td>
-	      <td>Anaisha Jain</td>
-	      <td>7</td>
-	      <td>Edit | Delete</td>
+	      <td th:if="${info.getRole() == 'supervisor'}">Edit | Delete</td>
 	    </tr>
 	  </tbody>
 	</table>
@@ -93,9 +67,9 @@
       <div class="modal-body">
 			<form class="form-inline" id="Inventory-edit-form">
 			  <div class="form-group">
-			    <label for="inputquantity" class="col-sm-2 col-form-label">quantity</label>
+			    <label for="inputquantity" class="col-sm-2 col-form-label">Quantity</label>
 			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="quantity" placeholder="enter quantity">
+			      <input type="number" class="form-control" name="quantity" placeholder="Enter quantity">
 			    </div>
 			  </div>
 			  <input type="hidden" name="barcode">
@@ -110,39 +84,71 @@
   </div>
 </div>
 
+<!-- Inventory Add Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="add-Inventory-modal">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title">Add Inventory</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+			<form class="form-inline" id="Inventory-form">
+				<div class="form-group">
+				  <label for="inputbarcode" class="col-sm-2 col-form-label">Barcode</label>
+				  <div class="col-sm-10">
+					<input type="text" class="form-control" name="barcode" id="inputbarcode" placeholder="Enter Barcode">
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label for="inputquantity" class="col-sm-2 col-form-label">Quantity</label>
+				  <div class="col-sm-10">
+					<input type="number" class="form-control" name="quantity" id="inputquantity" placeholder="Enter Quantity">
+				  </div>
+				</div>
+			  </form>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		  <button type="button" class="btn btn-primary" id="add-Inventory">Add</button>
+		</div>
+	  </div>
+	</div>
+  </div>
 
-<!-- Inventory Edit Modal -->
+
+<!-- Inventory Upload Modal -->
 <div class="modal" tabindex="-1" role="dialog" id="upload-Inventory-modal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      
-      <div class="modal-header">
-        <h5 class="modal-title">Upload Inventory</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      
-      <div class="modal-body">
-      	<div class="Inventory-file">
-		  <input type="file" class="custom-file-input" id="InventoryFile">
-		  <label class="custom-file-label" for="InventoryFile" id="InventoryFileName">Choose file</label>
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		
+		<div class="modal-header">
+		  <h5 class="modal-title">Upload Inventory</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
 		</div>
 		
-		<br>
-		Rows: <span id="rowCount">0</span>, 
-		Processed: <span id="processCount">0</span>, 
-		Errors: <span id="errorCount">0</span>
-      </div>
-      
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" id="process-data">Upload</button>
-        <button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
-      </div>
-    </div>
+		<div class="modal-body">
+			<div class="Inventory-file">
+			<input type="file" class="custom-file-input" id="InventoryFile">
+			<label class="custom-file-label" for="InventoryFile" id="InventoryFileName">Choose file</label>
+		  </div>
+		  
+		  Status : 
+		  <span id="statusView">Please Upload TSV file</span>
+		</div>
+		
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		  <button type="button" class="btn btn-primary" id="process-data">Upload</button>
+		  <button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
+		</div>
+	  </div>
+	</div>
   </div>
-</div>
 
 </div> <!-- Container end-->
 

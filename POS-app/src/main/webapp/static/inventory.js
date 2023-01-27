@@ -4,6 +4,10 @@ function getInventoryUrl(){
 	return baseUrl + "/api/inventory";
 }
 
+
+function openAddInventoryModal(){
+	$('#add-Inventory-modal').modal('toggle');
+}
 function addInventory(event){
 	var $form = $("#Inventory-form");
 	var json = toJson($form);
@@ -52,16 +56,7 @@ function updateInventory(event){
 }
 
 function getInventoryList(){
-	var url = getInventoryUrl();
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(data) {
-	   		displayInventoryList(data);
-	  
-	   },
-	   error: handleAjaxError
-	});
+	$("#Inventory-table").DataTable().ajax.reload();
 }
 
 function deleteInventory(id){
@@ -94,38 +89,30 @@ function readFileDataCallback(results){
 }
 
 function uploadRows(){
-	//Update progress
-	updateUploadDialog();
-	//If everything processed then return
-	if(processCount==fileData.length){
-		getInventoryList();
-		return;
-	}
-	
-	//Process next row
-	var row = fileData[processCount];
-	processCount++;
-	
-	var json = JSON.stringify(row);
-	var url = getInventoryUrl();
-	console.log(json);
-	//Make ajax call
+	var url = getInventoryUrl() + "/add/bulk";
+	var jsonData = JSON.stringify(fileData);
+	// TODO : Add file upload limit
 	$.ajax({
-	   url: url,
-	   type: 'POST',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },	   
-	   success: function(response) {
-	   		uploadRows();  
-	   },
-	   error: function(response){
-	   		row.error=response.responseText
-	   		errorData.push(row);
-	   		uploadRows();
-	   }
-	});
+		url: url,
+		type: 'POST',
+		data: jsonData,
+		headers: {
+			'Content-Type': 'application/json'
+		},	   
+		success: function(response) {
+			console.log(response);
+			errorData = response;
+			processCount = fileData.length;	 
+			$('#statusView').html("Upload Successful");
+			getInventoryList();
+		},
+		error: function(response){
+			errorData = JSON.parse(response.responseJSON.message) ;
+			console.log(errorData);
+			processCount = fileData.length;
+			$('#statusView').html("Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
+		}
+	 });
 
 }
 
@@ -133,48 +120,7 @@ function downloadErrors(){
 	writeFileData(errorData);
 }
 
-function getBrandUrl(){
-	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/brands";
-}
-
 //UI DISPLAY METHODS
-function getBrandList(){
-    var url = getBrandUrl();
-    $.ajax({
-       url: url,
-       type: 'GET',
-       success: function(data) {
-            var brandSelect = $("#brand-select");
-            var categorySelect  = $("#category-select");
-            var brandEditSelect = $("#brand-edit-select");
-            var categoryEditSelect  = $("#category-edit-select");
-            for(var i in data){
-                brandSelect.append("<option value='"+data[i].brand+"'>"+data[i].brand+"</option>");
-                categorySelect.append("<option value='"+data[i].category+"'>"+data[i].category+"</option>");
-                brandEditSelect.append("<option value='"+data[i].brand+"'>"+data[i].brand+"</option>");
-                categoryEditSelect.append("<option value='"+data[i].category+"'>"+data[i].category+"</option>");
-            }
-       },
-       error: handleAjaxError
-    });
-}
-
-function displayInventoryList(data){
-	var $tbody = $('#Inventory-table').find('tbody');
-	$tbody.empty();
-	for(var i in data){
-		var e = data[i];
-		var buttonHtml = '<button onclick="displayEditInventory(' + e.id + ')">edit</button>'
-		var row = '<tr>'
-		+ '<td>' + e.id + '</td>'
-		+ '<td>' + e.barcode + '</td>'
-		+ '<td>' + e.quantity + '</td>'
-		+ '<td>' + buttonHtml + '</td>'
-		+ '</tr>';
-        $tbody.append(row);
-	}
-}
 
 function displayEditInventory(id){
 	var url = getInventoryUrl() + "/" + id;
@@ -225,10 +171,39 @@ function displayInventory(data){
 	$('#edit-Inventory-modal').modal('toggle');
 }
 
+function tableColumns(){
+	columns = [
+		{ "data": "id" },
+		{ "data": "barcode" },
+		{ "data": "quantity"},
+	];
+	if (userRole == 'supervisor'){
+		columns.push({
+			"data":null,
+			"render":function(o){
+				return '<button type="button" class="btn btn-info" onclick="displayEditInventory(' + o.id + ')"th:if="${info.getRole() == "supervisor"}>Edit</button>'
+			}
+		});
+	}
+	return columns;
+}
 
 //INITIALIZATION CODE
 function init(){
+
+	$('#Inventory-table').DataTable( {
+		"processing": true,
+		"serverSide": true,
+		"searching": false,
+		"ordering": false,
+		"lengthMenu": [2,5,10,20, 40, 60, 80, 100],
+		"pageLength":10,
+		"ajax": {url : getInventoryUrl()},
+		"columns": tableColumns()
+	});
+	
 	$('#add-Inventory').click(addInventory);
+	$('#open-add-Inventory-modal').click(openAddInventoryModal)
 	$('#update-Inventory').click(updateInventory);
 	$('#refresh-data').click(getInventoryList);
 	$('#upload-data').click(displayUploadData);
