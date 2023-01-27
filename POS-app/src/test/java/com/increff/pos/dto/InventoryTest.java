@@ -3,12 +3,18 @@ package com.increff.pos.dto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
+import com.increff.pos.model.PaginatedData;
 import com.increff.pos.model.ProductData;
+import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.service.AbstractUnitTest;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.TestUtil;
@@ -20,18 +26,30 @@ public class InventoryTest extends AbstractUnitTest {
     @Autowired
     private ProductDto productDto;
 
+    private static String brand;
+    private static String category;
+    private static String barcode;
+    private static String name;
+    private static Double mrp;
+    private static Integer quantity;
+    @BeforeClass
+    public static void init() throws ApiException {
+        brand = "adidas";
+        category = "tshirts";
+        barcode = "abcdef12";
+        name = "polo";
+        mrp = 100.0;
+        quantity = 10;
+    }
+
+
     @Test
     public void testAddInventory() throws ApiException {
-        String barcode = "abcdef12";
-        Integer quantity = 10;
-        String brand = "adidas";
-        String category = "tshirts";
-        String name = "polo";
-        Double mrp = 100.0;
-        InventoryData inventoryData = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
-        ProductData productData = productDto.get(inventoryData.getId());
+        TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
+        InventoryForm form = new InventoryForm(barcode, quantity);
+        InventoryData inventoryData = inventoryDto.add(form);
         assertEquals(quantity, inventoryData.getQuantity());
-        assertEquals(productData.getBarcode(), barcode);
+        assertEquals(inventoryData.getBarcode(), barcode);
     }
 
     @Test
@@ -46,72 +64,47 @@ public class InventoryTest extends AbstractUnitTest {
         fail();
     }
 
-    @Test
+    @Test(expected = ApiException.class)
     public void testAddInventoryNegativeQuantity() throws ApiException {
-        String barcode = "abcdef12";
-        Integer quantity = -10;
-        String brand = "adidas";
-        String category = "tshirts";
-        String name = "polo";
-        Double mrp = 100.0;
-
-        try {
-            TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
-        } catch (ApiException e) {
-            return;
-        }
-        fail();
+        Integer negativeQuantity = -10;
+        TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
+        InventoryForm form = new InventoryForm(barcode, negativeQuantity);
+        inventoryDto.add(form);
     }
 
     @Test
-    public void testAddInventoryAlreadyExists() throws ApiException {
-        String barcode = "abcdef12";
-        Integer quantity = 10;
-        String brand = "adidas";
-        String category = "tshirts";
-        String name = "polo";
-        Double mrp = 100.0;
-        InventoryData p = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
-        boolean error = false;
-        try {
-            TestUtil.createInventorySingle(barcode, quantity);
-        } catch (ApiException e) {
-            return;
-        }
-        fail();
+    public void testAddInventoryExisting_thenIncreaseQuantity() throws ApiException {
+
+        TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+
+        InventoryForm form = new InventoryForm(barcode, quantity);
+        inventoryDto.add(form);
+
+        PaginatedData<InventoryData> list = inventoryDto.getAll(0, 10, 1);
+        assertEquals(1, list.getData().size());
+        Integer newQuantity = 20;
+        assertEquals(newQuantity, list.getData().get(0).getQuantity());
     }
 
     @Test
     public void testUpdateInventory() throws ApiException {
-        String barcode = "abcdef12";
-        Integer quantity = 10;
-        String brand = "adidas";
-        String category = "tshirts";
-        String name = "polo";
-        Double mrp = 100.0;
-        InventoryData inventoryData = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
-        ProductData productData = productDto.get(inventoryData.getId());
-        assertEquals(quantity, inventoryData.getQuantity());
+        InventoryPojo inventoryPojo = TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+        ProductData productData = productDto.get(inventoryPojo.getId());
+        assertEquals(quantity, inventoryPojo.getQuantity());
         assertEquals(productData.getBarcode(), barcode);
 
         Integer newQuantity = 50;
         InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode, newQuantity);
         inventoryDto.update(inventoryForm);
-        InventoryData newData = inventoryDto.get(inventoryData.getId());
+        InventoryData newData = inventoryDto.get(inventoryPojo.getId());
         assertEquals(newQuantity, newData.getQuantity());
     }
 
-    @Test
+    @Test(expected = ApiException.class)
     public void testUpdateInventoryDoesntExist() throws ApiException {
-        String barcode = "abcdef12";
-        Integer quantity = 10;
-        try {
-            InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode, quantity);
-            inventoryDto.update(inventoryForm);
-        } catch (ApiException e) {
-            return;
-        }
-        fail();
+        InventoryForm inventoryForm = TestUtil.getInventoryFormDto(barcode, quantity);
+        inventoryDto.update(inventoryForm);
+    }
     }
 
     @Test
