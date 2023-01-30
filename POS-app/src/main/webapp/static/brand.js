@@ -125,7 +125,7 @@ function uploadRows(){
 			errorData = JSON.parse(response.responseJSON.message) ;
 			console.log(errorData);
 			processCount = fileData.length;
-			$('#statusView').html("Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
+			$('#statusView').html("Status : Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
 			Swal.fire('Error', 'Failed to upload brands. Download errors to see detailed descriptions.', 'error');
 		}
 	 });

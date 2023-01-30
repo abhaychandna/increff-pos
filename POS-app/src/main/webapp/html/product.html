@@ -100,7 +100,7 @@
 
 		<!-- Product Add Modal -->
 		<div class="modal" tabindex="-1" role="dialog" id="add-Product-modal">
-			<div class="modal-dialog" role="document">
+			<div class="modal-dialog" role="document" style="max-width:50%;">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title">Add Product</h5>
@@ -112,33 +112,33 @@
 						<form class="form-inline" id="Product-form">	
 							<!-- Barcode, Product, category, mrp, name -->
 							<div class="form-group">
-								<label for="inputbarcode" class="col-sm-2 col-form-label">Barcode</label>
+								<label for="inputbarcode" class="col-sm-2 col-form-label mr-2">Barcode</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" name="barcode" id="inputbarcode"
 										placeholder="Enter Barcode" required>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="brand-select" class="col-sm-2 col-form-label">Brand</label>
+								<label for="brand-select" class="col-sm-2 col-form-label mr-2">Brand</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" name="brand" id="brand-select" placeholder="Enter Brand" required>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="category-select" class="col-sm-2 col-form-label">Category</label>
+								<label for="category-select" class="col-sm-2 col-form-label mr-2">Category</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" name="category" id="category-select" placeholder="Enter Category" required>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="inputmrp" class="col-sm-2 col-form-label">MRP</label>
+								<label for="inputmrp" class="col-sm-2 col-form-label mr-2">MRP</label>
 								<div class="col-sm-10">
 									<input type="number" class="form-control" name="mrp" id="inputmrp"
 										placeholder="Enter MRP" required>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="inputname" class="col-sm-2 col-form-label">Name</label>
+								<label for="inputname" class="col-sm-2 col-form-label mr-2">Name</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" name="name" id="inputname"
 										placeholder="Enter Name" required>
@@ -173,8 +173,8 @@
 					<label class="custom-file-label" for="ProductFile" id="ProductFileName">Choose file</label>
 				  </div>
 				  
-				  Status : 
-				  <span id="statusView">Please Upload TSV file</span>
+				   
+				  <span style="font-weight:bold;" id="statusView">Status : Please Upload TSV file</span>
 				</div>
 				
 				<div class="modal-footer">
