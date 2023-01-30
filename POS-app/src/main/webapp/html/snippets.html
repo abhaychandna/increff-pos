@@ -1,5 +1,16 @@
 <head th:fragment="name_head">
+  <!-- Remove up/down arrow from number field-->
+  <style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -90,7 +101,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.all.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.min.css" rel="stylesheet"></link>
-  <script src="sweetalert2.all.min.js"></script>
+  <!-- <script src="sweetalert2.all.min.js"></script> -->
 
 	<script th:src="@{/static/app.js}"/></script>
 	<script th:src="@{/static/papaparse.min.js}"/></script>
