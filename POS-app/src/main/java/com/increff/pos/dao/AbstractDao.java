@@ -65,9 +65,6 @@ public abstract class AbstractDao {
 		return em.createQuery(cq).getSingleResult().intValue();
 	}
 
-	public <T> void update(T b) {
-	}
-
 	public <T, R> List<T> selectMultiple(Class<T> c, String column, R value) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<T> cq = cb.createQuery(c);
