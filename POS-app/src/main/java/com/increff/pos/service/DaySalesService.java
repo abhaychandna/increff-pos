@@ -82,7 +82,7 @@ public class DaySalesService {
 		return daySales;
 	}
 
-	public int getRecordsCount() {
+	public Integer getRecordsCount() {
 		return dao.getRecordsCount(DaySalesPojo.class);
 	}
 
