@@ -1,13 +1,11 @@
 package com.increff.pos.dto;
 
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.increff.pos.model.DaySalesData;
@@ -67,7 +65,7 @@ public class DaySalesDto {
     }
 
     // calcualtes according to UTC time
-    public DaySalesData calculateSales(ZonedDateTime startDate, ZonedDateTime endDate) throws ApiException {
+    private DaySalesData calculateSales(ZonedDateTime startDate, ZonedDateTime endDate) throws ApiException {
         List<OrderPojo> orders = orderService.filterByDate(startDate, endDate);
         List<Integer> orderIds = orders.stream().map(OrderPojo::getId).collect(Collectors.toList());
 
@@ -86,7 +84,7 @@ public class DaySalesDto {
     }    
 
     //@Scheduled(cron = "0 * * ? * *")
-    public void calculateSales() throws ApiException {
+    private void calculateSales() throws ApiException {
         ZonedDateTime startDate = ZonedDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
         ZonedDateTime endDate = ZonedDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(999999999);
         DaySalesData daySalesData = calculateSales(startDate, endDate);
