@@ -130,11 +130,6 @@ public class ReportDto {
         return headers;
     }
 
-    private String salesReportOutputFilename(ZonedDateTime startDate, ZonedDateTime endDate,
-            String brand, String category) throws ApiException {
-        return "salesReport_" + startDate + "_" + endDate + "_" + "brand-"+ Objects.toString(brand, "") + "_" + "category-" + Objects.toString(category, "");
-    }
-
     // Hashmap format : Key-productId, Value-List(brand, category)
     private HashMap<Integer, List<String>> getProductIdToBrandCategoryMap(List<ProductPojo> products,
             List<BrandPojo> brands) {
