@@ -10,6 +10,7 @@ function openAddInventoryModal(){
 }
 function addInventory(event){
 	var $form = $("#Inventory-form");
+	if(!validateFormHTML($form)) return;
 	var json = toJson($form);
 	var url = getInventoryUrl();
 
@@ -39,6 +40,7 @@ function updateInventory(event){
 
 	//Set the values to update
 	var $form = $("#Inventory-edit-form");
+	if(!validateFormHTML($form)) return;
 	var json = toJson($form);
 
 	$.ajax({

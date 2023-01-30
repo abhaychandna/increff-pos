@@ -8,6 +8,7 @@ function getUserUrl(){
 function addUser(event){
 	//Set the values to update
 	var $form = $("#user-form");
+	if(!validateFormHTML($form)) return;
 	var json = toJson($form);
 	var url = getUserUrl();
 

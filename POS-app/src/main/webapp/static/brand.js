@@ -14,6 +14,7 @@ function openAddBrandModal(){
 function addBrand(event){
 	//Set the values to update
 	var $form = $("#Brand-form");
+	if(!validateFormHTML($form)) return;
 	var json = toJson($form);
 	var url = getBrandUrl();
 
@@ -43,6 +44,7 @@ function updateBrand(event){
 
 	//Set the values to update
 	var $form = $("#Brand-edit-form");
+	if(!validateFormHTML($form)) return;
 	var json = toJson($form);
 
 	$.ajax({

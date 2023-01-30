@@ -6,6 +6,7 @@ function getProductUrl(){
 
 function addProduct(event){
 	var $form = $("#Product-form");
+	if(!validateFormHTML($form)) return;
 	var json = toJson($form);
 	var url = getProductUrl();
 
@@ -56,6 +57,7 @@ function updateProduct(event){
 
 	//Set the values to update
 	var $form = $("#Product-edit-form");
+	if(!validateFormHTML($form)) return;
 	var json = toJson($form);
 
 	$.ajax({

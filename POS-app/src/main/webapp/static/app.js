@@ -1,3 +1,6 @@
+function validateFormHTML($form){
+	return $form[0].reportValidity();
+}
 
 //HELPER METHOD
 function toJson($form){
