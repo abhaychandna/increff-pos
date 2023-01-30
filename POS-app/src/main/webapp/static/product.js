@@ -149,29 +149,6 @@ function openAddProductModal(){
 	$('#add-Product-modal').modal('toggle');
 }
 
-function getBrandList(){
-	// TODO : increase length of brandList to get all brands 
-    var url = getBrandUrl() + '?start=0&length=100&draw=1';
-    $.ajax({
-       url: url,
-       type: 'GET',
-       success: function(response) {
-            var brandSelect = $("#brand-select");
-            var categorySelect  = $("#category-select");
-            var brandEditSelect = $("#brand-edit-select");
-            var categoryEditSelect  = $("#category-edit-select");
-			console.log(response)
-			data = response['data']
-            for(var i in data){
-                brandSelect.append("<option value='"+data[i].brand+"'>"+data[i].brand+"</option>");
-                categorySelect.append("<option value='"+data[i].category+"'>"+data[i].category+"</option>");
-                brandEditSelect.append("<option value='"+data[i].brand+"'>"+data[i].brand+"</option>");
-                categoryEditSelect.append("<option value='"+data[i].category+"'>"+data[i].category+"</option>");
-            }
-       },
-       error: handleAjaxError
-    });
-}
 
 function displayProductList(data){
 	var $tbody = $('#Product-table').find('tbody');
@@ -287,7 +264,6 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#ProductFile').on('change', updateFileName)
-	getBrandList();
 }
 
 $(document).ready(init);
