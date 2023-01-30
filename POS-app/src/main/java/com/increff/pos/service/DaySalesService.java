@@ -2,6 +2,7 @@ package com.increff.pos.service;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import javax.transaction.Transactional;
 
@@ -33,12 +34,9 @@ public class DaySalesService {
 	}
 
 	public DaySalesPojo update(List<OrderItemPojo> items) throws ApiException {
-		DaySalesPojo daySales = new DaySalesPojo();
-		try{
-			ZonedDateTime date = getCurrentZonedDateWithoutTime();
-			daySales = getCheck(date);
-		}
-		catch(ApiException e){
+		ZonedDateTime date = getCurrentZonedDateWithoutTime();
+		DaySalesPojo daySales = dao.select(DaySalesPojo.class, date);
+		if(Objects.isNull(daySales)) {
 			return add(items);
 		}
 		daySales.setInvoicedItemsCount(daySales.getInvoicedItemsCount() + items.size());
