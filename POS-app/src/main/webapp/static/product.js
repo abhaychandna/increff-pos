@@ -237,7 +237,15 @@ function tableColumns(){
 		{ "data": "brand" },
 		{ "data": "category" },
 		{ "data": "name" },
-		{ "data": "mrp" },
+		{ 
+			"data": "mrp",
+			"render":function(o){
+				var mrp = parseFloat(o);
+				// ROUNDING DOWN TO 2 DECIMAL PLACES
+				mrp = Math.floor(mrp * 100) / 100;
+				return mrp;
+			}
+		},
 	];
 	if (userRole == 'supervisor'){
 		columns.push({
