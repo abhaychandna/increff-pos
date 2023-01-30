@@ -246,11 +246,8 @@ function tableColumns(){
 		{ "data": "name" },
 		{ 
 			"data": "mrp",
-			"render":function(o){
-				var mrp = parseFloat(o);
-				// ROUNDING DOWN TO 2 DECIMAL PLACES
-				mrp = Math.floor(mrp * 100) / 100;
-				return mrp;
+			"render":function(data){
+				return truncateFloat(data, 2);
 			}
 		},
 	];

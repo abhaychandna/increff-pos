@@ -91,7 +91,11 @@ function init(){
             } },
 			{ "data": "invoicedItemsCount" },
             { "data": "invoicedOrdersCount" },
-			{ "data": "totalRevenue" }
+			{ "data": "totalRevenue",
+			"render": function (data) {
+				return truncateFloat(data, 2);
+			 }
+			},
         ]
 	});
 

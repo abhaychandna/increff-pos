@@ -1,3 +1,8 @@
+function truncateFloat(num, places) {
+	num = parseFloat(num);
+	return Math.trunc(num * Math.pow(10, places)) / Math.pow(10, places);
+}
+
 function validateFormHTML($form){
 	return $form[0].reportValidity();
 }
