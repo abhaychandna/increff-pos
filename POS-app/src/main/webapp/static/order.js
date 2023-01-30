@@ -41,10 +41,11 @@ function displayOrderItemList(data){
 	$tbody.empty();
 
 	for(var i in wholeOrder) {
-        var e = wholeOrder[i];  
+        var e = wholeOrder[i]; 
+        var rowNo = parseInt(i)+1; 
         var buttonHtml = '<button onclick="deleteOrderItem('+i+')" class="btn btn-danger">Delete</button>';
         var row = '<tr>'
-            + '<td>' + i+1 + '</td>'
+            + '<td>' + rowNo + '</td>'
             + '<td>' + JSON.parse(wholeOrder[i]).barcode + '</td>'
             + '<td>'  + JSON.parse(wholeOrder[i]).quantity + '</td>'
             + '<td>'  + JSON.parse(wholeOrder[i]).sellingPrice + '</td>'
