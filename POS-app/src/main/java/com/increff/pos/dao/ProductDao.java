@@ -20,12 +20,7 @@ import com.increff.pos.service.ApiException;
 public class ProductDao extends AbstractDao{
 
 	public ProductPojo getByBarcode(String barcode) throws ApiException{
-		ProductSearchForm p = new ProductSearchForm();
-		p.setBarcode(barcode);
-		List<ProductPojo> list = filter(p);
-		if(list.size() == 0)
-			return null;
-		return list.get(0);
+		return selectByColumn(ProductPojo.class, "barcode", barcode);
 	}
 
 	public List<ProductPojo> filter(ProductSearchForm searchForm){
