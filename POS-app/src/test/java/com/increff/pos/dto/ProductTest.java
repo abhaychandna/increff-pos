@@ -109,18 +109,14 @@ public class ProductTest extends AbstractUnitTest{
         ProductPojo product = TestUtil.createProductWithBrand(barcode, brand, category, name, mrp);
         ProductData productData = productDto.get(product.getId());
         
-        String newBrand = "nike", newCategory = "shoes", newBarcode = "abcdef13", newName = "polo";
+        String newName = "polo";
         Double newMrp = 200.5;
         
-        TestUtil.createBrand(newBrand, newCategory);
         ProductPutForm form = new ProductPutForm(newName, newMrp);
         productDto.update(productData.getId(), form);
         
         productData = productDto.get(product.getId());
         assertEquals(product.getId(), productData.getId());
-        assertEquals(newBrand, productData.getBrand());
-        assertEquals(newCategory, productData.getCategory());
-        assertEquals(newBarcode, productData.getBarcode());
         assertEquals(newName, productData.getName());
         assertEquals(newMrp, productData.getMrp(), tolerance);
     }
