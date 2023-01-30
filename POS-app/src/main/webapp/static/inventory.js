@@ -21,7 +21,9 @@ function addInventory(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
+			Swal.fire('Success', 'Inventory added successfully', 'success');
 	   		getInventoryList();  
+			resetAddDialog();
 	   },
 	   error: handleAjaxError
 	});
@@ -80,6 +82,10 @@ var processCount = 0;
 
 function processData(){
 	var file = $('#InventoryFile')[0].files[0];
+	if(!file){
+		Swal.fire('Error', 'Please select a file to upload', 'error');
+		return;
+	}
 	readFileData(file, readFileDataCallback);
 }
 
@@ -103,7 +109,8 @@ function uploadRows(){
 			console.log(response);
 			errorData = response;
 			processCount = fileData.length;	 
-			$('#statusView').html("Upload Successful");
+			Swal.fire('Success', 'Inventory uploaded successfully', 'success');
+            resetUploadDialog();
 			getInventoryList();
 		},
 		error: function(response){
@@ -111,6 +118,7 @@ function uploadRows(){
 			console.log(errorData);
 			processCount = fileData.length;
 			$('#statusView').html("Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
+			Swal.fire('Error', 'Failed to upload inventory. Download errors to see detailed descriptions.', 'error');
 		}
 	 });
 

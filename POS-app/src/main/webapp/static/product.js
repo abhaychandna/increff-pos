@@ -17,7 +17,9 @@ function addProduct(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getProductList();  
+			Swal.fire('Success', 'Brand added successfully', 'success');
+	   		getProductList(); 
+			resetAddDialog();
 	   },
 	   error: handleAjaxError
 	});
@@ -98,6 +100,10 @@ var processCount = 0;
 
 function processData(){
 	var file = $('#ProductFile')[0].files[0];
+	if(!file){
+		Swal.fire('Error', 'Please select a file to upload', 'error');
+		return;
+	}
 	readFileData(file, readFileDataCallback);
 }
 
@@ -121,7 +127,8 @@ function uploadRows(){
 			console.log(response);
 			errorData = response;
 			processCount = fileData.length;	 
-			$('#statusView').html("Upload Successful");
+			Swal.fire('Success', 'Products uploaded successfully', 'success');
+            resetUploadDialog();
 			getProductList();
 		},
 		error: function(response){
@@ -129,6 +136,7 @@ function uploadRows(){
 			console.log(errorData);
 			processCount = fileData.length;
 			$('#statusView').html("Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
+			Swal.fire('Error', 'Failed to upload products. Download errors to see detailed descriptions.', 'error');
 		}
 	 });
 

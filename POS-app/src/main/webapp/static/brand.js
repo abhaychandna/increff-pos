@@ -25,6 +25,7 @@ function addBrand(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
+			Swal.fire('Success', 'Brand added successfully', 'success');
 	   		getBrandList();  
 			resetAddDialog();
 	   },
@@ -86,6 +87,10 @@ var processCount = 0;
 
 function processData(){
 	var file = $('#BrandFile')[0].files[0];
+	if(!file){
+		Swal.fire('Error', 'Please select a file to upload', 'error');
+		return;
+	}
 	readFileData(file, readFileDataCallback);
 }
 
@@ -109,13 +114,16 @@ function uploadRows(){
 			console.log(response);
 			errorData = response;
 			processCount = fileData.length;	 
-			$('#statusView').html("Upload Successful");
+			Swal.fire('Success', 'Brands uploaded successfully', 'success');
+            resetUploadDialog();
+			getBrandList();
 		},
 		error: function(response){
 			errorData = JSON.parse(response.responseJSON.message) ;
 			console.log(errorData);
 			processCount = fileData.length;
 			$('#statusView').html("Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
+			Swal.fire('Error', 'Failed to upload brands. Download errors to see detailed descriptions.', 'error');
 		}
 	 });
 
