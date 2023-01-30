@@ -1,5 +1,7 @@
 package com.increff.pos.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.pojo.UserPojo;
 import com.increff.pos.util.ConvertUtil;
+import com.increff.pos.util.PreProcessingUtil;
 
 @Component
 public class TestUtil {
@@ -156,4 +159,20 @@ public class TestUtil {
         inventoryForm.setQuantity(quantity);
         return inventoryForm;
     }
+
+
+    public static String createFieldEmptyErrorMessage(String field) {
+        return createErrorMessage(field + " may not be empty");
+    }
+    public static String createErrorMessage(String message) {
+        return PreProcessingUtil.getErrorStartMessage() + message + PreProcessingUtil.getErrorMessageSeparator();
+    }
+    public static void validateExceptionMessage(Exception exception, String expectedMessage) {
+        String actualMessage = exception.getMessage();
+        System.out.println(expectedMessage);
+        System.out.println(actualMessage);
+
+        assertEquals(expectedMessage, actualMessage);
+    }
+    
 }
