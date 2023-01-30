@@ -68,7 +68,7 @@ public class OrderDto {
 
         HashMap<String, String> XMLheaders = new HashMap<String, String>();
         XMLheaders.put("OrderId", order.getId().toString());
-        XMLheaders.put("Time", order.getTime().toString());
+        XMLheaders.put("Time", order.getTime().format(new DateTimeFormatterBuilder().appendPattern("dd-MM-yyyy HH:mm:ss").toFormatter()));
         XMLheaders.put("Total", total.toString());
         String xsltFilename = "invoice";
 
