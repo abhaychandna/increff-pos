@@ -34,7 +34,7 @@ public class UserDto {
 
     public ModelAndView signup(SignupForm form) throws ApiException {
         try {
-            PreProcessingUtil.normalizeAndValidate(form);
+            normalizeAndValidate(form);
             UserPojo p = ConvertUtil.convert(form, UserPojo.class);
             userService.add(p);
 			info.setMessage("");
@@ -83,6 +83,26 @@ public class UserDto {
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, null,
 				authorities);
 		return token;
+	}
+
+	private void normalizeAndValidate(SignupForm form) throws ApiException {
+		PreProcessingUtil.normalizeAndValidate(form);
+		validateEmail(form.getEmail());
+		validatePassword(form.getPassword());
+	}
+
+	private void validateEmail(String email) throws ApiException {
+		String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+		String errorMessage = "Invalid email format";
+		if (!email.matches(emailRegex)) {
+			throw new ApiException(errorMessage);
+		}
+	}
+
+	private void validatePassword(String password) throws ApiException {
+		if (password.length() < 8) {
+			throw new ApiException("Password must be at least 8 characters");
+		}
 	}
 
 }
