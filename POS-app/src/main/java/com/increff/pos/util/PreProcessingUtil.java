@@ -13,6 +13,14 @@ import com.increff.pos.service.ApiException;
 public class PreProcessingUtil {
 
 	private static String errorMessageSeparator = ".\n";
+	private static String errorStartMessage = "FORM ERRORS: ";
+	public static String getErrorMessageSeparator() {
+		return errorMessageSeparator;
+	}
+	public static String getErrorStartMessage() {
+		return errorStartMessage;
+	}
+
 	public static <T> void normalizeAndValidate(T form) throws ApiException {
 		normalize(form);
 		validate(form);
@@ -28,7 +36,7 @@ public class PreProcessingUtil {
 		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<T>> violations = validator.validate(form);
 		if(violations.size()>0){
-			String error = "FORM ERRORS: ";
+			String error = errorStartMessage;
 			for(ConstraintViolation<T> v : violations) {
 				error += v.getMessage() + errorMessageSeparator;
 			}
