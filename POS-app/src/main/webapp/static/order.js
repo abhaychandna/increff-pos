@@ -382,7 +382,7 @@ function init(){
 		"serverSide": true,
 		"searching": false,
         "ordering": false,
-		"lengthMenu": [2,5,10,20, 40, 60, 80, 100],
+		"lengthMenu": [5, 10, 25, 50, 100],
 		"pageLength":10,
 		"ajax": {url : getOrderUrl() + "?pageNo=0&pageSize=10"},
 		"columns": [
