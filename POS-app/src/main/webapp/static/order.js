@@ -386,7 +386,12 @@ function init(){
 		"pageLength":10,
 		"ajax": {url : getOrderUrl() + "?pageNo=0&pageSize=10"},
 		"columns": [
-            { "data": "id" },
+            {
+			"data": "id",
+			render: function (data, type, row, meta) {
+				return meta.row + meta.settings._iDisplayStart + 1;
+			}
+		},
             { "data": "time",
             "render": function (timestamp) {
                 console.log(timestamp);
