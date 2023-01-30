@@ -55,6 +55,7 @@ function updateBrand(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
+			Swal.fire('Success', 'Brand updated successfully', 'success');
 	   		getBrandList();   
 	   },
 	   error: handleAjaxError

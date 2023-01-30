@@ -51,6 +51,7 @@ function updateInventory(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
+			Swal.fire('Success', 'Inventory updated successfully', 'success');
 	   		getInventoryList();   
 	   },
 	   error: handleAjaxError

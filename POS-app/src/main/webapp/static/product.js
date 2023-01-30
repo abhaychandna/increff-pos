@@ -59,6 +59,7 @@ function updateProduct(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
+			Swal.fire('Success', 'Product updated successfully', 'success');
 	   		getProductList();   
 	   },
 	   error: handleAjaxError
