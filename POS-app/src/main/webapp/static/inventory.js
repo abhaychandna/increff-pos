@@ -178,6 +178,7 @@ function displayInventory(data){
 	$("#Inventory-edit-form input[name=barcode]").val(data.barcode);	
 	$("#Inventory-edit-form input[name=quantity]").val(data.quantity);	
 	$("#Inventory-edit-form input[name=id]").val(data.id);	
+	$("#update-Inventory").attr('disabled', true);
 	$('#edit-Inventory-modal').modal('toggle');
 }
 
@@ -225,7 +226,13 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#InventoryFile').on('change', updateFileName)
-	getBrandList();
+
+	$('#Inventory-edit-form').on('input change', function() {
+		$('#update-Inventory').attr('disabled', false);
+	});
+	$('#Inventory-form').on('input change', function() {
+		$('#add-Inventory').attr('disabled', false);
+	});
 }
 
 $(document).ready(init);

@@ -40,15 +40,6 @@ function displayEditProduct(id){
 	});	
 }
 
-function displayProduct(data){
-	$("#Product-edit-form input[name=id]").val(data.id);	
-	$("#Product-edit-form input[name=barcode]").val(data.barcode);
-	$("#Product-edit-form input[name=mrp]").val(data.mrp);
-	$("#Product-edit-form input[name=name]").val(data.name);
-	$('#edit-Product-modal').modal('toggle');
-}
-
-
 function updateProduct(event){
 	$('#edit-Product-modal').modal('toggle');
 	//Get the ID
@@ -227,8 +218,9 @@ function displayProduct(data){
 	$("#Product-edit-form input[name=mrp]").val(data.mrp);
 	$("#Product-edit-form input[name=name]").val(data.name);	
 	$("#Product-edit-form input[name=category]").val(data.category);
-	
 	$("#Product-edit-form input[name=id]").val(data.id);	
+
+	$("#update-Product").attr('disabled', true);
 	$('#edit-Product-modal').modal('toggle');
 }
 
@@ -284,6 +276,13 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#ProductFile').on('change', updateFileName)
+
+	$('#Product-edit-form').on('input change', function() {
+		$('#update-Product').attr('disabled', false);
+	});
+	$('#Product-form').on('input change', function() {
+		$('#add-Product').attr('disabled', false);
+	});
 }
 
 $(document).ready(init);
