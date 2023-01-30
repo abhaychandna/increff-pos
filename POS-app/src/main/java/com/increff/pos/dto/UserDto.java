@@ -34,7 +34,7 @@ public class UserDto {
 
     public ModelAndView signup(HttpServletRequest request, SignupForm form) throws ApiException {
         try {
-            normalizeAndValidate(form);
+            validate(form);
             UserPojo p = ConvertUtil.convert(form, UserPojo.class);
             userService.add(p);
 			LoginForm loginForm = ConvertUtil.convert(form, LoginForm.class);
@@ -84,8 +84,8 @@ public class UserDto {
 		return token;
 	}
 
-	private void normalizeAndValidate(SignupForm form) throws ApiException {
-		PreProcessingUtil.normalizeAndValidate(form);
+	private void validate(SignupForm form) throws ApiException {
+		PreProcessingUtil.validate(form);
 		validateEmail(form.getEmail());
 		validatePassword(form.getPassword());
 	}
