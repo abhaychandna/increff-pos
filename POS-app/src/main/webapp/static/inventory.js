@@ -120,6 +120,7 @@ function uploadRows(){
 			errorData = JSON.parse(response.responseJSON.message) ;
 			console.log(errorData);
 			processCount = fileData.length;
+	        $file.val('');
 			$('#statusView').html("Status : Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
 			Swal.fire('Error', 'Failed to upload inventory. Download errors to see detailed descriptions.', 'error');
 		}
