@@ -32,13 +32,13 @@ public class UserDto {
     private UserService userService;
 
 
-    public ModelAndView signup(SignupForm form) throws ApiException {
+    public ModelAndView signup(HttpServletRequest request, SignupForm form) throws ApiException {
         try {
             normalizeAndValidate(form);
             UserPojo p = ConvertUtil.convert(form, UserPojo.class);
             userService.add(p);
-			info.setMessage("");
-            return new ModelAndView("redirect:/site/login");
+			LoginForm loginForm = ConvertUtil.convert(form, LoginForm.class);
+			return login(request, loginForm);
         }
         catch (ApiException e) {
             info.setMessage(e.getMessage());
@@ -77,7 +77,6 @@ public class UserDto {
 		// Create Authorities
 		ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
 		authorities.add(new SimpleGrantedAuthority(p.getRole()));
-		// you can add more roles if required
 
 		// Create Authentication
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, null,

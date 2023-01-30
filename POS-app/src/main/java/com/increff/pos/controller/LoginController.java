@@ -39,7 +39,7 @@ public class LoginController {
 	@ApiOperation(value = "Signs up a user")
 	@RequestMapping(path = "/session/signup", method = RequestMethod.POST)
 	public ModelAndView signup(HttpServletRequest req, SignupForm form) throws ApiException {
-		return dto.signup(form);
+		return dto.signup(req, form);
 	}	
 
 
