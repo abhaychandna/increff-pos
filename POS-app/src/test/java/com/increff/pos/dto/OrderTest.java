@@ -101,12 +101,12 @@ public class OrderTest extends AbstractUnitTest {
     @Test
     public void testGetAll() throws ApiException {
         setup();
-        int orderCount = 3;
-        for (int i = 0; i < orderCount; i++) {
+        Integer orderCount = 3;
+        for (Integer i = 0; i < orderCount; i++) {
             TestUtil.createOrder(orderItemFormList);
         }
         List<OrderData> orderDataList = orderDto.getAll(0, 10, 1).getData();
-        assertEquals(orderCount, orderDataList.size());
+        assertEquals(orderCount, Integer.valueOf(orderDataList.size()));
     }
 
     @Test
