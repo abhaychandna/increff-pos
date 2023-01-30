@@ -8,6 +8,6 @@ public class UserData {
 
 	private Integer id;
 	private String email;
-	private String role;
+	private Role role;
 
 }

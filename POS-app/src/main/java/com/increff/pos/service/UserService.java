@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.increff.pos.dao.UserDao;
+import com.increff.pos.model.Role;
 import com.increff.pos.pojo.UserPojo;
 
 @Service
@@ -26,7 +27,7 @@ public class UserService {
 		if (Objects.nonNull(existing)) {
 			throw new ApiException("User already exists");
 		}
-		user.setRole(isSupervisor(user.getEmail()) ? "supervisor" : "operator");
+		user.setRole(isSupervisor(user.getEmail()) ? Role.supervisor : Role.operator);
 		dao.insert(user);
 	}
 

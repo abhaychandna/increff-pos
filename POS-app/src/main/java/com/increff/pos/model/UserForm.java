@@ -12,6 +12,6 @@ public class UserForm {
 	private String email;
 	@NotBlank(message = "Password may not be empty")
 	private String password;
-	private String role;
+	private Role role;
 
 }

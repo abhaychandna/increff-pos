@@ -1,5 +1,7 @@
 package com.increff.pos.util;
 
+import com.increff.pos.model.Role;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +11,6 @@ public class UserPrincipal {
 
 	private Integer id;
 	private String email;
-	private String role;
+	private Role role;
 
 }

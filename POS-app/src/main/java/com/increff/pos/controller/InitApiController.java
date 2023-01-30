@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.increff.pos.model.InfoData;
+import com.increff.pos.model.Role;
 import com.increff.pos.model.UserForm;
 import com.increff.pos.pojo.UserPojo;
 import com.increff.pos.service.ApiException;
@@ -38,7 +39,7 @@ public class InitApiController extends AbstractUiController {
 		if (list.size() > 0) {
 			info.setMessage("Application already initialized. Please use existing credentials");
 		} else {
-			form.setRole("admin");
+			form.setRole(Role.operator);
 			UserPojo p = convert(form);
 			service.add(p);
 			info.setMessage("Application initialized");

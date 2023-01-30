@@ -76,7 +76,7 @@ public class UserDto {
 
 		// Create Authorities
 		ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority(p.getRole()));
+		authorities.add(new SimpleGrantedAuthority(String.valueOf(p.getRole())));
 
 		// Create Authentication
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, null,
