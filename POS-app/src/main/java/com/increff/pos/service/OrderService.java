@@ -1,6 +1,7 @@
 package com.increff.pos.service;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -26,9 +27,9 @@ public class OrderService {
 	private DaySalesService daySalesService;
 
 	public List<OrderItemPojo> add(List<OrderItemPojo> items) throws ApiException {
-		if(items.isEmpty()) throw new ApiException("No items in order");
-		for(OrderItemPojo item : items)	inventoryService.reduceInventory(item.getProductId(), item.getQuantity());
-		
+		if(items.isEmpty()) throw new ApiException("No items in order");		
+		validateOrderQuantityInInventory(items);
+
 		OrderPojo order = new OrderPojo();
 		order.setTime(ZonedDateTime.now());
 		dao.insert(order);
@@ -40,6 +41,21 @@ public class OrderService {
 		
 		daySalesService.update(items);
 		return items;
+	}
+
+	private void validateOrderQuantityInInventory(List<OrderItemPojo> items) throws ApiException {
+		List<String> errorMessages = new ArrayList<String>();
+		for(OrderItemPojo item : items){
+			try{
+				inventoryService.reduceInventory(item.getProductId(), item.getQuantity());
+			}
+			catch (ApiException e){
+				errorMessages.add(e.getMessage());
+			}
+		}
+		if(!errorMessages.isEmpty()){
+			throw new ApiException(String.join("\n", errorMessages));
+		} 
 	}
 
 	public OrderPojo get(Integer id) throws ApiException {
