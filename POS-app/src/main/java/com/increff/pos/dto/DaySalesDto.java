@@ -56,9 +56,8 @@ public class DaySalesDto {
 
         Integer pageNo = start/pageSize;
 
-        DateTimeFormatter format = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-        ZonedDateTime startDate = TimeUtil.getZonedDateTime(strStartDate, format);
-        ZonedDateTime endDate = TimeUtil.getZonedDateTime(strEndDate, format);
+        ZonedDateTime startDate = TimeUtil.isoTimeStringToZonedDateTime(strStartDate);
+        ZonedDateTime endDate = TimeUtil.isoTimeStringToZonedDateTime(strEndDate);
 
         List<DaySalesPojo> daySales = svc.getAll(pageNo, pageSize, startDate, endDate);
         List<DaySalesData> daySaleList = new ArrayList<DaySalesData>();
