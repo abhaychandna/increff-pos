@@ -35,8 +35,6 @@ public class DaySalesDto {
     private OrderItemService orderItemService;
 
     public PaginatedData<DaySalesData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
-        calculateSales(null, null);
-
         Integer pageNo = start/pageSize;
         List<DaySalesPojo> daySales = svc.getAll(pageNo, pageSize);
         List<DaySalesData> daySaleList = new ArrayList<DaySalesData>();
