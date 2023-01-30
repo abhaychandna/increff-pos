@@ -19,12 +19,12 @@ public class ProductFormErrorData {
 	@Min(value = 0, message = "Mrp should be greater than or equal to 0")
 	private Double mrp;
  */
-	private String error;
 	private String barcode;
 	private String brand;
 	private String category;
 	private String name;
 	private Double mrp;
+	private String error;
 	public ProductFormErrorData(String barcode, String brand, String category, String name, Double mrp, String error) {
 		this.barcode = barcode;
 		this.brand = brand;
