@@ -150,6 +150,7 @@ function resetUploadDialog(){
 	var $file = $('#InventoryFile');
 	$file.val('');
 	$('#InventoryFileName').html("Choose File");
+	$('#statusView').html('Please Upload TSV file');
 	//Reset various counts
 	processCount = 0;
 	fileData = [];
