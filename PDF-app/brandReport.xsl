@@ -62,7 +62,7 @@
 							color="white">
 								<fo:table-row>
 									<fo:table-cell padding-bottom="2px" padding-top="2px">
-										<fo:block font-weight="bold">No.</fo:block>
+										<fo:block font-weight="bold">S.No.</fo:block>
 									</fo:table-cell>
 									<fo:table-cell padding-bottom="2px" padding-top="2px">
 										<fo:block font-weight="bold">Brand</fo:block>
