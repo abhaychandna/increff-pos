@@ -138,6 +138,7 @@ function uploadRows(){
 			var $file = $('#ProductFile');
 	        $file.val('');       
             $('#ProductFileName').html("Choose File");
+			document.getElementById('download-errors').disabled=false;
 			$('#statusView').html("Status : Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
 			Swal.fire('Error', 'Failed to upload products. Download errors to see detailed descriptions.', 'error');
 		}
@@ -198,6 +199,7 @@ function resetUploadDialog(){
 	$file.val('');
 	$('#ProductFileName').html("Choose File");
 	$('#statusView').html('Please Upload TSV file');
+	document.getElementById('download-errors').disabled=true;
 	//Reset various counts
 	processCount = 0;
 	fileData = [];

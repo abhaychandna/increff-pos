@@ -126,6 +126,7 @@ function uploadRows(){
 			var $file = $('#InventoryFile');
 	        $file.val('');       
             $('#InventoryFileName').html("Choose File");
+			document.getElementById('download-errors').disabled=false;
 			$('#statusView').html("Status : Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
 			Swal.fire('Error', 'Failed to upload inventory. Download errors to see detailed descriptions.', 'error');
 		}
@@ -157,6 +158,7 @@ function resetUploadDialog(){
 	$file.val('');
 	$('#InventoryFileName').html("Choose File");
 	$('#statusView').html('Please Upload TSV file');
+	document.getElementById('download-errors').disabled=true;
 	//Reset various counts
 	processCount = 0;
 	fileData = [];
