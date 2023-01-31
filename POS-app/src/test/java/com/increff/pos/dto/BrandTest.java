@@ -1,6 +1,7 @@
 package com.increff.pos.dto;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -26,15 +27,30 @@ public class BrandTest extends AbstractUnitTest {
         assertEquals("tshirts", brandData.getCategory());
     }
 
-    /*
-    Normalize Not Working if we create brand directly via dao
     @Test
-    public void testAddNormalize() throws ApiException {
-        BrandData brandData = TestUtil.createBrand(" ADIDAS ", " TshirTs");
+    public void testNormalizeUppercaseToLowercase() throws ApiException {
+        BrandData brandData = brandDto.add(TestUtil.getBrandFormDto(" ADIDAS ", " TshirTs"));
         assertEquals("adidas", brandData.getBrand());
         assertEquals("tshirts", brandData.getCategory());
     }
-     */
+
+    @Test
+    public void testValidateEmptyBrand() throws ApiException {        
+        String expectedMessage = TestUtil.createFieldEmptyErrorMessage("Brand");
+        Exception exception = assertThrows(ApiException.class, () -> {
+            brandDto.add(TestUtil.getBrandFormDto("", "Tshirts"));
+        });
+        TestUtil.validateExceptionMessage(exception, expectedMessage);
+    }
+    @Test
+    public void testValidateEmptyCategory() throws ApiException {        
+        String expectedMessage = TestUtil.createFieldEmptyErrorMessage("Category");
+        Exception exception = assertThrows(ApiException.class, () -> {
+            brandDto.add(TestUtil.getBrandFormDto("adidas", ""));
+        });
+        TestUtil.validateExceptionMessage(exception, expectedMessage);
+    }
+
     @Test
     public void testGetBrand() throws ApiException {
         BrandData brandData = TestUtil.createBrand("adidas", "tshirts");
