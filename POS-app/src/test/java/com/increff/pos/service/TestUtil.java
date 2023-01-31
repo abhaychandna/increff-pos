@@ -106,7 +106,8 @@ public class TestUtil {
 
     public static ProductPojo createProduct(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
         ProductPojo product = new ProductPojo(barcode, null, name, mrp);
-        product.setBrandCategory(brandService.getCheckBrandCategory(brand, category).getId());
+        BrandPojo brandPojo = brandDao.selectByMultipleColumns(BrandPojo.class, List.of("brand", "category"), List.of(List.of(brand), List.of(category))).get(0);
+        product.setBrandCategory(brandPojo.getId());
         return productDao.insert(product);
     }
 
@@ -116,7 +117,7 @@ public class TestUtil {
     }
     public static InventoryPojo createInventorySingle(String barcode, Integer quantity) throws ApiException {
         InventoryPojo inventory = new InventoryPojo(quantity);
-        inventory.setId(productService.getByBarcode(barcode).getId());
+        inventory.setId(productDao.selectByColumn(ProductPojo.class, "barcode", barcode).getId());
         return inventoryDao.insert(inventory);
     }
 
@@ -128,7 +129,7 @@ public class TestUtil {
         List<OrderItemPojo> orderItemPojoList = new ArrayList<OrderItemPojo>();
         for(OrderItemForm orderItemForm : orderItemFormList){
             OrderItemPojo orderItemPojo = ConvertUtil.convert(orderItemForm, OrderItemPojo.class);
-            orderItemPojo.setProductId(productService.getByBarcode(orderItemForm.getBarcode()).getId());
+            orderItemPojo.setProductId(productDao.selectByColumn(ProductPojo.class, "barcode", orderItemForm.getBarcode()).getId());
             orderItemPojo.setOrderId(order.getId());
             orderItemPojoList.add(orderItemPojo);
             orderItemDao.insert(orderItemPojo);
