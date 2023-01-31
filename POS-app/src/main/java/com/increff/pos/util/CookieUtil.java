@@ -1,5 +1,7 @@
 package com.increff.pos.util;
 
+import java.util.Objects;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
@@ -7,7 +9,7 @@ public class CookieUtil {
 
 	public static String getCookie(HttpServletRequest req, String name) {
 		Cookie[] cookies = req.getCookies();
-		if (cookies == null) {
+		if (Objects.isNull(cookies)) {
 			return null;
 		}
 		for (Cookie c : cookies) {

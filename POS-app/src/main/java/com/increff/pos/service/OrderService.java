@@ -3,6 +3,7 @@ package com.increff.pos.service;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.transaction.Transactional;
 
@@ -72,7 +73,7 @@ public class OrderService {
 
 	private OrderPojo getCheck(Integer id) throws ApiException {
 		OrderPojo order = dao.select(OrderPojo.class, id);
-		if (order == null)
+		if (Objects.isNull(order))
 			throw new ApiException("Order does not exist with id: " + id);
 		return order;
 	}

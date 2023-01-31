@@ -1,5 +1,7 @@
 package com.increff.pos.util;
 
+import java.util.Objects;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
@@ -26,7 +28,7 @@ public class SecurityUtil {
 
 	public static UserPrincipal getPrincipal() {
 		Authentication token = getAuthentication();
-		return token == null ? null : (UserPrincipal) getAuthentication().getPrincipal();
+		return Objects.isNull(token) ? null : (UserPrincipal) getAuthentication().getPrincipal();
 	}
 
 }
