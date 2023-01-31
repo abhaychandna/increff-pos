@@ -28,7 +28,7 @@ function filterDaySalesList(){
 	var endDate = $('#endDate').val();
 	if(startDate == "" || endDate == ""){
 		var errorString = "Please select both start date and end date";
-		Swal.fire({
+		raiseAlert({
             icon: 'error',
             title: 'Oops...',
             html: errorString,

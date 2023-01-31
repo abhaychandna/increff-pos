@@ -61,7 +61,7 @@ function salesReport(){
     }
     if(!json.hasOwnProperty("startDate") || !json.hasOwnProperty("endDate")){
         var errorString = "Please select both start date and end date";
-        Swal.fire({
+        raiseAlert({
             icon: 'error',
             title: 'Oops...',
             html: errorString,

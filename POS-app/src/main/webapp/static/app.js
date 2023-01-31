@@ -15,6 +15,16 @@ function resetForm(formSelector){
 function toggleModal(modalSelector){
 	$(modalSelector).modal('toggle');
 }
+
+function raiseAlert(title, text, icon){
+	console.log("Alert: " + title + " " + text + " " + icon);
+	Swal.fire({
+		icon: icon,
+		title: title,
+		text: text,
+	})
+}
+
 //HELPER METHOD
 function toJson($form){
     var serialized = $form.serializeArray();
@@ -32,11 +42,7 @@ function toJson($form){
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);
 	//alert(response.message);
-	Swal.fire({
-		icon: 'error',
-		title: 'Oops...',
-		text: response.message,
-	})
+	raiseAlert('Oops...', response.message, 'error');
 }
 
 function readFileData(file, callback){

@@ -30,7 +30,7 @@ function addBrand(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-			Swal.fire('Success', 'Brand added successfully', 'success');
+			raiseAlert('Success', 'Brand added successfully', 'success');
 	   		getBrandList();  
 			resetAddDialog();
 			toggleAddBrandModal();
@@ -59,7 +59,7 @@ function updateBrand(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-			Swal.fire('Success', 'Brand updated successfully', 'success');
+			raiseAlert('Success', 'Brand updated successfully', 'success');
 	   		getBrandList();   
 			toggleEditBrandModal();
 	   },
@@ -96,7 +96,7 @@ var processCount = 0;
 function processData(){
 	var file = $('#BrandFile')[0].files[0];
 	if(!file){
-		Swal.fire('Error', 'Please select a file to upload', 'error');
+		raiseAlert('Error', 'Please select a file to upload', 'error');
 		return;
 	}
 	readFileData(file, readFileDataCallback);
@@ -122,7 +122,7 @@ function uploadRows(){
 			console.log(response);
 			errorData = response;
 			processCount = fileData.length;	 
-			Swal.fire('Success', 'Brands uploaded successfully', 'success');
+			raiseAlert('Success', 'Brands uploaded successfully', 'success');
             resetUploadDialog();
 			toggleModal("upload-Brand-modal");
 			getBrandList();
@@ -136,7 +136,7 @@ function uploadRows(){
             $('#BrandFileName').html("Choose File");
 			document.getElementById('download-errors').disabled=false;
 			$('#statusView').html("Status : Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
-			Swal.fire('Error', 'Failed to upload brands. Download errors to see detailed descriptions.', 'error');
+			raiseAlert('Error', 'Failed to upload brands. Download errors to see detailed descriptions.', 'error');
 		}
 	 });
 

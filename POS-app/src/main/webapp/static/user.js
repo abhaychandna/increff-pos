@@ -20,7 +20,7 @@ function addUser(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-			Swal.fire('Success', 'User added successfully', 'success');
+			raiseAlert('Success', 'User added successfully', 'success');
 	   		getUserList();    
 	   },
 	   error: handleAjaxError

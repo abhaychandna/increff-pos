@@ -87,7 +87,7 @@ function validateInventory(barcode, quantity, inputJson) {
             response["quantity"];
             if(response["quantity"] < quantity) {
                 var errorString = "Not enough quantity in inventory. Available: " + response["quantity"];
-                Swal.fire({
+                raiseAlert({
                     icon: 'error',
                     title: 'Oops...',
                     html: errorString,
@@ -107,7 +107,7 @@ function validateInventory(barcode, quantity, inputJson) {
         },
         error: function(data) {
             errorString = data.responseJSON.message;
-            Swal.fire({
+            raiseAlert({
                 icon: 'error',
                 title: 'Oops...',
                 html: errorString,
@@ -188,7 +188,7 @@ function addOrderItem(event) {
     validateSellingPrice(sp);
     if(alertErrorMessages.length > 0) {
         var errorString = alertErrorMessages.join("<br>");
-        Swal.fire({
+        raiseAlert({
             icon: 'error',
             title: 'Oops...',
             html: errorString,
@@ -305,7 +305,7 @@ function placeOrder() {
         },
         success: function(response) {
             $('#add-order-item-modal').modal('toggle');
-            Swal.fire({
+            raiseAlert({
                 title: 'Order Placed!',
                 text: 'Congratulations! Your order has been placed.',
                 icon: 'success',
@@ -351,7 +351,7 @@ function placeOrder() {
                 error = e.responseJSON.message;
             }
             var errorString = error;
-            Swal.fire({
+            raiseAlert({
                 icon: 'error',
                 title: 'Oops...',
                 html: errorString,

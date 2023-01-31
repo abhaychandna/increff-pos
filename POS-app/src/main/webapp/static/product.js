@@ -18,7 +18,7 @@ function addProduct(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-			Swal.fire('Success', 'Brand added successfully', 'success');
+			raiseAlert('Success', 'Brand added successfully', 'success');
 	   		getProductList(); 
 			resetForm("#Product-form");
 			toggleAddProductModal();
@@ -62,7 +62,7 @@ function updateProduct(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-			Swal.fire('Success', 'Product updated successfully', 'success');
+			raiseAlert('Success', 'Product updated successfully', 'success');
 	   		getProductList();   
 			resetForm("#Product-edit-form");
 			toggleEditProductModal();
@@ -100,7 +100,7 @@ var processCount = 0;
 function processData(){
 	var file = $('#ProductFile')[0].files[0];
 	if(!file){
-		Swal.fire('Error', 'Please select a file to upload', 'error');
+		raiseAlert('Error', 'Please select a file to upload', 'error');
 		return;
 	}
 	readFileData(file, readFileDataCallback);
@@ -126,7 +126,7 @@ function uploadRows(){
 			console.log(response);
 			errorData = response;
 			processCount = fileData.length;	 
-			Swal.fire('Success', 'Products uploaded successfully', 'success');
+			raiseAlert('Success', 'Products uploaded successfully', 'success');
             resetUploadDialog();
 			toggleModal("upload-Product-modal");
 			getProductList();
@@ -140,7 +140,7 @@ function uploadRows(){
             $('#ProductFileName').html("Choose File");
 			document.getElementById('download-errors').disabled=false;
 			$('#statusView').html("Status : Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
-			Swal.fire('Error', 'Failed to upload products. Download errors to see detailed descriptions.', 'error');
+			raiseAlert('Error', 'Failed to upload products. Download errors to see detailed descriptions.', 'error');
 		}
 	 });
 
