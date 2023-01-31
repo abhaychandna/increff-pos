@@ -206,7 +206,7 @@ function updateUploadDialog(){
 
 function updateFileName(){
 	var $file = $('#ProductFile');
-	var fileName = $file.val();
+    var fileName =  $file[0].files[0].name;
 	$('#ProductFileName').html(fileName);
 }
 

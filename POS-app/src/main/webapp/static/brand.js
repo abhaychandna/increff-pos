@@ -179,7 +179,7 @@ function updateUploadDialog(){
 
 function updateFileName(){
 	var $file = $('#BrandFile');
-	var fileName = $file.val();
+    var fileName =  $file[0].files[0].name;
 	$('#BrandFileName').html(fileName);
 }
 
