@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.increff.pos.model.InvoiceItemData;
@@ -39,14 +40,23 @@ public class OrderDto {
     @Autowired
     private ProductService productService;
 
+    @Value("${resourcePath}")
+    private String resourcePath;
+
 
 
     public String getInvoice(Integer id) throws ApiException {
         OrderPojo order = orderService.get(id);
         
         List<OrderItemPojo> items = orderItemService.getByOrderId(id);
+
+        String folderPath = resourcePath + "/invoices";
+        File folder = new File(folderPath);
+        if(!folder.exists()) {
+            folder.mkdirs();
+        }
         
-        String outputFilename = "invoice_" + id;
+        String outputFilename = folderPath + "/invoice_" + id;
         String base64 = getCachedInvoice(outputFilename);
         if(Objects.nonNull(base64)) {
             return base64;
