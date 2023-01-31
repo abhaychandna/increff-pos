@@ -128,13 +128,16 @@ function uploadRows(){
 			processCount = fileData.length;	 
 			Swal.fire('Success', 'Products uploaded successfully', 'success');
             resetUploadDialog();
+			toggleModal("upload-Product-modal");
 			getProductList();
 		},
 		error: function(response){
 			errorData = JSON.parse(response.responseJSON.message) ;
 			console.log(errorData);
 			processCount = fileData.length;
-	        $file.val('');
+			var $file = $('#ProductFile');
+	        $file.val('');       
+            $('#ProductFileName').html("Choose File");
 			$('#statusView').html("Status : Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
 			Swal.fire('Error', 'Failed to upload products. Download errors to see detailed descriptions.', 'error');
 		}

@@ -116,13 +116,16 @@ function uploadRows(){
 			processCount = fileData.length;	 
 			Swal.fire('Success', 'Inventory uploaded successfully', 'success');
             resetUploadDialog();
+			toggleModal("upload-Inventory-modal");
 			getInventoryList();
 		},
 		error: function(response){
 			errorData = JSON.parse(response.responseJSON.message) ;
 			console.log(errorData);
 			processCount = fileData.length;
-	        $file.val('');
+			var $file = $('#InventoryFile');
+	        $file.val('');       
+            $('#InventoryFileName').html("Choose File");
 			$('#statusView').html("Status : Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
 			Swal.fire('Error', 'Failed to upload inventory. Download errors to see detailed descriptions.', 'error');
 		}

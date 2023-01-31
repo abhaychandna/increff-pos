@@ -124,13 +124,16 @@ function uploadRows(){
 			processCount = fileData.length;	 
 			Swal.fire('Success', 'Brands uploaded successfully', 'success');
             resetUploadDialog();
+			toggleModal("upload-Brand-modal");
 			getBrandList();
 		},
 		error: function(response){
 			errorData = JSON.parse(response.responseJSON.message) ;
 			console.log(errorData);
 			processCount = fileData.length;
-	        $file.val('');
+			var $file = $('#BrandFile');
+	        $file.val('');       
+            $('#BrandFileName').html("Choose File");
 			$('#statusView').html("Status : Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
 			Swal.fire('Error', 'Failed to upload brands. Download errors to see detailed descriptions.', 'error');
 		}
