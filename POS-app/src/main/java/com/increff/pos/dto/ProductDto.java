@@ -40,28 +40,27 @@ public class ProductDto {
     }
 
     public void bulkAdd(List<ProductForm> forms) throws ApiException, JsonProcessingException {
-        bulkAddValidate(forms);       
-
-        List<ProductPojo> validProducts = new ArrayList<ProductPojo>();
-        for(ProductForm form : forms) validProducts.add(convert(form));
-        
+        List<ProductPojo> validProducts = bulkAddValidate(forms);       
         svc.bulkAdd(validProducts);   
     }
 
-    private void bulkAddValidate(List<ProductForm> forms) throws JsonProcessingException, ApiException {
+    private List<ProductPojo> bulkAddValidate(List<ProductForm> forms) throws JsonProcessingException, ApiException {
+        List<ProductPojo> validProducts = new ArrayList<ProductPojo>();
         List<ProductFormErrorData> errors = new ArrayList<ProductFormErrorData>();
         Set<String> barcodeSet = new HashSet<String>();
         forms.forEach(form->{
             try {
                 PreProcessingUtil.normalizeAndValidate(form);
                 if(barcodeSet.contains(form.getBarcode()))throw new ApiException("Duplicate Barcodes not allowed in Input");
-                checkBarcodeDoesntExist(form.getBarcode());
                 barcodeSet.add(form.getBarcode());
+                checkBarcodeDoesntExist(form.getBarcode());
+                validProducts.add(convert(form));
             } catch (ApiException e) {
                 errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), e.getMessage()));
             }
         });
         if(errors.size() > 0 ) throwErrors(errors);
+        return validProducts;
     }
 
     private void throwErrors(List<ProductFormErrorData> errors) throws ApiException, JsonProcessingException {
