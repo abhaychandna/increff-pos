@@ -6,8 +6,6 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +15,6 @@ import com.increff.pos.dao.OrderDao;
 import com.increff.pos.dao.OrderItemDao;
 import com.increff.pos.dao.ProductDao;
 import com.increff.pos.dao.UserDao;
-import com.increff.pos.dto.BrandDto;
-import com.increff.pos.dto.InventoryDto;
-import com.increff.pos.dto.ProductDto;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.InventoryForm;
@@ -40,90 +35,50 @@ import com.increff.pos.util.PreProcessingUtil;
 @Component
 public class TestUtil {
 
-    private static ProductDto productDto;
-    private static InventoryDto inventoryDto;
     @Autowired
-    BrandDto bDto;
+    private BrandDao brandDao;
     @Autowired
-    ProductDto pDto;
+    private ProductDao productDao;
     @Autowired
-    InventoryDto iDto;
+    private InventoryDao inventoryDao;
+    @Autowired
+    private OrderDao orderDao;
+    @Autowired
+    private OrderItemDao orderItemDao;
+    @Autowired
+    private UserDao userDao;
 
-    private static ProductService productService;
-    private static BrandService brandService;
-    private static InventoryService inventoryService;
-    @Autowired
-    BrandService bSer;
-    @Autowired
-    InventoryService iSer;
-    @Autowired
-    ProductService pSer;
-
-    private static BrandDao brandDao;
-    private static ProductDao productDao;
-    private static InventoryDao inventoryDao;
-    private static OrderDao orderDao;
-    private static OrderItemDao orderItemDao;
-    private static UserDao userDao;
-    @Autowired
-    BrandDao bDao;
-    @Autowired
-    ProductDao pDao;
-    @Autowired
-    InventoryDao iDao;
-    @Autowired
-    OrderDao oDao;
-    @Autowired
-    OrderItemDao oiDao;
-    @Autowired
-    UserDao uDao;
-
-	@PostConstruct
-	private void init(){
-        productDto = this.pDto;
-        inventoryDto = this.iDto;
-        productService = this.pSer;
-        inventoryService = this.iSer;
-        brandService = this.bSer;
-        brandDao = this.bDao;  
-        productDao = this.pDao;
-        inventoryDao = this.iDao;   
-        orderDao = this.oDao;
-        orderItemDao = this.oiDao; 
-        userDao = this.uDao;  
-	}
-
-    public static ProductPojo createProductWithBrand(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
+    public ProductPojo createProductWithBrand(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
         createBrand(brand, category);
         ProductPojo p = createProduct(barcode, brand, category, name, mrp);
         return p;
     }
 
-    public static BrandData createBrand(String brand, String category) throws ApiException{
+    public BrandData createBrand(String brand, String category) throws ApiException{
         BrandPojo brandPojo = new BrandPojo(brand, category);
         brandPojo = brandDao.insert(brandPojo);
         BrandData brandData = ConvertUtil.convert(brandPojo, BrandData.class);
         return brandData;
     }
 
-    public static ProductPojo createProduct(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
+    public ProductPojo createProduct(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
         ProductPojo product = new ProductPojo(barcode, null, name, mrp);
         BrandPojo brandPojo = brandDao.selectByMultipleColumns(BrandPojo.class, List.of("brand", "category"), List.of(List.of(brand), List.of(category))).get(0);
         product.setBrandCategory(brandPojo.getId());
         return productDao.insert(product);
     }
 
-    public static InventoryPojo createInventory(String barcode, String brand, String category, String name, Double mrp, Integer quantity) throws ApiException {
+    public InventoryPojo createInventory(String barcode, String brand, String category, String name, Double mrp, Integer quantity) throws ApiException {
         createProductWithBrand(barcode, brand, category, name, mrp);
         return createInventorySingle(barcode, quantity);
     }
-    public static InventoryPojo createInventorySingle(String barcode, Integer quantity) throws ApiException {
+    public InventoryPojo createInventorySingle(String barcode, Integer quantity) throws ApiException {
         InventoryPojo inventory = new InventoryPojo(quantity);
         inventory.setId(productDao.selectByColumn(ProductPojo.class, "barcode", barcode).getId());
         return inventoryDao.insert(inventory);
     }
 
-    public static List<OrderItemPojo> createOrder(List<OrderItemForm> orderItemFormList) throws ApiException{
+    public List<OrderItemPojo> createOrder(List<OrderItemForm> orderItemFormList) throws ApiException{
         OrderPojo order = new OrderPojo();
         order.setTime(ZonedDateTime.now());
         order = orderDao.insert(order);
@@ -139,24 +94,24 @@ public class TestUtil {
         return orderItemPojoList;
     }
 
-    public static UserPojo createUser(String username, String password) throws ApiException {
+    public UserPojo createUser(String username, String password) throws ApiException {
         return createUser(username, password,Role.operator);
     }
 
-    public static UserPojo createUser(String username, String password, Role role) throws ApiException {
+    public UserPojo createUser(String username, String password, Role role) throws ApiException {
         UserPojo user = new UserPojo(username, password, role);
         return userDao.insert(user);
     }
 
     
-    public static BrandForm getBrandFormDto(String brand, String category) {
+    public BrandForm getBrandFormDto(String brand, String category) {
         BrandForm brandForm = new BrandForm();
         brandForm.setBrand(brand);
         brandForm.setCategory(category);
         return brandForm;
     }
 
-    public static ProductForm getProductFormDto(String barcode, String brand, String category, String name, Double mrp) {
+    public ProductForm getProductFormDto(String barcode, String brand, String category, String name, Double mrp) {
         ProductForm productForm = new ProductForm();
         productForm.setBarcode(barcode);
         productForm.setBrand(brand);
@@ -166,29 +121,29 @@ public class TestUtil {
         return productForm;
     }
 
-    public static InventoryForm getInventoryFormDto(String barcode, Integer quantity){
+    public InventoryForm getInventoryFormDto(String barcode, Integer quantity){
         InventoryForm inventoryForm = new InventoryForm();
         inventoryForm.setBarcode(barcode);
         inventoryForm.setQuantity(quantity);
         return inventoryForm;
     }
 
-    public static SignupForm getSignupFormDto(String username, String password){
+    public SignupForm getSignupFormDto(String username, String password){
         return new SignupForm(username, password);
     }
-    public static LoginForm getLoginFormDto(String username, String password){
+    public LoginForm getLoginFormDto(String username, String password){
         return new LoginForm(username, password);
     }
 
 
 
-    public static String createFieldEmptyErrorMessage(String field) {
+    public String createFieldEmptyErrorMessage(String field) {
         return createErrorMessage(field + " may not be empty");
     }
-    public static String createErrorMessage(String message) {
+    public String createErrorMessage(String message) {
         return PreProcessingUtil.getErrorStartMessage() + message + PreProcessingUtil.getErrorMessageSeparator();
     }
-    public static void validateExceptionMessage(Exception exception, String expectedMessage) {
+    public void validateExceptionMessage(Exception exception, String expectedMessage) {
         String actualMessage = exception.getMessage();
         System.out.println(expectedMessage);
         System.out.println(actualMessage);
