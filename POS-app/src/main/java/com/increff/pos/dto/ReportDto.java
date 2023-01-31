@@ -185,6 +185,7 @@ public class ReportDto {
 
             salesReportData.setQuantity(salesReportData.getQuantity() + item.getQuantity());
             salesReportData.setRevenue(salesReportData.getRevenue() + (item.getSellingPrice() * item.getQuantity()));
+            salesReportData.setRevenue(Double.valueOf(String.format("%.2f", salesReportData.getRevenue())));
             productIdToSalesReportData.put(productId, salesReportData);
         });
         return new ArrayList<SalesReportData>(productIdToSalesReportData.values());
