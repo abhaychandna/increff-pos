@@ -75,7 +75,7 @@ public class DaySalesService {
 
 	private DaySalesPojo getCheck(ZonedDateTime date) throws ApiException {
 		DaySalesPojo daySales = dao.select(DaySalesPojo.class, date);
-		if (daySales == null)
+		if (Objects.isNull(daySales))
 			throw new ApiException("DaySales does not exist with date: " + date);
 		return daySales;
 	}
