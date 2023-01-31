@@ -44,8 +44,22 @@ public class BrandDto {
     }
  
     private void bulkAddValidate(List<BrandForm> forms) throws JsonProcessingException, ApiException {
-        normalizeAndValidate(forms);
-        checkDuplicateBrandCategoryPairs(forms);
+        String separator = "_", duplicateBrandCategoryErrorMessage = "Duplicate Brand and Category pair in input";
+      
+        List<BrandFormErrorData> errors = new ArrayList<BrandFormErrorData>();
+        Set<String> brandCategorySet = new HashSet<String>();
+        
+        forms.stream().forEach(form->{
+            try {
+                PreProcessingUtil.normalizeAndValidate(form);
+                String brandCategory = form.getBrand() + separator + form.getCategory();
+                if (brandCategorySet.contains(brandCategory)) throw new ApiException(duplicateBrandCategoryErrorMessage);
+                brandCategorySet.add(brandCategory);            
+            } catch (ApiException e) {
+                errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), e.getMessage()));
+            }
+        });
+        if(errors.size() > 0 ) throwErrors(errors);
         checkBrandCategoryAlreadyExists(forms);
     }
 
@@ -107,17 +121,20 @@ public class BrandDto {
     }
 
     private void checkBrandCategoryAlreadyExists(List<BrandForm> forms) throws ApiException, JsonProcessingException {
-        String separator = "_", errorName = "Brand and Category pair already exists";
-        List<String> brandList = forms.stream().map(e->e.getBrand()).collect(Collectors.toList());
-        List<BrandPojo> existingBrands = svc.getByColumn("brand", brandList);
-        Set<String> existingBrandCategorySet = existingBrands.stream().map(brand->brand.getBrand() + separator + brand.getCategory()).collect(Collectors.toSet());;
-        Set<String> intersectingBrandCategorySet = forms.stream().map(brand->brand.getBrand() + separator + brand.getCategory()).filter(existingBrandCategorySet::contains).collect(Collectors.toSet());
+        String separator = "_";
+        String alreadyExistsErrorMessage = "Brand and Category pair already exists";
         
+        List<String> brandList = forms.stream().map(e->e.getBrand()).collect(Collectors.toList());
+        List<String> categoryList = forms.stream().map(e->e.getCategory()).collect(Collectors.toList());
+
+        List<BrandPojo> existingBrands = svc.getByMultipleColumns(List.of("brand", "category"), List.of(brandList, categoryList));
+        Set<String> existingBrandCategorySet = existingBrands.stream().map(brand->brand.getBrand() + separator + brand.getCategory()).collect(Collectors.toSet());;
+
         List<BrandFormErrorData> errors = new ArrayList<BrandFormErrorData>();
         forms.forEach(form->{
             String brandCategory = form.getBrand() + separator + form.getCategory();
-            if (intersectingBrandCategorySet.contains(brandCategory)) {
-                errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), errorName));
+            if (existingBrandCategorySet.contains(brandCategory)) {
+                errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), alreadyExistsErrorMessage));
             }
         });
         if(errors.size() > 0 ) throwErrors(errors);
