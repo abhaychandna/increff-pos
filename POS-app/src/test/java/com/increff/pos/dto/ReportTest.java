@@ -19,6 +19,8 @@ public class ReportTest extends AbstractUnitTest {
 
     @Autowired
     private ReportDto reportDto;
+    @Autowired
+    private TestUtil testUtil;
 
     private static String brand;
     private static String category;
@@ -44,15 +46,15 @@ public class ReportTest extends AbstractUnitTest {
 
     private void setup() throws ApiException{
         // QUES : Moving this in the init() method causes the test to fail
-        TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+        testUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         barcode2 = "abcdef13";
-        TestUtil.createProduct(barcode2, brand, category, name, mrp);
-        TestUtil.createInventorySingle(barcode2, quantity);
+        testUtil.createProduct(barcode2, brand, category, name, mrp);
+        testUtil.createInventorySingle(barcode2, quantity);
 
         orderItemForm = new OrderItemForm(barcode, 1, 1.11);
         orderItemForm2 = new OrderItemForm(barcode2, 2, 2.22);
         orderItemFormList = List.of(orderItemForm, orderItemForm2);
-        TestUtil.createOrder(orderItemFormList);
+        testUtil.createOrder(orderItemFormList);
     }
 
     @Test

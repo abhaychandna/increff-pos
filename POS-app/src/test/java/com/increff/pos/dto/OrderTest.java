@@ -23,6 +23,8 @@ public class OrderTest extends AbstractUnitTest {
     private OrderDto orderDto;
     @Autowired
     private InventoryDto inventoryDto;
+    @Autowired
+    private TestUtil testUtil;
 
     private static String brand;
     private static String category;
@@ -48,10 +50,10 @@ public class OrderTest extends AbstractUnitTest {
 
     private void setup() throws ApiException{
         // QUES : Moving this in the init() method causes the test to fail
-        TestUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+        testUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         barcode2 = "abcdef13";
-        TestUtil.createProduct(barcode2, brand, category, name, mrp);
-        TestUtil.createInventorySingle(barcode2, quantity);
+        testUtil.createProduct(barcode2, brand, category, name, mrp);
+        testUtil.createInventorySingle(barcode2, quantity);
 
         orderItemForm = new OrderItemForm(barcode, 1, 1.11);
         orderItemForm2 = new OrderItemForm(barcode2, 2, 2.22);
@@ -68,7 +70,7 @@ public class OrderTest extends AbstractUnitTest {
     @Test
     public void testGetOrder() throws ApiException {
         setup();
-        List<OrderItemPojo> orderItems = TestUtil.createOrder(orderItemFormList);
+        List<OrderItemPojo> orderItems = testUtil.createOrder(orderItemFormList);
         OrderData orderData = orderDto.get(orderItems.get(0).getOrderId());
         assertEquals(orderData.getId(), orderItems.get(0).getOrderId());
     }
@@ -76,7 +78,7 @@ public class OrderTest extends AbstractUnitTest {
     @Test
     public void testGetOrderItem() throws ApiException {
         setup();
-        List<OrderItemPojo> orderItems = TestUtil.createOrder(orderItemFormList);
+        List<OrderItemPojo> orderItems = testUtil.createOrder(orderItemFormList);
         OrderItemPojo orderItem = orderItems.get(0);
         OrderItemData orderItemData = orderDto.getItem(orderItem.getId());
         checkEquals(orderItemData, orderItemForm);
@@ -85,7 +87,7 @@ public class OrderTest extends AbstractUnitTest {
     @Test
     public void testGetItemsByOrderId() throws ApiException {
         setup();
-        TestUtil.createOrder(orderItemFormList);
+        testUtil.createOrder(orderItemFormList);
         List<OrderItemData> orderItemDataList = orderDto.getItemsByOrderId(1);
         checkEquals(orderItemDataList, orderItemFormList);
     }
@@ -93,7 +95,7 @@ public class OrderTest extends AbstractUnitTest {
     @Test
     public void testGetAllItems() throws ApiException {
         setup();
-        TestUtil.createOrder(orderItemFormList);
+        testUtil.createOrder(orderItemFormList);
         List<OrderItemData> orderItemDataList = orderDto.getAllItems(0, 10, 1).getData();
         assertEquals(orderItemFormList.size(), orderItemDataList.size());
     }
@@ -103,7 +105,7 @@ public class OrderTest extends AbstractUnitTest {
         setup();
         Integer orderCount = 3;
         for (Integer i = 0; i < orderCount; i++) {
-            TestUtil.createOrder(orderItemFormList);
+            testUtil.createOrder(orderItemFormList);
         }
         List<OrderData> orderDataList = orderDto.getAll(0, 10, 1).getData();
         assertEquals(orderCount, Integer.valueOf(orderDataList.size()));
@@ -112,7 +114,7 @@ public class OrderTest extends AbstractUnitTest {
     @Test
     public void testGetInvoice() throws ApiException {
         setup();
-        List<OrderItemPojo> orderItems =  TestUtil.createOrder(orderItemFormList);
+        List<OrderItemPojo> orderItems =  testUtil.createOrder(orderItemFormList);
         Integer orderId = orderItems.get(0).getOrderId();
         String base64 = orderDto.getInvoice(orderId);
         assertNotNull(base64);
