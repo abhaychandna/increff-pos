@@ -19,79 +19,48 @@
 	&nbsp;
 </div>
 <div class="row">
-
- <!-- Table -->
- <div class="col-12">
-	<table class="table table-striped">
-	  <thead>
-	    <tr>
-	      <th scope="col"></th>
-		  <th scope="col"></th>
-	    </tr>
-	  </thead>
-	  <tbody>
-		<tr>
-			<td>
-				<button type="button" class="btn btn-info btn-block" id="brand-report">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-						<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path>
-						<path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path>
-					</svg>
-					Brand Report
-				  </button></td>
-			<td></td>
-		  </tr>
-	    <tr>
-	      <td><button class="btn btn-info btn-block" id="inventory-report">					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-			<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path>
-			<path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path>
-		</svg>
-		Inventory Report</button></td>
-		  <td></td>
-	    </tr>
-		<tr>
-			<td><button class="btn btn-info btn-block" id="sales-report">					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-				<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path>
-				<path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path>
-			</svg>
-			Sales Report</button></td>
-			<td>
-				<div class="col-12">
-					<form class="form" id="sales-report-form">
-					  <div class="form-group">
-						<label for="startDate" class="col-sm-2 col-form-label">Start Date</label>
-						<div class="col-sm-10">
-							<input type="date" id="startDate" name="startDate">
-						</div>
-					  </div>
-					  <div class="form-group">
-						<label for="endDate" class="col-sm-2 col-form-label">End Date</label>
-						<div class="col-sm-10">
-							<input type="date" id="endDate" name="endDate">
-						</div>
-					  </div>
-					  <label for="inputbrand" class="col-sm-2 col-form-label">Brand</label>
-					  <div class="form-group">
-						<div class="col-sm-10">
-							<input type="text" class="form-control" name="brand" id="inputbrand" placeholder="Enter Brand">
-					  </div>
-					 </div>
-					 <div class="form-group">
-					  <label for="inputcategory" class="col-sm-2 col-form-label">Category</label>
-					  <div class="col-sm-10">
-							<input type="text" class="form-control" name="category" id="inputcategory" placeholder="Enter Category">
-					  </div>
-					</form>
-			 </div>	
-			</td>
-		  </tr>
-
-	  </tbody>
-	</table>
-
- </div>
+	<button type="button" class="btn btn-info mb-4 btn-lg col-4" id="brand-report" style="padding:25px;font-weight:bold;">
+		<i class="fa-solid fa-download"></i>
+		Brand Report
+	  </button>
 </div>
-
+<div class="row">
+	  <button type="button" class="btn btn-info mb-4 btn-lg col-4" id="inventory-report" style="padding:25px;font-weight:bold;">
+		<i class="fa-solid fa-download"></i>
+		Inventory Report
+	  </button>
+</div>
+<div class="row">
+	<button type="button" class="btn btn-info mb-4 btn-lg col-4" id="sales-report" style="padding:25px;font-weight:bold;">
+	  <i class="fa-solid fa-download"></i>
+	  Sales Report
+	</button>
+	<div class="col-8" style="display:inline;">
+	  <form class="form" id="sales-report-form">
+		<div class="form-group form-inline">
+		  <label for="startDate" class="col-sm-3 col-form-label">Start Date</label>
+		  <div class="col-sm-3">
+			  <input type="date" id="startDate" name="startDate">
+		  </div>
+		  <label for="endDate" class="col-sm-3 col-form-label">End Date</label>
+		  <div class="col-sm-3">
+			  <input type="date" id="endDate" name="endDate">
+		  </div>
+		</div>
+		
+		<div class="form-group form-inline">
+		  <label for="inputbrand" class="col-sm-3 col-form-label">Brand</label>
+		  <div class="col-sm-3">
+			  <input type="text" class="form-control" name="brand" id="inputbrand" placeholder="Enter Brand">
+		</div>
+		<label for="inputcategory" class="col-sm-3 col-form-label">Category</label>
+		<div class="col-sm-3">
+			  <input type="text" class="form-control" name="category" id="inputcategory" placeholder="Enter Category">
+		</div>
+	   </div>
+   </form>
+  </div>
+</div>
 
 </div> <!-- Container end-->
 
