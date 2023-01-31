@@ -57,7 +57,7 @@ public class InventoryTest extends AbstractUnitTest {
         String barcode = "abcdef12";
         Integer quantity = 10;
         try {
-            TestUtil.createInventorySingle(barcode, quantity);
+            inventoryDto.add(new InventoryForm(barcode, quantity));
         } catch (ApiException e) {
             return;
         }
