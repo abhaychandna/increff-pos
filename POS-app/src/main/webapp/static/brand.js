@@ -6,8 +6,12 @@ function getBrandUrl(){
 
 //BUTTON ACTIONS
 
-function openAddBrandModal(){
+function toggleAddBrandModal(){
 	$('#add-Brand-modal').modal('toggle');
+	resetAddDialog();
+}
+function toggleEditBrandModal(){
+	$('#edit-Brand-modal').modal('toggle');
 }
 
 
@@ -29,6 +33,7 @@ function addBrand(event){
 			Swal.fire('Success', 'Brand added successfully', 'success');
 	   		getBrandList();  
 			resetAddDialog();
+			toggleAddBrandModal();
 	   },
 	   error: handleAjaxError
 	});
@@ -37,7 +42,6 @@ function addBrand(event){
 }
 
 function updateBrand(event){
-	$('#edit-Brand-modal').modal('toggle');
 	//Get the ID
 	var id = $("#Brand-edit-form input[name=id]").val();	
 	var url = getBrandUrl() + "/" + id;
@@ -57,6 +61,7 @@ function updateBrand(event){
 	   success: function(response) {
 			Swal.fire('Success', 'Brand updated successfully', 'success');
 	   		getBrandList();   
+			toggleEditBrandModal();
 	   },
 	   error: handleAjaxError
 	});
@@ -193,7 +198,7 @@ function displayBrand(data){
 	$("#Brand-edit-form input[name=category]").val(data.category);	
 	$("#Brand-edit-form input[name=id]").val(data.id);
 	$('#update-Brand').attr('disabled', true);	
-	$('#edit-Brand-modal').modal('toggle');
+	toggleEditBrandModal();
 }
 
 function tableColumns(){
@@ -233,7 +238,7 @@ function init(){
 	});
 
 	$('#add-Brand').click(addBrand);
-	$('#open-add-Brand-modal').click(openAddBrandModal)
+	$('#open-add-Brand-modal').click(toggleAddBrandModal)
 	$('#update-Brand').click(updateBrand);
 	$('#refresh-data').click(getBrandList);
 	$('#upload-data').click(displayUploadData);

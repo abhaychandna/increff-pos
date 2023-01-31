@@ -24,7 +24,8 @@ function addInventory(event){
 	   success: function(response) {
 			Swal.fire('Success', 'Inventory added successfully', 'success');
 	   		getInventoryList();  
-			resetAddDialog();
+			resetForm("#Inventory-form");
+			toggleModal("#add-Inventory-modal");
 	   },
 	   error: handleAjaxError
 	});
@@ -33,7 +34,6 @@ function addInventory(event){
 }
 
 function updateInventory(event){
-	$('#edit-Inventory-modal').modal('toggle');
 	//Get the ID
 	var id = $("#Inventory-edit-form input[name=id]").val();	
 	var url = getInventoryUrl();
@@ -52,7 +52,9 @@ function updateInventory(event){
        },	   
 	   success: function(response) {
 			Swal.fire('Success', 'Inventory updated successfully', 'success');
-	   		getInventoryList();   
+	   		getInventoryList();  
+			resetForm("#Inventory-edit-form");
+			toggleModal("#edit-Inventory-modal"); 
 	   },
 	   error: handleAjaxError
 	});

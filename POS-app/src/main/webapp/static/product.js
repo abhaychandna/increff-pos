@@ -20,7 +20,8 @@ function addProduct(event){
 	   success: function(response) {
 			Swal.fire('Success', 'Brand added successfully', 'success');
 	   		getProductList(); 
-			resetAddDialog();
+			resetForm("#Product-form");
+			toggleAddProductModal();
 	   },
 	   error: handleAjaxError
 	});
@@ -40,8 +41,10 @@ function displayEditProduct(id){
 	});	
 }
 
-function updateProduct(event){
+function toggleEditProductModal(){
 	$('#edit-Product-modal').modal('toggle');
+}
+function updateProduct(event){
 	//Get the ID
 	var id = $("#Product-edit-form input[name=id]").val();	
 	var url = getProductUrl() + "/" + id;
@@ -61,6 +64,8 @@ function updateProduct(event){
 	   success: function(response) {
 			Swal.fire('Success', 'Product updated successfully', 'success');
 	   		getProductList();   
+			resetForm("#Product-edit-form");
+			toggleEditProductModal();
 	   },
 	   error: handleAjaxError
 	});
@@ -148,7 +153,7 @@ function getBrandUrl(){
 
 //UI DISPLAY METHODS
 
-function openAddProductModal(){
+function toggleAddProductModal(){
 	$('#add-Product-modal').modal('toggle');
 }
 
@@ -224,7 +229,7 @@ function displayProduct(data){
 	$("#Product-edit-form input[name=id]").val(data.id);	
 
 	$("#update-Product").attr('disabled', true);
-	$('#edit-Product-modal').modal('toggle');
+	toggleEditProductModal();
 }
 
 function tableColumns(){
@@ -272,7 +277,7 @@ function init(){
 	});
 
 	$('#add-Product').click(addProduct);
-	$('#open-add-Product-modal').click(openAddProductModal)
+	$('#open-add-Product-modal').click(toggleAddProductModal)
 	$('#update-Product').click(updateProduct);
 	$('#refresh-data').click(getProductList);
 	$('#upload-data').click(displayUploadData);
