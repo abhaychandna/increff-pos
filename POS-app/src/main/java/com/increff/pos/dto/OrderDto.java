@@ -1,6 +1,7 @@
 package com.increff.pos.dto;
 
 import java.io.File;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -69,7 +70,8 @@ public class OrderDto {
         HashMap<String, String> XMLheaders = new HashMap<String, String>();
         XMLheaders.put("OrderId", order.getId().toString());
         XMLheaders.put("Time", order.getTime().format(new DateTimeFormatterBuilder().appendPattern("dd-MM-yyyy HH:mm:ss").toFormatter()));
-        XMLheaders.put("Total", total.toString());
+        XMLheaders.put("Total", String.format("%.2f", total));
+        
         String xsltFilename = "invoice";
 
         base64 = PDFApiUtil.getReportPDFBase64(invoiceItems, xsltFilename, XMLheaders);
