@@ -17,6 +17,12 @@ function toggleModal(modalSelector){
 }
 
 function raiseAlert(title, text, icon){
+	if(typeof title === 'object'){
+		var obj = title;
+		text = obj.html;
+		icon = obj.icon;
+		title = obj.title;
+	}
 	console.log("Alert: " + title + " " + text + " " + icon);
 	Swal.fire({
 		icon: icon,
