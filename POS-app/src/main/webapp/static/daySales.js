@@ -23,7 +23,6 @@ function stringToISOString(dateString){
 }
 
 function filterDaySalesList(){
-	// get start date and end date
 	var startDate = $('#startDate').val();
 	var endDate = $('#endDate').val();
 	if(startDate == "" || endDate == ""){
@@ -40,20 +39,7 @@ function filterDaySalesList(){
 	console.log('sd' + startDate);
 	console.log('ed'+ endDate);
 	$('#daySales-table').data('dt_params', { startDate: startDate, endDate: endDate });
-    $('#daySales-table').DataTable().draw();
-
-	/*
-	// ajax call to get data
-	$.ajax({
-		url: getDaySalesUrl(),
-		type: 'GET',
-		data: {startDate: startDate, endDate: endDate},
-		success: function(data) {
-			console.log(data);
-		}
-	});
-	*/
-	
+    $('#daySales-table').DataTable().ajax.reload();	
 }
 
 function setDates(startDate, endDate){
@@ -77,11 +63,6 @@ function initializeDateInputs(){
 }
 
 function init(){
-	var dates = initializeDateInputs();
-	
-	startDate = dates.startDate.toISOString();
-	endDate = dates.endDate.toISOString();
-
 	$('#refresh-data').click(getDaySalesList);
 	$('#filter').click(filterDaySalesList)
 
@@ -99,7 +80,6 @@ function init(){
 			type: 'GET',
 			data: function ( d ) {	
 				var dt_params = $('#daySales-table').data('dt_params');
-				dt_params = { startDate: startDate, endDate: endDate};
 				if(dt_params){ $.extend(d, dt_params); }
 			}},
 		"columns": [
@@ -121,6 +101,8 @@ function init(){
         ]
 	});
 
+	initializeDateInputs();
+	filterDaySalesList();
 }
 
 $(document).ready(init);
