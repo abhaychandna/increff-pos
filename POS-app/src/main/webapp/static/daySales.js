@@ -56,11 +56,32 @@ function filterDaySalesList(){
 	
 }
 
+function setDates(startDate, endDate){
+	console.log('Adding timezone offset before converting to ISO String')
+	// adding timezone offsets
+	startDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000);
+	endDate = new Date(endDate.getTime() - endDate.getTimezoneOffset() * 60000);	
+	console.log("Initialized date inputs before ISO COnversion" + startDate + " " + endDate);
 
-
-
+	// conversion and setting values to yyyy-mm-dd
+	startDate = startDate.toISOString().slice(0,10);
+	endDate = endDate.toISOString().slice(0,10);
+	$('#startDate').val(startDate);
+	$('#endDate').val(endDate);
+}
+function initializeDateInputs(){
+	var endDate = new Date();
+	var startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
+	setDates(startDate, endDate);
+	return {startDate: startDate, endDate: endDate};
+}
 
 function init(){
+	var dates = initializeDateInputs();
+	
+	startDate = dates.startDate.toISOString();
+	endDate = dates.endDate.toISOString();
+
 	$('#refresh-data').click(getDaySalesList);
 	$('#filter').click(filterDaySalesList)
 
@@ -78,6 +99,7 @@ function init(){
 			type: 'GET',
 			data: function ( d ) {	
 				var dt_params = $('#daySales-table').data('dt_params');
+				dt_params = { startDate: startDate, endDate: endDate};
 				if(dt_params){ $.extend(d, dt_params); }
 			}},
 		"columns": [
