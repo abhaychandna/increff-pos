@@ -37,14 +37,18 @@ public class BrandDto {
     }
 
     public void bulkAdd(List<BrandForm> forms) throws ApiException, JsonProcessingException {
-        normalizeAndValidate(forms);
-        checkDuplicateBrandCategoryPairs(forms);
-        checkBrandCategoryAlreadyExists(forms);
+        bulkAddValidate(forms);
 
         List<BrandPojo> validBrands = forms.stream().map(e->convert(e)).collect(Collectors.toList());
         svc.bulkAdd(validBrands);
     }
  
+    private void bulkAddValidate(List<BrandForm> forms) throws JsonProcessingException, ApiException {
+        normalizeAndValidate(forms);
+        checkDuplicateBrandCategoryPairs(forms);
+        checkBrandCategoryAlreadyExists(forms);
+    }
+
     public BrandData get(Integer id) throws ApiException {
         BrandPojo brand = svc.get(id);
 		return convert(brand);
