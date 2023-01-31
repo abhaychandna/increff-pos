@@ -23,8 +23,10 @@ import com.increff.pos.dto.ProductDto;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.InventoryForm;
+import com.increff.pos.model.LoginForm;
 import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.model.ProductForm;
+import com.increff.pos.model.Role;
 import com.increff.pos.model.SignupForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
@@ -137,6 +139,16 @@ public class TestUtil {
         return orderItemPojoList;
     }
 
+    public static UserPojo createUser(String username, String password) throws ApiException {
+        return createUser(username, password,Role.operator);
+    }
+
+    public static UserPojo createUser(String username, String password, Role role) throws ApiException {
+        UserPojo user = new UserPojo(username, password, role);
+        return userDao.insert(user);
+    }
+
+    
     public static BrandForm getBrandFormDto(String brand, String category) {
         BrandForm brandForm = new BrandForm();
         brandForm.setBrand(brand);
@@ -160,6 +172,14 @@ public class TestUtil {
         inventoryForm.setQuantity(quantity);
         return inventoryForm;
     }
+
+    public static SignupForm getSignupFormDto(String username, String password){
+        return new SignupForm(username, password);
+    }
+    public static LoginForm getLoginFormDto(String username, String password){
+        return new LoginForm(username, password);
+    }
+
 
 
     public static String createFieldEmptyErrorMessage(String field) {
