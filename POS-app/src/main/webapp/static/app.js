@@ -7,6 +7,14 @@ function validateFormHTML($form){
 	return $form[0].reportValidity();
 }
 
+function resetForm(formSelector){
+	//Reset form values
+	var $form = $(formSelector);
+	$form.trigger("reset");
+}
+function toggleModal(modalSelector){
+	$(modalSelector).modal('toggle');
+}
 //HELPER METHOD
 function toJson($form){
     var serialized = $form.serializeArray();
