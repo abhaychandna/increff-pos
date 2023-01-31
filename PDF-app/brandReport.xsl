@@ -16,9 +16,9 @@
 						<fo:table>
 						<fo:table-body>
 							<fo:table-row>
-							<fo:table-cell text-align="left">
+							<fo:table-cell text-align="center">
 								<fo:block>
-									<fo:external-graphic src="https://cdn-dcipo.nitrocdn.com/ObxDphCvvxXxGuNEOLEUHAksXENOsXhh/assets/images/optimized/rev-3802414/wp-content/themes/increff/new-mega-menu/images/logo-new.png" height="20mm" content-height="scale-to-fit"/>
+									<fo:external-graphic src="https://www.increff.com/wp-content/themes/increff/new-mega-menu/images/logo-new.png" height="20mm" content-height="scale-to-fit"/>
 								</fo:block>
 							</fo:table-cell>
 							</fo:table-row>
