@@ -103,6 +103,11 @@ function processData(){
 		raiseAlert('Error', 'Please select a file to upload', 'error');
 		return;
 	}
+	if(getFileExtension(file.name) != 'tsv'){
+		raiseAlert('Error', 'Only TSV files are allowed ', 'error');
+		resetUploadDialog();
+		return;
+	}
 	readFileData(file, readFileDataCallback);
 }
 

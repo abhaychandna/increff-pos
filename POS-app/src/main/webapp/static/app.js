@@ -25,6 +25,10 @@ function raiseAlert(title, text, icon){
 	})
 }
 
+function getFileExtension(filename) {
+	return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
+}
+
 //HELPER METHOD
 function toJson($form){
     var serialized = $form.serializeArray();
