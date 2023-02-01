@@ -13,7 +13,7 @@ import com.increff.pos.service.ApiException;
 public class PreProcessingUtil {
 
 	private static String errorMessageSeparator = ".\n";
-	private static String errorStartMessage = "FORM ERRORS: ";
+	private static String errorStartMessage = "";
 	public static String getErrorMessageSeparator() {
 		return errorMessageSeparator;
 	}
