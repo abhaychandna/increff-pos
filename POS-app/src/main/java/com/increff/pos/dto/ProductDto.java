@@ -1,9 +1,12 @@
 package com.increff.pos.dto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,28 +43,82 @@ public class ProductDto {
     }
 
     public void bulkAdd(List<ProductForm> forms) throws ApiException, JsonProcessingException {
-        List<ProductPojo> validProducts = bulkAddValidate(forms);       
+        bulkAddValidate(forms);       
+        List<ProductPojo> validProducts = convertBulk(forms);
         svc.bulkAdd(validProducts);   
     }
 
-    private List<ProductPojo> bulkAddValidate(List<ProductForm> forms) throws JsonProcessingException, ApiException {
-        List<ProductPojo> validProducts = new ArrayList<ProductPojo>();
+    private List<ProductPojo> convertBulk(List<ProductForm> forms) throws JsonProcessingException, ApiException {
         List<ProductFormErrorData> errors = new ArrayList<ProductFormErrorData>();
+        Boolean errorFound = false;
+        List<String> brandsList = forms.stream().map(ProductForm::getBrand).collect(Collectors.toList());
+        List<String> categoriesList = forms.stream().map(ProductForm::getCategory).collect(Collectors.toList());
+
+        List<BrandPojo> brands = brandService.getByMultipleColumns(List.of("brand", "category"), List.of(brandsList, categoriesList));
+        String separator = "_";
+        HashMap<String, Integer> brandCategoryToId = new HashMap<String, Integer>();
+        brands.forEach(brand->{
+            brandCategoryToId.put(brand.getBrand() + separator + brand.getCategory(), brand.getId());
+        });
+
+        List<ProductPojo> validProducts = new ArrayList<ProductPojo>();
+        for (ProductForm form : forms){
+            ProductPojo product = ConvertUtil.convert(form, ProductPojo.class);
+            Integer brandCategoryId = brandCategoryToId.get(form.getBrand() + separator + form.getCategory());
+            if(Objects.isNull(brandCategoryId))  {
+                errorFound = true;
+                errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), "Brand Category pair does not exist"));
+            }else{
+                product.setBrandCategory(brandCategoryId);
+                validProducts.add(product);
+                errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), ""));
+            }
+        };
+        if(errorFound) throwErrors(errors);
+        return validProducts;
+    }
+
+    private void bulkAddValidate(List<ProductForm> forms) throws JsonProcessingException, ApiException {
+        checkDuplicateBarcodesInInput(forms);
+        checkBarcodeAlreadyExists(forms);
+    }
+
+    private void checkDuplicateBarcodesInInput(List<ProductForm> forms) throws ApiException, JsonProcessingException {
+        List<ProductFormErrorData> errors = new ArrayList<ProductFormErrorData>();
+        Boolean errorFound = false;
         Set<String> barcodeSet = new HashSet<String>();
-        forms.forEach(form->{
+        for(ProductForm form : forms) {
             try {
                 PreProcessingUtil.normalizeAndValidate(form);
                 if(barcodeSet.contains(form.getBarcode()))throw new ApiException("Duplicate Barcodes not allowed in Input");
                 barcodeSet.add(form.getBarcode());
-                checkBarcodeDoesntExist(form.getBarcode());
-                validProducts.add(convert(form));
                 errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), ""));
             } catch (ApiException e) {
+                errorFound = true;
                 errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), e.getMessage()));
             }
-        });
-        if(errors.size() > 0 ) throwErrors(errors);
-        return validProducts;
+        };
+
+        if(errorFound) throwErrors(errors);
+    }
+
+    private void checkBarcodeAlreadyExists(List<ProductForm> forms) throws JsonProcessingException, ApiException {
+        List<ProductFormErrorData> errors = new ArrayList<ProductFormErrorData>();
+        Boolean errorFound = false;
+
+        Set<String> barcodeSet = forms.stream().map(ProductForm::getBarcode).collect(Collectors.toSet());
+        List<ProductPojo> products = svc.getByColumn("barcode", barcodeSet.stream().toList());
+        Set<String> existingBarcodes = products.stream().map(ProductPojo::getBarcode).collect(Collectors.toSet());
+
+        for (ProductForm form : forms){
+            if(existingBarcodes.contains(form.getBarcode())){
+                errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), "Barcode already exists"));
+                errorFound = true;
+            }
+            else
+                errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), ""));
+        };
+        if(errorFound) throwErrors(errors);
     }
 
     private void throwErrors(List<ProductFormErrorData> errors) throws ApiException, JsonProcessingException {
