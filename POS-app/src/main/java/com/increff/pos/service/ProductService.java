@@ -19,6 +19,10 @@ public class ProductService {
 	private ProductDao dao;
 
 	public ProductPojo add(ProductPojo product) throws ApiException {
+		ProductPojo existing = dao.selectByColumn(ProductPojo.class, "barcode", product.getBarcode());
+		if(Objects.nonNull(existing)) {
+			throw new ApiException("Product with barcode: " + product.getBarcode() + " already exists");
+		}
 		dao.insert(product);
 		return product;
 	}
