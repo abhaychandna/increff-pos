@@ -170,7 +170,7 @@ function resetUploadDialog(){
 	var $file = $('#BrandFile');
 	$file.val('');
 	$('#BrandFileName').html("Choose File");
-	$('#statusView').html('Please Upload TSV file');
+	$('#statusView').html('Status : Please Upload TSV file');
 	document.getElementById('download-errors').disabled=true;
 
 	//Reset various counts

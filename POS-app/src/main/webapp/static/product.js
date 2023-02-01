@@ -203,7 +203,7 @@ function resetUploadDialog(){
 	var $file = $('#ProductFile');
 	$file.val('');
 	$('#ProductFileName').html("Choose File");
-	$('#statusView').html('Please Upload TSV file');
+	$('#statusView').html('Status : Please Upload TSV file');
 	document.getElementById('download-errors').disabled=true;
 	//Reset various counts
 	processCount = 0;
