@@ -24,11 +24,21 @@ function raiseAlert(title, text, icon){
 		title = obj.title;
 	}
 	console.log("Alert: " + title + " " + text + " " + icon);
-	Swal.fire({
-		icon: icon,
-		title: title,
-		text: text,
-	})
+	if(icon == 'error'){
+		Swal.fire({
+			icon: icon,
+			title: title,
+			text: text,
+		})
+	}
+	else if (icon == 'success'){
+		Swal.fire({
+			icon: icon,
+			title: title,
+			text: text,
+			timer: 1000,
+		})
+	}
 }
 
 function getFileExtension(filename) {
