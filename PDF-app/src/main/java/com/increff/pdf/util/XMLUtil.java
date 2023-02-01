@@ -23,7 +23,7 @@ import com.increff.pdf.service.ApiException;
 
 public class XMLUtil {
 
-   public static <T> void generateReportXML(List <T> reportData, String filename, HashMap<String,String> headers) throws ApiException {
+   public static <T> void generateReportXML(List <T> reportData, String xmlFilepath, HashMap<String,String> headers) throws ApiException {
       try {
             System.out.println("Report Data" + reportData + " " + reportData.size());
             for (T t: reportData) {
@@ -59,7 +59,7 @@ public class XMLUtil {
             });
             
             rootElement.appendChild(itemsList);
-            transformDocumentToXML(filename, doc);
+            transformDocumentToXML(xmlFilepath, doc);
       }
       catch (Exception e) {
             e.printStackTrace();

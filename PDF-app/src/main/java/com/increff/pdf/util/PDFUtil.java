@@ -20,10 +20,10 @@ import org.apache.fop.apps.MimeConstants;
 import com.increff.pdf.service.ApiException;
 
 public class PDFUtil {
-    public static String generatePDFBase64(String xmlFile, File xsltFile)
+    public static String generatePDFBase64(String xmlFilepath, File xsltFile)
     throws ApiException {
         try {
-            StreamSource xmlSource = new StreamSource(new File(xmlFile));
+            StreamSource xmlSource = new StreamSource(new File(xmlFilepath));
 
             FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
