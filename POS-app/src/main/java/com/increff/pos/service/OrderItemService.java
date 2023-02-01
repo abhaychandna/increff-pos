@@ -17,8 +17,6 @@ public class OrderItemService {
 
 	@Autowired
 	private OrderItemDao dao;
-	@Autowired
-	private InventoryService inventoryService;
 
 	public List<OrderItemPojo> add(List<OrderItemPojo> items) throws ApiException {
 		for (OrderItemPojo item : items) {
@@ -33,24 +31,6 @@ public class OrderItemService {
 
 	public List<OrderItemPojo> getAll(Integer pageNo, Integer pageSize) {
 		return dao.selectAll(pageNo, pageSize, OrderItemPojo.class);
-	}
-
-	public void update(Integer id, OrderItemPojo item) throws ApiException {
-		OrderItemPojo existing = getCheck(id);
-
-		Integer extra = item.getQuantity() - existing.getQuantity();
-		if(extra > 0){
-			inventoryService.reduceInventory(existing.getProductId(), extra);
-		}
-		else if(extra < 0){
-			inventoryService.increaseInventory(existing.getProductId(), -extra);
-		}
-		else{
-			return;
-		}
-		existing.setQuantity(item.getQuantity());
-		existing.setSellingPrice(item.getSellingPrice());
-		
 	}
 
 	public OrderItemPojo getCheck(Integer id) throws ApiException {
