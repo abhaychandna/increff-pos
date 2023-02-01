@@ -99,33 +99,6 @@ public class BrandDto {
 		return ConvertUtil.convert(f, BrandPojo.class);
 	}
 
-    private void normalizeAndValidate(List<BrandForm> forms) throws ApiException, JsonProcessingException {
-    
-        List<BrandFormErrorData> errors = new ArrayList<BrandFormErrorData>();
-        forms.forEach(form->{
-            try {
-                PreProcessingUtil.normalizeAndValidate(form);
-            } catch (ApiException e) {
-                errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), e.getMessage()));
-            }
-        });
-        if(errors.size() > 0 ) throwErrors(errors);
-    }
-
-    private void checkDuplicateBrandCategoryPairs(List<BrandForm> forms) throws ApiException, JsonProcessingException {
-        String separator = "_", errorName = "Duplicate Brand and Category pair";
-        List<BrandFormErrorData> errors = new ArrayList<BrandFormErrorData>();
-        Set<String> brandCategorySet = new HashSet<String>();
-        forms.forEach(form->{
-            String brandCategory = form.getBrand() + separator + form.getCategory();
-            if (brandCategorySet.contains(brandCategory)) {
-                errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), errorName));
-            }
-            brandCategorySet.add(brandCategory);
-        });
-        if(errors.size() > 0 ) throwErrors(errors);
-    }
-
     private void checkBrandCategoryAlreadyExists(List<BrandForm> forms) throws ApiException, JsonProcessingException {
         String separator = "_";
         String alreadyExistsErrorMessage = "Brand and Category pair already exists";
