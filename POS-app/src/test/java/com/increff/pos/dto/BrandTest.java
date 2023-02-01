@@ -31,7 +31,14 @@ public class BrandTest extends AbstractUnitTest {
 
     @Test
     public void testNormalizeUppercaseToLowercase() throws ApiException {
-        BrandData brandData = brandDto.add(testUtil.getBrandFormDto(" ADIDAS ", " TshirTs"));
+        BrandData brandData = brandDto.add(testUtil.getBrandFormDto("ADIDAS", "TshirTs"));
+        assertEquals("adidas", brandData.getBrand());
+        assertEquals("tshirts", brandData.getCategory());
+    }
+
+    @Test
+    public void testNormalizeTrim() throws ApiException {
+        BrandData brandData = brandDto.add(testUtil.getBrandFormDto("  adidas  ", "  tshirts  "));
         assertEquals("adidas", brandData.getBrand());
         assertEquals("tshirts", brandData.getCategory());
     }
