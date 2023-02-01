@@ -83,7 +83,7 @@ public class ReportDto {
     private HashMap<Integer, Integer> getBrandIdToQuantityMap(List<InventoryPojo> inventory) throws ApiException{
         HashMap<Integer, Integer> brandCategoryIdToQuantity = new HashMap<>();
         for (InventoryPojo inv : inventory) {
-			Integer brandCategoryId = productService.get(inv.getId()).getBrandCategory();
+			Integer brandCategoryId = productService.get(inv.getProductId()).getBrandCategory();
             Integer quantity =  brandCategoryIdToQuantity.get(brandCategoryId);
             if(Objects.isNull(quantity)) quantity = 0;
             brandCategoryIdToQuantity.put(brandCategoryId, quantity + inv.getQuantity());

@@ -19,7 +19,7 @@ public class InventoryService {
 	private InventoryDao dao;
 	
 	public InventoryPojo add(InventoryPojo inventory) throws ApiException {
-        InventoryPojo existing = dao.select(InventoryPojo.class, inventory.getId());
+        InventoryPojo existing = dao.select(InventoryPojo.class, inventory.getProductId());
 		if (Objects.nonNull(existing)) {
 			existing.setQuantity(existing.getQuantity() + inventory.getQuantity());
 			return existing;
@@ -66,7 +66,7 @@ public class InventoryService {
 
 
 	public InventoryPojo getCheck(Integer id) throws ApiException {
-		InventoryPojo inventory = dao.select(InventoryPojo.class, id);
+		InventoryPojo inventory = dao.selectByColumn(InventoryPojo.class, "productId", id);
 		if (Objects.isNull(inventory)) {
 			throw new ApiException("Inventory with given ID does not exist");
 		}

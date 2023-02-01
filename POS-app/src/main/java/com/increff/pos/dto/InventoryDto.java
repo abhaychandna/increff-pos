@@ -58,7 +58,7 @@ public class InventoryDto {
             InventoryPojo inventory = ConvertUtil.convert(form, InventoryPojo.class);
             Integer productId = barcodeToId.get(form.getBarcode());
             if(Objects.nonNull(productId)) {
-                inventory.setId(productId);
+                inventory.setProductId(productId);
                 validInventories.add(inventory);
                 errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), ""));
             }
@@ -121,18 +121,18 @@ public class InventoryDto {
     public void update(InventoryForm form) throws ApiException {
         PreProcessingUtil.normalizeAndValidate(form);
         InventoryPojo inventory = convert(form);
-        svc.update(inventory.getId(), form.getQuantity());
+        svc.update(inventory.getProductId(), form.getQuantity());
     }
 
     private InventoryPojo convert(InventoryForm inventoryForm) throws ApiException {
         InventoryPojo inventory = ConvertUtil.convert(inventoryForm, InventoryPojo.class);
-        inventory.setId(productService.getByBarcode(inventoryForm.getBarcode()).getId());
+        inventory.setProductId(productService.getByBarcode(inventoryForm.getBarcode()).getId());
         return inventory;
     }
 
     private InventoryData convert(InventoryPojo inventoryPojo) throws ApiException {
         InventoryData inventory = ConvertUtil.convert(inventoryPojo, InventoryData.class);
-        inventory.setBarcode(productService.get(inventoryPojo.getId()).getBarcode());
+        inventory.setBarcode(productService.get(inventoryPojo.getProductId()).getBarcode());
         return inventory;
     }
 }

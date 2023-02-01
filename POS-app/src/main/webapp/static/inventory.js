@@ -192,7 +192,7 @@ function displayUploadData(){
 function displayInventory(data){
 	$("#Inventory-edit-form input[name=barcode]").val(data.barcode);	
 	$("#Inventory-edit-form input[name=quantity]").val(data.quantity);	
-	$("#Inventory-edit-form input[name=id]").val(data.id);	
+	$("#Inventory-edit-form input[name=id]").val(data.productId);	
 	$("#update-Inventory").attr('disabled', true);
 	$('#edit-Inventory-modal').modal('toggle');
 }
@@ -200,7 +200,7 @@ function displayInventory(data){
 function tableColumns(){
 	columns = [
 		{
-			"data": "id",
+			"data": "productId",
 			render: function (data, type, row, meta) {
 				return meta.row + meta.settings._iDisplayStart + 1;
 			}
@@ -212,7 +212,8 @@ function tableColumns(){
 		columns.push({
 			"data":null,
 			"render":function(o){
-				return '<button type="button" class="btn btn-info" onclick="displayEditInventory(' + o.id + ')"th:if="${info.getRole() == "supervisor"}>Edit</button>'
+				console.log(o);
+				return '<button type="button" class="btn btn-info" onclick="displayEditInventory(' + o.productId + ')"th:if="${info.getRole() == "supervisor"}>Edit</button>'
 			}
 		});
 	}

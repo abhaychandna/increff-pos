@@ -91,14 +91,14 @@ public class InventoryTest extends AbstractUnitTest {
     @Test
     public void testUpdateInventory() throws ApiException {
         InventoryPojo inventoryPojo = testUtil.createInventory(barcode, brand, category, name, mrp, quantity);
-        ProductData productData = productDto.get(inventoryPojo.getId());
+        ProductData productData = productDto.get(inventoryPojo.getProductId());
         assertEquals(quantity, inventoryPojo.getQuantity());
         assertEquals(productData.getBarcode(), barcode);
 
         Integer newQuantity = 50;
         InventoryForm inventoryForm = testUtil.getInventoryFormDto(barcode, newQuantity);
         inventoryDto.update(inventoryForm);
-        InventoryData newData = inventoryDto.get(inventoryPojo.getId());
+        InventoryData newData = inventoryDto.get(inventoryPojo.getProductId());
         assertEquals(newQuantity, newData.getQuantity());
     }
 
@@ -111,7 +111,7 @@ public class InventoryTest extends AbstractUnitTest {
     @Test
     public void testGet() throws ApiException {
         InventoryPojo inventory = testUtil.createInventory(barcode, brand, category, name, mrp, quantity);
-        InventoryData inventoryData = inventoryDto.get(inventory.getId());
+        InventoryData inventoryData = inventoryDto.get(inventory.getProductId());
         assertEquals(quantity, inventoryData.getQuantity());
         assertEquals(barcode, inventoryData.getBarcode());
     }

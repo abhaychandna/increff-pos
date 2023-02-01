@@ -74,7 +74,7 @@ public class TestUtil {
     }
     public InventoryPojo createInventorySingle(String barcode, Integer quantity) throws ApiException {
         InventoryPojo inventory = new InventoryPojo(quantity);
-        inventory.setId(productDao.selectByColumn(ProductPojo.class, "barcode", barcode).getId());
+        inventory.setProductId(productDao.selectByColumn(ProductPojo.class, "barcode", barcode).getId());
         return inventoryDao.insert(inventory);
     }
 
