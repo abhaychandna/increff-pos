@@ -83,7 +83,7 @@ public class DaySalesDto {
         return daySalesData;
     }    
 
-    //@Scheduled(cron = "0 * * ? * *")
+    // @Scheduled(fixedDelayString = "${daySalesScheduler.delay.seconds}000")
     private void calculateSales() throws ApiException {
         ZonedDateTime startDate = ZonedDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
         ZonedDateTime endDate = ZonedDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(999999999);
