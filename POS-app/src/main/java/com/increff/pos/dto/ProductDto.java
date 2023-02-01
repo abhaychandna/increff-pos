@@ -166,7 +166,4 @@ public class ProductDto {
         return productData;
     }
 
-    private void checkBarcodeDoesntExist(String barcode) throws ApiException {
-
-	}
 }
