@@ -108,3 +108,21 @@ function downloadPDF(base64String, OUT_FILENAME) {
 	downloadLink.download = fileName;
 	downloadLink.click();
 }
+
+function logout(){
+	var timer = 2500;
+	var title = 'Logging out';
+	var text = 'Redirecting to login page...';
+	var icon = 'success';
+	Swal.fire({
+		icon: icon,
+		title: title,
+		text: text,
+		timer: timer,
+	});
+	setTimeout(function(){
+		window.location = "http://localhost:9000/pos";
+	}
+	, timer);
+}
+document.getElementById("logout-btn").addEventListener("click", logout);
