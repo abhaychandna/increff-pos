@@ -44,23 +44,29 @@ public class BrandDto {
     }
  
     private void bulkAddValidate(List<BrandForm> forms) throws JsonProcessingException, ApiException {
+        checkDuplicateBrandCategoryPairInInput(forms);
+        checkBrandCategoryAlreadyExists(forms);
+    }
+
+    private void checkDuplicateBrandCategoryPairInInput(List<BrandForm> forms) throws ApiException, JsonProcessingException {
         String separator = "_", duplicateBrandCategoryErrorMessage = "Duplicate Brand and Category pair in input";
       
         List<BrandFormErrorData> errors = new ArrayList<BrandFormErrorData>();
+        Boolean errorFound = false;
         Set<String> brandCategorySet = new HashSet<String>();
         
-        forms.stream().forEach(form->{
+        for (BrandForm form : forms){
             try {
                 PreProcessingUtil.normalizeAndValidate(form);
                 String brandCategory = form.getBrand() + separator + form.getCategory();
                 if (brandCategorySet.contains(brandCategory)) throw new ApiException(duplicateBrandCategoryErrorMessage);
                 brandCategorySet.add(brandCategory);            
             } catch (ApiException e) {
+                errorFound = true;
                 errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), e.getMessage()));
             }
-        });
-        if(errors.size() > 0 ) throwErrors(errors);
-        checkBrandCategoryAlreadyExists(forms);
+        };
+        if(errorFound) throwErrors(errors);
     }
 
     public BrandData get(Integer id) throws ApiException {
@@ -131,13 +137,18 @@ public class BrandDto {
         Set<String> existingBrandCategorySet = existingBrands.stream().map(brand->brand.getBrand() + separator + brand.getCategory()).collect(Collectors.toSet());;
 
         List<BrandFormErrorData> errors = new ArrayList<BrandFormErrorData>();
-        forms.forEach(form->{
+        Boolean errorFound = false;
+        for (BrandForm form : forms){
             String brandCategory = form.getBrand() + separator + form.getCategory();
             if (existingBrandCategorySet.contains(brandCategory)) {
+                errorFound = true;
                 errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), alreadyExistsErrorMessage));
             }
-        });
-        if(errors.size() > 0 ) throwErrors(errors);
+            else {
+                errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), ""));
+            }
+        };
+        if(errorFound) throwErrors(errors);
     }
 
     private void throwErrors(List<BrandFormErrorData> errors) throws ApiException, JsonProcessingException {
