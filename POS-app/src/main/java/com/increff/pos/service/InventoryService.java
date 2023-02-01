@@ -58,12 +58,6 @@ public class InventoryService {
 		}
 		inventory.setQuantity(inventory.getQuantity() - quantity);
 	}
-	public void increaseInventory(Integer productId, Integer quantity) throws ApiException {
-		InventoryPojo inventory = get(productId);
-		inventory.setQuantity(inventory.getQuantity() + quantity);
-	}
-
-
 
 	public InventoryPojo getCheck(Integer id) throws ApiException {
 		InventoryPojo inventory = dao.selectByColumn(InventoryPojo.class, "productId", id);
