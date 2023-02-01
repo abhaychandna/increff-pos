@@ -17,7 +17,6 @@ import com.increff.pos.model.InvoiceItemData;
 import com.increff.pos.model.OrderData;
 import com.increff.pos.model.OrderItemData;
 import com.increff.pos.model.OrderItemForm;
-import com.increff.pos.model.OrderItemPutForm;
 import com.increff.pos.model.PaginatedData;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
@@ -159,12 +158,6 @@ public class OrderDto {
         }
         Integer count = orderItemService.getRecordsCount();
         return new PaginatedData<OrderItemData>(itemDatas, draw, count, count);
-    }
-
-    public void update(Integer id, OrderItemPutForm form) throws ApiException {
-        PreProcessingUtil.normalizeAndValidate(form);
-        OrderItemPojo p = ConvertUtil.convert(form, OrderItemPojo.class);
-        orderItemService.update(id, p);
     }
 
     private OrderItemPojo convert(OrderItemForm form) throws ApiException {
