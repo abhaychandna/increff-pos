@@ -144,7 +144,7 @@ function uploadRows(){
 	        $file.val('');       
             $('#ProductFileName').html("Choose File");
 			document.getElementById('download-errors').disabled=false;
-			$('#statusView').html("Status : Failed to upload " + errorData.length + " rows. Download errors to see error descriptions.");
+			$('#statusView').html("Status : Upload failed. Download errors to see error descriptions.");
 			raiseAlert('Error', 'Failed to upload products. Download errors to see detailed descriptions.', 'error');
 		}
 	 });
