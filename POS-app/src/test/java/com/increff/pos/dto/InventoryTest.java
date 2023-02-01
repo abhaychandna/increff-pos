@@ -55,6 +55,35 @@ public class InventoryTest extends AbstractUnitTest {
     }
 
     @Test
+    public void testNormalizeUppercaseToLowercase() throws ApiException {
+        String expectedBarcode = "abcdef12";
+        testUtil.createProductWithBrand(expectedBarcode, brand, category, name, mrp);
+        barcode = "ABCDEF12";
+        InventoryForm form = new InventoryForm(barcode, quantity);
+        InventoryData inventoryData = inventoryDto.add(form);
+        assertEquals(quantity, inventoryData.getQuantity());
+        assertEquals(inventoryData.getBarcode(), expectedBarcode);
+    }
+    
+    @Test
+    public void testNormalizeTrim() throws ApiException {
+        String expectedBarcode = "abcdef12";
+        testUtil.createProductWithBrand(expectedBarcode, brand, category, name, mrp);
+        barcode = "  abcdef12  ";
+        InventoryForm form = new InventoryForm(barcode, quantity);
+        InventoryData inventoryData = inventoryDto.add(form);
+        assertEquals(quantity, inventoryData.getQuantity());
+        assertEquals(inventoryData.getBarcode(), expectedBarcode);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testAddInventoryEmptyBarcode() throws ApiException {
+        String emptyBarcode = "";
+        InventoryForm form = new InventoryForm(emptyBarcode, quantity);
+        inventoryDto.add(form);
+    }
+
+    @Test
     public void testAddInventoryBarcodeDoesntExist() throws ApiException {
         String barcode = "abcdef12";
         Integer quantity = 10;
