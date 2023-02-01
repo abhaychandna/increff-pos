@@ -11,7 +11,6 @@ public class TimeUtil {
 
     public static ZonedDateTime getZonedDateTime(String dateTime, DateTimeFormatter format) {
         ZonedDateTime zdt = ZonedDateTime.parse(dateTime, format);
-        System.out.println("after conversion " + zdt);
         return zdt;
     }
 

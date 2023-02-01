@@ -22,7 +22,6 @@ public class PDFApiUtil {
         headers.setContentType(MediaType.APPLICATION_JSON);
         String apiUrl = "http://localhost:8000/pdf/api/pdf/generateReport";
         PDFForm<T> pdfForm = new PDFForm<T>(xsltFilename, XMLheaders, reportData);
-        System.out.println("PDF form: " + pdfForm.getHeaders());
         RestTemplate RestTemplate = new RestTemplate();
         ResponseEntity<String> apiResponse = RestTemplate.postForEntity(apiUrl, pdfForm, String.class);
         String base64 = apiResponse.getBody();

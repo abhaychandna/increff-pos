@@ -99,19 +99,15 @@ public class ReportDto {
         ZonedDateTime endDate = TimeUtil.isoTimeStringToZonedDateTime(form.getEndDate());
         
         List<BrandPojo> brands = getBrandPojoList(form.getBrand(), form.getCategory());
-        System.out.println("brands : " + brands.size());
 
         List<ProductPojo> products = getProducts(brands);
-        System.out.println("products : " + products.size());
 
         List<Integer> productIds = products.stream().map(ProductPojo::getId).collect(Collectors.toList());
         List<OrderItemPojo> orderItems = getOrderItems(startDate, endDate, productIds);
-        System.out.println("orderItems : " + orderItems.size());
 
         if(orderItems.isEmpty()) throw new ApiException("No orders found for the given criteria"); 
         
         HashMap<Integer, List<String>> productIdToBrandCategory = getProductIdToBrandCategoryMap(products, brands);
-        System.out.println("productIdToBrandCategory : " + productIdToBrandCategory.size());
         
         List<SalesReportData> salesReport = getSalesReport(orderItems, productIdToBrandCategory);
         
@@ -154,7 +150,6 @@ public class ReportDto {
 
     private List<OrderItemPojo> getOrderItems(ZonedDateTime startDate, ZonedDateTime endDate, List<Integer> productIds){
         List<Integer> orderIds = getOrderIds(startDate, endDate);
-        System.out.println("orderIds : " + orderIds.size());
         List<String> columns = Arrays.asList("orderId", "productId");
         List<List<Object>> values = Arrays.asList(
             orderIds.stream().map(e->(Object)e).collect(Collectors.toList()),
@@ -169,12 +164,6 @@ public class ReportDto {
     }
 
     private List<SalesReportData> getSalesReport(List<OrderItemPojo> orderItems, HashMap<Integer, List<String>> productIdToBrandCategory) {
-        // print all inputs 
-        System.out.println("orderItems : " + orderItems.size());
-        System.out.println("productIdToBrandCategory : " + productIdToBrandCategory.size());
-        productIdToBrandCategory.forEach((k,v)->{
-            System.out.println("k : " + k + " v : " + v);
-        });
         HashMap<Integer, SalesReportData> productIdToSalesReportData = new HashMap<Integer, SalesReportData>();
         orderItems.forEach(item->{
             Integer productId = item.getProductId();
@@ -192,7 +181,6 @@ public class ReportDto {
     }
 
     private List<BrandPojo> getBrandPojoList(String brand, String category) throws ApiException {
-        System.out.println("brand : " + brand + " category : " + category);
         if (Objects.isNull(brand) && Objects.isNull(category)) return brandService.getAll();
         if(Objects.nonNull(category) && Objects.nonNull(brand)) {
             List<BrandPojo> brands = brandService.getByMultipleColumns(Arrays.asList("category", "brand"), Arrays.asList(

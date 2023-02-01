@@ -44,8 +44,6 @@ public class DaySalesDto {
     }
 
     public PaginatedData<DaySalesData> getAll(Integer start, Integer pageSize, Integer draw, String strStartDate, String strEndDate) throws ApiException {
-        System.out.println("startDate: " + strStartDate + ", endDate: " + strEndDate);
-        System.out.println("start: " + start + ", pageSize: " + pageSize + ", draw: " + draw + ", startDate: " + strStartDate + ", endDate: " + strEndDate);
         if (strStartDate.isEmpty() || strEndDate.isEmpty()) {
             return getAll(start, pageSize, draw);
         }

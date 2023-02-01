@@ -71,7 +71,6 @@ public class ReportTest extends AbstractUnitTest {
         String end = ZonedDateTime.now().toString();
         SalesReportForm salesReportForm = new SalesReportForm(start, end);
         String salesReport = reportDto.salesReport(salesReportForm);
-        System.out.println(salesReport);
         assertNotNull(salesReport);
     }
     
@@ -83,7 +82,6 @@ public class ReportTest extends AbstractUnitTest {
         SalesReportForm salesReportForm = new SalesReportForm(start, end);
         salesReportForm.setBrand(brand);
         String salesReport = reportDto.salesReport(salesReportForm);
-        System.out.println(salesReport);
         assertNotNull(salesReport);
     }
 
@@ -95,7 +93,6 @@ public class ReportTest extends AbstractUnitTest {
         SalesReportForm salesReportForm = new SalesReportForm(start, end);
         salesReportForm.setCategory(category);
         String salesReport = reportDto.salesReport(salesReportForm);
-        System.out.println(salesReport);
         assertNotNull(salesReport);
     }
 
@@ -108,7 +105,6 @@ public class ReportTest extends AbstractUnitTest {
         salesReportForm.setBrand(brand);
         salesReportForm.setCategory(category);
         String salesReport = reportDto.salesReport(salesReportForm);
-        System.out.println(salesReport);
         assertNotNull(salesReport);
     }
 

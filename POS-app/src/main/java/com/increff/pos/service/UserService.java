@@ -32,7 +32,6 @@ public class UserService {
 	}
 
 	private boolean isSupervisor(String email) {
-		System.out.println("supervisorEmail: " + supervisorEmail);
 		return email.equals(supervisorEmail); 
 	}
 

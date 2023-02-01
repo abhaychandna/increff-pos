@@ -23,9 +23,7 @@ public class SpringConfig {
 
 	@PostConstruct
 	public void init() {
-		System.out.println("SpringConfig.init()");
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-		System.out.println("Date in UTC: " + ZonedDateTime.now());
 	}
 
 }

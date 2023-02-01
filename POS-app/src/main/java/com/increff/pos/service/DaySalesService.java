@@ -24,7 +24,6 @@ public class DaySalesService {
 		DaySalesPojo daySales = new DaySalesPojo();
 		ZonedDateTime date = getCurrentZonedDateWithoutTime();
 		
-		System.out.println("Final date before server add " + date);
 		daySales.setDate(date);
 		daySales.setInvoicedItemsCount(items.size());
 		daySales.setInvoicedOrdersCount(1);
