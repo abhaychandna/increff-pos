@@ -1,7 +1,10 @@
 package com.increff.pos.dto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,6 +16,7 @@ import com.increff.pos.model.InventoryForm;
 import com.increff.pos.model.InventoryFormErrorData;
 import com.increff.pos.model.PaginatedData;
 import com.increff.pos.pojo.InventoryPojo;
+import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.ProductService;
@@ -34,24 +38,52 @@ public class InventoryDto {
     }
 
     public void bulkAdd(List<InventoryForm> inventoryForms) throws ApiException {
-        List<InventoryPojo> validInventories = bulkAddValidate(inventoryForms);
+        bulkAddValidate(inventoryForms);
+        List<InventoryPojo> validInventories = convertBulk(inventoryForms);
         svc.bulkAdd(validInventories);   
     }
 
-    private List<InventoryPojo> bulkAddValidate(List<InventoryForm> forms) throws ApiException {
+    private List<InventoryPojo> convertBulk(List<InventoryForm> forms) throws ApiException {
+        List<String> barcodeList = forms.stream().map(InventoryForm::getBarcode).collect(Collectors.toList());
+        List<ProductPojo> products = productService.getByColumn("barcode", barcodeList);
+        HashMap<String, Integer> barcodeToId = new HashMap<String, Integer>();
+        for (ProductPojo p : products) {
+            barcodeToId.put(p.getBarcode(), p.getId());
+        }
+
         List<InventoryPojo> validInventories = new ArrayList<InventoryPojo>();
         List<InventoryFormErrorData> errors = new ArrayList<InventoryFormErrorData>();
-        forms.forEach(form->{
+        Boolean errorFound = false;
+        for (InventoryForm form : forms){
+            InventoryPojo inventory = ConvertUtil.convert(form, InventoryPojo.class);
+            Integer productId = barcodeToId.get(form.getBarcode());
+            if(Objects.nonNull(productId)) {
+                inventory.setId(productId);
+                validInventories.add(inventory);
+                errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), ""));
+            }
+            else{
+                errorFound = true;
+                errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), "Barcode does not exist"));
+            }
+        }
+        if(errorFound) throwErrors(errors);
+        return validInventories;
+    }
+
+    private void bulkAddValidate(List<InventoryForm> forms) throws ApiException {
+        List<InventoryFormErrorData> errors = new ArrayList<InventoryFormErrorData>();
+        Boolean errorFound = false;
+       for (InventoryForm form : forms){
             try {
                 PreProcessingUtil.normalizeAndValidate(form);
-                validInventories.add(convert(form));
                 errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), ""));
             } catch (ApiException e) {
+                errorFound = true;
                 errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), e.getMessage()));
             }
-        });
-        if(errors.size() > 0 ) throwErrors(errors);
-        return validInventories;
+        };
+        if(errorFound) throwErrors(errors);
     }
 
     private void throwErrors(List<InventoryFormErrorData> errors) throws ApiException {
