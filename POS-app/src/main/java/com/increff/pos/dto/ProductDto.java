@@ -55,6 +55,7 @@ public class ProductDto {
                 barcodeSet.add(form.getBarcode());
                 checkBarcodeDoesntExist(form.getBarcode());
                 validProducts.add(convert(form));
+                errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), ""));
             } catch (ApiException e) {
                 errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), e.getMessage()));
             }
