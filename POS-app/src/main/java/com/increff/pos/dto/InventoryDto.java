@@ -34,34 +34,24 @@ public class InventoryDto {
     }
 
     public void bulkAdd(List<InventoryForm> inventoryForms) throws ApiException {
-        bulkAddValidate(inventoryForms);
-
-        List<InventoryPojo> validInventories = new ArrayList<InventoryPojo>();
-        List<InventoryFormErrorData> errors = new ArrayList<InventoryFormErrorData>();
-        for (InventoryForm form : inventoryForms) {
-            try {
-                InventoryPojo inventory = convert(form);
-                validInventories.add(inventory);
-            }
-            catch (ApiException e) {
-                errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), e.getMessage()));
-            }
-        }
-        if(errors.size() > 0 ) throwErrors(errors);
-        
+        List<InventoryPojo> validInventories = bulkAddValidate(inventoryForms);
         svc.bulkAdd(validInventories);   
     }
 
-    private void bulkAddValidate(List<InventoryForm> forms) throws ApiException {
+    private List<InventoryPojo> bulkAddValidate(List<InventoryForm> forms) throws ApiException {
+        List<InventoryPojo> validInventories = new ArrayList<InventoryPojo>();
         List<InventoryFormErrorData> errors = new ArrayList<InventoryFormErrorData>();
         forms.forEach(form->{
             try {
                 PreProcessingUtil.normalizeAndValidate(form);
+                validInventories.add(convert(form));
+                errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), ""));
             } catch (ApiException e) {
                 errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), e.getMessage()));
             }
         });
         if(errors.size() > 0 ) throwErrors(errors);
+        return validInventories;
     }
 
     private void throwErrors(List<InventoryFormErrorData> errors) throws ApiException {
