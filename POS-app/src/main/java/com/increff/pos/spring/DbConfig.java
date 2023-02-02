@@ -36,6 +36,8 @@ public class DbConfig {
 	private String hibernateHbm2ddl;
 	@Value("${hibernate.physical_naming_strategy}")
 	private String hibernatePhysicalNamingStrategy;
+	@Value("${hibernate.jdbc.batch_size}")
+	private String hibernateJdbcBatchSize;
 	
 
 	@Bean(name = "dataSource")
@@ -71,6 +73,7 @@ public class DbConfig {
 		jpaProperties.put("hibernate.hbm2ddl.auto", hibernateHbm2ddl);
 		jpaProperties.put("hibernate.hbm2ddl.auto", hibernateHbm2ddl);
 		// jpaProperties.put("hibernate.physical_naming_strategy", hibernatePhysicalNamingStrategy);
+		jpaProperties.put("hibernate.jdbc.batch_size", hibernateJdbcBatchSize);
 		bean.setJpaProperties(jpaProperties);
 		return bean;
 	}
