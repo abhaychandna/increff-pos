@@ -74,10 +74,6 @@ public class DaySalesDto {
         daySalesData.setInvoicedItemsCount(orderItems.size());
         daySalesData.setInvoicedOrdersCount(orders.size());
         daySalesData.setTotalRevenue(totalRevenue);
-        System.out.println("daySalesData: " + daySalesData);
-        System.out.println("daySalesData: " + daySalesData.getInvoicedItemsCount());
-        System.out.println("daySalesData: " + daySalesData.getInvoicedOrdersCount());
-        System.out.println("daySalesData: " + daySalesData.getTotalRevenue());
         return daySalesData;
     }    
 

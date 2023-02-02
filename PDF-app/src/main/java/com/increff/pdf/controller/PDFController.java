@@ -31,10 +31,6 @@ public class PDFController {
     @ApiOperation(value = "Adds multiple brands in bulk")
     @RequestMapping(path="/generateReport", method = RequestMethod.POST) 
     public <T> String generateReport(@RequestBody PDFForm<T> pdfForm) throws ApiException {
-        System.out.println("In controller");
-        System.out.println("XSLT Filename: " + pdfForm.getXsltFilename());
-        System.out.println("Headers: " + pdfForm.getHeaders());
-        System.out.println("Report Data: " + pdfForm.getReportData());
         return invoiceService.generateReport(pdfForm);
     }
 }

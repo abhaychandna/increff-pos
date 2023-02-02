@@ -56,7 +56,6 @@ public class PDFUtil {
             byte[] inFileBytes = Files.readAllBytes(Paths.get(IN_FILE));
             byte[] encoded = Base64.getEncoder().encode(inFileBytes);
             String encodedString = new String(encoded);
-            System.out.println("ENCODED: " + encodedString);
             return encodedString;
         } catch (Exception e) {
             e.printStackTrace();

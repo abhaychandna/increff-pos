@@ -25,12 +25,6 @@ public class XMLUtil {
 
    public static <T> void generateReportXML(List <T> reportData, String xmlFilepath, HashMap<String,String> headers) throws ApiException {
       try {
-            System.out.println("Report Data" + reportData + " " + reportData.size());
-            for (T t: reportData) {
-                  System.out.println("Report Data" + t);
-                  // type of T
-                  System.out.println("Type of T: " + t.getClass().getName());
-            }
             Document doc = getDocument();
       
             Element rootElement = doc.createElement("ReportForm");
@@ -48,9 +42,6 @@ public class XMLUtil {
 
                   HashMap linkedHashMap = (HashMap) reportDataItem;
                   linkedHashMap.forEach((key, value) -> {
-                        System.out.println("Key: " + key + " Value: " + value);
-                        System.out.println("Key Type: " + key.getClass().getName() + " Value Type: " + value.getClass().getName());
-                        
                         Element element = doc.createElement(key.toString());
                         element.appendChild(doc.createTextNode(value.toString()));
                         items.appendChild(element);
