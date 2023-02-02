@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.increff.pos.dao.BrandDao;
+import com.increff.pos.dao.DaySalesDao;
 import com.increff.pos.dao.InventoryDao;
 import com.increff.pos.dao.OrderDao;
 import com.increff.pos.dao.OrderItemDao;
@@ -24,6 +25,7 @@ import com.increff.pos.model.ProductForm;
 import com.increff.pos.model.Role;
 import com.increff.pos.model.SignupForm;
 import com.increff.pos.pojo.BrandPojo;
+import com.increff.pos.pojo.DaySalesPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
@@ -45,6 +47,8 @@ public class TestUtil {
     private OrderDao orderDao;
     @Autowired
     private OrderItemDao orderItemDao;
+    @Autowired
+    private DaySalesDao daySalesDao;
     @Autowired
     private UserDao userDao;
 
@@ -92,6 +96,12 @@ public class TestUtil {
             orderItemDao.insert(orderItemPojo);
         }
         return orderItemPojoList;
+    }
+
+    public DaySalesPojo createDaySales(ZonedDateTime date, Integer invoicedOrdersCount, Integer invoicedItemsCount, Double totalRevenue) throws ApiException {
+        DaySalesPojo daySales = new DaySalesPojo(date, invoicedOrdersCount, invoicedItemsCount, totalRevenue);
+        daySalesDao.insert(daySales);
+        return daySales;
     }
 
     public UserPojo createUser(String username, String password) throws ApiException {
