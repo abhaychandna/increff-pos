@@ -72,7 +72,7 @@ function raiseAlert(title, text, icon){
 }
 
 function getFileExtension(filename) {
-	return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
+	return filename.substr((filename.lastIndexOf(".") + 1));
 }
 
 //HELPER METHOD
