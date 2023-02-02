@@ -136,3 +136,12 @@ function logout(){
 	, timer);
 }
 document.getElementById("logout-btn").addEventListener("click", logout);
+
+function emphasizeNavbarCurrentLink(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	var url = document.URL;
+	path = url.substring(url.indexOf(baseUrl));
+	var element = document.querySelectorAll('[href="' + path + '"][class="nav-link"]');
+	element[0].style.fontWeight = "bold";	
+}
+emphasizeNavbarCurrentLink();
