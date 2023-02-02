@@ -35,8 +35,8 @@ public class UserDto {
     public ModelAndView signup(HttpServletRequest request, SignupForm form) throws ApiException {
         try {
             validate(form);
-            UserPojo p = ConvertUtil.convert(form, UserPojo.class);
-            userService.add(p);
+            UserPojo user = ConvertUtil.convert(form, UserPojo.class);
+            userService.add(user);
 			LoginForm loginForm = ConvertUtil.convert(form, LoginForm.class);
 			return login(request, loginForm);
         }
@@ -67,16 +67,16 @@ public class UserDto {
 
     }
     
-    private static Authentication convert(UserPojo p) {
+    private static Authentication convert(UserPojo user) {
 		// Create principal
 		UserPrincipal principal = new UserPrincipal();
-		principal.setRole(p.getRole());
-		principal.setEmail(p.getEmail());
-		principal.setId(p.getId());
+		principal.setRole(user.getRole());
+		principal.setEmail(user.getEmail());
+		principal.setId(user.getId());
 
 		// Create Authorities
 		ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority(String.valueOf(p.getRole())));
+		authorities.add(new SimpleGrantedAuthority(String.valueOf(user.getRole())));
 
 		// Create Authentication
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, null,
