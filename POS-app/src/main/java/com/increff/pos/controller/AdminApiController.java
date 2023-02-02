@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,12 +30,6 @@ public class AdminApiController {
 	public void addUser(@RequestBody UserForm form) throws ApiException {
 		UserPojo p = convert(form);
 		service.add(p);
-	}
-
-	@ApiOperation(value = "Deletes a user")
-	@RequestMapping(path = "/api/admin/user/{id}", method = RequestMethod.DELETE)
-	public void deleteUser(@PathVariable Integer id) {
-		service.delete(id);
 	}
 
 	@ApiOperation(value = "Gets list of all users")

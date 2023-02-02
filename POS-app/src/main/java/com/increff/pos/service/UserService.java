@@ -42,8 +42,4 @@ public class UserService {
 	public List<UserPojo> getAll() {
 		return dao.selectAll(UserPojo.class);
 	}
-
-	public void delete(Integer id) {
-		dao.delete(id);
-	}
 }
