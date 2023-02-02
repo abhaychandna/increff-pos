@@ -35,7 +35,7 @@ public class BrandApiController {
 	}
 
 	@ApiOperation(value = "Adds multiple brands in bulk")
-	@RequestMapping(path = "/add/bulk", method = RequestMethod.POST)
+	@RequestMapping(path = "/bulk-add", method = RequestMethod.POST)
 	public void bulkAdd(@RequestBody List<BrandForm> forms) throws ApiException, JsonProcessingException {
 		dto.bulkAdd(forms);
 	}
