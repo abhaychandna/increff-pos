@@ -82,10 +82,13 @@ public class DaySalesDto {
     }    
 
     // @Scheduled(fixedDelayString = "${daySalesScheduler.delay.seconds}000")
-    private void calculateSales() throws ApiException {
+    public void calculateSales() throws ApiException {
         ZonedDateTime startDate = ZonedDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
         ZonedDateTime endDate = ZonedDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(999999999);
         DaySalesData daySalesData = calculateSales(startDate, endDate);
+        daySalesData.setDate(startDate);
+
+        svc.add(ConvertUtil.convert(daySalesData, DaySalesPojo.class));
     }
 
 	private DaySalesData convert(DaySalesPojo p) {
