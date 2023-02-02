@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.BrandFormErrorData;
@@ -19,7 +18,9 @@ import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
 import com.increff.pos.util.ConvertUtil;
+import com.increff.pos.util.ErrorUtil;
 import com.increff.pos.util.PreProcessingUtil;
+
 
 
 
@@ -66,7 +67,7 @@ public class BrandDto {
                 errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), e.getMessage()));
             }
         };
-        if(errorFound) throwErrors(errors);
+        if(errorFound) ErrorUtil.throwErrors(errors);
     }
 
     public BrandData get(Integer id) throws ApiException {
@@ -121,15 +122,7 @@ public class BrandDto {
                 errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), ""));
             }
         };
-        if(errorFound) throwErrors(errors);
+        if(errorFound) ErrorUtil.throwErrors(errors);
     }
-
-    private void throwErrors(List<BrandFormErrorData> errors) throws ApiException, JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(errors);
-        throw new ApiException(json);
-    }
-
-
 
 }

@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
 import com.increff.pos.model.InventoryFormErrorData;
@@ -21,6 +19,7 @@ import com.increff.pos.service.ApiException;
 import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ConvertUtil;
+import com.increff.pos.util.ErrorUtil;
 import com.increff.pos.util.PreProcessingUtil;
 
 @Component
@@ -67,7 +66,7 @@ public class InventoryDto {
                 errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), "Barcode does not exist"));
             }
         }
-        if(errorFound) throwErrors(errors);
+        if(errorFound) ErrorUtil.throwErrors(errors);
         return validInventories;
     }
 
@@ -83,18 +82,7 @@ public class InventoryDto {
                 errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), e.getMessage()));
             }
         };
-        if(errorFound) throwErrors(errors);
-    }
-
-    private void throwErrors(List<InventoryFormErrorData> errors) throws ApiException {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(errors);
-            throw new ApiException(json);
-        }
-        catch (JsonProcessingException e) {
-            throw new ApiException("Error in parsing error data to json");
-        }
+        if(errorFound) ErrorUtil.throwErrors(errors);
     }
 
     public InventoryData get(Integer id) throws ApiException {

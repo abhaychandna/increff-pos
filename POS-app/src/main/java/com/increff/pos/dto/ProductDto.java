@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.increff.pos.model.PaginatedData;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
@@ -24,6 +23,7 @@ import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ConvertUtil;
+import com.increff.pos.util.ErrorUtil;
 import com.increff.pos.util.PreProcessingUtil;
 
 @Component
@@ -73,7 +73,7 @@ public class ProductDto {
                 errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), ""));
             }
         };
-        if(errorFound) throwErrors(errors);
+        if(errorFound) ErrorUtil.throwErrors(errors);
         return validProducts;
     }
 
@@ -98,7 +98,7 @@ public class ProductDto {
             }
         };
 
-        if(errorFound) throwErrors(errors);
+        if(errorFound) ErrorUtil.throwErrors(errors);
     }
 
     private void checkBarcodeAlreadyExists(List<ProductForm> forms) throws JsonProcessingException, ApiException {
@@ -117,13 +117,7 @@ public class ProductDto {
             else
                 errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), ""));
         };
-        if(errorFound) throwErrors(errors);
-    }
-
-    private void throwErrors(List<ProductFormErrorData> errors) throws ApiException, JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(errors);
-        throw new ApiException(json);
+        if(errorFound) ErrorUtil.throwErrors(errors);
     }
 
     public ProductData get(Integer id) throws ApiException {
