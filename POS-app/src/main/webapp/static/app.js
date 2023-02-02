@@ -12,19 +12,15 @@ var fileErrorMessages = [];
 function validateFileHeaders(json, headerColumns){
 	for(var i in headerColumns){
 		if(!json.hasOwnProperty(headerColumns[i])){
-			fileErrorMessages.push('Invalid file format. Please check the file and try again');
-			return false;
+			fileErrorMessages.push('File columns do not match. Please check the file and try again');
 		}
 	}
-	return true;
 }
 
 function validateFileLength(fileData, length){
 	if(fileData.length > length){
-		fileErrorMessages.push('File size exceeds the limit. Please check the file and try again');
-		return false;
+		fileErrorMessages.push('File contains more than ' + length + ' rows. Please decrease rows and try again');
 	}
-	return true;
 }
 
 function validateFile(fileData, headerColumns){
