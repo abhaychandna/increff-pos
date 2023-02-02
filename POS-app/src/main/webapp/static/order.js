@@ -179,6 +179,7 @@ function validateSellingPrice(sellingPrice){
 
 function addOrderItem(event) {
     var $form = $("#order-item-form");
+    if(validateFormHTML($form) == false)return;
     var json = toJson($form);
     var barcode = $("#order-item-form input[name=barcode]").val();
     var quantity = $("#order-item-form input[name=quantity]").val();
