@@ -62,8 +62,10 @@ function displayOrderItemViewList(data){
 	$tbody.empty();
 
     for(var i in data) {
-        var e = data[i];  
+        var e = data[i];
+        var rowNo = parseInt(i)+1;  
         var row = '<tr>'
+            + '<td>' + rowNo + '</td>'
             + '<td>' + data[i].barcode + '</td>'
             + '<td>'  + data[i].quantity + '</td>'
             + '<td>'  + data[i].sellingPrice + '</td>'
