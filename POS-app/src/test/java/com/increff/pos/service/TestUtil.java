@@ -155,9 +155,6 @@ public class TestUtil {
     }
     public void validateExceptionMessage(Exception exception, String expectedMessage) {
         String actualMessage = exception.getMessage();
-        System.out.println(expectedMessage);
-        System.out.println(actualMessage);
-
         assertEquals(expectedMessage, actualMessage);
     }
     
