@@ -35,4 +35,11 @@ public class OrderItemPojo extends AbstractPojo{
     public Double getCost() {
         return quantity * sellingPrice;
     }
+    public OrderItemPojo() {
+    }
+    public OrderItemPojo(Integer productId, Integer quantity, Double sellingPrice) {
+        this.productId = productId;
+        this.quantity = quantity;
+        this.sellingPrice = sellingPrice;
+    }
 }
