@@ -1,3 +1,6 @@
+
+var logoutRedirectUrl = "http://localhost:9000/pos";
+
 function truncateFloat(num, places) {
 	num = parseFloat(num);
 	return Math.trunc(num * Math.pow(10, places)) / Math.pow(10, places);
@@ -151,7 +154,7 @@ function logout(){
 		timer: timer,
 	});
 	setTimeout(function(){
-		window.location = "http://localhost:9000/pos";
+		window.location = logoutRedirectUrl;
 	}
 	, timer);
 }
