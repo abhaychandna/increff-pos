@@ -377,7 +377,6 @@ function init(){
 	$('#add-order-item').click(addOrderItem);
 	$('#place-order').click(placeOrder);
 	$('#refresh-data').click(getOrderList);
-    $('#something').click(displayOrderDetails);
     $('#Order-table').DataTable( {
 		"processing": true,
 		"serverSide": true,
