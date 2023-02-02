@@ -15,7 +15,7 @@
     <!-- Top row with form-->
     <div class="row">
         <div class="col-12">
-            <button type="button" class="btn btn-primary" id="add-order" th:if="${info.getRole() == 'supervisor'}">Add</button>
+            <button type="button" class="btn btn-primary" id="add-order">Add</button>
             &nbsp;
             <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
         </div>
@@ -145,6 +145,7 @@
                             <table class="table table-striped" id="order-view-table">
                                 <thead>
                                   <tr>
+                                    <th scope="col">S.No.</th>
                                     <th scope="col">Barcode</th>
                                     <th scope="col">Quantity</th>
                                     <th scope="col">Selling Price</th>
@@ -152,6 +153,7 @@
                                 </thead>
                                 <tbody>
                                   <tr>
+                                    <td>1</td>
                                     <td>Sample Data</td>
                                     <td>0</td>
                                     <td>ABCXYZ</td>
