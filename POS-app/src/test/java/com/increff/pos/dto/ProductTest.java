@@ -30,8 +30,6 @@ public class ProductTest extends AbstractUnitTest{
     @Autowired
     private TestUtil testUtil;
     
-    private Double tolerance = 1e-6;
-    
     private static String brand;
     private static String category;
     private static String barcode;
@@ -56,7 +54,7 @@ public class ProductTest extends AbstractUnitTest{
         assertEquals(brandData.getId(), product.getBrandCategory());
         assertEquals(barcode, product.getBarcode());
         assertEquals(name, product.getName());
-        assertEquals(mrp, product.getMrp(), tolerance);
+        assertEquals(mrp, product.getMrp());
     }
 
     @Test
@@ -69,7 +67,7 @@ public class ProductTest extends AbstractUnitTest{
         assertEquals(brandData.getId(), product.getBrandCategory());
         assertEquals(barcode, product.getBarcode());
         assertEquals(name, product.getName());
-        assertEquals(mrp, product.getMrp(), tolerance);
+        assertEquals(mrp, product.getMrp());
     }
 
     @Test
@@ -82,7 +80,7 @@ public class ProductTest extends AbstractUnitTest{
         assertEquals(brandData.getId(), product.getBrandCategory());
         assertEquals(barcode, product.getBarcode());
         assertEquals(name, product.getName());
-        assertEquals(mrp, product.getMrp(), tolerance);
+        assertEquals(mrp, product.getMrp());
     }
 
     @Test
@@ -156,7 +154,7 @@ public class ProductTest extends AbstractUnitTest{
         assertEquals(category, productData.getCategory());
         assertEquals(product.getBarcode(), productData.getBarcode());
         assertEquals(product.getName(), productData.getName());
-        assertEquals(product.getMrp(), productData.getMrp(), tolerance);
+        assertEquals(product.getMrp(), productData.getMrp());
     }
 
     @Test
@@ -182,7 +180,7 @@ public class ProductTest extends AbstractUnitTest{
         productData = productDto.get(product.getId());
         assertEquals(product.getId(), productData.getId());
         assertEquals(newName, productData.getName());
-        assertEquals(newMrp, productData.getMrp(), tolerance);
+        assertEquals(newMrp, productData.getMrp());
     }
 
     @Test
@@ -195,7 +193,7 @@ public class ProductTest extends AbstractUnitTest{
         assertEquals(category, productData.getCategory());
         assertEquals(product.getBarcode(), productData.getBarcode());
         assertEquals(product.getName(), productData.getName());
-        assertEquals(product.getMrp(), productData.getMrp(), tolerance);
+        assertEquals(product.getMrp(), productData.getMrp());
     }
 
 
