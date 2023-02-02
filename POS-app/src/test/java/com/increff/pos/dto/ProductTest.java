@@ -60,6 +60,68 @@ public class ProductTest extends AbstractUnitTest{
     }
 
     @Test
+    public void testNormalizeUppercaseToLowercase() throws ApiException {
+        BrandData brandData = testUtil.createBrand(brand, category);
+        String newBrand = brand.toUpperCase(), newCategory = category.toUpperCase();
+        ProductData productData = productDto.add(testUtil.getProductFormDto(barcode,newBrand,newCategory,name,mrp)); 
+        
+        ProductPojo product = productDao.select(ProductPojo.class, productData.getId());
+        assertEquals(brandData.getId(), product.getBrandCategory());
+        assertEquals(barcode, product.getBarcode());
+        assertEquals(name, product.getName());
+        assertEquals(mrp, product.getMrp(), tolerance);
+    }
+
+    @Test
+    public void testNormalizeTrim() throws ApiException {
+        BrandData brandData = testUtil.createBrand(brand, category);
+        String newBrand = " " + brand + " ", newCategory = " " + category + " ";
+        ProductData productData = productDto.add(testUtil.getProductFormDto(barcode,newBrand,newCategory,name,mrp)); 
+        
+        ProductPojo product = productDao.select(ProductPojo.class, productData.getId());
+        assertEquals(brandData.getId(), product.getBrandCategory());
+        assertEquals(barcode, product.getBarcode());
+        assertEquals(name, product.getName());
+        assertEquals(mrp, product.getMrp(), tolerance);
+    }
+
+    @Test
+    public void testValidateEmptyBrand() throws ApiException{
+        ProductForm productForm = testUtil.getProductFormDto(barcode,"",category,name,mrp);
+        try{
+            productDto.add(productForm);
+        }
+        catch(ApiException e){
+            return;
+        }
+        fail();
+    }
+
+    @Test
+    public void testValidateEmptyName() throws ApiException{
+        ProductForm productForm = testUtil.getProductFormDto(barcode,brand,category,"",mrp);
+        try{
+            productDto.add(productForm);
+        }
+        catch(ApiException e){
+            return;
+        }
+        fail();
+    }
+
+    @Test
+    public void testValidateEmptyMrp() throws ApiException{
+        ProductForm productForm = testUtil.getProductFormDto(barcode,brand,category,name,null);
+        try{
+            productDto.add(productForm);
+        }
+        catch(ApiException e){
+            return;
+        }
+        fail();
+    }
+
+    @Test
     public void testAddBrandCategoryDoesNotExist() throws ApiException{
         ProductForm productForm = testUtil.getProductFormDto(barcode,brand,category,name,mrp);
         try{
