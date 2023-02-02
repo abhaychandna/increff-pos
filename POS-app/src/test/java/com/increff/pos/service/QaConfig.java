@@ -1,5 +1,10 @@
 package com.increff.pos.service;
 
+import java.util.TimeZone;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
@@ -19,5 +24,12 @@ import com.increff.pos.spring.SpringConfig;
 })
 public class QaConfig {
 
+	@Value("${server.timezone}")
+	private String serverTimezone;
+
+	@PostConstruct
+	public void init() {
+		TimeZone.setDefault(TimeZone.getTimeZone(serverTimezone));
+	}
 
 }
