@@ -27,4 +27,13 @@ public class DaySalesPojo extends AbstractPojo{
     private Integer invoicedItemsCount;
     @Column(name="totalRevenue", nullable=false)
     private Double totalRevenue;
+
+    public DaySalesPojo() {
+    }
+    public DaySalesPojo(ZonedDateTime date, Integer invoicedOrdersCount, Integer invoicedItemsCount, Double totalRevenue) {
+        this.date = date;
+        this.invoicedOrdersCount = invoicedOrdersCount;
+        this.invoicedItemsCount = invoicedItemsCount;
+        this.totalRevenue = totalRevenue;
+    }
 }
