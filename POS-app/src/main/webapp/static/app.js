@@ -19,12 +19,20 @@ function validateFileHeaders(json, headerColumns){
 	return true;
 }
 
+function validateFileLength(fileData, length){
+	if(fileData.length > length){
+		fileErrorMessages.push('File size exceeds the limit. Please check the file and try again');
+		return false;
+	}
+	return true;
+}
 
 function validateFile(fileData, headerColumns){
 	fileErrorMessages = [];
 	var maxRowCount = 3;
 	var json = fileData[0];
 	validateFileHeaders(json, headerColumns);
+	validateFileLength(fileData, maxRowCount);
 	if(fileErrorMessages.length > 0){
 		raiseAlert('Error', fileErrorMessages.join('<br>'), 'error');
 		return false;
