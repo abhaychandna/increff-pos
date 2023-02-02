@@ -32,6 +32,17 @@ public class DaySalesService {
 		return dao.insert(daySales);
 	}
 
+	public DaySalesPojo add(DaySalesPojo daySales) throws ApiException {
+		DaySalesPojo existing = dao.select(DaySalesPojo.class, daySales.getDate());
+		if(Objects.isNull(existing)) {
+			return dao.insert(daySales);
+		}
+		existing.setInvoicedItemsCount(daySales.getInvoicedItemsCount());
+		existing.setInvoicedOrdersCount(daySales.getInvoicedOrdersCount());
+		existing.setTotalRevenue(daySales.getTotalRevenue());
+		return existing;
+	}
+
 	public DaySalesPojo update(List<OrderItemPojo> items) throws ApiException {
 		ZonedDateTime date = getCurrentZonedDateWithoutTime();
 		DaySalesPojo daySales = dao.select(DaySalesPojo.class, date);
