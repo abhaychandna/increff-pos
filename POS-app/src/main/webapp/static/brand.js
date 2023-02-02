@@ -109,6 +109,12 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results.data;
+	var headerColumns = ["brand", "category"];
+	if (validateFileHeaders(fileData[0], headerColumns) == false){
+		raiseAlert('Error', 'Invalid file format. Please check the file and try again', 'error');
+		resetUploadDialog();
+		return;
+	}
 	uploadRows();
 }
 

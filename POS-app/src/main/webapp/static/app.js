@@ -7,6 +7,15 @@ function validateFormHTML($form){
 	return $form[0].reportValidity();
 }
 
+function validateFileHeaders(json, headerColumns){
+	for(var i in headerColumns){
+		if(!json.hasOwnProperty(headerColumns[i])){
+			return false;
+		}
+	}
+	return true;
+}
+
 function resetForm(formSelector){
 	//Reset form values
 	var $form = $(formSelector);
@@ -19,7 +28,8 @@ function toggleModal(modalSelector){
 function raiseAlert(title, text, icon){
 	if(typeof title === 'object'){
 		var obj = title;
-		text = obj.html;
+		if (obj.text != null) text = obj.text;
+		if (obj.html != null) text = obj.html;
 		icon = obj.icon;
 		title = obj.title;
 	}
@@ -28,14 +38,14 @@ function raiseAlert(title, text, icon){
 		Swal.fire({
 			icon: icon,
 			title: title,
-			text: text,
+			html: text,
 		})
 	}
 	else if (icon == 'success'){
 		Swal.fire({
 			icon: icon,
 			title: title,
-			text: text,
+			html: text,
 			timer: 1000,
 		})
 	}
