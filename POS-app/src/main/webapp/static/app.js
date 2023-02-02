@@ -7,11 +7,27 @@ function validateFormHTML($form){
 	return $form[0].reportValidity();
 }
 
+var fileErrorMessages = [];
+
 function validateFileHeaders(json, headerColumns){
 	for(var i in headerColumns){
 		if(!json.hasOwnProperty(headerColumns[i])){
+			fileErrorMessages.push('Invalid file format. Please check the file and try again');
 			return false;
 		}
+	}
+	return true;
+}
+
+
+function validateFile(fileData, headerColumns){
+	fileErrorMessages = [];
+	var maxRowCount = 3;
+	var json = fileData[0];
+	validateFileHeaders(json, headerColumns);
+	if(fileErrorMessages.length > 0){
+		raiseAlert('Error', fileErrorMessages.join('<br>'), 'error');
+		return false;
 	}
 	return true;
 }
