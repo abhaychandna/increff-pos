@@ -11,4 +11,13 @@ public class DaySalesData {
 	Integer invoicedItemsCount;
 	Integer invoicedOrdersCount;
 	Double totalRevenue;
+	
+	public DaySalesData() {
+	}
+	public DaySalesData(ZonedDateTime date, Integer invoicedItemsCount, Integer invoicedOrdersCount, Double totalRevenue) {
+		this.date = date;
+		this.invoicedItemsCount = invoicedItemsCount;
+		this.invoicedOrdersCount = invoicedOrdersCount;
+		this.totalRevenue = totalRevenue;
+	}
 }
