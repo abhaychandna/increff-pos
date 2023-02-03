@@ -133,7 +133,7 @@ public class ProductTest extends AbstractUnitTest{
 
     @Test
     public void testDuplicateBarcode() throws ApiException{
-        testUtil.createProductWithBrand(barcode, brand, category, name, mrp);
+        testUtil.createProductCascade(barcode, brand, category, name, mrp);
         ProductForm productForm = testUtil.getProductFormDto(barcode,brand,category,name,mrp);
         try{
             productDto.add(productForm);
@@ -146,7 +146,7 @@ public class ProductTest extends AbstractUnitTest{
     
     @Test
     public void testGet() throws ApiException {
-        ProductPojo product = testUtil.createProductWithBrand(barcode, brand, category, name, mrp);
+        ProductPojo product = testUtil.createProductCascade(barcode, brand, category, name, mrp);
         ProductData productData = productDto.get(product.getId());
         
         assertEquals(product.getId(), productData.getId());
@@ -159,7 +159,7 @@ public class ProductTest extends AbstractUnitTest{
 
     @Test
     public void testGetAll() throws ApiException {
-        testUtil.createProductWithBrand(barcode, brand, category, name, mrp);
+        testUtil.createProductCascade(barcode, brand, category, name, mrp);
         
         testUtil.createProduct("abcdef13", brand, category, name, mrp);
         PaginatedData<ProductData> d = productDto.getAll(0,10, 1);
@@ -168,7 +168,7 @@ public class ProductTest extends AbstractUnitTest{
 
     @Test
     public void testUpdate() throws ApiException {
-        ProductPojo product = testUtil.createProductWithBrand(barcode, brand, category, name, mrp);
+        ProductPojo product = testUtil.createProductCascade(barcode, brand, category, name, mrp);
         ProductData productData = productDto.get(product.getId());
         
         String newName = "polo";
@@ -185,7 +185,7 @@ public class ProductTest extends AbstractUnitTest{
 
     @Test
     public void testGetByBarcode() throws ApiException {
-        ProductPojo product = testUtil.createProductWithBrand(barcode, brand, category, name, mrp);
+        ProductPojo product = testUtil.createProductCascade(barcode, brand, category, name, mrp);
         ProductData productData = productDto.getByBarcode(product.getBarcode());
         
         assertEquals(product.getId(), productData.getId());

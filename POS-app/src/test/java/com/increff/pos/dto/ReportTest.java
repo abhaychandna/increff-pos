@@ -48,10 +48,10 @@ public class ReportTest extends AbstractUnitTest {
         quantity2 = 2;
         sellingPrice1 = 1.11;
         sellingPrice2 = 2.22;
-        testUtil.createInventory(barcode, brand, category, name, mrp, quantity);
+        testUtil.createInventoryCascade(barcode, brand, category, name, mrp, quantity);
         barcode2 = "abcdef13";
         testUtil.createProduct(barcode2, brand, category, name, mrp);
-        testUtil.createInventorySingle(barcode2, quantity);
+        testUtil.createInventory(barcode2, quantity);
 
         orderItemForm = new OrderItemForm(barcode, quantity1, sellingPrice1);
         orderItemForm2 = new OrderItemForm(barcode2, quantity2, sellingPrice2);

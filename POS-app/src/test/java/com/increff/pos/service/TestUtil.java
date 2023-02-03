@@ -52,7 +52,7 @@ public class TestUtil {
     @Autowired
     private UserDao userDao;
 
-    public ProductPojo createProductWithBrand(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
+    public ProductPojo createProductCascade(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
         createBrand(brand, category);
         ProductPojo p = createProduct(barcode, brand, category, name, mrp);
         return p;
@@ -72,11 +72,11 @@ public class TestUtil {
         return productDao.insert(product);
     }
 
-    public InventoryPojo createInventory(String barcode, String brand, String category, String name, Double mrp, Integer quantity) throws ApiException {
-        createProductWithBrand(barcode, brand, category, name, mrp);
-        return createInventorySingle(barcode, quantity);
+    public InventoryPojo createInventoryCascade(String barcode, String brand, String category, String name, Double mrp, Integer quantity) throws ApiException {
+        createProductCascade(barcode, brand, category, name, mrp);
+        return createInventory(barcode, quantity);
     }
-    public InventoryPojo createInventorySingle(String barcode, Integer quantity) throws ApiException {
+    public InventoryPojo createInventory(String barcode, Integer quantity) throws ApiException {
         InventoryPojo inventory = new InventoryPojo(quantity);
         inventory.setProductId(productDao.selectByColumn(ProductPojo.class, "barcode", barcode).getId());
         return inventoryDao.insert(inventory);

@@ -35,12 +35,12 @@ public class InventoryServiceTest extends AbstractUnitTest {
         name = "polo";
         mrp = 100.0;
         quantity = 10;
-        testUtil.createProductWithBrand(barcode, brand, category, name, mrp);
+        testUtil.createProductCascade(barcode, brand, category, name, mrp);
     }
 
     @Test
     public void testAddInventory() throws ApiException {
-        InventoryPojo inventory = testUtil.createInventorySingle(barcode, quantity);
+        InventoryPojo inventory = testUtil.createInventory(barcode, quantity);
         ProductPojo product = productService.getByBarcode(barcode);
         inventory = inventoryDao.select(InventoryPojo.class, inventory.getProductId());
         assertEquals(product.getId(), inventory.getProductId());
@@ -49,7 +49,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
     @Test
     public void testGetInventory() throws ApiException {
-        InventoryPojo inventory = testUtil.createInventorySingle(barcode, quantity);
+        InventoryPojo inventory = testUtil.createInventory(barcode, quantity);
         ProductPojo product = productService.getByBarcode(barcode);
         inventory = inventoryService.get(inventory.getProductId());
         assertEquals(product.getId(), inventory.getProductId());
@@ -58,7 +58,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
     @Test
     public void testUpdateInventory() throws ApiException {
-        InventoryPojo inventory = testUtil.createInventorySingle(barcode, quantity);
+        InventoryPojo inventory = testUtil.createInventory(barcode, quantity);
         ProductPojo product = productService.getByBarcode(barcode);
         Integer newQuantity = quantity + 5;
         inventory.setQuantity(newQuantity);
@@ -70,16 +70,16 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
     @Test
     public void testGetRecordsCount() throws ApiException {
-        testUtil.createInventorySingle(barcode, quantity);
-        testUtil.createInventory("barcode2", brand, category, name, mrp, quantity);
-        testUtil.createInventory("barcode3", brand, category, name, mrp, quantity);
+        testUtil.createInventory(barcode, quantity);
+        testUtil.createInventoryCascade("barcode2", brand, category, name, mrp, quantity);
+        testUtil.createInventoryCascade("barcode3", brand, category, name, mrp, quantity);
         Integer count = inventoryService.getRecordsCount();
         assertEquals(3, count);
     }
 
     @Test
     public void testAddInventoryExisting_thenIncreaseQuantity() throws ApiException {
-        InventoryPojo inventory = testUtil.createInventorySingle(barcode, quantity);
+        InventoryPojo inventory = testUtil.createInventory(barcode, quantity);
         ProductPojo product = productService.getByBarcode(barcode);
         Integer newQuantity = 15;
         InventoryPojo newInventory = new InventoryPojo(newQuantity);
@@ -93,7 +93,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
     @Test
     public void testReduceInventory() throws ApiException {
-        InventoryPojo inventory = testUtil.createInventorySingle(barcode, quantity);
+        InventoryPojo inventory = testUtil.createInventory(barcode, quantity);
         ProductPojo product = productService.getByBarcode(barcode);
         Integer reduce = 1;
         inventoryService.reduceInventory(product.getId(), reduce);
@@ -104,7 +104,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
     @Test
     public void testReduceInventoryInsufficientQuantity() throws ApiException {
-        InventoryPojo inventory = testUtil.createInventorySingle(barcode, quantity);
+        InventoryPojo inventory = testUtil.createInventory(barcode, quantity);
         ProductPojo product = productService.getByBarcode(barcode);
         Integer reduce = quantity+1;
         String expectedMessage = "Insufficient inventory for productId: " + product.getId() + ". Available: " + inventory.getQuantity() + ", Required: " + reduce;
