@@ -112,7 +112,7 @@ function readFileDataCallback(results){
 function uploadRows(){
 	var url = getInventoryUrl() + "/bulk-add";
 	var jsonData = JSON.stringify(fileData);
-	// TODO : Add file upload limit
+
 	$.ajax({
 		url: url,
 		type: 'POST',
