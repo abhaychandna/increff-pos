@@ -24,8 +24,6 @@ public class OrderService {
 	private InventoryService inventoryService;
 	@Autowired
 	private OrderItemService orderItemService;
-	@Autowired
-	private DaySalesService daySalesService;
 
 	public List<OrderItemPojo> add(List<OrderItemPojo> items) throws ApiException {
 		if(items.isEmpty()) throw new ApiException("No items in order");		
@@ -39,8 +37,6 @@ public class OrderService {
 			item.setOrderId(order.getId());
 		}
 		orderItemService.add(items);
-		
-		daySalesService.update(items);
 		return items;
 	}
 
