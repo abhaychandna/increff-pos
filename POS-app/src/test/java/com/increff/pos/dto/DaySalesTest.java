@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,21 +25,21 @@ public class DaySalesTest extends AbstractUnitTest {
     @Autowired
     private TestUtil testUtil;
 
-    private static String brand;
-    private static String category;
-    private static String barcode;
-    private static String name;
-    private static Double mrp;
-    private static Integer quantity1;
-    private static Integer quantity2;
-    private static String barcode2; 
-    private static OrderItemForm orderItemForm;
-    private static OrderItemForm orderItemForm2;
-    private static List<OrderItemForm> orderItemFormList;
-    private static Double sellingPrice1;
-    private static Double sellingPrice2;
-    @BeforeClass
-    public static void init() throws ApiException {
+    private String brand;
+    private String category;
+    private String barcode;
+    private String name;
+    private Double mrp;
+    private Integer quantity1;
+    private Integer quantity2;
+    private String barcode2; 
+    private OrderItemForm orderItemForm;
+    private OrderItemForm orderItemForm2;
+    private List<OrderItemForm> orderItemFormList;
+    private Double sellingPrice1;
+    private Double sellingPrice2;
+    @Before
+    public void init() throws ApiException {
         brand = "adidas";
         category = "tshirts";
         barcode = "abcdef12";
@@ -49,9 +49,7 @@ public class DaySalesTest extends AbstractUnitTest {
         quantity2 = 20;
         sellingPrice1 = 1.11;
         sellingPrice2 = 2.22;
-    }
-
-    private void setup() throws ApiException{
+        
         testUtil.createInventory(barcode, brand, category, name, mrp, quantity1);
         barcode2 = "abcdef13";
         testUtil.createProduct(barcode2, brand, category, name, mrp);
@@ -62,6 +60,10 @@ public class DaySalesTest extends AbstractUnitTest {
         orderItemFormList = List.of(orderItemForm, orderItemForm2);        
         
         testUtil.createOrder(orderItemFormList);
+    }
+
+    private void setup() throws ApiException{
+
     }
 
     @Test

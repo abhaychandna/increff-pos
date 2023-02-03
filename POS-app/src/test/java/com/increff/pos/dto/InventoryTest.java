@@ -6,7 +6,7 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,14 +28,14 @@ public class InventoryTest extends AbstractUnitTest {
     @Autowired
     private TestUtil testUtil;
 
-    private static String brand;
-    private static String category;
-    private static String barcode;
-    private static String name;
-    private static Double mrp;
-    private static Integer quantity;
-    @BeforeClass
-    public static void init() throws ApiException {
+    private String brand;
+    private String category;
+    private String barcode;
+    private String name;
+    private Double mrp;
+    private Integer quantity;
+    @Before
+    public void init() throws ApiException {
         brand = "adidas";
         category = "tshirts";
         barcode = "abcdef12";

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,39 +22,45 @@ public class ReportTest extends AbstractUnitTest {
     @Autowired
     private TestUtil testUtil;
 
-    private static String brand;
-    private static String category;
-    private static String barcode;
-    private static String name;
-    private static Double mrp;
-    private static Integer quantity;
-    private static String barcode2; 
-    private static OrderItemForm orderItemForm;
-    private static OrderItemForm orderItemForm2;
-    private static List<OrderItemForm> orderItemFormList;
-    private static Double sellingPrice;
-    @BeforeClass
-    public static void init() throws ApiException {
+    private String brand;
+    private String category;
+    private String barcode;
+    private String name;
+    private Double mrp;
+    private Integer quantity;
+    private String barcode2; 
+    private OrderItemForm orderItemForm;
+    private OrderItemForm orderItemForm2;
+    private List<OrderItemForm> orderItemFormList;
+    private Double sellingPrice1;
+    private Integer quantity1;
+    private Double sellingPrice2;
+    private Integer quantity2;
+    @Before
+    public void init() throws ApiException {
         brand = "adidas";
         category = "tshirts";
         barcode = "abcdef12";
         name = "polo";
         mrp = 100.0;
         quantity = 10;
-        sellingPrice = 1.11;
-    }
-
-    private void setup() throws ApiException{
-        // QUES : Moving this in the init() method causes the test to fail
+        quantity1 = 1;
+        quantity2 = 2;
+        sellingPrice1 = 1.11;
+        sellingPrice2 = 2.22;
         testUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         barcode2 = "abcdef13";
         testUtil.createProduct(barcode2, brand, category, name, mrp);
         testUtil.createInventorySingle(barcode2, quantity);
 
-        orderItemForm = new OrderItemForm(barcode, 1, 1.11);
-        orderItemForm2 = new OrderItemForm(barcode2, 2, 2.22);
+        orderItemForm = new OrderItemForm(barcode, quantity1, sellingPrice1);
+        orderItemForm2 = new OrderItemForm(barcode2, quantity2, sellingPrice2);
         orderItemFormList = List.of(orderItemForm, orderItemForm2);
         testUtil.createOrder(orderItemFormList);
+    }
+
+    private void setup() throws ApiException{
+
     }
 
     @Test
