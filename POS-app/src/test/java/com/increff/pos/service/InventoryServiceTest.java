@@ -71,8 +71,11 @@ public class InventoryServiceTest extends AbstractUnitTest {
     @Test
     public void testGetRecordsCount() throws ApiException {
         testUtil.createInventory(barcode, quantity);
-        testUtil.createInventoryCascade("barcode2", brand, category, name, mrp, quantity);
-        testUtil.createInventoryCascade("barcode3", brand, category, name, mrp, quantity);
+        String barcode2 = "barcode2", barcode3 = "barcode3";
+        testUtil.createProduct(barcode2, brand, category, name, mrp);
+        testUtil.createProduct(barcode3, brand, category, name, mrp);
+        testUtil.createInventory(barcode2, quantity);
+        testUtil.createInventory(barcode3, quantity);
         Integer count = inventoryService.getRecordsCount();
         assertEquals(3, count);
     }

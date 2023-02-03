@@ -154,7 +154,9 @@ public class InventoryTest extends AbstractUnitTest {
     @Test
     public void testGetAll() throws ApiException {
         testUtil.createInventoryCascade(barcode, brand, category, name, mrp, quantity);
-        testUtil.createInventoryCascade("abcdef13", brand, category, name, mrp, quantity);
+        String newBarcode = "abcdef13";
+        testUtil.createProduct(newBarcode, brand, category, name, mrp);
+        testUtil.createInventory(newBarcode, quantity);
         assertEquals(2, inventoryDto.getAll(0, 10, 1).getData().size());
     }
 
@@ -175,8 +177,8 @@ public class InventoryTest extends AbstractUnitTest {
         String name = "polo";
         Double mrp = 100.0;
         testUtil.createProductCascade(barcode1, brand, category, name, mrp);
-        testUtil.createProductCascade(barcode2, brand, category, name, mrp);
-        testUtil.createProductCascade(barcode3, brand, category, name, mrp);
+        testUtil.createProduct(barcode2, brand, category, name, mrp);
+        testUtil.createProduct(barcode3, brand, category, name, mrp);
         
         List<InventoryForm> inventoryForms = new ArrayList<>();
         inventoryForms.add(testUtil.getInventoryFormDto(barcode1, quantity));
@@ -196,8 +198,8 @@ public class InventoryTest extends AbstractUnitTest {
         String name = "polo";
         Double mrp = 100.0;
         testUtil.createProductCascade(barcode1, brand, category, name, mrp);
-        testUtil.createProductCascade(barcode2, brand, category, name, mrp);
-        testUtil.createProductCascade(barcode3, brand, category, name, mrp);
+        testUtil.createProduct(barcode2, brand, category, name, mrp);
+        testUtil.createProduct(barcode3, brand, category, name, mrp);
         testUtil.createInventory(barcode3, quantity);
 
         List<InventoryForm> inventoryForms = new ArrayList<>();
