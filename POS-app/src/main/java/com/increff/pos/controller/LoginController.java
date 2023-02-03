@@ -40,7 +40,7 @@ public class LoginController {
 	}
 
 	@ApiOperation(value = "Signs up a user")
-	@RequestMapping(path = "/signup", method = RequestMethod.POST)
+	@RequestMapping(path = "/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView signup(HttpServletRequest req, SignupForm form) throws ApiException {
 		return dto.signup(req, form);
 	}	
