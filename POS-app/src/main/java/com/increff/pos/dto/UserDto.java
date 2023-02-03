@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,6 +31,8 @@ public class UserDto {
 	private InfoData info;
     @Autowired
     private UserService userService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 
     public ModelAndView signup(HttpServletRequest request, SignupForm form) throws ApiException {
@@ -48,7 +51,7 @@ public class UserDto {
 
     public ModelAndView login(HttpServletRequest request, LoginForm form) throws ApiException {
 		UserPojo user = userService.get(form.getEmail());
-		boolean authenticated = (Objects.nonNull(user) && Objects.equals(user.getPassword(), form.getPassword()));
+		boolean authenticated = (Objects.nonNull(user) && passwordEncoder.matches(form.getPassword(), user.getPassword()));
 		if (!authenticated) {
 			info.setMessage("Invalid username or password");
 			return new ModelAndView("redirect:/site/login");

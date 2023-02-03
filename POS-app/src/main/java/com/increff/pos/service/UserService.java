@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.increff.pos.dao.UserDao;
@@ -16,7 +17,8 @@ import com.increff.pos.pojo.UserPojo;
 @Service
 @Transactional(rollbackOn = ApiException.class)
 public class UserService {
-
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@Autowired
 	private UserDao dao;
 	@Value("${supervisorEmail}")
@@ -27,6 +29,7 @@ public class UserService {
 		if (Objects.nonNull(existing)) {
 			throw new ApiException("User already exists");
 		}
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRole(isSupervisor(user.getEmail()) ? Role.supervisor : Role.operator);
 		dao.insert(user);
 	}
