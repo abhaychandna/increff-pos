@@ -1,6 +1,4 @@
 package com.increff.pos.model;
-import java.time.ZonedDateTime;
-
 import lombok.Getter;
 import lombok.Setter;
 
