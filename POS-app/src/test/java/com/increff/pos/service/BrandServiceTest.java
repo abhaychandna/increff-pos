@@ -14,11 +14,11 @@ public class BrandServiceTest extends AbstractUnitTest {
     private BrandService svc;
     @Autowired
     private TestUtil testUtil;
+    
     private String brand;
     private String category;
-
     @Before
-    public void setup() throws ApiException {
+    public void init() throws ApiException {
         brand = "adidas";
         category = "tshirts";
     }

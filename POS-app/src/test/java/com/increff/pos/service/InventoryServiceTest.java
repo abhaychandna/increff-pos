@@ -21,12 +21,12 @@ public class InventoryServiceTest extends AbstractUnitTest {
     @Autowired
     private TestUtil testUtil;
     
-    private static String brand;
-    private static String category;
-    private static String barcode;
-    private static String name;
-    private static Double mrp;
-    private static Integer quantity;
+    private String brand;
+    private String category;
+    private String barcode;
+    private String name;
+    private Double mrp;
+    private Integer quantity;
     @Before
     public void init() throws ApiException {
         brand = "adidas";

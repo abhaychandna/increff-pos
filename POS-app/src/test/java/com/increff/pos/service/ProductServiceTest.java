@@ -3,7 +3,7 @@ package com.increff.pos.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,13 +19,13 @@ public class ProductServiceTest extends AbstractUnitTest {
     @Autowired
     private TestUtil testUtil;
 
-    private static String brand;
-    private static String category;
-    private static String barcode;
-    private static String name;
-    private static Double mrp;
-    @BeforeClass
-    public static void init() throws ApiException{
+    private String brand;
+    private String category;
+    private String barcode;
+    private String name;
+    private Double mrp;
+    @Before
+    public void init() throws ApiException{
         brand = "adidas";
         category = "tshirts";
         barcode = "abcdef12";

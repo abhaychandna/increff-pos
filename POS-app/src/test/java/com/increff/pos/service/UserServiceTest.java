@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,10 +23,10 @@ public class UserServiceTest extends AbstractUnitTest {
     @Value("${supervisorEmail}")
     private String supervisorEmail;
 
-    private static String email;
-    private static String password;
-    @BeforeClass
-    public static void init() throws ApiException {
+    private String email;
+    private String password;
+    @Before
+    public void init() throws ApiException {
         email = "test@test.com";
         password = "testPassword";
     }
