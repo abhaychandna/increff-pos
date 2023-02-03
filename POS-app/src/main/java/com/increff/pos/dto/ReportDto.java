@@ -148,7 +148,7 @@ public class ReportDto {
         return orderService.filterByDate(startDate, endDate).stream().map(OrderPojo::getId).collect(Collectors.toList());
     }
 
-    private List<OrderItemPojo> getOrderItems(ZonedDateTime startDate, ZonedDateTime endDate, List<Integer> productIds){
+    private List<OrderItemPojo> getOrderItems(ZonedDateTime startDate, ZonedDateTime endDate, List<Integer> productIds) throws ApiException{
         List<Integer> orderIds = getOrderIds(startDate, endDate);
         List<String> columns = Arrays.asList("orderId", "productId");
         List<List<Object>> values = Arrays.asList(
