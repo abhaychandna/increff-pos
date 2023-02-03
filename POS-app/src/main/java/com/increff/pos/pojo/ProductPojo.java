@@ -23,7 +23,7 @@ import lombok.Setter;
      }
 )
 @Entity
-public class ProductPojo {
+public class ProductPojo extends AbstractPojo {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

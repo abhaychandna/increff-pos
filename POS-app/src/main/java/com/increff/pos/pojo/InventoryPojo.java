@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class InventoryPojo {
+public class InventoryPojo extends AbstractPojo{
 
 	@Id
 	@Column(name="id", nullable=false)

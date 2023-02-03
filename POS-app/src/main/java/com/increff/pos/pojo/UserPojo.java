@@ -16,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class UserPojo {
+public class UserPojo extends AbstractPojo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

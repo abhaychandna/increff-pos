@@ -22,7 +22,7 @@ import lombok.Setter;
 }
 )
 @Entity
-public class BrandPojo {
+public class BrandPojo extends AbstractPojo {
     @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id", nullable=false)
