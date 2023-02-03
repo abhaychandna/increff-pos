@@ -237,12 +237,11 @@
 				<configuration>
 					<excludes>
 						<exclude>com/increff/pos/controller/*</exclude>
-						<exclude>com/increff/pos/model/data/*</exclude>
-						<exclude>com/increff/pos/model/form/*</exclude>
 						<exclude>com/increff/pos/spring/*</exclude>
 						<exclude>com/increff/pos/dao/*</exclude>
 						<exclude>com/increff/pos/pojo/*</exclude>
 						<exclude>com/increff/pos/util/*</exclude>
+						<exclude>com/increff/pos/model/*</exclude>
 					</excludes>
 				 </configuration>
 				<executions>
