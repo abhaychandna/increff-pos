@@ -79,16 +79,16 @@ public class OrderServiceTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGet() throws ApiException {
+    public void testGetCheck() throws ApiException {
         orderService.add(orderItemPojoList);
-        OrderPojo order = orderService.get(orderItemPojoList.get(0).getOrderId());
+        OrderPojo order = orderService.getCheck(orderItemPojoList.get(0).getOrderId());
         assertEquals(orderItemPojoList.get(0).getOrderId(), order.getId());
     }
 
     @Test
     public void testFilterByDate() throws ApiException {
         orderService.add(orderItemPojoList);
-        OrderPojo order = orderService.get(orderItemPojoList.get(0).getOrderId());
+        OrderPojo order = orderService.getCheck(orderItemPojoList.get(0).getOrderId());
         ZonedDateTime date = order.getTime();
         ZonedDateTime dateMinus1 = date.minusDays(1);
         ZonedDateTime datePlus1 = date.plusDays(1);
@@ -96,7 +96,7 @@ public class OrderServiceTest extends AbstractUnitTest {
         assertEquals(1, orderList.size());
 
         orderService.add(orderItemPojoList);
-        order = orderService.get(orderItemPojoList.get(0).getOrderId());
+        order = orderService.getCheck(orderItemPojoList.get(0).getOrderId());
         ZonedDateTime nextDate = order.getTime();
         ZonedDateTime nextDateMinus1 = nextDate.minusDays(1);
         ZonedDateTime nextDatePlus1 = nextDate.plusDays(1);
@@ -111,7 +111,7 @@ public class OrderServiceTest extends AbstractUnitTest {
         Integer id = 1;
         String expectedMessage = "Order does not exist with id: " +  id;
         Exception exception = assertThrows(ApiException.class, () -> {
-            orderService.get(id);
+            orderService.getCheck(id);
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }
@@ -121,7 +121,7 @@ public class OrderServiceTest extends AbstractUnitTest {
         Integer id = 1;
         String expectedMessage = "Order does not exist with id: " +  id;
         Exception exception = assertThrows(ApiException.class, () -> {
-            orderService.get(id);
+            orderService.getCheck(id);
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }

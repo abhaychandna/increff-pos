@@ -46,11 +46,11 @@ public class ProductServiceTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGet() throws ApiException {
+    public void testGetCheck() throws ApiException {
         BrandData brandData = testUtil.createBrand(brand, category);
         ProductPojo product = new ProductPojo(barcode, brandData.getId(), name, mrp);
         productService.add(product);
-        product = productService.get(product.getId());
+        product = productService.getCheck(product.getId());
         assertEquals(brandData.getId(), product.getBrandCategory());
         assertEquals(barcode, product.getBarcode());
         assertEquals(name, product.getName());
@@ -62,14 +62,14 @@ public class ProductServiceTest extends AbstractUnitTest {
         BrandData brandData = testUtil.createBrand(brand, category);
         ProductPojo product = new ProductPojo(barcode, brandData.getId(), name, mrp);
         productService.add(product);
-        product = productService.get(product.getId());
+        product = productService.getCheck(product.getId());
 
         Double newMrp = 200.5;
         String newName = "polo tshirt";
         product.setMrp(newMrp);
         product.setName(newName);
         productService.update(product.getId(), product);
-        product = productService.get(product.getId());
+        product = productService.getCheck(product.getId());
         assertEquals(brandData.getId(), product.getBrandCategory());
         assertEquals(barcode, product.getBarcode());
         assertEquals(newName, product.getName());
@@ -105,7 +105,7 @@ public class ProductServiceTest extends AbstractUnitTest {
         Integer id = 1;
         String expectedMessage = "Product with id: " +  id + " does not exist";
         Exception exception = assertThrows(ApiException.class, () -> {
-            productService.get(id);
+            productService.getCheck(id);
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }

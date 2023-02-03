@@ -90,9 +90,9 @@ public class OrderItemServiceTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGet() throws ApiException {
+    public void testGetCheck() throws ApiException {
         orderItemService.add(orderItemPojoList);
-        OrderItemPojo orderItemPojoListGet = orderItemService.get(orderItemPojoList.get(0).getId());
+        OrderItemPojo orderItemPojoListGet = orderItemService.getCheck(orderItemPojoList.get(0).getId());
         assertEquals(orderItemPojoList.get(0), orderItemPojoListGet);
     }
 
@@ -109,7 +109,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         Integer id = 1;
         String expectedMessage = "Order with given ID does not exist, id: " + id;
         Exception exception = assertThrows(ApiException.class, () -> {
-            orderItemService.get(id);
+            orderItemService.getCheck(id);
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }

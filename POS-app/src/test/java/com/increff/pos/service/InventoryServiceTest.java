@@ -48,10 +48,10 @@ public class InventoryServiceTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetInventory() throws ApiException {
+    public void testGetCheckInventory() throws ApiException {
         InventoryPojo inventory = testUtil.createInventory(barcode, quantity);
         ProductPojo product = productService.getByBarcode(barcode);
-        inventory = inventoryService.get(inventory.getProductId());
+        inventory = inventoryService.getCheck(inventory.getProductId());
         assertEquals(product.getId(), inventory.getProductId());
         assertEquals(quantity, inventory.getQuantity());
     }
@@ -63,7 +63,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
         Integer newQuantity = quantity + 5;
         inventory.setQuantity(newQuantity);
         inventoryService.update(inventory.getProductId(), inventory.getQuantity());
-        inventory = inventoryService.get(inventory.getProductId());
+        inventory = inventoryService.getCheck(inventory.getProductId());
         assertEquals(product.getId(), inventory.getProductId());
         assertEquals(newQuantity, inventory.getQuantity());
     }
@@ -85,7 +85,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
         InventoryPojo newInventory = new InventoryPojo(newQuantity);
         newInventory.setProductId(product.getId());
         inventoryService.add(newInventory);
-        inventory = inventoryService.get(inventory.getProductId());
+        inventory = inventoryService.getCheck(inventory.getProductId());
         Integer expectedQuantity = quantity + newQuantity;
         assertEquals(product.getId(), inventory.getProductId());
         assertEquals(expectedQuantity, inventory.getQuantity());
@@ -97,7 +97,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
         ProductPojo product = productService.getByBarcode(barcode);
         Integer reduce = 1;
         inventoryService.reduceInventory(product.getId(), reduce);
-        inventory = inventoryService.get(inventory.getProductId());
+        inventory = inventoryService.getCheck(inventory.getProductId());
         Integer expectedQuantity = quantity - reduce;
         assertEquals(expectedQuantity, inventory.getQuantity());
     }
@@ -115,10 +115,10 @@ public class InventoryServiceTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetInventoryDoesNotExist() throws ApiException {
+    public void testGetCheckInventoryDoesNotExist() throws ApiException {
         String expectedMessage = "Inventory with given ID does not exist";
         Exception exception = assertThrows(ApiException.class, () -> {
-            inventoryService.get(1);
+            inventoryService.getCheck(1);
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }

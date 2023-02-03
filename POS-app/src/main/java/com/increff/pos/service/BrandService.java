@@ -31,10 +31,6 @@ public class BrandService {
 		brands.stream().forEach(e->dao.insert(e));
 	} 
 
-	public BrandPojo get(Integer id) throws ApiException {
-		return getCheck(id);
-	}
-
 	public List<BrandPojo> getAll(Integer pageNo, Integer pageSize) {
 		return dao.selectAll(pageNo, pageSize, BrandPojo.class);
 	}
@@ -49,14 +45,13 @@ public class BrandService {
 		
 		existing.setBrand(brand.getBrand());
 		existing.setCategory(brand.getCategory());
-		
 	}
 
 	public Integer getRecordsCount() {
 		return dao.getRecordsCount(BrandPojo.class);
 	}
 
-	private BrandPojo getCheck(Integer id) throws ApiException {
+	public BrandPojo getCheck(Integer id) throws ApiException {
 		BrandPojo brand = dao.select(BrandPojo.class, id);
 		if (Objects.isNull(brand)) {
 			throw new ApiException("Brand with given ID does not exist, id: " + id);

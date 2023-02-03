@@ -55,10 +55,6 @@ public class OrderService {
 		} 
 	}
 
-	public OrderPojo get(Integer id) throws ApiException {
-		return getCheck(id);
-	}
-
 	public List<OrderPojo> filterByDate(ZonedDateTime start, ZonedDateTime end) {
 		return dao.filterByDate(start, end);
 	}
@@ -67,7 +63,7 @@ public class OrderService {
 		return dao.selectAll(pageNo, pageSize, OrderPojo.class);
 	}
 
-	private OrderPojo getCheck(Integer id) throws ApiException {
+	public OrderPojo getCheck(Integer id) throws ApiException {
 		OrderPojo order = dao.select(OrderPojo.class, id);
 		if (Objects.isNull(order))
 			throw new ApiException("Order does not exist with id: " + id);

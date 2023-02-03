@@ -31,9 +31,9 @@ public class BrandServiceTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGet() throws ApiException {
+    public void testGetCheck() throws ApiException {
         BrandPojo brandPojo = svc.add(new BrandPojo(brand, category));
-        BrandPojo brandPojoGet = svc.get(brandPojo.getId());
+        BrandPojo brandPojoGet = svc.getCheck(brandPojo.getId());
         assertEquals(brandPojo.getId(), brandPojoGet.getId());
         assertEquals(brandPojo.getBrand(), brandPojoGet.getBrand());
         assertEquals(brandPojo.getCategory(), brandPojoGet.getCategory());
@@ -51,7 +51,7 @@ public class BrandServiceTest extends AbstractUnitTest {
         BrandPojo brandPojo = svc.add(new BrandPojo(brand, category));
         BrandPojo newBrandPojo = new BrandPojo("brand2", "category2");
         svc.update(brandPojo.getId(), newBrandPojo);
-        BrandPojo brandPojoGet = svc.get(brandPojo.getId());
+        BrandPojo brandPojoGet = svc.getCheck(brandPojo.getId());
         assertEquals(brandPojo.getId(), brandPojoGet.getId());
         assertEquals(brandPojo.getBrand(), brandPojoGet.getBrand());
         assertEquals(brandPojo.getCategory(), brandPojoGet.getCategory());
@@ -107,7 +107,7 @@ public class BrandServiceTest extends AbstractUnitTest {
         Integer id = 1;
         String expectedMessage = "Brand with given ID does not exist, id: " + id;
         Exception exception = assertThrows(ApiException.class, () -> {
-            svc.get(1);
+            svc.getCheck(1);
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }

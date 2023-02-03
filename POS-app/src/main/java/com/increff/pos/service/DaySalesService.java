@@ -70,11 +70,6 @@ public class DaySalesService {
 		return zdt.withHour(0).withMinute(0).withSecond(0).withNano(0);
 	}
 
-
-	public DaySalesPojo get(ZonedDateTime date) throws ApiException {
-		return getCheck(date);
-	}
-
 	public List<DaySalesPojo> getAll(Integer pageNo, Integer pageSize) {
 		return dao.selectAll(pageNo, pageSize, DaySalesPojo.class);
 	}
@@ -83,7 +78,7 @@ public class DaySalesService {
 		return dao.filterByDate(pageNo, pageSize, start, end);
 	}
 
-	private DaySalesPojo getCheck(ZonedDateTime date) throws ApiException {
+	public DaySalesPojo getCheck(ZonedDateTime date) throws ApiException {
 		DaySalesPojo daySales = dao.select(DaySalesPojo.class, date);
 		if (Objects.isNull(daySales))
 			throw new ApiException("DaySales does not exist with date: " + date);

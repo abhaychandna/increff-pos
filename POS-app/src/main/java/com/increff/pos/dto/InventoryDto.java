@@ -86,12 +86,12 @@ public class InventoryDto {
     }
 
     public InventoryData get(Integer id) throws ApiException {
-        InventoryPojo inventory = svc.get(id);
+        InventoryPojo inventory = svc.getCheck(id);
         return convert(inventory);
     }
 
     public InventoryData getByBarcode(String barcode) throws ApiException {
-        InventoryPojo inventory = svc.get(productService.getByBarcode(barcode).getId());
+        InventoryPojo inventory = svc.getCheck(productService.getByBarcode(barcode).getId());
         return convert(inventory);
     }
 
@@ -120,7 +120,7 @@ public class InventoryDto {
 
     private InventoryData convert(InventoryPojo inventoryPojo) throws ApiException {
         InventoryData inventory = ConvertUtil.convert(inventoryPojo, InventoryData.class);
-        inventory.setBarcode(productService.get(inventoryPojo.getProductId()).getBarcode());
+        inventory.setBarcode(productService.getCheck(inventoryPojo.getProductId()).getBarcode());
         return inventory;
     }
 }

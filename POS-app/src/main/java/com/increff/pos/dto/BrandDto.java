@@ -71,7 +71,7 @@ public class BrandDto {
     }
 
     public BrandData get(Integer id) throws ApiException {
-        BrandPojo brand = svc.get(id);
+        BrandPojo brand = svc.getCheck(id);
 		return convert(brand);
     }
 

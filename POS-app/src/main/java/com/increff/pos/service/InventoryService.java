@@ -34,10 +34,6 @@ public class InventoryService {
 		}
 	}
 
-	public InventoryPojo get(Integer id) throws ApiException {
-		return getCheck(id);
-	}
-
 	public List<InventoryPojo> getAll(Integer pageNo, Integer pageSize) {
 		return dao.selectAll(pageNo, pageSize, InventoryPojo.class);
 	}
@@ -52,7 +48,7 @@ public class InventoryService {
 	}
 
 	public void reduceInventory(Integer productId, Integer quantity) throws ApiException {
-		InventoryPojo inventory = get(productId);
+		InventoryPojo inventory = getCheck(productId);
 		if(inventory.getQuantity() < quantity) {
 			throw new ApiException("Insufficient inventory for productId: " + productId + ". Available: " + inventory.getQuantity() + ", Required: " + quantity);
 		}

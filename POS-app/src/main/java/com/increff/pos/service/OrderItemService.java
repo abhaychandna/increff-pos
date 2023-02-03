@@ -25,10 +25,6 @@ public class OrderItemService {
 		return items;
 	}
 
-	public OrderItemPojo get(Integer id) throws ApiException {
-		return getCheck(id);
-	}
-
 	public List<OrderItemPojo> getAll(Integer pageNo, Integer pageSize) {
 		return dao.selectAll(pageNo, pageSize, OrderItemPojo.class);
 	}

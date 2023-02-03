@@ -31,10 +31,6 @@ public class ProductService {
 		for(ProductPojo product: products)add(product);
 	}
 
-	public ProductPojo get(Integer id) throws ApiException {
-		return getCheck(id);
-	}
-
 	public List<ProductPojo> getAll(Integer pageNo, Integer pageSize) {
 		return dao.selectAll(pageNo, pageSize, ProductPojo.class);
 	}
@@ -45,7 +41,7 @@ public class ProductService {
 		existing.setMrp(product.getMrp());
 	}
 
-	private ProductPojo getCheck(Integer id) throws ApiException {
+	public ProductPojo getCheck(Integer id) throws ApiException {
 		ProductPojo product = dao.select(ProductPojo.class, id);
 		if (Objects.isNull(product)) {
 			throw new ApiException("Product with id: " +  id + " does not exist");

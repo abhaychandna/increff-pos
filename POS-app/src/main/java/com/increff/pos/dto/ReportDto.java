@@ -46,10 +46,6 @@ public class ReportDto {
     @Autowired
     private OrderItemService orderItemService;
 
-
-
-
-
     public String inventoryReport() throws ApiException{
 		List<InventoryPojo> inventory = inventoryService.getAll();
         if(inventory.isEmpty()) throw new ApiException("No inventory found");
@@ -83,7 +79,7 @@ public class ReportDto {
     private HashMap<Integer, Integer> getBrandIdToQuantityMap(List<InventoryPojo> inventory) throws ApiException{
         HashMap<Integer, Integer> brandCategoryIdToQuantity = new HashMap<>();
         for (InventoryPojo inv : inventory) {
-			Integer brandCategoryId = productService.get(inv.getProductId()).getBrandCategory();
+			Integer brandCategoryId = productService.getCheck(inv.getProductId()).getBrandCategory();
             Integer quantity =  brandCategoryIdToQuantity.get(brandCategoryId);
             if(Objects.isNull(quantity)) quantity = 0;
             brandCategoryIdToQuantity.put(brandCategoryId, quantity + inv.getQuantity());

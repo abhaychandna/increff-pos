@@ -45,7 +45,7 @@ public class OrderDto {
 
 
     public String getInvoice(Integer id) throws ApiException {
-        OrderPojo order = orderService.get(id);
+        OrderPojo order = orderService.getCheck(id);
         
         List<OrderItemPojo> items = orderItemService.getByOrderId(id);
 
@@ -67,7 +67,7 @@ public class OrderDto {
             InvoiceItemData invoiceItem = new InvoiceItemData();
             invoiceItem.setQuantity(item.getQuantity());
             invoiceItem.setSellingPrice(item.getSellingPrice());
-            ProductPojo product = productService.get(item.getProductId());
+            ProductPojo product = productService.getCheck(item.getProductId());
             invoiceItem.setBarcode(product.getBarcode());
             invoiceItem.setProductId(product.getId());
             invoiceItem.setName(product.getName());
@@ -101,7 +101,7 @@ public class OrderDto {
     }
 
     public OrderData get(Integer id) throws ApiException {
-        OrderPojo p = orderService.get(id);
+        OrderPojo p = orderService.getCheck(id);
         return ConvertUtil.convert(p, OrderData.class);
     }
 
@@ -133,7 +133,7 @@ public class OrderDto {
     }
 
     public OrderItemData getItem(Integer id) throws ApiException {
-        OrderItemPojo p = orderItemService.get(id);
+        OrderItemPojo p = orderItemService.getCheck(id);
         return convert(p);
     }
 
@@ -168,7 +168,7 @@ public class OrderDto {
 
     private OrderItemData convert(OrderItemPojo item) throws ApiException {
         OrderItemData itemData = ConvertUtil.convert(item, OrderItemData.class);
-        itemData.setBarcode(productService.get(item.getProductId()).getBarcode());
+        itemData.setBarcode(productService.getCheck(item.getProductId()).getBarcode());
         return itemData;
     }
 

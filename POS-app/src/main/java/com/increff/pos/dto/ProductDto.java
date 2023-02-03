@@ -121,7 +121,7 @@ public class ProductDto {
     }
 
     public ProductData get(Integer id) throws ApiException {
-        ProductPojo product = svc.get(id);
+        ProductPojo product = svc.getCheck(id);
         return convert(product);
     }
 
@@ -154,7 +154,7 @@ public class ProductDto {
 
     private ProductData convert(ProductPojo product) throws ApiException{
         ProductData productData = ConvertUtil.convert(product, ProductData.class);
-        BrandPojo brand = brandService.get(product.getBrandCategory());
+        BrandPojo brand = brandService.getCheck(product.getBrandCategory());
         productData.setBrand(brand.getBrand());
         productData.setCategory(brand.getCategory());
         return productData;
