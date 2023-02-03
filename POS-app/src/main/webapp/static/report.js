@@ -36,17 +36,6 @@ function inventoryReport(){
     });
 }
 
-// sales report is post request
-/*
-
-{
-  "brand": "string",
-  "category": "string",
-  "endDate": "string",
-  "startDate": "string"
-}
-*/
-
 function salesReport(){
     var url = getReportUrl() + "/sales";
     var $form = $("#sales-report-form");
@@ -90,12 +79,28 @@ function salesReport(){
 
 }
 
+function initializeDateInputs(){
+	var endDate = new Date();
+	var startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
+	
+	// increasing time since conversion to ISOString decreases time by timezone offset
+	startDate = increaseTimeByTimeZoneOffset(startDate);
+	endDate = increaseTimeByTimeZoneOffset(endDate);
+	// Converting to yyyy-mm-dd format
+	startDate = startDate.toISOString().slice(0,10);
+	endDate = endDate.toISOString().slice(0,10);
+
+	$('#startDate').val(startDate);
+	$('#endDate').val(endDate);
+	return {startDate: startDate, endDate: endDate};
+}
+
 function init(){
 
     $("#brand-report").click(brandReport);
     $("#inventory-report").click(inventoryReport);
     $("#sales-report").click(salesReport);
-
+    initializeDateInputs();
 
 }
 
