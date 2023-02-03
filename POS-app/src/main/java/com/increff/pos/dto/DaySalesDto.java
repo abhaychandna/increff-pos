@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.increff.pos.model.DaySalesData;
@@ -77,7 +78,7 @@ public class DaySalesDto {
         return daySalesData;
     }    
 
-    // @Scheduled(fixedDelayString = "${daySalesScheduler.delay.seconds}000")
+    @Scheduled(fixedDelayString = "${daySalesScheduler.delay.seconds}000")
     public void calculateSales() throws ApiException {
         ZonedDateTime startDate = ZonedDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
         ZonedDateTime endDate = ZonedDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(999999999);
