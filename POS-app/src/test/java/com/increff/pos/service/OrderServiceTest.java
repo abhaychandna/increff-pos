@@ -94,7 +94,6 @@ public class OrderServiceTest extends AbstractUnitTest {
         setup();
         orderService.add(orderItemPojoList);
         OrderPojo order = orderService.get(orderItemPojoList.get(0).getOrderId());
-        System.out.println(order.getTime());
         ZonedDateTime date = order.getTime();
         ZonedDateTime dateMinus1 = date.minusDays(1);
         ZonedDateTime datePlus1 = date.plusDays(1);
