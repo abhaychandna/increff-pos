@@ -14,8 +14,8 @@ import com.increff.pdf.util.XMLUtil;
 
 @Component
 public class PDFDto {
-    @Value("${xmlFilepath}")
-    private String xmlFilepath;
+    @Value("${xmlDirectory}")
+    private String xmlDirectory;
     
     public <T> String generateReport(PDFForm<T> pdfForm) throws ApiException {
         List<T> reportForm = pdfForm.getReportData();
@@ -24,9 +24,9 @@ public class PDFDto {
 
         File xsltFile = new File(xsltFilename + ".xsl");
         
-        xmlFilepath = xmlFilepath + "/xmlFile.xml";
-        new File(xmlFilepath).getParentFile().mkdirs();
-
+        String xmlFilepath = xmlDirectory + "/xmlFile.xml";
+        File xmlFile = new File(xmlFilepath);
+        xmlFile.getParentFile().mkdirs();   
         try {
             XMLUtil.generateReportXML(reportForm, xmlFilepath, headers);
             String base64 = PDFUtil.generatePDFBase64(xmlFilepath, xsltFile);
