@@ -52,7 +52,10 @@ public class OrderItemService {
 		return dao.selectByColumn(OrderItemPojo.class, column, values);
 	}
 
-	public <T> List<OrderItemPojo> getByMultipleColumns(List<String> columns, List<List<T>> values){
+	public <T> List<OrderItemPojo> getByMultipleColumns(List<String> columns, List<List<T>> values) throws ApiException{
+		if(columns.size() != values.size()) {
+			throw new ApiException("Number of columns and values do not match");
+		}
 		return dao.selectByMultipleColumns(OrderItemPojo.class, columns, values);
 	}
 }
