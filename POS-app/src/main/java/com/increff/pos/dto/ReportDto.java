@@ -177,7 +177,6 @@ public class ReportDto {
     }
 
     private List<BrandPojo> getBrandPojoList(String brand, String category) throws ApiException {
-        if (Objects.isNull(brand) && Objects.isNull(category)) return brandService.getAll();
         if(Objects.nonNull(category) && Objects.nonNull(brand)) {
             List<BrandPojo> brands = brandService.getByMultipleColumns(Arrays.asList("category", "brand"), Arrays.asList(
                 Arrays.asList(category),
@@ -187,8 +186,7 @@ public class ReportDto {
         }
         if(Objects.nonNull(category)) return brandService.getByColumn("category", Arrays.asList(category));
         if(Objects.nonNull(brand)) return brandService.getByColumn("brand", Arrays.asList(brand));
-
-        return Collections.emptyList();
+        return brandService.getAll();
     }
 
 
