@@ -1,10 +1,10 @@
 package com.increff.pos.spring;
 
-import java.time.ZonedDateTime;
 import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -21,9 +21,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 })
 public class SpringConfig {
 
+	@Value("${server.timezone}")
+	private String serverTimezone;
+
 	@PostConstruct
 	public void init() {
-		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+		TimeZone.setDefault(TimeZone.getTimeZone(serverTimezone));
 	}
 
 }
