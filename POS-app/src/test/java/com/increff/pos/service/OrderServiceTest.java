@@ -55,10 +55,7 @@ public class OrderServiceTest extends AbstractUnitTest {
         quantity2 = 2;
         sellingPrice1 = 1.11;
         sellingPrice2 = 2.22;
-    }
 
-    private void setup() throws ApiException{
-        
         testUtil.createInventory(barcode, brand, category, name, mrp, quantity);
         barcode2 = "abcdef13";
         testUtil.createProduct(barcode2, brand, category, name, mrp);
@@ -76,7 +73,6 @@ public class OrderServiceTest extends AbstractUnitTest {
 
     @Test
     public void testAdd() throws ApiException {
-        setup();
         orderService.add(orderItemPojoList);
         List<OrderItemPojo> orderItemPojoListGet = orderItemDao.selectByOrderId(orderItemPojoList.get(0).getOrderId());
         assertEquals(orderItemPojoList, orderItemPojoListGet);        
@@ -84,7 +80,6 @@ public class OrderServiceTest extends AbstractUnitTest {
 
     @Test
     public void testGet() throws ApiException {
-        setup();
         orderService.add(orderItemPojoList);
         OrderPojo order = orderService.get(orderItemPojoList.get(0).getOrderId());
         assertEquals(orderItemPojoList.get(0).getOrderId(), order.getId());
@@ -92,7 +87,6 @@ public class OrderServiceTest extends AbstractUnitTest {
 
     @Test
     public void testFilterByDate() throws ApiException {
-        setup();
         orderService.add(orderItemPojoList);
         OrderPojo order = orderService.get(orderItemPojoList.get(0).getOrderId());
         ZonedDateTime date = order.getTime();

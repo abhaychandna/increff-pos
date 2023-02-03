@@ -81,13 +81,8 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         });
     }
 
-    private void setup() throws ApiException{
-
-    }
-
     @Test
     public void testAdd() throws ApiException {
-        setup();
         orderItemService.add(orderItemPojoList);
         Integer orderId = orderItemPojoList.get(0).getOrderId();
         List<OrderItemPojo> orderItemPojoListGet = orderItemDao.selectByColumn(OrderItemPojo.class, "orderId", List.of(orderId));
@@ -96,7 +91,6 @@ public class OrderItemServiceTest extends AbstractUnitTest {
 
     @Test
     public void testGet() throws ApiException {
-        setup();
         orderItemService.add(orderItemPojoList);
         OrderItemPojo orderItemPojoListGet = orderItemService.get(orderItemPojoList.get(0).getId());
         assertEquals(orderItemPojoList.get(0), orderItemPojoListGet);
@@ -104,7 +98,6 @@ public class OrderItemServiceTest extends AbstractUnitTest {
 
     @Test
     public void testGetByOrderId() throws ApiException {
-        setup();
         orderItemService.add(orderItemPojoList);
         Integer orderId = orderItemPojoList.get(0).getOrderId();
         List<OrderItemPojo> orderItemPojoListGet = orderItemService.getByOrderId(orderId);

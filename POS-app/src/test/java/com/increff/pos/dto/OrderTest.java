@@ -62,20 +62,14 @@ public class OrderTest extends AbstractUnitTest {
         orderItemFormList = List.of(orderItemForm, orderItemForm2);
     }
 
-    private void setup() throws ApiException{
-
-    }
-
     @Test
     public void testAddOrder() throws ApiException {
-        setup();
         List<OrderItemData> orderItems = orderDto.add(orderItemFormList);
         checkEquals(orderItems, orderItemFormList);
     }
 
     @Test
     public void testGetOrder() throws ApiException {
-        setup();
         List<OrderItemPojo> orderItems = testUtil.createOrder(orderItemFormList);
         OrderData orderData = orderDto.get(orderItems.get(0).getOrderId());
         assertEquals(orderData.getId(), orderItems.get(0).getOrderId());
@@ -83,7 +77,6 @@ public class OrderTest extends AbstractUnitTest {
 
     @Test
     public void testGetOrderItem() throws ApiException {
-        setup();
         List<OrderItemPojo> orderItems = testUtil.createOrder(orderItemFormList);
         OrderItemPojo orderItem = orderItems.get(0);
         OrderItemData orderItemData = orderDto.getItem(orderItem.getId());
@@ -92,7 +85,6 @@ public class OrderTest extends AbstractUnitTest {
 
     @Test
     public void testGetItemsByOrderId() throws ApiException {
-        setup();
         testUtil.createOrder(orderItemFormList);
         List<OrderItemData> orderItemDataList = orderDto.getItemsByOrderId(1);
         checkEquals(orderItemDataList, orderItemFormList);
@@ -100,7 +92,6 @@ public class OrderTest extends AbstractUnitTest {
 
     @Test
     public void testGetAllItems() throws ApiException {
-        setup();
         testUtil.createOrder(orderItemFormList);
         List<OrderItemData> orderItemDataList = orderDto.getAllItems(0, 10, 1).getData();
         assertEquals(orderItemFormList.size(), orderItemDataList.size());
@@ -108,7 +99,6 @@ public class OrderTest extends AbstractUnitTest {
 
     @Test
     public void testGetAll() throws ApiException {
-        setup();
         Integer orderCount = 3;
         for (Integer i = 0; i < orderCount; i++) {
             testUtil.createOrder(orderItemFormList);
@@ -119,7 +109,6 @@ public class OrderTest extends AbstractUnitTest {
 
     @Test
     public void testGetInvoice() throws ApiException {
-        setup();
         List<OrderItemPojo> orderItems =  testUtil.createOrder(orderItemFormList);
         Integer orderId = orderItems.get(0).getOrderId();
         String base64 = orderDto.getInvoice(orderId);
@@ -128,7 +117,6 @@ public class OrderTest extends AbstractUnitTest {
 
     @Test(expected = ApiException.class)
     public void testDuplicateBarcode() throws ApiException {
-        setup();
         orderItemForm.setBarcode(barcode2);
         orderItemForm2.setBarcode(barcode2);
         orderDto.add(List.of(orderItemForm, orderItemForm2));
@@ -136,7 +124,6 @@ public class OrderTest extends AbstractUnitTest {
 
     @Test
     public void testInventoryQuantityReducedAfterPlaceOrder() throws ApiException {
-        setup();
         Integer originalQuantity = inventoryDto.getByBarcode(barcode).getQuantity();
         Integer barcodeQuantity = orderItemFormList.stream().filter(orderItemForm -> orderItemForm.getBarcode().equals(barcode)).findFirst().get().getQuantity();
         Integer finalQuantityExpected = originalQuantity - barcodeQuantity;
@@ -148,7 +135,6 @@ public class OrderTest extends AbstractUnitTest {
 
     @Test(expected = ApiException.class)
     public void testInsufficientInventory() throws ApiException {
-        setup();
         Integer originalQuantity = inventoryDto.getByBarcode(barcode).getQuantity();
         orderItemForm.setQuantity(originalQuantity + 1);
         orderDto.add(List.of(orderItemForm));

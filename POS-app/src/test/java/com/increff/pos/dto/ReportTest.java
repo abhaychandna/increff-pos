@@ -59,20 +59,14 @@ public class ReportTest extends AbstractUnitTest {
         testUtil.createOrder(orderItemFormList);
     }
 
-    private void setup() throws ApiException{
-
-    }
-
     @Test
     public void testBrandReport() throws ApiException {
-        setup();
         String brandReport = reportDto.brandReport();
         assertNotNull(brandReport);
     }
 
     @Test
     public void testSalesReportAll() throws ApiException {
-        setup();
         String start = ZonedDateTime.now().minusDays(1).toString();
         String end = ZonedDateTime.now().toString();
         SalesReportForm salesReportForm = new SalesReportForm(start, end);
@@ -82,7 +76,6 @@ public class ReportTest extends AbstractUnitTest {
     
     @Test
     public void testSalesReportBrandFilter() throws ApiException {
-        setup();
         String start = ZonedDateTime.now().minusDays(1).toString();
         String end = ZonedDateTime.now().toString();
         SalesReportForm salesReportForm = new SalesReportForm(start, end);
@@ -93,7 +86,6 @@ public class ReportTest extends AbstractUnitTest {
 
     @Test
     public void testSalesReportCategoryFilter() throws ApiException {
-        setup();
         String start = ZonedDateTime.now().minusDays(1).toString();
         String end = ZonedDateTime.now().toString();
         SalesReportForm salesReportForm = new SalesReportForm(start, end);
@@ -104,7 +96,6 @@ public class ReportTest extends AbstractUnitTest {
 
     @Test
     public void testSalesReportBrandCategoryFilter() throws ApiException {
-        setup();
         String start = ZonedDateTime.now().minusDays(1).toString();
         String end = ZonedDateTime.now().toString();
         SalesReportForm salesReportForm = new SalesReportForm(start, end);
@@ -116,7 +107,6 @@ public class ReportTest extends AbstractUnitTest {
 
     @Test
     public void testInventoryReport() throws ApiException {
-        setup();
         String inventoryReport = reportDto.inventoryReport();
         assertNotNull(inventoryReport);
     }

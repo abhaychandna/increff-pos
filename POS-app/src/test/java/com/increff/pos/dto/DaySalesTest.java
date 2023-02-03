@@ -62,13 +62,8 @@ public class DaySalesTest extends AbstractUnitTest {
         testUtil.createOrder(orderItemFormList);
     }
 
-    private void setup() throws ApiException{
-
-    }
-
     @Test
     public void testGetAll() throws ApiException {
-        setup();
         ZonedDateTime date = ZonedDateTime.now();
         Integer invoicedOrdersCount = 1;
         Integer invoicedItemsCount = 2;
@@ -93,7 +88,6 @@ public class DaySalesTest extends AbstractUnitTest {
 
     @Test
     public void testGetAllDateFilter() throws ApiException {
-        setup();
         ZonedDateTime date = ZonedDateTime.now();
         Integer invoicedOrdersCount = 1;
         Integer invoicedItemsCount = 2;
@@ -112,7 +106,6 @@ public class DaySalesTest extends AbstractUnitTest {
 
     @Test
     public void testCalculateDaySales() throws ApiException {
-        setup();
         daySalesDto.calculateSales();
         PaginatedData<DaySalesData> paginatedData = daySalesDto.getAll(0, 10, 1);
         List<DaySalesData> data = paginatedData.getData();
