@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +16,11 @@ import com.increff.pos.model.PDFForm;
 import com.increff.pos.service.ApiException;
 
 public class PDFApiUtil {
-
-    @Value("${pdfApp.baseUrl}")
-    private static String pdfAppBaseUrl;
-    @Value("${pdfApp.generateReportUrl")
-    private static String generateReportUrl;
     
     public static <T> String getReportPDFBase64(List<T> reportData, String xsltFilename, HashMap<String, String> XMLheaders) throws ApiException{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String apiUrl = pdfAppBaseUrl+generateReportUrl;
+        String apiUrl = "http://localhost:8000/pdf/api/pdf/generateReport";
         PDFForm<T> pdfForm = new PDFForm<T>(xsltFilename, XMLheaders, reportData);
         RestTemplate RestTemplate = new RestTemplate();
         ResponseEntity<String> apiResponse = RestTemplate.postForEntity(apiUrl, pdfForm, String.class);
