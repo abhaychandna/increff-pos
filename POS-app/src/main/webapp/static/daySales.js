@@ -42,23 +42,19 @@ function filterDaySalesList(){
     $('#daySales-table').DataTable().ajax.reload();	
 }
 
-function setDates(startDate, endDate){
-	console.log('Adding timezone offset before converting to ISO String')
-	// adding timezone offsets
-	startDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000);
-	endDate = new Date(endDate.getTime() - endDate.getTimezoneOffset() * 60000);	
-	console.log("Initialized date inputs before ISO COnversion" + startDate + " " + endDate);
-
-	// conversion and setting values to yyyy-mm-dd
-	startDate = startDate.toISOString().slice(0,10);
-	endDate = endDate.toISOString().slice(0,10);
-	$('#startDate').val(startDate);
-	$('#endDate').val(endDate);
-}
 function initializeDateInputs(){
 	var endDate = new Date();
 	var startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
-	setDates(startDate, endDate);
+	
+	// increasing time since conversion to ISOString decreases time by timezone offset
+	startDate = increaseTimeByTimeZoneOffset(startDate);
+	endDate = increaseTimeByTimeZoneOffset(endDate);
+	// Converting to yyyy-mm-dd format
+	startDate = startDate.toISOString().slice(0,10);
+	endDate = endDate.toISOString().slice(0,10);
+
+	$('#startDate').val(startDate);
+	$('#endDate').val(endDate);
 	return {startDate: startDate, endDate: endDate};
 }
 

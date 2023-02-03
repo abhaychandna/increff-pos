@@ -133,6 +133,13 @@ function writeFileData(arr){
     tempLink.click(); 
 }
 
+
+function increaseTimeByTimeZoneOffset(datetime){
+	// datetime.getTimezoneOffset() return offset in minutes. GMT +5:30 reutrn -330
+	var millSecondsOffset = datetime.getTimezoneOffset() * 60000;
+	return new Date(datetime.getTime() - millSecondsOffset);
+}
+
 function downloadPDF(base64String, OUT_FILENAME) {
 	const linkSource = `data:application/pdf;base64,${base64String}`;
 	const downloadLink = document.createElement("a");
