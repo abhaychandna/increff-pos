@@ -242,6 +242,7 @@
 						<exclude>com/increff/pos/spring/*</exclude>
 						<exclude>com/increff/pos/dao/*</exclude>
 						<exclude>com/increff/pos/pojo/*</exclude>
+						<exclude>com/increff/pos/util/*</exclude>
 					</excludes>
 				 </configuration>
 				<executions>
