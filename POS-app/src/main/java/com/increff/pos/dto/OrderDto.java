@@ -51,9 +51,7 @@ public class OrderDto {
 
         String folderPath = resourcePath + "/invoices";
         File folder = new File(folderPath);
-        if(!folder.exists()) {
-            folder.mkdirs();
-        }
+        folder.getParentFile().mkdirs();
         
         String outputFilename = folderPath + "/invoice_" + id;
         String base64 = getCachedInvoice(outputFilename);
