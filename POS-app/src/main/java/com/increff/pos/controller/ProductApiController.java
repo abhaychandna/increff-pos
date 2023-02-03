@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.dto.ProductDto;
-import com.increff.pos.model.PaginatedData;
-import com.increff.pos.model.ProductData;
-import com.increff.pos.model.ProductForm;
-import com.increff.pos.model.ProductPutForm;
+import com.increff.pos.model.data.PaginatedData;
+import com.increff.pos.model.data.ProductData;
+import com.increff.pos.model.form.ProductForm;
+import com.increff.pos.model.form.ProductPutForm;
 import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.Api;
@@ -31,8 +31,8 @@ public class ProductApiController {
 
 	@ApiOperation(value = "Adds a product")
 	@RequestMapping(path = "", method = RequestMethod.POST)
-	public void add(@RequestBody ProductForm f) throws ApiException {
-		dto.add(f);
+	public void add(@RequestBody ProductForm form) throws ApiException {
+		dto.add(form);
 	}
 
 	@ApiOperation(value = "Adds multiple products in bulk")

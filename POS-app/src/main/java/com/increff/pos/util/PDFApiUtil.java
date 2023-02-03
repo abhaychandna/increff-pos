@@ -12,7 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.increff.pos.model.PDFForm;
+import com.increff.pos.model.form.PDFForm;
 import com.increff.pos.service.ApiException;
 
 public class PDFApiUtil {

@@ -10,10 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.increff.pos.model.InventoryData;
-import com.increff.pos.model.InventoryForm;
-import com.increff.pos.model.PaginatedData;
-import com.increff.pos.model.ProductData;
+import com.increff.pos.model.data.InventoryData;
+import com.increff.pos.model.data.PaginatedData;
+import com.increff.pos.model.data.ProductData;
+import com.increff.pos.model.form.InventoryForm;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.service.AbstractUnitTest;
 import com.increff.pos.service.ApiException;

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.increff.pos.dto.DaySalesDto;
-import com.increff.pos.model.DaySalesData;
-import com.increff.pos.model.PaginatedData;
+import com.increff.pos.model.data.DaySalesData;
+import com.increff.pos.model.data.PaginatedData;
 import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.Api;

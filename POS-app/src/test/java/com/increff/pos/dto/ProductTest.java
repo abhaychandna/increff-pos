@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.dao.ProductDao;
-import com.increff.pos.model.BrandData;
-import com.increff.pos.model.PaginatedData;
-import com.increff.pos.model.ProductData;
-import com.increff.pos.model.ProductForm;
-import com.increff.pos.model.ProductPutForm;
+import com.increff.pos.model.data.BrandData;
+import com.increff.pos.model.data.PaginatedData;
+import com.increff.pos.model.data.ProductData;
+import com.increff.pos.model.form.ProductForm;
+import com.increff.pos.model.form.ProductPutForm;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.AbstractUnitTest;
 import com.increff.pos.service.ApiException;

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.increff.pos.dao.UserDao;
-import com.increff.pos.model.Role;
+import com.increff.pos.model.data.Role;
 import com.increff.pos.pojo.UserPojo;
 
 public class UserServiceTest extends AbstractUnitTest {

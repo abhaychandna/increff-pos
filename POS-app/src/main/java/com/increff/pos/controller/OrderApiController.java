@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.increff.pos.dto.OrderDto;
-import com.increff.pos.model.OrderData;
-import com.increff.pos.model.OrderItemData;
-import com.increff.pos.model.OrderItemForm;
-import com.increff.pos.model.PaginatedData;
+import com.increff.pos.model.data.OrderData;
+import com.increff.pos.model.data.OrderItemData;
+import com.increff.pos.model.data.PaginatedData;
+import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.Api;

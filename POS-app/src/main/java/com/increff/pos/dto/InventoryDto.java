@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.increff.pos.model.InventoryData;
-import com.increff.pos.model.InventoryForm;
-import com.increff.pos.model.InventoryFormErrorData;
-import com.increff.pos.model.PaginatedData;
+import com.increff.pos.model.data.InventoryData;
+import com.increff.pos.model.data.InventoryFormErrorData;
+import com.increff.pos.model.data.PaginatedData;
+import com.increff.pos.model.form.InventoryForm;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;

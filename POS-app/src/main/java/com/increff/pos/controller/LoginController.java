@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.increff.pos.dto.UserDto;
-import com.increff.pos.model.LoginForm;
-import com.increff.pos.model.SignupForm;
+import com.increff.pos.model.form.LoginForm;
+import com.increff.pos.model.form.SignupForm;
 import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.Api;

@@ -1,7 +1,6 @@
 package com.increff.pos.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.xml.transform.TransformerException;
 
@@ -13,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.increff.pos.dto.ReportDto;
-import com.increff.pos.model.SalesReportData;
-import com.increff.pos.model.SalesReportForm;
+import com.increff.pos.model.form.SalesReportForm;
 import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.Api;

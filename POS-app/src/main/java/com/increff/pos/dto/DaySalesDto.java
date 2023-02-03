@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.increff.pos.model.DaySalesData;
-import com.increff.pos.model.PaginatedData;
+import com.increff.pos.model.data.DaySalesData;
+import com.increff.pos.model.data.PaginatedData;
 import com.increff.pos.pojo.DaySalesPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;

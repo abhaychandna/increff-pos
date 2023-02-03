@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.increff.pos.dao.ProductDao;
-import com.increff.pos.model.BrandData;
+import com.increff.pos.model.data.BrandData;
 import com.increff.pos.pojo.ProductPojo;
 
 public class ProductServiceTest extends AbstractUnitTest {

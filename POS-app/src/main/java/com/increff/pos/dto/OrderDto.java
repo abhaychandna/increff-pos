@@ -13,11 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.increff.pos.model.InvoiceItemData;
-import com.increff.pos.model.OrderData;
-import com.increff.pos.model.OrderItemData;
-import com.increff.pos.model.OrderItemForm;
-import com.increff.pos.model.PaginatedData;
+import com.increff.pos.model.data.InvoiceItemData;
+import com.increff.pos.model.data.OrderData;
+import com.increff.pos.model.data.OrderItemData;
+import com.increff.pos.model.data.PaginatedData;
+import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.pojo.ProductPojo;

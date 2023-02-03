@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.dto.BrandDto;
-import com.increff.pos.model.BrandData;
-import com.increff.pos.model.BrandForm;
-import com.increff.pos.model.PaginatedData;
+import com.increff.pos.model.data.BrandData;
+import com.increff.pos.model.data.PaginatedData;
+import com.increff.pos.model.form.BrandForm;
 import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.Api;

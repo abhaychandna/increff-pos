@@ -11,7 +11,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.increff.pos.dao.UserDao;
-import com.increff.pos.model.SignupForm;
+import com.increff.pos.model.form.SignupForm;
 import com.increff.pos.pojo.UserPojo;
 import com.increff.pos.service.AbstractUnitTest;
 import com.increff.pos.service.ApiException;

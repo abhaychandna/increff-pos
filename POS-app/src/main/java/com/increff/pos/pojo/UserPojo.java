@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.increff.pos.model.Role;
+import com.increff.pos.model.data.Role;
 
 import lombok.Getter;
 import lombok.Setter;
