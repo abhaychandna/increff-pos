@@ -29,11 +29,10 @@ public class PDFApiUtil {
         return base64;
     }
 
-    public static void saveBase64ToPDF(String base64, String filename) throws ApiException {
-        filename = filename + ".pdf";
+    public static void saveBase64ToPDF(String base64, String filepath) throws ApiException {
         try {
             byte[] pdfAsBytes = Base64.getDecoder().decode(base64);
-            FileOutputStream os = new FileOutputStream(filename);
+            FileOutputStream os = new FileOutputStream(filepath);
             os.write(pdfAsBytes);
             os.close();
         } catch (Exception e) {

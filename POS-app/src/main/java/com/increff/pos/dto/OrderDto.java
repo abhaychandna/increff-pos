@@ -53,8 +53,8 @@ public class OrderDto {
         File folder = new File(folderPath);
         folder.getParentFile().mkdirs();
         
-        String outputFilename = folderPath + "/invoice_" + id;
-        String base64 = getCachedInvoice(outputFilename);
+        String outputFilepath = folderPath + "/invoice_" + id + ".pdf";
+        String base64 = getCachedInvoice(outputFilepath);
         if(Objects.nonNull(base64)) {
             return base64;
         }
@@ -83,17 +83,16 @@ public class OrderDto {
 
         base64 = PDFApiUtil.getReportPDFBase64(invoiceItems, xsltFilename, XMLheaders);
         
-        PDFApiUtil.saveBase64ToPDF(base64, outputFilename);
+        PDFApiUtil.saveBase64ToPDF(base64, outputFilepath);
 
         return base64;
 
     }
 
-    private String getCachedInvoice(String outputFilename) throws ApiException {
-        outputFilename = outputFilename + ".pdf";
-        File file = new File(outputFilename);
+    private String getCachedInvoice(String outputFilepath) throws ApiException {
+        File file = new File(outputFilepath);
         if(file.exists()) {
-            return PDFApiUtil.PDFToBase64(outputFilename);
+            return PDFApiUtil.PDFToBase64(outputFilepath);
         }
         return null;        
     }
