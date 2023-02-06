@@ -27,7 +27,7 @@ import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.OrderItemService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
-import com.increff.pos.util.PDFApiUtil;
+import com.increff.pos.util.PDFClient;
 import com.increff.pos.util.TimeUtil;
 
 
@@ -44,13 +44,15 @@ public class ReportDto {
     private OrderService orderService;
     @Autowired
     private OrderItemService orderItemService;
+    @Autowired
+    private PDFClient PDFClient;
 
     public String inventoryReport() throws ApiException{
 		List<InventoryPojo> inventory = inventoryService.getAll();
         if(inventory.isEmpty()) throw new ApiException("No inventory found");
 		HashMap<Integer, Integer> brandCategoryIdToQuantity = getBrandIdToQuantityMap(inventory);
         List<InventoryReportData> reportData = getInventoryReport(brandCategoryIdToQuantity);
-        String base64  = PDFApiUtil.getReportPDFBase64(reportData, "inventoryReport", null);
+        String base64  = PDFClient.getReportPDFBase64(reportData, "inventoryReport", null);
         return base64;
 	}
 
@@ -107,7 +109,7 @@ public class ReportDto {
         List<SalesReportData> salesReport = getSalesReport(orderItems, productIdToBrandCategory);
         
         HashMap<String, String> headers = salesReportHeaders(startDate, endDate, form.getBrand(), form.getCategory());
-        String base64 = PDFApiUtil.getReportPDFBase64(salesReport, "salesReport", headers);
+        String base64 = PDFClient.getReportPDFBase64(salesReport, "salesReport", headers);
 
         return base64;
     }
@@ -199,7 +201,7 @@ public class ReportDto {
             reportDataList.add(new BrandReportData(brand.getBrand(), brand.getCategory()));
         });
 
-        String base64  = PDFApiUtil.getReportPDFBase64(reportDataList, "brandReport", null);
+        String base64  = PDFClient.getReportPDFBase64(reportDataList, "brandReport", null);
         return base64;
 
     }

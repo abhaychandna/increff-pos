@@ -26,7 +26,7 @@ import com.increff.pos.service.OrderItemService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ConvertUtil;
-import com.increff.pos.util.PDFApiUtil;
+import com.increff.pos.util.PDFClient;
 import com.increff.pos.util.PreProcessingUtil;
 
 @Component
@@ -38,6 +38,8 @@ public class OrderDto {
     private OrderItemService orderItemService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private PDFClient PDFClient;
 
     @Value("${resourcePath}")
     private String resourcePath;
@@ -81,9 +83,9 @@ public class OrderDto {
         
         String xsltFilename = "invoice";
 
-        base64 = PDFApiUtil.getReportPDFBase64(invoiceItems, xsltFilename, XMLheaders);
+        base64 = PDFClient.getReportPDFBase64(invoiceItems, xsltFilename, XMLheaders);
         
-        PDFApiUtil.saveBase64ToPDF(base64, outputFilepath);
+        PDFClient.saveBase64ToPDF(base64, outputFilepath);
 
         return base64;
 
@@ -92,7 +94,7 @@ public class OrderDto {
     private String getCachedInvoice(String outputFilepath) throws ApiException {
         File file = new File(outputFilepath);
         if(file.exists()) {
-            return PDFApiUtil.PDFToBase64(outputFilepath);
+            return PDFClient.PDFToBase64(outputFilepath);
         }
         return null;        
     }

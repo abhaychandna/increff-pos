@@ -7,20 +7,28 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.increff.pos.model.form.PDFForm;
 import com.increff.pos.service.ApiException;
 
-public class PDFApiUtil {
+@Component
+public class PDFClient {
     
-    public static <T> String getReportPDFBase64(List<T> reportData, String xsltFilename, HashMap<String, String> XMLheaders) throws ApiException{
+    @Value("${pdfApp.baseUrl}")
+    private String pdfAppBaseUrl;
+    @Value("${pdfApp.generateReportUrl}")
+    private String generateReportUrl;
+
+    public <T> String getReportPDFBase64(List<T> reportData, String xsltFilename, HashMap<String, String> XMLheaders) throws ApiException{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String apiUrl = "http://localhost:8000/pdf/api/pdf/generateReport";
+        String apiUrl = pdfAppBaseUrl + generateReportUrl;
         PDFForm<T> pdfForm = new PDFForm<T>(xsltFilename, XMLheaders, reportData);
         RestTemplate RestTemplate = new RestTemplate();
         ResponseEntity<String> apiResponse = RestTemplate.postForEntity(apiUrl, pdfForm, String.class);
@@ -29,7 +37,7 @@ public class PDFApiUtil {
         return base64;
     }
 
-    public static void saveBase64ToPDF(String base64, String filepath) throws ApiException {
+    public void saveBase64ToPDF(String base64, String filepath) throws ApiException {
         try {
             byte[] pdfAsBytes = Base64.getDecoder().decode(base64);
             FileOutputStream os = new FileOutputStream(filepath);
@@ -41,7 +49,7 @@ public class PDFApiUtil {
         }
     }
 
-    public static String PDFToBase64(String filename) throws ApiException {
+    public String PDFToBase64(String filename) throws ApiException {
         File file = new File(filename);
         try{
             return Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(file));
