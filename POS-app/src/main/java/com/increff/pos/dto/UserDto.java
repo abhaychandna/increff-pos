@@ -66,12 +66,14 @@ public class UserDto {
 		// Attach Authentication object to the Security Context
 		SecurityUtil.setAuthentication(authentication);
 
+		info.setMessage("");
         return new ModelAndView("redirect:/ui/home");
 
     }
 
 	public ModelAndView logout(HttpServletRequest request) {
 		request.getSession().invalidate();
+		info.setMessage("");
 		return new ModelAndView("redirect:/site/login");
 	}
     
