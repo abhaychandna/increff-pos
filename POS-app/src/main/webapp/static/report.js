@@ -37,7 +37,7 @@ function salesReport(){
     var url = getReportUrl() + "/sales";
     var $form = $("#sales-report-form");
 
-	var json = JSON.parse(toJson($form));
+	var json = JSON.parse(toJsonString($form));
 
     for (var key in json) {
         if (json[key] === "") {

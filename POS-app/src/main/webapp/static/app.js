@@ -82,7 +82,7 @@ function getFileExtension(filename) {
 }
 
 //HELPER METHOD
-function toJson($form){
+function toJsonString($form){
     var serialized = $form.serializeArray();
     
     var s = '';

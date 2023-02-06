@@ -19,7 +19,7 @@ function addBrand(event){
 	//Set the values to update
 	var $form = $("#Brand-form");
 	if(!validateFormHTML($form)) return;
-	var json = toJson($form);
+	var json = toJsonString($form);
 	var url = getBrandUrl();
 
 	$.ajax({
@@ -49,7 +49,7 @@ function updateBrand(event){
 	//Set the values to update
 	var $form = $("#Brand-edit-form");
 	if(!validateFormHTML($form)) return;
-	var json = toJson($form);
+	var json = toJsonString($form);
 
 	$.ajax({
 	   url: url,
