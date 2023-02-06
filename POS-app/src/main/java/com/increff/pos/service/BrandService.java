@@ -75,7 +75,7 @@ public class BrandService {
 	}
 	public <T> List<BrandPojo> getByMultipleColumns(List<String> columns, List<List<T>> values) throws ApiException{
 		if(columns.size() != values.size()) {
-			throw new ApiException("Number of columns and values do not match");
+			throw new ApiException("Column and value list size should be same");
 		}
 		return dao.selectByMultipleColumns(columns, values);
 	}
