@@ -38,7 +38,7 @@ public class ProductServiceTest extends AbstractUnitTest {
         BrandData brandData = testUtil.createBrand(brand, category);
         ProductPojo product = new ProductPojo(barcode, brandData.getId(), name, mrp);
         productService.add(product);
-        product = productDao.select(ProductPojo.class, product.getId());
+        product = productDao.select(product.getId());
         assertEquals(brandData.getId(), product.getBrandCategory());
         assertEquals(barcode, product.getBarcode());
         assertEquals(name, product.getName());

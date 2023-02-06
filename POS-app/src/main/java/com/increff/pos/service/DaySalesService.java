@@ -33,7 +33,7 @@ public class DaySalesService {
 	}
 
 	public DaySalesPojo add(DaySalesPojo daySales) throws ApiException {
-		DaySalesPojo existing = dao.select(DaySalesPojo.class, daySales.getDate());
+		DaySalesPojo existing = dao.select(daySales.getDate());
 		if(Objects.isNull(existing)) {
 			return dao.insert(daySales);
 		}
@@ -45,7 +45,7 @@ public class DaySalesService {
 
 	public DaySalesPojo update(List<OrderItemPojo> items) throws ApiException {
 		ZonedDateTime date = getCurrentZonedDateWithoutTime();
-		DaySalesPojo daySales = dao.select(DaySalesPojo.class, date);
+		DaySalesPojo daySales = dao.select(date);
 		if(Objects.isNull(daySales)) {
 			return add(items);
 		}
@@ -71,7 +71,7 @@ public class DaySalesService {
 	}
 
 	public List<DaySalesPojo> getAll(Integer pageNo, Integer pageSize) {
-		return dao.selectAll(pageNo, pageSize, DaySalesPojo.class);
+		return dao.selectAll(pageNo, pageSize);
 	}
 
 	public List<DaySalesPojo> getAll(Integer pageNo, Integer pageSize, ZonedDateTime start, ZonedDateTime end) {
@@ -79,14 +79,14 @@ public class DaySalesService {
 	}
 
 	public DaySalesPojo getCheck(ZonedDateTime date) throws ApiException {
-		DaySalesPojo daySales = dao.select(DaySalesPojo.class, date);
+		DaySalesPojo daySales = dao.select(date);
 		if (Objects.isNull(daySales))
 			throw new ApiException("DaySales does not exist with date: " + date);
 		return daySales;
 	}
 
 	public Integer getRecordsCount() {
-		return dao.getRecordsCount(DaySalesPojo.class);
+		return dao.getRecordsCount();
 	}
 
 }

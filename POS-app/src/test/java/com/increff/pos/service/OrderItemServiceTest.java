@@ -17,7 +17,6 @@ import com.increff.pos.dao.ProductDao;
 import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
-import com.increff.pos.pojo.ProductPojo;
 
 public class OrderItemServiceTest extends AbstractUnitTest {
     @Autowired
@@ -74,7 +73,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         orderDao.insert(order);
 
         orderItemFormList.forEach(orderItemForm -> {
-            Integer productId = productDao.selectByColumn(ProductPojo.class, "barcode", orderItemForm.getBarcode()).getId();
+            Integer productId = productDao.selectByColumn("barcode", orderItemForm.getBarcode()).getId();
             OrderItemPojo orderItem = new OrderItemPojo(productId, orderItemForm.getQuantity(), orderItemForm.getSellingPrice());
             orderItem.setOrderId(order.getId());
             orderItemPojoList.add(orderItem);
@@ -85,7 +84,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
     public void testAdd() throws ApiException {
         orderItemService.add(orderItemPojoList);
         Integer orderId = orderItemPojoList.get(0).getOrderId();
-        List<OrderItemPojo> orderItemPojoListGet = orderItemDao.selectByColumn(OrderItemPojo.class, "orderId", List.of(orderId));
+        List<OrderItemPojo> orderItemPojoListGet = orderItemDao.selectByColumn("orderId", List.of(orderId));
         assertEquals(orderItemPojoList, orderItemPojoListGet);
     }
 

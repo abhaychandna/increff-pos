@@ -35,7 +35,7 @@ public class UserServiceTest extends AbstractUnitTest {
     public void testAdd() throws ApiException {
         UserPojo user = new UserPojo(email, password, Role.operator);
         userService.add(user);
-        UserPojo userGet = userDao.select(UserPojo.class, user.getId());
+        UserPojo userGet = userDao.select(user.getId());
         assertEquals(user, userGet);
     }
 

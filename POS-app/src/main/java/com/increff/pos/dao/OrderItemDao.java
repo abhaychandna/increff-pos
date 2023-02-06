@@ -8,8 +8,13 @@ import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.service.ApiException;
 
 @Repository
-public class OrderItemDao extends AbstractDao {
+public class OrderItemDao extends AbstractDao<OrderItemPojo> {
+
+	OrderItemDao() {
+		super(OrderItemPojo.class);
+	}
+
 	public List<OrderItemPojo> selectByOrderId(Integer id) throws ApiException {
-        return selectMultiple(OrderItemPojo.class, "orderId", id);
+        return selectMultiple("orderId", id);
 	}
 }

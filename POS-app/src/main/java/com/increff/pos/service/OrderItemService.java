@@ -26,11 +26,11 @@ public class OrderItemService {
 	}
 
 	public List<OrderItemPojo> getAll(Integer pageNo, Integer pageSize) {
-		return dao.selectAll(pageNo, pageSize, OrderItemPojo.class);
+		return dao.selectAll(pageNo, pageSize);
 	}
 
 	public OrderItemPojo getCheck(Integer id) throws ApiException {
-		OrderItemPojo item = dao.select(OrderItemPojo.class, id);
+		OrderItemPojo item = dao.select(id);
 		if (Objects.isNull(item)) {
 			throw new ApiException("Order with given ID does not exist, id: " + id);
 		}
@@ -42,16 +42,16 @@ public class OrderItemService {
 	}
 	
 	public Integer getRecordsCount() {
-		return dao.getRecordsCount(OrderItemPojo.class);
+		return dao.getRecordsCount();
 	}
 	public <T> List<OrderItemPojo> getByColumn(String column, List<T> values){
-		return dao.selectByColumn(OrderItemPojo.class, column, values);
+		return dao.selectByColumn(column, values);
 	}
 
 	public <T> List<OrderItemPojo> getByMultipleColumns(List<String> columns, List<List<T>> values) throws ApiException{
 		if(columns.size() != values.size()) {
 			throw new ApiException("Number of columns and values do not match");
 		}
-		return dao.selectByMultipleColumns(OrderItemPojo.class, columns, values);
+		return dao.selectByMultipleColumns(columns, values);
 	}
 }

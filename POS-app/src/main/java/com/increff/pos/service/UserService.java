@@ -25,7 +25,7 @@ public class UserService {
 	private String supervisorEmail;
 
 	public void add(UserPojo user) throws ApiException {
-		UserPojo existing = dao.selectByColumn(UserPojo.class, "email", user.getEmail());
+		UserPojo existing = dao.selectByColumn("email", user.getEmail());
 		if (Objects.nonNull(existing)) {
 			throw new ApiException("User already exists");
 		}
@@ -39,10 +39,10 @@ public class UserService {
 	}
 
 	public UserPojo get(String email) throws ApiException {
-		return dao.selectByColumn(UserPojo.class, "email", email);
+		return dao.selectByColumn("email", email);
 	}
 
 	public List<UserPojo> getAll() {
-		return dao.selectAll(UserPojo.class);
+		return dao.selectAll();
 	}
 }

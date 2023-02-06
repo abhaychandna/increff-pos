@@ -2,7 +2,14 @@ package com.increff.pos.dao;
 
 import org.springframework.stereotype.Repository;
 
-@Repository
-public class UserDao extends AbstractDao {
+import com.increff.pos.pojo.UserPojo;
 
+@Repository
+public class UserDao extends AbstractDao<UserPojo> {
+
+    UserDao() {
+        super(UserPojo.class);
+    }
 }
+
+

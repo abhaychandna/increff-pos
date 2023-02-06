@@ -60,17 +60,17 @@ public class OrderService {
 	}
 
 	public List<OrderPojo> getAll(Integer pageNo, Integer pageSize) {
-		return dao.selectAll(pageNo, pageSize, OrderPojo.class);
+		return dao.selectAll(pageNo, pageSize);
 	}
 
 	public OrderPojo getCheck(Integer id) throws ApiException {
-		OrderPojo order = dao.select(OrderPojo.class, id);
+		OrderPojo order = dao.select(id);
 		if (Objects.isNull(order))
 			throw new ApiException("Order does not exist with id: " + id);
 		return order;
 	}
 
 	public Integer getRecordsCount() {
-		return dao.getRecordsCount(OrderPojo.class);
+		return dao.getRecordsCount();
 	}
 }

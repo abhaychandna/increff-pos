@@ -47,7 +47,7 @@ public class UserTest extends AbstractUnitTest {
         SignupForm form = testUtil.getSignupFormDto(email, password);
         MockHttpServletRequest request = new MockHttpServletRequest();
         userDto.signup(request, form);
-        UserPojo user = userDao.selectByColumn(UserPojo.class, "email", email);
+        UserPojo user = userDao.selectByColumn("email", email);
         checkEquals(user, form);
     }
 

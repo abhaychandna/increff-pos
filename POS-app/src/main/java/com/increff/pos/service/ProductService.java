@@ -19,7 +19,7 @@ public class ProductService {
 	private ProductDao dao;
 
 	public ProductPojo add(ProductPojo product) throws ApiException {
-		ProductPojo existing = dao.selectByColumn(ProductPojo.class, "barcode", product.getBarcode());
+		ProductPojo existing = dao.selectByColumn("barcode", product.getBarcode());
 		if(Objects.nonNull(existing)) {
 			throw new ApiException("Product with barcode: " + product.getBarcode() + " already exists");
 		}
@@ -32,7 +32,7 @@ public class ProductService {
 	}
 
 	public List<ProductPojo> getAll(Integer pageNo, Integer pageSize) {
-		return dao.selectAll(pageNo, pageSize, ProductPojo.class);
+		return dao.selectAll(pageNo, pageSize);
 	}
 
 	public void update(Integer id, ProductPojo product) throws ApiException {
@@ -42,7 +42,7 @@ public class ProductService {
 	}
 
 	public ProductPojo getCheck(Integer id) throws ApiException {
-		ProductPojo product = dao.select(ProductPojo.class, id);
+		ProductPojo product = dao.select(id);
 		if (Objects.isNull(product)) {
 			throw new ApiException("Product with id: " +  id + " does not exist");
 		}
@@ -61,11 +61,11 @@ public class ProductService {
 	}
 
 	public Integer getRecordsCount() {
-		return dao.getRecordsCount(ProductPojo.class);
+		return dao.getRecordsCount();
 	}
 
 	public <T> List<ProductPojo> getByColumn(String column, List<T> values){
-		return dao.selectByColumn(ProductPojo.class, column, values);
+		return dao.selectByColumn(column, values);
 	}
 
 }

@@ -18,7 +18,6 @@ import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.pojo.DaySalesPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
-import com.increff.pos.pojo.ProductPojo;
 
 public class DaySalesServiceTest extends AbstractUnitTest {
 
@@ -76,7 +75,7 @@ public class DaySalesServiceTest extends AbstractUnitTest {
         orderDao.insert(order);
 
         orderItemFormList.forEach(orderItemForm -> {
-            Integer productId = productDao.selectByColumn(ProductPojo.class, "barcode", orderItemForm.getBarcode()).getId();
+            Integer productId = productDao.selectByColumn("barcode", orderItemForm.getBarcode()).getId();
             OrderItemPojo orderItem = new OrderItemPojo(productId, orderItemForm.getQuantity(), orderItemForm.getSellingPrice());
             orderItem.setOrderId(order.getId());
             orderItemPojoList.add(orderItem);
@@ -86,7 +85,7 @@ public class DaySalesServiceTest extends AbstractUnitTest {
     @Test
     public void testAdd() throws ApiException {
         DaySalesPojo daySales = daySalesService.add(orderItemPojoList);
-        daySales = daySalesDao.select(DaySalesPojo.class, daySales.getDate());
+        daySales = daySalesDao.select(daySales.getDate());
         Double expectedRevenue = sellingPrice1 * quantity1 + sellingPrice2 * quantity2;
         assertEquals(orderItemPojoList.size(), daySales.getInvoicedItemsCount());
         assertEquals(1, daySales.getInvoicedOrdersCount());
@@ -96,10 +95,10 @@ public class DaySalesServiceTest extends AbstractUnitTest {
     @Test
     public void testUpdate() throws ApiException {
         DaySalesPojo daySales = daySalesService.add(orderItemPojoList);
-        daySales = daySalesDao.select(DaySalesPojo.class, daySales.getDate());
+        daySales = daySalesDao.select(daySales.getDate());
         
         daySales = daySalesService.update(orderItemPojoList);
-        daySales = daySalesDao.select(DaySalesPojo.class, daySales.getDate());
+        daySales = daySalesDao.select(daySales.getDate());
         Double expectedRevenue = (sellingPrice1 * quantity1 + sellingPrice2 * quantity2) * 2;
         assertEquals(orderItemPojoList.size() * 2, daySales.getInvoicedItemsCount());
         assertEquals(2, daySales.getInvoicedOrdersCount());
@@ -109,7 +108,7 @@ public class DaySalesServiceTest extends AbstractUnitTest {
     @Test
     public void testGetCheck() throws ApiException {
         DaySalesPojo daySales = daySalesService.add(orderItemPojoList);
-        daySales = daySalesDao.select(DaySalesPojo.class, daySales.getDate());
+        daySales = daySalesDao.select(daySales.getDate());
         DaySalesPojo daySalesGet = daySalesService.getCheck(daySales.getDate());
         assertEquals(daySales, daySalesGet);
     }

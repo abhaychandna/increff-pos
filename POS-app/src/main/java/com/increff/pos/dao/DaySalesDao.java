@@ -14,7 +14,12 @@ import org.springframework.stereotype.Repository;
 import com.increff.pos.pojo.DaySalesPojo;
 
 @Repository
-public class DaySalesDao extends AbstractDao {
+public class DaySalesDao extends AbstractDao<DaySalesPojo> {
+    
+    DaySalesDao() {
+        super(DaySalesPojo.class);
+    }
+
     public List<DaySalesPojo> filterByDate(Integer pageNo, Integer pageSize, ZonedDateTime start, ZonedDateTime end) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<DaySalesPojo> cq = cb.createQuery(DaySalesPojo.class);

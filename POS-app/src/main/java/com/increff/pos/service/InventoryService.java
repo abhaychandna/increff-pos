@@ -19,7 +19,7 @@ public class InventoryService {
 	private InventoryDao dao;
 	
 	public InventoryPojo add(InventoryPojo inventory) throws ApiException {
-        InventoryPojo existing = dao.select(InventoryPojo.class, inventory.getProductId());
+        InventoryPojo existing = dao.select(inventory.getProductId());
 		if (Objects.nonNull(existing)) {
 			existing.setQuantity(existing.getQuantity() + inventory.getQuantity());
 			return existing;
@@ -35,11 +35,11 @@ public class InventoryService {
 	}
 
 	public List<InventoryPojo> getAll(Integer pageNo, Integer pageSize) {
-		return dao.selectAll(pageNo, pageSize, InventoryPojo.class);
+		return dao.selectAll(pageNo, pageSize);
 	}
 
 	public List<InventoryPojo> getAll() {
-		return dao.selectAll(InventoryPojo.class);
+		return dao.selectAll();
 	}
 
 	public void update(Integer id, Integer quantity) throws ApiException {
@@ -56,7 +56,7 @@ public class InventoryService {
 	}
 
 	public InventoryPojo getCheck(Integer id) throws ApiException {
-		InventoryPojo inventory = dao.selectByColumn(InventoryPojo.class, "productId", id);
+		InventoryPojo inventory = dao.selectByColumn("productId", id);
 		if (Objects.isNull(inventory)) {
 			throw new ApiException("Inventory with given ID does not exist");
 		}
@@ -64,6 +64,6 @@ public class InventoryService {
 	}
 
 	public Integer getRecordsCount() {
-		return dao.getRecordsCount(InventoryPojo.class);
+		return dao.getRecordsCount();
 	}
 }

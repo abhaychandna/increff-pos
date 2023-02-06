@@ -50,7 +50,7 @@ public class ProductTest extends AbstractUnitTest{
         ProductForm productForm = testUtil.getProductFormDto(barcode,brand,category,name,mrp);
         ProductData productData = productDto.add(productForm);
         
-        ProductPojo product = productDao.select(ProductPojo.class, productData.getId());
+        ProductPojo product = productDao.select(productData.getId());
         assertEquals(brandData.getId(), product.getBrandCategory());
         assertEquals(barcode, product.getBarcode());
         assertEquals(name, product.getName());
@@ -63,7 +63,7 @@ public class ProductTest extends AbstractUnitTest{
         String newBrand = brand.toUpperCase(), newCategory = category.toUpperCase();
         ProductData productData = productDto.add(testUtil.getProductFormDto(barcode,newBrand,newCategory,name,mrp)); 
         
-        ProductPojo product = productDao.select(ProductPojo.class, productData.getId());
+        ProductPojo product = productDao.select(productData.getId());
         assertEquals(brandData.getId(), product.getBrandCategory());
         assertEquals(barcode, product.getBarcode());
         assertEquals(name, product.getName());
@@ -76,7 +76,7 @@ public class ProductTest extends AbstractUnitTest{
         String newBrand = " " + brand + " ", newCategory = " " + category + " ";
         ProductData productData = productDto.add(testUtil.getProductFormDto(barcode,newBrand,newCategory,name,mrp)); 
         
-        ProductPojo product = productDao.select(ProductPojo.class, productData.getId());
+        ProductPojo product = productDao.select(productData.getId());
         assertEquals(brandData.getId(), product.getBrandCategory());
         assertEquals(barcode, product.getBarcode());
         assertEquals(name, product.getName());

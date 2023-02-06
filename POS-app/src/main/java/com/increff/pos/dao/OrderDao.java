@@ -14,7 +14,12 @@ import org.springframework.stereotype.Repository;
 import com.increff.pos.pojo.OrderPojo;
 
 @Repository
-public class OrderDao extends AbstractDao {
+public class OrderDao extends AbstractDao<OrderPojo> {
+
+    OrderDao() {
+        super(OrderPojo.class);
+    }
+
     public List<OrderPojo> filterByDate(ZonedDateTime start, ZonedDateTime end) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<OrderPojo> cq = cb.createQuery(OrderPojo.class);

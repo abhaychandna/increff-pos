@@ -32,7 +32,7 @@ public class BrandService {
 	} 
 
 	public List<BrandPojo> getAll(Integer pageNo, Integer pageSize) {
-		return dao.selectAll(pageNo, pageSize, BrandPojo.class);
+		return dao.selectAll(pageNo, pageSize);
 	}
 
 	public void update(Integer id, BrandPojo brand) throws ApiException {
@@ -48,11 +48,11 @@ public class BrandService {
 	}
 
 	public Integer getRecordsCount() {
-		return dao.getRecordsCount(BrandPojo.class);
+		return dao.getRecordsCount();
 	}
 
 	public BrandPojo getCheck(Integer id) throws ApiException {
-		BrandPojo brand = dao.select(BrandPojo.class, id);
+		BrandPojo brand = dao.select(id);
 		if (Objects.isNull(brand)) {
 			throw new ApiException("Brand with given ID does not exist, id: " + id);
 		}
@@ -71,17 +71,17 @@ public class BrandService {
 	}
 
 	public <T> List<BrandPojo> getByColumn(String column, List<T> values){
-		return dao.selectByColumn(BrandPojo.class, column, values);
+		return dao.selectByColumn(column, values);
 	}
 	public <T> List<BrandPojo> getByMultipleColumns(List<String> columns, List<List<T>> values) throws ApiException{
 		if(columns.size() != values.size()) {
 			throw new ApiException("Number of columns and values do not match");
 		}
-		return dao.selectByMultipleColumns(BrandPojo.class, columns, values);
+		return dao.selectByMultipleColumns(columns, values);
 	}
 
 	public List<BrandPojo> getAll() {
-		return dao.selectAll(BrandPojo.class);
+		return dao.selectAll();
 	}
 
 

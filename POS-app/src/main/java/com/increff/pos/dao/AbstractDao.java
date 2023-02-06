@@ -13,16 +13,22 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-public abstract class AbstractDao {
+public abstract class AbstractDao<T> {
+
+	private Class<T> clazz;
+
+	AbstractDao(Class<T> clazz) {
+		this.clazz = clazz;
+	}
 
 	@PersistenceContext
 	protected EntityManager em;
 
-	protected <T> T getSingle(TypedQuery<T> query) {
+	protected T getSingle(TypedQuery<T> query) {
 		return query.getResultList().stream().findFirst().orElse(null);
 	}
 
-	protected <T> TypedQuery<T> getQuery(String jpql, Class<T> clazz) {
+	protected TypedQuery<T> getQuery(String jpql) {
 		return em.createQuery(jpql, clazz);
 	}
 
@@ -30,60 +36,60 @@ public abstract class AbstractDao {
 		return em;
 	}
 
-	public <T> T insert(T b) {
+	public T insert(T b) {
 		em.persist(b);
 		return b;
 	}
 
-	public <T,R> T select(Class<T> c, R id) {
-		return em.find(c, id);
+	public <R> T select(R id) {
+		return em.find(clazz, id);
 	}
 
-	public <T> List<T> selectAll(Integer pageNo, Integer pageSize, Class<T> pojo) {
+	public List<T> selectAll(Integer pageNo, Integer pageSize) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<T> cq = cb.createQuery(pojo);
-		Root<T> root = cq.from(pojo);
+		CriteriaQuery<T> cq = cb.createQuery(clazz);
+		Root<T> root = cq.from(clazz);
 		CriteriaQuery<T> all = cq.select(root);
 		TypedQuery<T> query = em.createQuery(all);
 		query.setFirstResult(pageNo * pageSize).setMaxResults(pageSize);
 		return query.getResultList();
 	}
-	public <T> List<T> selectAll(Class<T> pojo) {
+	public List<T> selectAll() {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<T> cq = cb.createQuery(pojo);
-		Root<T> root = cq.from(pojo);
+		CriteriaQuery<T> cq = cb.createQuery(clazz);
+		Root<T> root = cq.from(clazz);
 		CriteriaQuery<T> all = cq.select(root);
 		TypedQuery<T> query = em.createQuery(all);
 		return query.getResultList();
 	}
 
-	public <T> Integer getRecordsCount(Class<T> pojo) {
+	public Integer getRecordsCount() {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-		Root<T> root = cq.from(pojo);
+		Root<T> root = cq.from(clazz);
 		cq.select(cb.count(root));
 		return em.createQuery(cq).getSingleResult().intValue();
 	}
 
-	public <T, R> List<T> selectMultiple(Class<T> c, String column, R value) {
+	public <R> List<T> selectMultiple(String column, R value) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<T> cq = cb.createQuery(c);
-		Root<T> root = cq.from(c);
+		CriteriaQuery<T> cq = cb.createQuery(clazz);
+		Root<T> root = cq.from(clazz);
 		cq.where(cb.equal(root.get(column), value));
 		TypedQuery<T> query = em.createQuery(cq);
 		return query.getResultList();
 	}
 
-	public <T, R> T selectByColumn(Class<T> c, String column, R value) {
+	public <R> T selectByColumn(String column, R value) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<T> cq = cb.createQuery(c);
-		Root<T> root = cq.from(c);
+		CriteriaQuery<T> cq = cb.createQuery(clazz);
+		Root<T> root = cq.from(clazz);
 		cq.where(cb.equal(root.get(column), value));
 		TypedQuery<T> query = em.createQuery(cq);
 		return getSingle(query);
 	}
 
-	public <T,R> List<T> selectByColumn(Class<T> clazz, String column, List<R> values) {
+	public <R> List<T> selectByColumn(String column, List<R> values) {
 		if(values.isEmpty()) return Collections.emptyList(); 
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<T> cq = cb.createQuery(clazz);
@@ -98,7 +104,7 @@ public abstract class AbstractDao {
 		return query.getResultList();
 	}
 
-	public <T, R> List<T> selectByMultipleColumns(Class<T> clazz, List<String> columns, List<List<R>> values) {
+	public <R> List<T> selectByMultipleColumns(List<String> columns, List<List<R>> values) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<T> cq = cb.createQuery(clazz);
 		Root<T> root = cq.from(clazz);

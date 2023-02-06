@@ -16,7 +16,6 @@ import com.increff.pos.dao.ProductDao;
 import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
-import com.increff.pos.pojo.ProductPojo;
 
 public class OrderServiceTest extends AbstractUnitTest {
     @Autowired
@@ -66,7 +65,7 @@ public class OrderServiceTest extends AbstractUnitTest {
         orderItemFormList = List.of(orderItemForm, orderItemForm2);
         orderItemPojoList = new ArrayList<OrderItemPojo>();
         orderItemFormList.forEach(orderItemForm -> {
-            Integer productId = productDao.selectByColumn(ProductPojo.class, "barcode", orderItemForm.getBarcode()).getId();
+            Integer productId = productDao.selectByColumn("barcode", orderItemForm.getBarcode()).getId();
             orderItemPojoList.add(new OrderItemPojo(productId, orderItemForm.getQuantity(), orderItemForm.getSellingPrice()));
         });
     }
