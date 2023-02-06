@@ -1,4 +1,4 @@
-package com.increff.pos.service;
+package com.increff.pos.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,8 +31,7 @@ import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.pojo.UserPojo;
-import com.increff.pos.util.ConvertUtil;
-import com.increff.pos.util.PreProcessingUtil;
+import com.increff.pos.service.ApiException;
 
 @Component
 public class TestUtil {
