@@ -3,6 +3,8 @@ package com.increff.pos.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,6 +110,15 @@ public class BrandServiceTest extends AbstractUnitTest {
         String expectedMessage = "Brand with given ID does not exist, id: " + id;
         Exception exception = assertThrows(ApiException.class, () -> {
             svc.getCheck(1);
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
+    }
+
+    @Test
+    public void testGetByMultipleColumnDifferentColumnAndValueListSize() throws ApiException {
+        String expectedMessage = "Column and value list size should be same";
+        Exception exception = assertThrows(ApiException.class, () -> {
+            svc.getByMultipleColumns(List.of("brand"), List.of(List.of("b1"),List.of("c1")));
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }

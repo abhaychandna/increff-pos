@@ -113,6 +113,15 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }
 
+    @Test
+    public void testGetByMultipleColumnDifferentColumnAndValueListSize() throws ApiException {
+        String expectedMessage = "Column and value list size should be same";
+        Exception exception = assertThrows(ApiException.class, () -> {
+            orderItemService.getByMultipleColumns(List.of("orderId"), List.of(List.of(1),List.of(2)));
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
+    }
+
 
     
 }
