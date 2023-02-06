@@ -35,10 +35,10 @@ public class ProductService {
 		return dao.selectAll(pageNo, pageSize);
 	}
 
-	public void update(Integer id, ProductPojo product) throws ApiException {
+	public void update(Integer id, String name, Double mrp) throws ApiException {
 		ProductPojo existing = getCheck(id);
-		existing.setName(product.getName());
-		existing.setMrp(product.getMrp());
+		existing.setName(name);
+		existing.setMrp(mrp);
 	}
 
 	public ProductPojo getCheck(Integer id) throws ApiException {

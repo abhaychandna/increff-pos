@@ -138,8 +138,7 @@ public class ProductDto {
 
     public void update(Integer id, ProductPutForm form) throws ApiException {
         PreProcessingUtil.normalizeAndValidate(form);
-        ProductPojo product = ConvertUtil.convert(form, ProductPojo.class);
-        svc.update(id, product);
+        svc.update(id, form.getName(), form.getMrp());
     }
 
     public ProductData getByBarcode(String barcode) throws ApiException {
