@@ -105,6 +105,43 @@ public class DaySalesTest extends AbstractUnitTest {
     }
 
     @Test
+    public void testGetAllDateFilterEmptyStartDate_thenGetAll() throws ApiException {
+        ZonedDateTime date = ZonedDateTime.now();
+        Integer invoicedOrdersCount = 1;
+        Integer invoicedItemsCount = 2;
+        Double totalRevenue = 300.0;
+        testUtil.createDaySales(date, invoicedOrdersCount, invoicedItemsCount, totalRevenue);
+        ZonedDateTime datePlus1 = date.plusDays(1);
+        testUtil.createDaySales(datePlus1, invoicedOrdersCount, invoicedItemsCount, totalRevenue);
+
+        DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");        
+        String endDate = ZonedDateTime.now().minusDays(25).format(dateTimeFormat);
+
+        PaginatedData<DaySalesData> paginatedData = daySalesDto.getAll(0, 10, 1, "", endDate);
+        List<DaySalesData> data = paginatedData.getData();
+        assertEquals(2, data.size());
+    }
+
+    @Test
+    public void testGetAllDateFilterEmptyEndDate_thenGetAll() throws ApiException {
+        ZonedDateTime date = ZonedDateTime.now();
+        Integer invoicedOrdersCount = 1;
+        Integer invoicedItemsCount = 2;
+        Double totalRevenue = 300.0;
+        testUtil.createDaySales(date, invoicedOrdersCount, invoicedItemsCount, totalRevenue);
+        ZonedDateTime datePlus1 = date.plusDays(1);
+        testUtil.createDaySales(datePlus1, invoicedOrdersCount, invoicedItemsCount, totalRevenue);
+
+        DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");        
+        String startDate = ZonedDateTime.now().plusDays(25).format(dateTimeFormat);
+
+        PaginatedData<DaySalesData> paginatedData = daySalesDto.getAll(0, 10, 1, startDate, "");
+        List<DaySalesData> data = paginatedData.getData();
+        assertEquals(2, data.size());
+    }
+
+
+    @Test
     public void testCalculateDaySales() throws ApiException {
         daySalesDto.calculateSales();
         PaginatedData<DaySalesData> paginatedData = daySalesDto.getAll(0, 10, 1);
