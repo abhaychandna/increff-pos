@@ -83,7 +83,7 @@ public class OrderDto {
         
         String xsltFilename = "invoice";
 
-        base64 = PDFClient.getReportPDFBase64(invoiceItems, xsltFilename, XMLheaders);
+        base64 = PDFClient.getPDFInBase64(invoiceItems, xsltFilename, XMLheaders);
         
         PDFClient.saveBase64ToPDF(base64, outputFilepath);
 

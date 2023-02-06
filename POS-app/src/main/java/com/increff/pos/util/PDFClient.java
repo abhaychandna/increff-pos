@@ -25,11 +25,11 @@ public class PDFClient {
     @Value("${pdfApp.generateReportUrl}")
     private String generateReportUrl;
 
-    public <T> String getReportPDFBase64(List<T> reportData, String xsltFilename, HashMap<String, String> XMLheaders) throws ApiException{
+    public <T> String getPDFInBase64(List<T> pdfData, String xsltFilename, HashMap<String, String> XMLheaders) throws ApiException{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String apiUrl = pdfAppBaseUrl + generateReportUrl;
-        PDFForm<T> pdfForm = new PDFForm<T>(xsltFilename, XMLheaders, reportData);
+        PDFForm<T> pdfForm = new PDFForm<T>(xsltFilename, XMLheaders, pdfData);
         RestTemplate RestTemplate = new RestTemplate();
         ResponseEntity<String> apiResponse = RestTemplate.postForEntity(apiUrl, pdfForm, String.class);
         String base64 = apiResponse.getBody();
