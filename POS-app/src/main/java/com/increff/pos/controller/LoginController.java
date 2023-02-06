@@ -1,7 +1,6 @@
 package com.increff.pos.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -34,9 +33,8 @@ public class LoginController {
 	}
 
 	@RequestMapping(path = "/logout", method = RequestMethod.GET)
-	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
-		request.getSession().invalidate();
-		return new ModelAndView("redirect:/site/login");
+	public ModelAndView logout(HttpServletRequest request) {
+		return dto.logout(request);
 	}
 
 	@ApiOperation(value = "Signs up a user")

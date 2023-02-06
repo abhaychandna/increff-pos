@@ -69,6 +69,11 @@ public class UserDto {
         return new ModelAndView("redirect:/ui/home");
 
     }
+
+	public ModelAndView logout(HttpServletRequest request) {
+		request.getSession().invalidate();
+		return new ModelAndView("redirect:/site/login");
+	}
     
     private static Authentication convert(UserPojo user) {
 		// Create principal
