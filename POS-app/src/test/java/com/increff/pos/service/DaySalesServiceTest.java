@@ -91,6 +91,21 @@ public class DaySalesServiceTest extends AbstractUnitTest {
         assertEquals(1, daySales.getInvoicedOrdersCount());
         assertEquals(expectedRevenue, daySales.getTotalRevenue());
     }
+
+    @Test
+    public void testAddExisting_thenUpdate() throws ApiException {
+        DaySalesPojo daySales = daySalesService.add(orderItemPojoList);
+        Integer expectedItemsCount = 3, expectedOrdersCount = 2;
+        Double expectedRevenue = 1000.25;
+        DaySalesPojo newDaySales = new DaySalesPojo(daySales.getDate(), expectedOrdersCount, expectedItemsCount, expectedRevenue);
+        daySalesService.add(newDaySales);
+        daySales = daySalesDao.select(newDaySales.getDate());
+        System.out.println(daySales.getDate().toString() + daySales.getInvoicedItemsCount() + daySales.getInvoicedOrdersCount() + daySales.getTotalRevenue());
+        assertEquals(newDaySales.getDate(), daySales.getDate());
+        assertEquals(expectedItemsCount, daySales.getInvoicedItemsCount());
+        assertEquals(expectedOrdersCount, daySales.getInvoicedOrdersCount());
+        assertEquals(expectedRevenue, daySales.getTotalRevenue());
+    }
     
     @Test
     public void testUpdate() throws ApiException {
