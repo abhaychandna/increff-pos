@@ -74,19 +74,6 @@ function getBrandList(){
 	$("#brand-table").DataTable().ajax.reload();
 }
 
-function deleteBrand(id){
-	var url = getBrandUrl() + "/" + id;
-
-	$.ajax({
-	   url: url,
-	   type: 'DELETE',
-	   success: function(data) {
-	   		getBrandList();  
-	   },
-	   error: handleAjaxError
-	});
-}
-
 // FILE UPLOAD METHODS
 var fileData = [];
 var errorData = [];
