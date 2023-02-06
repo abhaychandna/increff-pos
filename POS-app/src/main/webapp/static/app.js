@@ -1,5 +1,8 @@
 
-var logoutRedirectUrl = "http://localhost:9000/pos";
+const HOST_URL = location.protocol + '//' + location.host;
+const BASE_URL = $("meta[name=baseUrl]").attr("content");
+const LOGOUT_URL = HOST_URL + BASE_URL + "/session/logout";
+const LOGOUT_REDIRECT_URL = HOST_URL + BASE_URL;
 
 function truncateFloat(num, places) {
 	num = parseFloat(num);
@@ -150,20 +153,33 @@ function downloadPDF(base64String, OUT_FILENAME) {
 }
 
 function logout(){
-	var timer = 2500;
-	var title = 'Logging out';
-	var text = 'Redirecting to login page...';
-	var icon = 'success';
+	$.ajax({
+		url: LOGOUT_URL,
+		type: 'GET',
+		success: function(response){			
+			showLogoutAlert();
+		},
+		error: function(response){
+			handleAjaxError(response);
+		}
+	});
+
+}
+
+function showLogoutAlert(){
+	const logoutAlertTimeMilli = 2500;
+	const title = 'Logging out';
+	const text = 'Redirecting to login page...';
+	const icon = 'success';
 	Swal.fire({
 		icon: icon,
 		title: title,
 		text: text,
-		timer: timer,
+		timer: logoutAlertTimeMilli,
 	});
 	setTimeout(function(){
-		window.location = logoutRedirectUrl;
-	}
-	, timer);
+		window.location = LOGOUT_REDIRECT_URL;
+	}, logoutAlertTimeMilli);
 }
 document.getElementById("logout-btn").addEventListener("click", logout);
 
