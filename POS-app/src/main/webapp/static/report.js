@@ -1,6 +1,3 @@
-// TODO : Remove testing variable from here
-var globalData;
-
 function getReportUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
     return baseUrl + "/api/reports";
@@ -60,8 +57,6 @@ function salesReport(){
     json["startDate"] = new Date(json["startDate"]).toISOString();
     json["endDate"] = new Date(json["endDate"]).toISOString();
     
-    globalData = json;
-
     json = JSON.stringify(json);
     $.ajax({
         url: url,
