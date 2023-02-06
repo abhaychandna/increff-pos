@@ -40,6 +40,9 @@ public class PDFClient {
     public void saveBase64ToPDF(String base64, String filepath) throws ApiException {
         try {
             byte[] pdfAsBytes = Base64.getDecoder().decode(base64);
+            File file = new File(filepath);
+            file.getParentFile().mkdirs();
+            
             FileOutputStream os = new FileOutputStream(filepath);
             os.write(pdfAsBytes);
             os.close();
