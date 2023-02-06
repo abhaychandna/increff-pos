@@ -121,7 +121,7 @@ function uploadRows(){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			console.log(response);
+			
 			errorData = response;
 			processCount = fileData.length;	 
 			raiseAlert('Success', 'Inventory uploaded successfully', 'success');
@@ -131,7 +131,7 @@ function uploadRows(){
 		},
 		error: function(response){
 			errorData = JSON.parse(response.responseJSON.message) ;
-			console.log(errorData);
+			
 			processCount = fileData.length;
 			var $file = $('#InventoryFile');
 	        $file.val('');       
@@ -217,7 +217,7 @@ function tableColumns(){
 		columns.push({
 			"data":null,
 			"render":function(o){
-				console.log(o);
+				
 				return '<button type="button" class="btn btn-info" onclick="displayEditInventory(' + o.productId + ')"th:if="${info.getRole() == "supervisor"}>Edit</button>'
 			}
 		});

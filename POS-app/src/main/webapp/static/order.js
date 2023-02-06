@@ -99,7 +99,7 @@ function validateInventory(barcode, quantity, inputJson) {
 
             var index = itemInCart();
             if(index != -1) {
-                console.log("inside check");
+                
                 wholeOrder[i] = inputJson;
             }
             else{
@@ -123,11 +123,11 @@ function validateInventory(barcode, quantity, inputJson) {
 function itemInCart() {
     for(i in wholeOrder) {
         var barcode = JSON.parse(wholeOrder[i]).barcode;
-        console.log(barcode);
+        
         var temp_barcode = $("#order-item-form input[name=barcode]").val();
-        console.log(temp_barcode);
+        
         if(temp_barcode == barcode) {
-            console.log("Index" + i);
+            
             return i;
         }
     }
@@ -198,7 +198,7 @@ function addOrderItem(event) {
         })
         return;
     }
-    console.log("No errors");
+    
 
     validateInventory(barcode, quantity, json);
     
@@ -233,7 +233,7 @@ function getInvoice(id){
         url: url,
         type: 'GET',
         success: function(base64String) {
-            console.log(base64String);
+            
             downloadPDF(base64String, "Invoice_orderId_" + id);
         },
         error: handleAjaxError
@@ -242,7 +242,7 @@ function getInvoice(id){
 
 function getOrderItemList() {
     var jsonObj = $.parseJSON('[' + wholeOrder + ']');
-    console.log(jsonObj);
+    
 }
 
 function displayOrderList(data) {
@@ -251,7 +251,7 @@ function displayOrderList(data) {
     $tbody.empty();
     for(var i in data){
         var e = data[i];
-        console.log(data[i].orderDate); 
+        
    		var buttonHtml = ' <button  onclick="OrderView(' + e.id + ')">view</button>'
    		var row = '<tr>'
    		+ '<td>' + e.id + '</td>'
@@ -298,7 +298,7 @@ function placeOrder() {
     var url = getOrderItemUrl();
 
     var jsonObj = arrayToJson();
-    console.log(jsonObj);
+    
     $.ajax({
         url: url,
         type: 'POST',
@@ -319,7 +319,7 @@ function placeOrder() {
         },
         error: function(e) {
             E = e
-            console.log(e.responseJSON)
+            
             
             var error = e.responseJSON.message
             
@@ -337,15 +337,15 @@ function placeOrder() {
                 productId = croppedError.substring(0, endIndex);
                 // convert to integer
                 productId = parseInt(productId);
-                console.log(productId); 
+                
 
                 // convert productId to product int
-                console.log(productId);
+                
                 productId = parseInt(productId);
-                console.log(productId);
+                
                 // get product name
                 var productName = getProductName(productId);
-                console.log(productName);
+                
 
                 var newError = e.responseJSON.message.replace("productId: " + productId, "barcode: " + productName);
                 error = newError;
@@ -397,7 +397,7 @@ function init(){
 		},
             { "data": "time",
             "render": function (timestamp) {
-                console.log(timestamp);
+                
                 var millisecondTimestamp = timestamp * 1000;
                 return  new Date(millisecondTimestamp).toLocaleString();
             } },

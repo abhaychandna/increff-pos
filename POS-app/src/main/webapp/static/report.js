@@ -12,7 +12,7 @@ function brandReport() {
         url: url,
         type: 'GET',
         success: function (data) {
-            console.log(data);
+            
             downloadPDF(data, "BrandReport");
         },
         error: function (response) {
@@ -27,7 +27,7 @@ function inventoryReport(){
         url: url,
         type: 'GET',
         success: function (data) {
-            console.log(data);
+            
             downloadPDF(data, "InventoryReport");
         },
         error: function (response) {
@@ -59,7 +59,7 @@ function salesReport(){
     }
     json["startDate"] = new Date(json["startDate"]).toISOString();
     json["endDate"] = new Date(json["endDate"]).toISOString();
-    console.log(json);
+    
     globalData = json;
 
     json = JSON.stringify(json);
@@ -69,7 +69,7 @@ function salesReport(){
         data: json,
         contentType: "application/json",
         success: function (data) {
-            console.log(data);
+            
             downloadPDF(data, "SalesReport");
         },
         error: function (response) {

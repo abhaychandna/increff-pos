@@ -59,7 +59,7 @@ function raiseAlert(title, text, icon){
 		icon = obj.icon;
 		title = obj.title;
 	}
-	console.log("Alert: " + title + " " + text + " " + icon);
+	
 	if(icon == 'error'){
 		Swal.fire({
 			icon: icon,
@@ -84,7 +84,7 @@ function getFileExtension(filename) {
 //HELPER METHOD
 function toJson($form){
     var serialized = $form.serializeArray();
-    console.log(serialized);
+    
     var s = '';
     var data = {};
     for(s in serialized){

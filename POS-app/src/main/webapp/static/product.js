@@ -133,7 +133,7 @@ function uploadRows(){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			console.log(response);
+			
 			errorData = response;
 			processCount = fileData.length;	 
 			raiseAlert('Success', 'Products uploaded successfully', 'success');
@@ -143,7 +143,7 @@ function uploadRows(){
 		},
 		error: function(response){
 			errorData = JSON.parse(response.responseJSON.message) ;
-			console.log(errorData);
+			
 			processCount = fileData.length;
 			var $file = $('#ProductFile');
 	        $file.val('');       

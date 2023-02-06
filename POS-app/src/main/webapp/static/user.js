@@ -57,7 +57,7 @@ function deleteUser(id){
 //UI DISPLAY METHODS
 
 function displayUserList(data){
-	console.log('Printing user data');
+	
 	var $tbody = $('#user-table').find('tbody');
 	$tbody.empty();
 	for(var i in data){

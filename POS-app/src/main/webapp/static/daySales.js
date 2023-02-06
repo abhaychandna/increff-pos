@@ -15,10 +15,10 @@ function getDaySalesList(){
 function stringToISOString(dateString){
 	var date = new Date(dateString);
 	//date = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-	console.log(date);
+	
 
 	var isoString = date.toISOString();
-	console.log("ISO String " + isoString)
+	
 	return isoString;
 }
 
@@ -36,8 +36,8 @@ function filterDaySalesList(){
 	}
 	startDate = stringToISOString(startDate);
 	endDate = stringToISOString(endDate);
-	console.log('sd' + startDate);
-	console.log('ed'+ endDate);
+	
+	
 	$('#daySales-table').data('dt_params', { startDate: startDate, endDate: endDate });
     $('#daySales-table').DataTable().ajax.reload();	
 }

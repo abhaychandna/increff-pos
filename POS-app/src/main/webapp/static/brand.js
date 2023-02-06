@@ -129,7 +129,7 @@ function uploadRows(){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			console.log(response);
+			
 			errorData = response;
 			processCount = fileData.length;	 
 			raiseAlert('Success', 'Brands uploaded successfully', 'success');
@@ -139,7 +139,7 @@ function uploadRows(){
 		},
 		error: function(response){
 			errorData = JSON.parse(response.responseJSON.message) ;
-			console.log(errorData);
+			
 			processCount = fileData.length;
 			var $file = $('#BrandFile');
 	        $file.val('');       
