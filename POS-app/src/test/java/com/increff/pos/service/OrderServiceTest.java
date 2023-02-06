@@ -11,11 +11,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.increff.pos.config.AbstractUnitTest;
 import com.increff.pos.dao.OrderItemDao;
 import com.increff.pos.dao.ProductDao;
 import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.util.TestUtil;
 
 public class OrderServiceTest extends AbstractUnitTest {
     @Autowired

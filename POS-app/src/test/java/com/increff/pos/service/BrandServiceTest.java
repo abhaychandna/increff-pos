@@ -9,7 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.increff.pos.config.AbstractUnitTest;
 import com.increff.pos.pojo.BrandPojo;
+import com.increff.pos.util.TestUtil;
 
 public class BrandServiceTest extends AbstractUnitTest {
     @Autowired

@@ -7,9 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.increff.pos.config.AbstractUnitTest;
 import com.increff.pos.dao.ProductDao;
 import com.increff.pos.model.data.BrandData;
 import com.increff.pos.pojo.ProductPojo;
+import com.increff.pos.util.TestUtil;
 
 public class ProductServiceTest extends AbstractUnitTest {
     @Autowired

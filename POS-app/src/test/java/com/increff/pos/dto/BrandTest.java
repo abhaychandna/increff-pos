@@ -9,12 +9,12 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.increff.pos.config.AbstractUnitTest;
 import com.increff.pos.model.data.BrandData;
 import com.increff.pos.model.data.PaginatedData;
 import com.increff.pos.model.form.BrandForm;
-import com.increff.pos.service.AbstractUnitTest;
 import com.increff.pos.service.ApiException;
-import com.increff.pos.service.TestUtil;
+import com.increff.pos.util.TestUtil;
 
 public class BrandTest extends AbstractUnitTest {
     @Autowired

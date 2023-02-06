@@ -9,11 +9,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.increff.pos.config.AbstractUnitTest;
 import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.model.form.SalesReportForm;
-import com.increff.pos.service.AbstractUnitTest;
 import com.increff.pos.service.ApiException;
-import com.increff.pos.service.TestUtil;
+import com.increff.pos.util.TestUtil;
 
 public class ReportTest extends AbstractUnitTest {
 

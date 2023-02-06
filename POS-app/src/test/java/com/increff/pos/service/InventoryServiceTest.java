@@ -7,9 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.increff.pos.config.AbstractUnitTest;
 import com.increff.pos.dao.InventoryDao;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
+import com.increff.pos.util.TestUtil;
 
 public class InventoryServiceTest extends AbstractUnitTest {
     @Autowired
