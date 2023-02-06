@@ -30,21 +30,18 @@ public class PDFUtil {
             OutputStream out;
 
             out = new java.io.ByteArrayOutputStream();
-            try {
-                Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
+            Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
 
-                TransformerFactory factory = TransformerFactory.newInstance();
-                Transformer transformer = factory.newTransformer(new StreamSource(xsltFile));
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Transformer transformer = factory.newTransformer(new StreamSource(xsltFile));
 
-                Result res = new SAXResult(fop.getDefaultHandler());
+            Result res = new SAXResult(fop.getDefaultHandler());
 
-                transformer.transform(xmlSource, res);
-            } finally {
-                //out.close();
-                byte[] pdfBytes = ((java.io.ByteArrayOutputStream)out).toByteArray();
-                String base64 = Base64.getEncoder().encodeToString(pdfBytes);
-                return base64;
-            }
+            transformer.transform(xmlSource, res);
+            byte[] pdfBytes = ((java.io.ByteArrayOutputStream)out).toByteArray();
+            String base64 = Base64.getEncoder().encodeToString(pdfBytes);
+            return base64;
+        
         } catch (Exception e) {
             e.printStackTrace(System.err);
             throw new ApiException(e.toString());
