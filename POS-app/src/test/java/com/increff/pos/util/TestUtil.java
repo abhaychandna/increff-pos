@@ -113,14 +113,14 @@ public class TestUtil {
     }
 
     
-    public BrandForm getBrandFormDto(String brand, String category) {
+    public BrandForm getBrandForm(String brand, String category) {
         BrandForm brandForm = new BrandForm();
         brandForm.setBrand(brand);
         brandForm.setCategory(category);
         return brandForm;
     }
 
-    public ProductForm getProductFormDto(String barcode, String brand, String category, String name, Double mrp) {
+    public ProductForm getProductForm(String barcode, String brand, String category, String name, Double mrp) {
         ProductForm productForm = new ProductForm();
         productForm.setBarcode(barcode);
         productForm.setBrand(brand);
@@ -130,17 +130,17 @@ public class TestUtil {
         return productForm;
     }
 
-    public InventoryForm getInventoryFormDto(String barcode, Integer quantity){
+    public InventoryForm getInventoryForm(String barcode, Integer quantity){
         InventoryForm inventoryForm = new InventoryForm();
         inventoryForm.setBarcode(barcode);
         inventoryForm.setQuantity(quantity);
         return inventoryForm;
     }
 
-    public SignupForm getSignupFormDto(String username, String password){
+    public SignupForm getSignupForm(String username, String password){
         return new SignupForm(username, password);
     }
-    public LoginForm getLoginFormDto(String username, String password){
+    public LoginForm getLoginForm(String username, String password){
         return new LoginForm(username, password);
     }
 

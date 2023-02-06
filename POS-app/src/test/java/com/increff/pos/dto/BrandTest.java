@@ -31,14 +31,14 @@ public class BrandTest extends AbstractUnitTest {
 
     @Test
     public void testNormalizeUppercaseToLowercase() throws ApiException {
-        BrandData brandData = brandDto.add(testUtil.getBrandFormDto("ADIDAS", "TshirTs"));
+        BrandData brandData = brandDto.add(testUtil.getBrandForm("ADIDAS", "TshirTs"));
         assertEquals("adidas", brandData.getBrand());
         assertEquals("tshirts", brandData.getCategory());
     }
 
     @Test
     public void testNormalizeTrim() throws ApiException {
-        BrandData brandData = brandDto.add(testUtil.getBrandFormDto("  adidas  ", "  tshirts  "));
+        BrandData brandData = brandDto.add(testUtil.getBrandForm("  adidas  ", "  tshirts  "));
         assertEquals("adidas", brandData.getBrand());
         assertEquals("tshirts", brandData.getCategory());
     }
@@ -47,7 +47,7 @@ public class BrandTest extends AbstractUnitTest {
     public void testValidateEmptyBrand() throws ApiException {        
         String expectedMessage = testUtil.createFieldEmptyErrorMessage("Brand");
         Exception exception = assertThrows(ApiException.class, () -> {
-            brandDto.add(testUtil.getBrandFormDto("", "Tshirts"));
+            brandDto.add(testUtil.getBrandForm("", "Tshirts"));
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }
@@ -55,7 +55,7 @@ public class BrandTest extends AbstractUnitTest {
     public void testValidateEmptyCategory() throws ApiException {        
         String expectedMessage = testUtil.createFieldEmptyErrorMessage("Category");
         Exception exception = assertThrows(ApiException.class, () -> {
-            brandDto.add(testUtil.getBrandFormDto("adidas", ""));
+            brandDto.add(testUtil.getBrandForm("adidas", ""));
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }
@@ -79,7 +79,7 @@ public class BrandTest extends AbstractUnitTest {
 
     @Test
     public void testUpdateBrand() throws ApiException {
-        BrandForm brandForm = testUtil.getBrandFormDto("adidas", "tshirts");
+        BrandForm brandForm = testUtil.getBrandForm("adidas", "tshirts");
         BrandData brandData = brandDto.add(brandForm);
         brandForm.setCategory("hoodies");
         brandDto.update(brandData.getId(), brandForm);
@@ -91,7 +91,7 @@ public class BrandTest extends AbstractUnitTest {
 
     @Test(expected = ApiException.class)
     public void testAddExistingBrandCategory() throws ApiException {
-        BrandForm brandForm = testUtil.getBrandFormDto("adidas", "tshirts");
+        BrandForm brandForm = testUtil.getBrandForm("adidas", "tshirts");
         brandDto.add(brandForm);
 
         brandDto.add(brandForm);
@@ -99,9 +99,9 @@ public class BrandTest extends AbstractUnitTest {
 
     @Test
     public void testBulkAdd() throws ApiException, JsonProcessingException {
-        BrandForm brandForm1 = testUtil.getBrandFormDto("adidas", "tshirts");
-        BrandForm brandForm2 = testUtil.getBrandFormDto("nike", "tshirts");
-        BrandForm brandForm3 = testUtil.getBrandFormDto("puma", "tshirts");
+        BrandForm brandForm1 = testUtil.getBrandForm("adidas", "tshirts");
+        BrandForm brandForm2 = testUtil.getBrandForm("nike", "tshirts");
+        BrandForm brandForm3 = testUtil.getBrandForm("puma", "tshirts");
         List<BrandForm> brandForms = List.of(brandForm1, brandForm2, brandForm3);
         brandDto.bulkAdd(brandForms);
 
@@ -111,9 +111,9 @@ public class BrandTest extends AbstractUnitTest {
 
     @Test(expected = ApiException.class)
     public void testBulkAddExisting() throws ApiException, JsonProcessingException {
-        BrandForm brandForm1 = testUtil.getBrandFormDto("adidas", "tshirts");
-        BrandForm brandForm2 = testUtil.getBrandFormDto("nike", "tshirts");
-        BrandForm brandForm3 = testUtil.getBrandFormDto("puma", "tshirts");
+        BrandForm brandForm1 = testUtil.getBrandForm("adidas", "tshirts");
+        BrandForm brandForm2 = testUtil.getBrandForm("nike", "tshirts");
+        BrandForm brandForm3 = testUtil.getBrandForm("puma", "tshirts");
         List<BrandForm> brandForms = List.of(brandForm1, brandForm2, brandForm3);
         brandDto.bulkAdd(brandForms);
 
@@ -123,7 +123,7 @@ public class BrandTest extends AbstractUnitTest {
 
     @Test(expected = ApiException.class)
     public void testBulkAddDuplicateInputs() throws ApiException, JsonProcessingException {
-        BrandForm brandForm1 = testUtil.getBrandFormDto("adidas", "tshirts");
+        BrandForm brandForm1 = testUtil.getBrandForm("adidas", "tshirts");
         List<BrandForm> brandForms = List.of(brandForm1, brandForm1);
         brandDto.bulkAdd(brandForms);
     }

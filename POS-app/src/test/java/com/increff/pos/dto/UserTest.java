@@ -44,7 +44,7 @@ public class UserTest extends AbstractUnitTest {
 
     @Test
     public void testSignup() throws ApiException {
-        SignupForm form = testUtil.getSignupFormDto(email, password);
+        SignupForm form = testUtil.getSignupForm(email, password);
         MockHttpServletRequest request = new MockHttpServletRequest();
         userDto.signup(request, form);
         UserPojo user = userDao.selectByColumn("email", email);
@@ -53,7 +53,7 @@ public class UserTest extends AbstractUnitTest {
 
     @Test
     public void testSignupSupervisor() throws ApiException {
-        SignupForm form = testUtil.getSignupFormDto(supervisorEmail, password);
+        SignupForm form = testUtil.getSignupForm(supervisorEmail, password);
         MockHttpServletRequest request = new MockHttpServletRequest();
         userDto.signup(request, form);
         UserPojo user = userService.get(supervisorEmail);

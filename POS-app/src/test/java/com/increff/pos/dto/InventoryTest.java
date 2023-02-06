@@ -125,7 +125,7 @@ public class InventoryTest extends AbstractUnitTest {
         assertEquals(productData.getBarcode(), barcode);
 
         Integer newQuantity = 50;
-        InventoryForm inventoryForm = testUtil.getInventoryFormDto(barcode, newQuantity);
+        InventoryForm inventoryForm = testUtil.getInventoryForm(barcode, newQuantity);
         inventoryDto.update(inventoryForm);
         InventoryData newData = inventoryDto.get(inventoryPojo.getProductId());
         assertEquals(newQuantity, newData.getQuantity());
@@ -133,7 +133,7 @@ public class InventoryTest extends AbstractUnitTest {
 
     @Test(expected = ApiException.class)
     public void testUpdateInventoryDoesntExist() throws ApiException {
-        InventoryForm inventoryForm = testUtil.getInventoryFormDto(barcode, quantity);
+        InventoryForm inventoryForm = testUtil.getInventoryForm(barcode, quantity);
         inventoryDto.update(inventoryForm);
     }
 
@@ -181,9 +181,9 @@ public class InventoryTest extends AbstractUnitTest {
         testUtil.createProduct(barcode3, brand, category, name, mrp);
         
         List<InventoryForm> inventoryForms = new ArrayList<>();
-        inventoryForms.add(testUtil.getInventoryFormDto(barcode1, quantity));
-        inventoryForms.add(testUtil.getInventoryFormDto(barcode2, quantity));
-        inventoryForms.add(testUtil.getInventoryFormDto(barcode3, quantity));
+        inventoryForms.add(testUtil.getInventoryForm(barcode1, quantity));
+        inventoryForms.add(testUtil.getInventoryForm(barcode2, quantity));
+        inventoryForms.add(testUtil.getInventoryForm(barcode3, quantity));
 
         inventoryDto.bulkAdd(inventoryForms);
         assertEquals(3, inventoryDto.getAll(0, 10, 1).getData().size());
@@ -203,9 +203,9 @@ public class InventoryTest extends AbstractUnitTest {
         testUtil.createInventory(barcode3, quantity);
 
         List<InventoryForm> inventoryForms = new ArrayList<>();
-        inventoryForms.add(testUtil.getInventoryFormDto(barcode1, quantity));
-        inventoryForms.add(testUtil.getInventoryFormDto(barcode2, quantity));
-        inventoryForms.add(testUtil.getInventoryFormDto(barcode3, quantity));
+        inventoryForms.add(testUtil.getInventoryForm(barcode1, quantity));
+        inventoryForms.add(testUtil.getInventoryForm(barcode2, quantity));
+        inventoryForms.add(testUtil.getInventoryForm(barcode3, quantity));
         inventoryDto.bulkAdd(inventoryForms);
 
         List<InventoryData> inventoryData = inventoryDto.getAll(0, 10, 1).getData();
@@ -226,8 +226,8 @@ public class InventoryTest extends AbstractUnitTest {
         testUtil.createProductCascade(barcode, brand, category, name, mrp);
 
         List<InventoryForm> inventoryForms = new ArrayList<>();
-        inventoryForms.add(testUtil.getInventoryFormDto(barcode, quantity));
-        inventoryForms.add(testUtil.getInventoryFormDto(barcode, quantity));
+        inventoryForms.add(testUtil.getInventoryForm(barcode, quantity));
+        inventoryForms.add(testUtil.getInventoryForm(barcode, quantity));
         inventoryDto.bulkAdd(inventoryForms);
 
         List<InventoryData> inventoryData = inventoryDto.getAll(0, 10, 1).getData();
@@ -239,14 +239,14 @@ public class InventoryTest extends AbstractUnitTest {
     @Test(expected = ApiException.class)
     public void testBulkAddBarcodeDoesntExist() throws ApiException {
         List<InventoryForm> inventoryForms = new ArrayList<>();
-        inventoryForms.add(testUtil.getInventoryFormDto(barcode, quantity));
+        inventoryForms.add(testUtil.getInventoryForm(barcode, quantity));
         inventoryDto.bulkAdd(inventoryForms);
     }
 
     @Test(expected = ApiException.class)
     public void testBulkAddNegativeQuantity() throws ApiException {
         List<InventoryForm> inventoryForms = new ArrayList<>();
-        inventoryForms.add(testUtil.getInventoryFormDto(barcode, quantity * -1));
+        inventoryForms.add(testUtil.getInventoryForm(barcode, quantity * -1));
         inventoryDto.bulkAdd(inventoryForms);
     }
 

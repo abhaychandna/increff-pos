@@ -47,7 +47,7 @@ public class ProductTest extends AbstractUnitTest{
     @Test
     public void testAddProduct() throws ApiException{
         BrandData brandData = testUtil.createBrand(brand, category);
-        ProductForm productForm = testUtil.getProductFormDto(barcode,brand,category,name,mrp);
+        ProductForm productForm = testUtil.getProductForm(barcode,brand,category,name,mrp);
         ProductData productData = productDto.add(productForm);
         
         ProductPojo product = productDao.select(productData.getId());
@@ -61,7 +61,7 @@ public class ProductTest extends AbstractUnitTest{
     public void testNormalizeUppercaseToLowercase() throws ApiException {
         BrandData brandData = testUtil.createBrand(brand, category);
         String newBrand = brand.toUpperCase(), newCategory = category.toUpperCase();
-        ProductData productData = productDto.add(testUtil.getProductFormDto(barcode,newBrand,newCategory,name,mrp)); 
+        ProductData productData = productDto.add(testUtil.getProductForm(barcode,newBrand,newCategory,name,mrp)); 
         
         ProductPojo product = productDao.select(productData.getId());
         assertEquals(brandData.getId(), product.getBrandCategory());
@@ -74,7 +74,7 @@ public class ProductTest extends AbstractUnitTest{
     public void testNormalizeTrim() throws ApiException {
         BrandData brandData = testUtil.createBrand(brand, category);
         String newBrand = " " + brand + " ", newCategory = " " + category + " ";
-        ProductData productData = productDto.add(testUtil.getProductFormDto(barcode,newBrand,newCategory,name,mrp)); 
+        ProductData productData = productDto.add(testUtil.getProductForm(barcode,newBrand,newCategory,name,mrp)); 
         
         ProductPojo product = productDao.select(productData.getId());
         assertEquals(brandData.getId(), product.getBrandCategory());
@@ -85,7 +85,7 @@ public class ProductTest extends AbstractUnitTest{
 
     @Test
     public void testValidateEmptyBrand() throws ApiException{
-        ProductForm productForm = testUtil.getProductFormDto(barcode,"",category,name,mrp);
+        ProductForm productForm = testUtil.getProductForm(barcode,"",category,name,mrp);
         try{
             productDto.add(productForm);
         }
@@ -97,7 +97,7 @@ public class ProductTest extends AbstractUnitTest{
 
     @Test
     public void testValidateEmptyName() throws ApiException{
-        ProductForm productForm = testUtil.getProductFormDto(barcode,brand,category,"",mrp);
+        ProductForm productForm = testUtil.getProductForm(barcode,brand,category,"",mrp);
         try{
             productDto.add(productForm);
         }
@@ -109,7 +109,7 @@ public class ProductTest extends AbstractUnitTest{
 
     @Test
     public void testValidateEmptyMrp() throws ApiException{
-        ProductForm productForm = testUtil.getProductFormDto(barcode,brand,category,name,null);
+        ProductForm productForm = testUtil.getProductForm(barcode,brand,category,name,null);
         try{
             productDto.add(productForm);
         }
@@ -121,7 +121,7 @@ public class ProductTest extends AbstractUnitTest{
 
     @Test
     public void testAddBrandCategoryDoesNotExist() throws ApiException{
-        ProductForm productForm = testUtil.getProductFormDto(barcode,brand,category,name,mrp);
+        ProductForm productForm = testUtil.getProductForm(barcode,brand,category,name,mrp);
         try{
             productDto.add(productForm);
         }
@@ -134,7 +134,7 @@ public class ProductTest extends AbstractUnitTest{
     @Test
     public void testDuplicateBarcode() throws ApiException{
         testUtil.createProductCascade(barcode, brand, category, name, mrp);
-        ProductForm productForm = testUtil.getProductFormDto(barcode,brand,category,name,mrp);
+        ProductForm productForm = testUtil.getProductForm(barcode,brand,category,name,mrp);
         try{
             productDto.add(productForm);
         }
@@ -201,9 +201,9 @@ public class ProductTest extends AbstractUnitTest{
     public void testBulkAdd() throws ApiException, JsonProcessingException{
         testUtil.createBrand(brand, category);
 
-        ProductForm productForm1 = testUtil.getProductFormDto(barcode,brand,category,name,mrp);
-        ProductForm productForm2 = testUtil.getProductFormDto("abcdef13",brand,category,name,mrp);
-        ProductForm productForm3 = testUtil.getProductFormDto("abcdef14",brand,category,name,mrp);
+        ProductForm productForm1 = testUtil.getProductForm(barcode,brand,category,name,mrp);
+        ProductForm productForm2 = testUtil.getProductForm("abcdef13",brand,category,name,mrp);
+        ProductForm productForm3 = testUtil.getProductForm("abcdef14",brand,category,name,mrp);
         List<ProductForm> productForms = List.of(productForm1, productForm2, productForm3);
 
         productDto.bulkAdd(productForms);
@@ -215,9 +215,9 @@ public class ProductTest extends AbstractUnitTest{
     public void testBulkAddExisting() throws ApiException, JsonProcessingException {
         testUtil.createBrand(brand, category);
 
-        ProductForm productForm1 = testUtil.getProductFormDto(barcode,brand,category,name,mrp);
-        ProductForm productForm2 = testUtil.getProductFormDto("abcdef13",brand,category,name,mrp);
-        ProductForm productForm3 = testUtil.getProductFormDto("abcdef14",brand,category,name,mrp);
+        ProductForm productForm1 = testUtil.getProductForm(barcode,brand,category,name,mrp);
+        ProductForm productForm2 = testUtil.getProductForm("abcdef13",brand,category,name,mrp);
+        ProductForm productForm3 = testUtil.getProductForm("abcdef14",brand,category,name,mrp);
         List<ProductForm> productForms = List.of(productForm1, productForm2, productForm3);
 
         productDto.bulkAdd(productForms);
@@ -231,9 +231,9 @@ public class ProductTest extends AbstractUnitTest{
     public void testBulkAddDuplicateInputs() throws ApiException, JsonProcessingException {
         testUtil.createBrand(brand, category);
 
-        ProductForm productForm1 = testUtil.getProductFormDto(barcode,brand,category,name,mrp);
-        ProductForm productForm2 = testUtil.getProductFormDto("abcdef13",brand,category,name,mrp);
-        ProductForm productForm3 = testUtil.getProductFormDto("abcdef13",brand,category,name,mrp);
+        ProductForm productForm1 = testUtil.getProductForm(barcode,brand,category,name,mrp);
+        ProductForm productForm2 = testUtil.getProductForm("abcdef13",brand,category,name,mrp);
+        ProductForm productForm3 = testUtil.getProductForm("abcdef13",brand,category,name,mrp);
         List<ProductForm> productForms = List.of(productForm1, productForm2, productForm3);
 
         productDto.bulkAdd(productForms);
@@ -247,9 +247,9 @@ public class ProductTest extends AbstractUnitTest{
     public void testBulkAddBrandCategoryDoesNotExist() throws ApiException, JsonProcessingException {
         testUtil.createBrand(brand, category);
 
-        ProductForm productForm1 = testUtil.getProductFormDto(barcode,brand,category,name,mrp);
-        ProductForm productForm2 = testUtil.getProductFormDto("abcdef13",brand,category,name,mrp);
-        ProductForm productForm3 = testUtil.getProductFormDto("abcdef14","brandDoesntExist",category,name,mrp);
+        ProductForm productForm1 = testUtil.getProductForm(barcode,brand,category,name,mrp);
+        ProductForm productForm2 = testUtil.getProductForm("abcdef13",brand,category,name,mrp);
+        ProductForm productForm3 = testUtil.getProductForm("abcdef14","brandDoesntExist",category,name,mrp);
         List<ProductForm> productForms = List.of(productForm1, productForm2, productForm3);
         productDto.bulkAdd(productForms);
     }
