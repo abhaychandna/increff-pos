@@ -242,8 +242,8 @@ function displayProduct(data){
 	$("#Product-edit-form input[name=name]").val(data.name);	
 	$("#Product-edit-form input[name=category]").val(data.category);
 	$("#Product-edit-form input[name=id]").val(data.id);	
-
-	$("#update-Product").attr('disabled', true);
+	var fieldList = ["mrp", "name"];
+	enableButtonOnFormChange("#Product-edit-form", "#update-Product", data, fieldList);
 	toggleEditProductModal();
 }
 
@@ -300,9 +300,6 @@ function init(){
 	$('#download-errors').click(downloadErrors);
     $('#ProductFile').on('change', updateFileName)
 
-	$('#Product-edit-form').on('input change', function() {
-		$('#update-Product').attr('disabled', false);
-	});
 	$('#Product-form').on('input change', function() {
 		$('#add-Product').attr('disabled', false);
 	});

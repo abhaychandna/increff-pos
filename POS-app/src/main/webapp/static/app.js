@@ -94,6 +94,17 @@ function toJsonString($form){
     return json;
 }
 
+function toJson($form){
+	var serialized = $form.serializeArray();
+	
+	var s = '';
+	var data = {};
+	for(s in serialized){
+		data[serialized[s]['name']] = serialized[s]['value']
+	}
+	return data;
+}
+
 
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);
@@ -191,3 +202,43 @@ function emphasizeNavbarCurrentLink(){
 	element[0].style.fontWeight = "bold";	
 }
 emphasizeNavbarCurrentLink();
+
+
+function convertValuesToString(json){
+	for(var key in json){
+		json[key] = json[key].toString();
+	}
+	return json;
+}
+function checkFormEqualsData(form, data, fieldList){
+	var json = toJson(form);
+	
+	// if field list is not null, check only those fields
+	if(fieldList != null){
+		var jsonFieldList = {};
+		var dataFieldList = {};
+		for(var i = 0; i < fieldList.length; i++){
+			jsonFieldList[fieldList[i]] = json[fieldList[i]];
+			dataFieldList[fieldList[i]] = data[fieldList[i]];
+		}
+		json = jsonFieldList;
+		data = dataFieldList;
+	}
+	json = JSON.stringify(convertValuesToString(json));
+	data = JSON.stringify(convertValuesToString(data));
+	console.log(json);
+	console.log(data);
+	console.log(fieldList);
+	return JSON.stringify(json) == JSON.stringify(data);
+}
+function enableButtonOnFormChange(formSelector, buttonSelector, jsonData, fieldList){
+	$(formSelector).on('input change', function() {
+		var $form = $(formSelector);
+		var $button = $(buttonSelector);
+		if(checkFormEqualsData($form, jsonData, fieldList)){
+			$button.attr('disabled',true);
+		}else{
+			$button.attr('disabled', false);
+		}
+	});
+}

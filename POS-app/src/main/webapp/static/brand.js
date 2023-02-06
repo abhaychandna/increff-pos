@@ -201,6 +201,7 @@ function displayBrand(data){
 	$("#Brand-edit-form input[name=category]").val(data.category);	
 	$("#Brand-edit-form input[name=id]").val(data.id);
 	$('#update-Brand').attr('disabled', true);	
+	enableButtonOnFormChange("#Brand-edit-form", "#update-Brand", data);
 	toggleEditBrandModal();
 }
 
@@ -249,9 +250,6 @@ function init(){
 	$('#download-errors').click(downloadErrors);
     $('#BrandFile').on('change', updateFileName)
 
-	$('#Brand-edit-form').on('input change', function() {
-		$('#update-Brand').attr('disabled', false);
-	});
 	$('#Brand-form').on('input change', function() {
 		$('#add-Brand').attr('disabled', false);
 	});

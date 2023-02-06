@@ -199,6 +199,9 @@ function displayInventory(data){
 	$("#Inventory-edit-form input[name=quantity]").val(data.quantity);	
 	$("#Inventory-edit-form input[name=id]").val(data.productId);	
 	$("#update-Inventory").attr('disabled', true);
+
+	var fieldList = ["quantity"];
+	enableButtonOnFormChange("#Inventory-edit-form", "#update-Inventory", data, fieldList);
 	$('#edit-Inventory-modal').modal('toggle');
 }
 
@@ -247,10 +250,7 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#InventoryFile').on('change', updateFileName)
-
-	$('#Inventory-edit-form').on('input change', function() {
-		$('#update-Inventory').attr('disabled', false);
-	});
+	
 	$('#Inventory-form').on('input change', function() {
 		$('#add-Inventory').attr('disabled', false);
 	});
