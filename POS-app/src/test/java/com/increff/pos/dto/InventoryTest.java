@@ -220,7 +220,7 @@ public class InventoryTest extends AbstractUnitTest {
         }
     }
 
-    @Test()
+    @Test
     public void testBulkAddDuplicateInput_thenIncreaseQuantity() throws ApiException {
 
         testUtil.createProductCascade(barcode, brand, category, name, mrp);
@@ -240,6 +240,13 @@ public class InventoryTest extends AbstractUnitTest {
     public void testBulkAddBarcodeDoesntExist() throws ApiException {
         List<InventoryForm> inventoryForms = new ArrayList<>();
         inventoryForms.add(testUtil.getInventoryFormDto(barcode, quantity));
+        inventoryDto.bulkAdd(inventoryForms);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testBulkAddNegativeQuantity() throws ApiException {
+        List<InventoryForm> inventoryForms = new ArrayList<>();
+        inventoryForms.add(testUtil.getInventoryFormDto(barcode, quantity * -1));
         inventoryDto.bulkAdd(inventoryForms);
     }
 
