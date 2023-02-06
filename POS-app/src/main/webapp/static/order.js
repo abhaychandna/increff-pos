@@ -1,10 +1,5 @@
 var wholeOrder = []
 var alertErrorMessages = [];
-var maxQuantity = 99999;
-var maxSellingPrice = 99999;
-// TODO : Remove testing variable from here
-var globalData;
-var E;
 
 function getOrderItemUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
@@ -149,34 +144,6 @@ function getProductList() {
      });
 }
 
-function validateBarcode(barcode){
-    if(barcode == ""){
-        alertErrorMessages.push("Barcode cannot be empty");
-    }
-}
-function validateQuantity(quantity){
-    if(quantity == ""){
-        alertErrorMessages.push("Quantity cannot be empty");
-    }
-    if(quantity <= 0){
-        alertErrorMessages.push("Quantity has to be positive");
-    }
-    if(quantity > maxQuantity){
-        alertErrorMessages.push("Quantity cannot be greater than " + maxQuantity);
-    }
-}
-function validateSellingPrice(sellingPrice){
-    if(sellingPrice == ""){
-        alertErrorMessages.push("Selling Price cannot be empty");
-    }
-    if(sellingPrice <= 0){
-        alertErrorMessages.push("Selling Price has to be positive");
-    }
-    if(sellingPrice > maxSellingPrice){
-        alertErrorMessages.push("Selling Price cannot be greater than " + maxSellingPrice);
-    }
-}
-
 function addOrderItem(event) {
     var $form = $("#order-item-form");
     if(validateFormHTML($form) == false)return;
@@ -187,8 +154,6 @@ function addOrderItem(event) {
     
     alertErrorMessages = [];
     validateBarcode(barcode);
-    validateQuantity(quantity);
-    validateSellingPrice(sp);
     if(alertErrorMessages.length > 0) {
         var errorString = alertErrorMessages.join("<br>");
         raiseAlert({
@@ -318,9 +283,6 @@ function placeOrder() {
             wholeOrder = []
         },
         error: function(e) {
-            E = e
-            
-            
             var error = e.responseJSON.message
             
             error = error.toLowerCase();
