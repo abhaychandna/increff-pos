@@ -241,7 +241,8 @@
 						<exclude>com/increff/pos/dao/*</exclude>
 						<exclude>com/increff/pos/pojo/*</exclude>
 						<exclude>com/increff/pos/util/*</exclude>
-						<exclude>com/increff/pos/model/*</exclude>
+						<exclude>com/increff/pos/model/form/*</exclude>
+						<exclude>com/increff/pos/model/data/*</exclude>
 					</excludes>
 				 </configuration>
 				<executions>
