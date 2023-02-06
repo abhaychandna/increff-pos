@@ -11,11 +11,6 @@ public class AppUiController extends AbstractUiController {
 	public ModelAndView home() {
 		return mav("home.html");
 	}
-
-	@RequestMapping(value = "/ui/admin")
-	public ModelAndView admin() {
-		return mav("user.html");
-	}
 	
 	@RequestMapping(value = "/ui/brands")
 	public ModelAndView brand() {
