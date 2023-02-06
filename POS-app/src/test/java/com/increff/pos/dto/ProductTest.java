@@ -243,4 +243,15 @@ public class ProductTest extends AbstractUnitTest{
         productDto.bulkAdd(productForms);
     }
 
+    @Test(expected = ApiException.class)
+    public void testBulkAddBrandCategoryDoesNotExist() throws ApiException, JsonProcessingException {
+        testUtil.createBrand(brand, category);
+
+        ProductForm productForm1 = testUtil.getProductFormDto(barcode,brand,category,name,mrp);
+        ProductForm productForm2 = testUtil.getProductFormDto("abcdef13",brand,category,name,mrp);
+        ProductForm productForm3 = testUtil.getProductFormDto("abcdef14","brandDoesntExist",category,name,mrp);
+        List<ProductForm> productForms = List.of(productForm1, productForm2, productForm3);
+        productDto.bulkAdd(productForms);
+    }
+
 }
