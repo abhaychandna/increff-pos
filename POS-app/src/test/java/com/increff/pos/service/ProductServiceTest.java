@@ -68,7 +68,7 @@ public class ProductServiceTest extends AbstractUnitTest {
         String newName = "polo tshirt";
         product.setMrp(newMrp);
         product.setName(newName);
-        productService.update(product.getId(), product);
+        productService.update(product.getId(), product.getName(), product.getMrp());
         product = productService.getCheck(product.getId());
         assertEquals(brandData.getId(), product.getBrandCategory());
         assertEquals(barcode, product.getBarcode());
