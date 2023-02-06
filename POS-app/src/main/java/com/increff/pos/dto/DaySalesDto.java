@@ -36,10 +36,7 @@ public class DaySalesDto {
     public PaginatedData<DaySalesData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
         Integer pageNo = start/pageSize;
         List<DaySalesPojo> daySales = svc.getAll(pageNo, pageSize);
-        List<DaySalesData> daySaleList = new ArrayList<DaySalesData>();
-        for (DaySalesPojo daySale : daySales) {
-            daySaleList.add(convert(daySale));
-        }
+        List<DaySalesData> daySaleList = daySales.stream().map(e->convert(e)).collect(Collectors.toList());
         Integer count = svc.getRecordsCount();
         return new PaginatedData<DaySalesData>(daySaleList, draw, count, count);
     }
