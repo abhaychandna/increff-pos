@@ -75,13 +75,22 @@ public class BrandServiceTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetCheckBrandCategoryException() throws ApiException {
+    public void testGetCheckBrandCategoryNullBrand() throws ApiException {
         String expectedMessage = "Brand or Category cannot be null";
         Exception exception = assertThrows(ApiException.class, () -> {
             svc.getCheckBrandCategory(null, category);
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }        
+
+    @Test
+    public void testGetCheckBrandCategoryNullCategory() throws ApiException {
+        String expectedMessage = "Brand or Category cannot be null";
+        Exception exception = assertThrows(ApiException.class, () -> {
+            svc.getCheckBrandCategory(brand, null);
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
+    }
     
     @Test
     public void testAddExistingBrandCategory() throws ApiException {
