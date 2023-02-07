@@ -80,7 +80,8 @@ public class BrandDto {
                 PreProcessingUtil.normalizeAndValidate(form);
                 String brandCategory = form.getBrand() + separator + form.getCategory();
                 if (brandCategorySet.contains(brandCategory)) throw new ApiException(duplicateBrandCategoryErrorMessage);
-                brandCategorySet.add(brandCategory);            
+                brandCategorySet.add(brandCategory);    
+                errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), ""));
             } catch (ApiException e) {
                 errorFound = true;
                 errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), e.getMessage()));
