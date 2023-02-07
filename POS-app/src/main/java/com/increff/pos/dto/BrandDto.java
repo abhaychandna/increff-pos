@@ -43,6 +43,25 @@ public class BrandDto {
         List<BrandPojo> validBrands = forms.stream().map(e->convert(e)).collect(Collectors.toList());
         svc.bulkAdd(validBrands);
     }
+
+    public BrandData get(Integer id) throws ApiException {
+        BrandPojo brand = svc.getCheck(id);
+		return convert(brand);
+    }
+
+    public PaginatedData<BrandData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
+        Integer pageNo = start/pageSize;
+        List<BrandPojo> brands = svc.getAll(pageNo, pageSize);
+        List<BrandData> brandDatas = brands.stream().map(brand->convert(brand)).collect(Collectors.toList());
+        Integer count = svc.getRecordsCount();
+        return new PaginatedData<BrandData>(brandDatas, draw, count, count);
+    }
+
+    public void update(Integer id, BrandForm form) throws ApiException {
+        PreProcessingUtil.normalizeAndValidate(form);
+        BrandPojo brand = convert(form);
+        svc.update(id, brand);
+    }
  
     private void bulkAddValidate(List<BrandForm> forms) throws JsonProcessingException, ApiException {
         checkDuplicateBrandCategoryPairInInput(forms);
@@ -68,25 +87,6 @@ public class BrandDto {
             }
         };
         if(errorFound) ErrorUtil.throwErrors(errors);
-    }
-
-    public BrandData get(Integer id) throws ApiException {
-        BrandPojo brand = svc.getCheck(id);
-		return convert(brand);
-    }
-
-    public PaginatedData<BrandData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
-        Integer pageNo = start/pageSize;
-        List<BrandPojo> brands = svc.getAll(pageNo, pageSize);
-        List<BrandData> brandDatas = brands.stream().map(brand->convert(brand)).collect(Collectors.toList());
-        Integer count = svc.getRecordsCount();
-        return new PaginatedData<BrandData>(brandDatas, draw, count, count);
-    }
-
-    public void update(Integer id, BrandForm form) throws ApiException {
-        PreProcessingUtil.normalizeAndValidate(form);
-        BrandPojo brand = convert(form);
-        svc.update(id, brand);
     }
 
 	private BrandData convert(BrandPojo p) {

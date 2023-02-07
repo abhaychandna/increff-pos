@@ -60,6 +60,16 @@ public class DaySalesDto {
         return new PaginatedData<DaySalesData>(daySaleList, draw, count, count);
     }
 
+    @Scheduled(fixedDelayString = "${daySalesScheduler.delay.seconds}000")
+    public void calculateSales() throws ApiException {
+        ZonedDateTime startDate = ZonedDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
+        ZonedDateTime endDate = ZonedDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+        DaySalesData daySalesData = calculateSales(startDate, endDate);
+        daySalesData.setDate(startDate);
+
+        svc.add(ConvertUtil.convert(daySalesData, DaySalesPojo.class));
+    }
+
     // calcualtes according to UTC time
     private DaySalesData calculateSales(ZonedDateTime startDate, ZonedDateTime endDate) throws ApiException {
         List<OrderPojo> orders = orderService.filterByDate(startDate, endDate);
@@ -74,16 +84,6 @@ public class DaySalesDto {
         daySalesData.setTotalRevenue(totalRevenue);
         return daySalesData;
     }    
-
-    @Scheduled(fixedDelayString = "${daySalesScheduler.delay.seconds}000")
-    public void calculateSales() throws ApiException {
-        ZonedDateTime startDate = ZonedDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
-        ZonedDateTime endDate = ZonedDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(999999999);
-        DaySalesData daySalesData = calculateSales(startDate, endDate);
-        daySalesData.setDate(startDate);
-
-        svc.add(ConvertUtil.convert(daySalesData, DaySalesPojo.class));
-    }
 
 	private DaySalesData convert(DaySalesPojo p) {
 		return ConvertUtil.convert(p, DaySalesData.class);

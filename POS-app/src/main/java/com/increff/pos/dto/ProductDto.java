@@ -47,6 +47,31 @@ public class ProductDto {
         svc.bulkAdd(validProducts);   
     }
 
+    public ProductData get(Integer id) throws ApiException {
+        ProductPojo product = svc.getCheck(id);
+        return convert(product);
+    }
+
+    public PaginatedData<ProductData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
+        Integer pageNo = start/pageSize;
+        List<ProductPojo> products = svc.getAll(pageNo, pageSize);
+        List<ProductData> productDatas = new ArrayList<ProductData>();
+        for (ProductPojo p : products) {
+            productDatas.add(convert(p));
+        }
+        Integer count = svc.getRecordsCount();
+        return new PaginatedData<ProductData>(productDatas, draw, count, count);
+    }
+
+    public void update(Integer id, ProductPutForm form) throws ApiException {
+        PreProcessingUtil.normalizeAndValidate(form);
+        svc.update(id, form.getName(), form.getMrp());
+    }
+
+    public ProductData getByBarcode(String barcode) throws ApiException {
+        return convert(svc.getCheckBarcode(barcode));
+    }
+
     private List<ProductPojo> convertBulk(List<ProductForm> forms) throws JsonProcessingException, ApiException {
         List<ProductFormErrorData> errors = new ArrayList<ProductFormErrorData>();
         Boolean errorFound = false;
@@ -118,31 +143,6 @@ public class ProductDto {
                 errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), ""));
         };
         if(errorFound) ErrorUtil.throwErrors(errors);
-    }
-
-    public ProductData get(Integer id) throws ApiException {
-        ProductPojo product = svc.getCheck(id);
-        return convert(product);
-    }
-
-    public PaginatedData<ProductData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
-        Integer pageNo = start/pageSize;
-        List<ProductPojo> products = svc.getAll(pageNo, pageSize);
-        List<ProductData> productDatas = new ArrayList<ProductData>();
-        for (ProductPojo p : products) {
-            productDatas.add(convert(p));
-        }
-        Integer count = svc.getRecordsCount();
-        return new PaginatedData<ProductData>(productDatas, draw, count, count);
-    }
-
-    public void update(Integer id, ProductPutForm form) throws ApiException {
-        PreProcessingUtil.normalizeAndValidate(form);
-        svc.update(id, form.getName(), form.getMrp());
-    }
-
-    public ProductData getByBarcode(String barcode) throws ApiException {
-        return convert(svc.getCheckBarcode(barcode));
     }
 
     private ProductPojo convert(ProductForm productForm) throws ApiException{

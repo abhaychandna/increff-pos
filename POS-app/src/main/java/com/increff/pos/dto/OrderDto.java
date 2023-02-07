@@ -91,14 +91,6 @@ public class OrderDto {
 
     }
 
-    private String getCachedInvoice(String outputFilepath) throws ApiException {
-        File file = new File(outputFilepath);
-        if(file.exists()) {
-            return PDFClient.PDFToBase64(outputFilepath);
-        }
-        return null;        
-    }
-
     public OrderData get(Integer id) throws ApiException {
         OrderPojo p = orderService.getCheck(id);
         return ConvertUtil.convert(p, OrderData.class);
@@ -157,6 +149,14 @@ public class OrderDto {
         }
         Integer count = orderItemService.getRecordsCount();
         return new PaginatedData<OrderItemData>(itemDatas, draw, count, count);
+    }
+
+    private String getCachedInvoice(String outputFilepath) throws ApiException {
+        File file = new File(outputFilepath);
+        if(file.exists()) {
+            return PDFClient.PDFToBase64(outputFilepath);
+        }
+        return null;        
     }
 
     private OrderItemPojo convert(OrderItemForm form) throws ApiException {

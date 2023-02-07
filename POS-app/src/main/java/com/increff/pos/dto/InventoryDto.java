@@ -42,6 +42,33 @@ public class InventoryDto {
         svc.bulkAdd(validInventories);   
     }
 
+    public InventoryData get(Integer id) throws ApiException {
+        InventoryPojo inventory = svc.getCheck(id);
+        return convert(inventory);
+    }
+
+    public InventoryData getByBarcode(String barcode) throws ApiException {
+        InventoryPojo inventory = svc.getCheck(productService.getByBarcode(barcode).getId());
+        return convert(inventory);
+    }
+
+    public PaginatedData<InventoryData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
+        Integer pageNo = start/pageSize;
+        List<InventoryPojo> inventories = svc.getAll(pageNo, pageSize);
+        List<InventoryData> inventoryDatas = new ArrayList<InventoryData>();
+        for (InventoryPojo p : inventories) {
+            inventoryDatas.add(convert(p));
+        }
+        Integer count = svc.getRecordsCount();
+        return new PaginatedData<InventoryData>(inventoryDatas, draw, count, count);
+    }
+
+    public void update(InventoryForm form) throws ApiException {
+        PreProcessingUtil.normalizeAndValidate(form);
+        InventoryPojo inventory = convert(form);
+        svc.update(inventory.getProductId(), form.getQuantity());
+    }
+
     private List<InventoryPojo> convertBulk(List<InventoryForm> forms) throws ApiException {
         List<String> barcodeList = forms.stream().map(InventoryForm::getBarcode).collect(Collectors.toList());
         List<ProductPojo> products = productService.getByColumn("barcode", barcodeList);
@@ -83,33 +110,6 @@ public class InventoryDto {
             }
         };
         if(errorFound) ErrorUtil.throwErrors(errors);
-    }
-
-    public InventoryData get(Integer id) throws ApiException {
-        InventoryPojo inventory = svc.getCheck(id);
-        return convert(inventory);
-    }
-
-    public InventoryData getByBarcode(String barcode) throws ApiException {
-        InventoryPojo inventory = svc.getCheck(productService.getByBarcode(barcode).getId());
-        return convert(inventory);
-    }
-
-    public PaginatedData<InventoryData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
-        Integer pageNo = start/pageSize;
-        List<InventoryPojo> inventories = svc.getAll(pageNo, pageSize);
-        List<InventoryData> inventoryDatas = new ArrayList<InventoryData>();
-        for (InventoryPojo p : inventories) {
-            inventoryDatas.add(convert(p));
-        }
-        Integer count = svc.getRecordsCount();
-        return new PaginatedData<InventoryData>(inventoryDatas, draw, count, count);
-    }
-
-    public void update(InventoryForm form) throws ApiException {
-        PreProcessingUtil.normalizeAndValidate(form);
-        InventoryPojo inventory = convert(form);
-        svc.update(inventory.getProductId(), form.getQuantity());
     }
 
     private InventoryPojo convert(InventoryForm inventoryForm) throws ApiException {

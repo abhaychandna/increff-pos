@@ -14,9 +14,11 @@ public class PreProcessingUtil {
 
 	private static String errorMessageSeparator = ".\n";
 	private static String errorStartMessage = "";
+	
 	public static String getErrorMessageSeparator() {
 		return errorMessageSeparator;
 	}
+	
 	public static String getErrorStartMessage() {
 		return errorStartMessage;
 	}
@@ -25,6 +27,7 @@ public class PreProcessingUtil {
 		normalize(form);
 		validate(form);
 	}
+	
 	public static <T> void normalizeAndValidate(List<T> form) throws ApiException {
 		for(T f : form) {
 			normalizeAndValidate(f);

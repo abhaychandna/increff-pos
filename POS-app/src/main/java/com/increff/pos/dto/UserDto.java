@@ -77,7 +77,7 @@ public class UserDto {
 		return new ModelAndView("redirect:/site/login");
 	}
     
-    private static Authentication convert(UserPojo user) {
+    private Authentication convert(UserPojo user) {
 		// Create principal
 		UserPrincipal principal = new UserPrincipal();
 		principal.setRole(user.getRole());

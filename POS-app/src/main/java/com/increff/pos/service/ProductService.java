@@ -48,6 +48,7 @@ public class ProductService {
 		}
 		return product;
 	}
+	
 	public ProductPojo getCheckBarcode(String barcode) throws ApiException {
 		ProductPojo product = dao.getByBarcode(barcode);
 		if (Objects.isNull(product)) {

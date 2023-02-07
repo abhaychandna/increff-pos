@@ -34,10 +34,6 @@ public class UserService {
 		dao.insert(user);
 	}
 
-	private boolean isSupervisor(String email) {
-		return email.equals(supervisorEmail); 
-	}
-
 	public UserPojo get(String email) throws ApiException {
 		return dao.selectByColumn("email", email);
 	}
@@ -45,4 +41,9 @@ public class UserService {
 	public List<UserPojo> getAll() {
 		return dao.selectAll();
 	}
+
+	private boolean isSupervisor(String email) {
+		return email.equals(supervisorEmail); 
+	}
+
 }

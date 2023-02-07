@@ -40,21 +40,6 @@ public class OrderService {
 		return items;
 	}
 
-	private void validateOrderQuantityInInventory(List<OrderItemPojo> items) throws ApiException {
-		List<String> errorMessages = new ArrayList<String>();
-		for(OrderItemPojo item : items){
-			try{
-				inventoryService.reduceInventory(item.getProductId(), item.getQuantity());
-			}
-			catch (ApiException e){
-				errorMessages.add(e.getMessage());
-			}
-		}
-		if(!errorMessages.isEmpty()){
-			throw new ApiException(String.join("\n", errorMessages));
-		} 
-	}
-
 	public List<OrderPojo> filterByDate(ZonedDateTime start, ZonedDateTime end) {
 		return dao.filterByDate(start, end);
 	}
@@ -73,4 +58,21 @@ public class OrderService {
 	public Integer getRecordsCount() {
 		return dao.getRecordsCount();
 	}
+
+	
+	private void validateOrderQuantityInInventory(List<OrderItemPojo> items) throws ApiException {
+		List<String> errorMessages = new ArrayList<String>();
+		for(OrderItemPojo item : items){
+			try{
+				inventoryService.reduceInventory(item.getProductId(), item.getQuantity());
+			}
+			catch (ApiException e){
+				errorMessages.add(e.getMessage());
+			}
+		}
+		if(!errorMessages.isEmpty()){
+			throw new ApiException(String.join("\n", errorMessages));
+		} 
+	}
+
 }
