@@ -64,16 +64,18 @@ public class BrandDto {
     }
  
     private void bulkAddValidate(List<BrandForm> forms) throws JsonProcessingException, ApiException {
-        checkDuplicateBrandCategoryPairInInput(forms);
+        checkDuplicateBrandCategoryPair(forms);
         checkBrandCategoryAlreadyExists(forms);
     }
 
-    private void checkDuplicateBrandCategoryPairInInput(List<BrandForm> forms) throws ApiException, JsonProcessingException {
+    private void checkDuplicateBrandCategoryPair(List<BrandForm> forms) throws ApiException, JsonProcessingException {
         String separator = "_", duplicateBrandCategoryErrorMessage = "Duplicate Brand and Category pair";
       
         List<BrandFormErrorData> errors = new ArrayList<BrandFormErrorData>();
         Boolean errorFound = false;
         Set<String> brandCategorySet = new HashSet<String>();
+        
+        // TODO : Use streams to do this
         
         for (BrandForm form : forms){
             try {

@@ -103,18 +103,18 @@ public class ProductDto {
     }
 
     private void bulkAddValidate(List<ProductForm> forms) throws JsonProcessingException, ApiException {
-        checkDuplicateBarcodesInInput(forms);
+        checkDuplicateBarcodes(forms);
         checkBarcodeAlreadyExists(forms);
     }
 
-    private void checkDuplicateBarcodesInInput(List<ProductForm> forms) throws ApiException, JsonProcessingException {
+    private void checkDuplicateBarcodes(List<ProductForm> forms) throws ApiException, JsonProcessingException {
         List<ProductFormErrorData> errors = new ArrayList<ProductFormErrorData>();
         Boolean errorFound = false;
         Set<String> barcodeSet = new HashSet<String>();
         for(ProductForm form : forms) {
             try {
                 PreProcessingUtil.normalizeAndValidate(form);
-                if(barcodeSet.contains(form.getBarcode()))throw new ApiException("Duplicate Barcodes not allowed in Input");
+                if(barcodeSet.contains(form.getBarcode()))throw new ApiException("Duplicate Barcodes not allowed");
                 barcodeSet.add(form.getBarcode());
                 errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), ""));
             } catch (ApiException e) {

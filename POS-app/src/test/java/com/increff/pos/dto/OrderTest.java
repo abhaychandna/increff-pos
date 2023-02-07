@@ -117,7 +117,7 @@ public class OrderTest extends AbstractUnitTest {
     }
 
     @Test(expected = ApiException.class)
-    public void testAddDuplicateBarcodeInInput() throws ApiException {
+    public void testAddDuplicateBarcode() throws ApiException {
         orderItemForm.setBarcode(barcode2);
         orderItemForm2.setBarcode(barcode2);
         orderDto.add(List.of(orderItemForm, orderItemForm2));
