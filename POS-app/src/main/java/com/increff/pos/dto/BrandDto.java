@@ -69,7 +69,7 @@ public class BrandDto {
     }
 
     private void checkDuplicateBrandCategoryPairInInput(List<BrandForm> forms) throws ApiException, JsonProcessingException {
-        String separator = "_", duplicateBrandCategoryErrorMessage = "Duplicate Brand and Category pair in input";
+        String separator = "_", duplicateBrandCategoryErrorMessage = "Duplicate Brand and Category pair";
       
         List<BrandFormErrorData> errors = new ArrayList<BrandFormErrorData>();
         Boolean errorFound = false;
