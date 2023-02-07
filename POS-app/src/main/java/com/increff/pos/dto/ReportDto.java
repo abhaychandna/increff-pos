@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.increff.pos.model.data.BrandReportData;
 import com.increff.pos.model.data.InventoryReportData;
 import com.increff.pos.model.data.SalesReportData;
+import com.increff.pos.model.data.XSLTFilname;
 import com.increff.pos.model.form.SalesReportForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
@@ -52,7 +53,7 @@ public class ReportDto {
         if(inventory.isEmpty()) throw new ApiException("No inventory found");
 		HashMap<Integer, Integer> brandCategoryIdToQuantity = getBrandIdToQuantityMap(inventory);
         List<InventoryReportData> reportData = getInventoryReport(brandCategoryIdToQuantity);
-        String base64  = ClientWrapper.pdfClient.getPDFInBase64(reportData, "inventoryReport", null);
+        String base64  = ClientWrapper.pdfClient.getPDFInBase64(reportData, XSLTFilname.inventoryReport , null);
         return base64;
 	}
 
@@ -109,7 +110,7 @@ public class ReportDto {
         List<SalesReportData> salesReport = getSalesReport(orderItems, productIdToBrandCategory);
         
         HashMap<String, String> headers = salesReportHeaders(startDate, endDate, form.getBrand(), form.getCategory());
-        String base64 = ClientWrapper.pdfClient.getPDFInBase64(salesReport, "salesReport", headers);
+        String base64 = ClientWrapper.pdfClient.getPDFInBase64(salesReport, XSLTFilname.salesReport , headers);
 
         return base64;
     }
@@ -201,7 +202,7 @@ public class ReportDto {
             reportDataList.add(new BrandReportData(brand.getBrand(), brand.getCategory()));
         });
 
-        String base64  = ClientWrapper.pdfClient.getPDFInBase64(reportDataList, "brandReport", null);
+        String base64  = ClientWrapper.pdfClient.getPDFInBase64(reportDataList, XSLTFilname.brandReport, null);
         return base64;
 
     }

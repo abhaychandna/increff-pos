@@ -17,6 +17,7 @@ import com.increff.pos.model.data.InvoiceItemData;
 import com.increff.pos.model.data.OrderData;
 import com.increff.pos.model.data.OrderItemData;
 import com.increff.pos.model.data.PaginatedData;
+import com.increff.pos.model.data.XSLTFilname;
 import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
@@ -85,8 +86,7 @@ public class OrderDto {
         XMLheaders.put("Time", order.getTime().format(new DateTimeFormatterBuilder().appendPattern("dd-MM-yyyy HH:mm:ss z").toFormatter()));
         XMLheaders.put("Total", String.format("%.2f", total));
         
-        String xsltFilename = "invoice";
-
+        XSLTFilname xsltFilename = XSLTFilname.invoice;
         base64 = ClientWrapper.pdfClient.getPDFInBase64(invoiceItems, xsltFilename, XMLheaders);
         
         ClientWrapper.pdfClient.saveBase64ToPDF(base64, outputFilepath);
