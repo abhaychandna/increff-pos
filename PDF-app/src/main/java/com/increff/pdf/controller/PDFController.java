@@ -21,13 +21,6 @@ public class PDFController {
     @Autowired
     private PDFDto invoiceService;
 
-    // hello world
-    @ApiOperation(value = "Adds multiple brands in bulk")
-    @RequestMapping(path="/hello", method = RequestMethod.GET)
-    public String hello() {
-        return "Hello World";
-    }
-
     @ApiOperation(value = "Adds multiple brands in bulk")
     @RequestMapping(path="/generateReport", method = RequestMethod.POST) 
     public <T> String generateReport(@RequestBody PDFForm<T> pdfForm) throws ApiException {
