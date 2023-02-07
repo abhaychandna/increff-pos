@@ -150,20 +150,7 @@ function addOrderItem(event) {
     var json = toJsonString($form);
     var barcode = $("#order-item-form input[name=barcode]").val();
     var quantity = $("#order-item-form input[name=quantity]").val();
-    var sp = $("#order-item-form input[name=sellingPrice]").val();
-    
-    alertErrorMessages = [];
-    validateBarcode(barcode);
-    if(alertErrorMessages.length > 0) {
-        var errorString = alertErrorMessages.join("<br>");
-        raiseAlert({
-            icon: 'error',
-            title: 'Oops...',
-            html: errorString,
-        })
-        return;
-    }
-    
+    var sp = $("#order-item-form input[name=sellingPrice]").val();    
 
     validateInventory(barcode, quantity, json);
     
@@ -277,7 +264,6 @@ function placeOrder() {
                 title: 'Order Placed!',
                 text: 'Congratulations! Your order has been placed.',
                 icon: 'success',
-                confirmButtonText: 'Cool'
               });
             getOrderList();
             wholeOrder = []
@@ -285,36 +271,6 @@ function placeOrder() {
         error: function(e) {
             var error = e.responseJSON.message
             
-            error = error.toLowerCase();
-            if (error.startsWith("insufficient")) {
-                var searchString = "productId: "
-                searchString = searchString.toLowerCase();
-                startIndex = error.indexOf(searchString) + searchString.length;
-                // extract number after productId
-                endIndex = error.indexOf(" ", startIndex);
-                croppedError = error.substring(startIndex, error.length);
-
-                // extract till first space
-                endIndex = croppedError.substring(0, croppedError.indexOf("."));
-                productId = croppedError.substring(0, endIndex);
-                // convert to integer
-                productId = parseInt(productId);
-                
-
-                // convert productId to product int
-                
-                productId = parseInt(productId);
-                
-                // get product name
-                var productName = getProductName(productId);
-                
-
-                var newError = e.responseJSON.message.replace("productId: " + productId, "barcode: " + productName);
-                error = newError;
-            }
-            else{
-                error = e.responseJSON.message;
-            }
             var errorString = error;
             raiseAlert({
                 icon: 'error',
