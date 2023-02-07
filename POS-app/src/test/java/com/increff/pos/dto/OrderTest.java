@@ -117,7 +117,7 @@ public class OrderTest extends AbstractUnitTest {
     }
 
     @Test(expected = ApiException.class)
-    public void testDuplicateBarcode() throws ApiException {
+    public void testAddDuplicateBarcodeInInput() throws ApiException {
         orderItemForm.setBarcode(barcode2);
         orderItemForm2.setBarcode(barcode2);
         orderDto.add(List.of(orderItemForm, orderItemForm2));
@@ -135,7 +135,7 @@ public class OrderTest extends AbstractUnitTest {
     }
 
     @Test(expected = ApiException.class)
-    public void testInsufficientInventory() throws ApiException {
+    public void testAddInsufficientInventory() throws ApiException {
         Integer originalQuantity = inventoryDto.getByBarcode(barcode).getQuantity();
         orderItemForm.setQuantity(originalQuantity + 1);
         orderDto.add(List.of(orderItemForm));
