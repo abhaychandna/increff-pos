@@ -27,7 +27,7 @@ public class OrderService {
 
 	public List<OrderItemPojo> add(List<OrderItemPojo> items) throws ApiException {
 		if(items.isEmpty()) throw new ApiException("No items in order");		
-		validateOrderQuantityInInventory(items);
+		reduceInventoryQuantity(items);
 
 		OrderPojo order = new OrderPojo();
 		order.setTime(ZonedDateTime.now());
@@ -60,7 +60,7 @@ public class OrderService {
 	}
 
 	
-	private void validateOrderQuantityInInventory(List<OrderItemPojo> items) throws ApiException {
+	private void reduceInventoryQuantity(List<OrderItemPojo> items) throws ApiException {
 		List<String> errorMessages = new ArrayList<String>();
 		for(OrderItemPojo item : items){
 			try{

@@ -18,10 +18,12 @@ import com.increff.pos.model.data.OrderData;
 import com.increff.pos.model.data.OrderItemData;
 import com.increff.pos.model.data.PaginatedData;
 import com.increff.pos.model.form.OrderItemForm;
+import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
+import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.OrderItemService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
@@ -38,6 +40,8 @@ public class OrderDto {
     private OrderItemService orderItemService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private InventoryService inventoryService;
     @Autowired
     private PDFClient PDFClient;
 
@@ -111,9 +115,9 @@ public class OrderDto {
         List<OrderItemPojo> items = new ArrayList<OrderItemPojo>();
         PreProcessingUtil.normalizeAndValidate(forms);
         checkDuplicateBarcodesInOrder(forms);
+        validateOrderQuantityInInventory(forms);
         for (OrderItemForm form : forms) {
-            OrderItemPojo item = convert(form);
-            items.add(item);
+            items.add(convert(form));
         }
         items = orderService.add(items);
         List<OrderItemData> itemsData = new ArrayList<OrderItemData>();
@@ -157,6 +161,24 @@ public class OrderDto {
             return PDFClient.PDFToBase64(outputFilepath);
         }
         return null;        
+    }
+
+    private void validateOrderQuantityInInventory(List<OrderItemForm> forms) throws ApiException {
+        List<String> errorMessages = new ArrayList<String>();
+        for(OrderItemForm form : forms){
+            try{
+                InventoryPojo inventory = inventoryService.getCheck(productService.getCheckBarcode(form.getBarcode()).getId());
+                if(inventory.getQuantity() < form.getQuantity()){
+                    errorMessages.add("Insufficient inventory for barcode: " + form.getBarcode() + ". Available: " + inventory.getQuantity() + ", Required: " + form.getQuantity());
+                }
+            }
+            catch (ApiException e){
+                errorMessages.add(e.getMessage());
+            }
+        }
+        if(!errorMessages.isEmpty()){
+            throw new ApiException(String.join("\n", errorMessages));
+        } 
     }
 
     private OrderItemPojo convert(OrderItemForm form) throws ApiException {
