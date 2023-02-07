@@ -4,6 +4,8 @@ const BASE_URL = $("meta[name=baseUrl]").attr("content");
 const LOGOUT_URL = HOST_URL + BASE_URL + "/session/logout";
 const LOGOUT_REDIRECT_URL = HOST_URL + BASE_URL;
 
+const LOGOUT_ALERT_TIME_MILLI = 1500;
+
 function truncateFloat(num, places) {
 	num = parseFloat(num);
 	return Math.trunc(num * Math.pow(10, places)) / Math.pow(10, places);
@@ -170,7 +172,6 @@ function logout(){
 }
 
 function showLogoutAlert(){
-	const logoutAlertTimeMilli = 2500;
 	const title = 'Logging out';
 	const text = 'Redirecting to login page...';
 	const icon = 'success';
@@ -178,12 +179,13 @@ function showLogoutAlert(){
 		icon: icon,
 		title: title,
 		text: text,
-		timer: logoutAlertTimeMilli,
+		timer: LOGOUT_ALERT_TIME_MILLI,
 	});
 	setTimeout(function(){
 		window.location = LOGOUT_REDIRECT_URL;
-	}, logoutAlertTimeMilli);
+	}, LOGOUT_ALERT_TIME_MILLI);
 }
+
 document.getElementById("logout-btn").addEventListener("click", logout);
 
 function emphasizeNavbarCurrentLink(){
