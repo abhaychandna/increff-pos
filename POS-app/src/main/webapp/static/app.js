@@ -62,6 +62,7 @@ function raiseAlert(title, text, icon){
 		title = obj.title;
 	}
 	
+	text = replaceNewLineWithBr(text);
 	if(icon == 'error'){
 		Swal.fire({
 			icon: icon,
@@ -81,6 +82,10 @@ function raiseAlert(title, text, icon){
 
 function getFileExtension(filename) {
 	return filename.substr((filename.lastIndexOf(".") + 1));
+}
+
+function replaceNewLineWithBr(text){
+	return text.replace(/\n/g, "<br />");
 }
 
 function toJsonString($form){
