@@ -2,6 +2,7 @@ package com.increff.pos.dto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -141,6 +142,8 @@ public class OrderTest extends AbstractUnitTest {
     }
 
     private void checkEquals(List<OrderItemData> orderItems, List<OrderItemForm> orderItemFormList) {
+        assertEquals(orderItems.size(), orderItemFormList.size());
+        assertTrue(orderItems.size() > 0);
         for (int i = 0; i < orderItems.size(); i++) {
             assertEquals(orderItems.get(i).getBarcode(), orderItemFormList.get(i).getBarcode());
             assertEquals(orderItems.get(i).getQuantity(), orderItemFormList.get(i).getQuantity());
