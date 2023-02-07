@@ -79,11 +79,11 @@ public class DaySalesTest extends AbstractUnitTest {
         checkEquals(daySales2, data.get(1));
     }
 
-    private void checkEquals(DaySalesPojo daySales1, DaySalesData daySalesData) {
-        assertEquals(daySales1.getDate().withNano(0), daySalesData.getDate().withNano(0));
-        assertEquals(daySales1.getInvoicedOrdersCount(), daySalesData.getInvoicedOrdersCount());
-        assertEquals(daySales1.getInvoicedItemsCount(), daySalesData.getInvoicedItemsCount());
-        assertEquals(daySales1.getTotalRevenue(), daySalesData.getTotalRevenue());
+    private void checkEquals(DaySalesPojo daySales, DaySalesData daySalesData) {
+        assertEquals(daySales.getDate().withNano(0), daySalesData.getDate().withNano(0));
+        assertEquals(daySales.getInvoicedOrdersCount(), daySalesData.getInvoicedOrdersCount());
+        assertEquals(daySales.getInvoicedItemsCount(), daySalesData.getInvoicedItemsCount());
+        assertEquals(daySales.getTotalRevenue(), daySalesData.getTotalRevenue());
     }
 
     @Test
