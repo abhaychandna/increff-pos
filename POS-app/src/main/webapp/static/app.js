@@ -83,7 +83,6 @@ function getFileExtension(filename) {
 	return filename.substr((filename.lastIndexOf(".") + 1));
 }
 
-//HELPER METHOD
 function toJsonString($form){
 	return JSON.stringify(toJson($form));
 }
@@ -102,7 +101,6 @@ function toJson($form){
 
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);
-	//alert(response.message);
 	raiseAlert('Oops...', response.message, 'error');
 }
 
@@ -186,8 +184,6 @@ function showLogoutAlert(){
 	}, LOGOUT_ALERT_TIME_MILLI);
 }
 
-document.getElementById("logout-btn").addEventListener("click", logout);
-
 function emphasizeNavbarCurrentLink(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	var url = document.URL;
@@ -195,8 +191,6 @@ function emphasizeNavbarCurrentLink(){
 	var element = document.querySelectorAll('[href="' + path + '"][class="nav-link"]');
 	element[0].style.fontWeight = "bold";	
 }
-emphasizeNavbarCurrentLink();
-
 
 function convertValuesToString(json){
 	for(var key in json){
@@ -236,3 +230,12 @@ function enableButtonOnFormChange(formSelector, buttonSelector, jsonData, fieldL
 		}
 	});
 }
+
+
+function init(){
+	emphasizeNavbarCurrentLink();
+	document.getElementById("logout-btn").addEventListener("click", logout);
+}
+
+$(document).ready(init);
+
