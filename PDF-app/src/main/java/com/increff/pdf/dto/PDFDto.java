@@ -19,7 +19,7 @@ public class PDFDto {
     
     public <T> String generateReport(PDFForm<T> pdfForm) throws ApiException {
         List<T> reportForm = pdfForm.getReportData();
-        String xsltFilename = pdfForm.getXsltFilename();
+        String xsltFilename = pdfForm.getXsltFilename().toString();
         HashMap<String, String> headers = pdfForm.getHeaders();
 
         File xsltFile = new File(xsltFilename + ".xsl");
