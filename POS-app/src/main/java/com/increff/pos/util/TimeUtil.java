@@ -20,6 +20,10 @@ public class TimeUtil {
         return zdt;
     }
 
+	public static ZonedDateTime getCurrentZonedDateSetTimeZero(){
+		return ZonedDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
+	}
+
     public static ZonedDateTime isoTimeStringToZonedDateTime(String isoDateTime) {
         return getZonedDateTime(isoDateTime, DateTimeFormatter.ISO_DATE_TIME);
     }

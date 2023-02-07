@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.increff.pos.dao.DaySalesDao;
 import com.increff.pos.pojo.DaySalesPojo;
 import com.increff.pos.pojo.OrderItemPojo;
+import com.increff.pos.util.TimeUtil;
 
 @Service
 @Transactional(rollbackOn = ApiException.class)
@@ -22,7 +23,7 @@ public class DaySalesService {
 
 	public DaySalesPojo add(List<OrderItemPojo> items) throws ApiException {
 		DaySalesPojo daySales = new DaySalesPojo();
-		ZonedDateTime date = getCurrentZonedDateWithoutTime();
+		ZonedDateTime date = TimeUtil.getCurrentZonedDateSetTimeZero();
 		
 		daySales.setDate(date);
 		daySales.setInvoicedItemsCount(items.size());
@@ -44,7 +45,7 @@ public class DaySalesService {
 	}
 
 	public DaySalesPojo update(List<OrderItemPojo> items) throws ApiException {
-		ZonedDateTime date = getCurrentZonedDateWithoutTime();
+		ZonedDateTime date = TimeUtil.getCurrentZonedDateSetTimeZero();
 		DaySalesPojo daySales = dao.select(date);
 		if(Objects.isNull(daySales)) {
 			return add(items);
@@ -61,13 +62,6 @@ public class DaySalesService {
 			totalRevenue += item.getQuantity() * item.getSellingPrice();
 		}
 		return totalRevenue;
-	}
-
-	public static ZonedDateTime getCurrentZonedDateWithoutTime(){
-		return setTimeToZero(ZonedDateTime.now());
-	}
-	public static ZonedDateTime setTimeToZero(ZonedDateTime zdt) {
-		return zdt.withHour(0).withMinute(0).withSecond(0).withNano(0);
 	}
 
 	public List<DaySalesPojo> getAll(Integer pageNo, Integer pageSize) {
