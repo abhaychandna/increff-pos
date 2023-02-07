@@ -158,7 +158,7 @@ function addOrderItem(event) {
 
 function displayCart() {
     $('#add-order-item-modal').modal('toggle');
-    // table should be empty
+    
     var $tbody = $('#order-item-table').find('tbody');
     $tbody.empty();
     wholeOrder = [];
@@ -167,7 +167,7 @@ function displayCart() {
 function displayOrderDetails(id) {
     $('#view-order-modal').modal('toggle');
     var url = getOrderUrl();
-    // ajax - Get request to baseUrl/{id}/items
+    
     $.ajax({
         url: url + '/' + id + '/items',
         type: 'GET',

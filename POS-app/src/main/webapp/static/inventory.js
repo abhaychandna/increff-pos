@@ -34,11 +34,11 @@ function addInventory(event){
 }
 
 function updateInventory(event){
-	//Get the ID
+	
 	var id = $("#Inventory-edit-form input[name=id]").val();	
 	var url = getInventoryUrl();
 
-	//Set the values to update
+	
 	var $form = $("#Inventory-edit-form");
 	if(!validateFormHTML($form)) return;
 	var json = toJsonString($form);
@@ -79,7 +79,7 @@ function deleteInventory(id){
 	});
 }
 
-// FILE UPLOAD METHODS
+
 var fileData = [];
 var errorData = [];
 var processCount = 0;
@@ -148,7 +148,7 @@ function downloadErrors(){
 	writeFileData(errorData);
 }
 
-//UI DISPLAY METHODS
+
 
 function displayEditInventory(id){
 	var url = getInventoryUrl() + "/" + id;
@@ -163,17 +163,17 @@ function displayEditInventory(id){
 }
 
 function resetUploadDialog(){
-	//Reset file name
+	
 	var $file = $('#InventoryFile');
 	$file.val('');
 	$('#InventoryFileName').html("Choose File");
 	$('#statusView').html('Status : Please Upload TSV file');
 	document.getElementById('download-errors').disabled=true;
-	//Reset various counts
+	
 	processCount = 0;
 	fileData = [];
 	errorData = [];
-	//Update counts	
+	
 	updateUploadDialog();
 }
 
@@ -228,7 +228,7 @@ function tableColumns(){
 	return columns;
 }
 
-//INITIALIZATION CODE
+
 function init(){
 
 	$('#Inventory-table').DataTable( {

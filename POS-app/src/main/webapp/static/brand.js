@@ -4,7 +4,7 @@ function getBrandUrl(){
 	return baseUrl + "/api/brands";
 }
 
-//BUTTON ACTIONS
+
 
 function toggleAddBrandModal(){
 	$('#add-Brand-modal').modal('toggle');
@@ -16,7 +16,7 @@ function toggleEditBrandModal(){
 
 
 function addBrand(event){
-	//Set the values to update
+	
 	var $form = $("#Brand-form");
 	if(!validateFormHTML($form)) return;
 	var json = toJsonString($form);
@@ -42,11 +42,11 @@ function addBrand(event){
 }
 
 function updateBrand(event){
-	//Get the ID
+	
 	var id = $("#Brand-edit-form input[name=id]").val();	
 	var url = getBrandUrl() + "/" + id;
 
-	//Set the values to update
+	
 	var $form = $("#Brand-edit-form");
 	if(!validateFormHTML($form)) return;
 	var json = toJsonString($form);
@@ -74,7 +74,7 @@ function getBrandList(){
 	$("#brand-table").DataTable().ajax.reload();
 }
 
-// FILE UPLOAD METHODS
+
 var fileData = [];
 var errorData = [];
 var processCount = 0;
@@ -143,7 +143,7 @@ function downloadErrors(){
 	writeFileData(errorData);
 }
 
-//UI DISPLAY METHODS
+
 
 function displayEditBrand(id){
 	var url = getBrandUrl() + "/" + id;
@@ -158,31 +158,31 @@ function displayEditBrand(id){
 }
 
 function resetUploadDialog(){
-	//Reset file name
+	
 	var $file = $('#BrandFile');
 	$file.val('');
 	$('#BrandFileName').html("Choose File");
 	$('#statusView').html('Status : Please Upload TSV file');
 	document.getElementById('download-errors').disabled=true;
 
-	//Reset various counts
+	
 	processCount = 0;
 	fileData = [];
 	errorData = [];
-	//Update counts	
+	
 	updateUploadDialog();
 }
 
 function resetAddDialog(){
-	//Reset form values
+	
 	var $form = $("#Brand-form");
 	$form.trigger("reset");
 }
 
 function updateUploadDialog(){
-	//$('#statusView').html("" + fileData.length);
-	//$('#processCount').html("" + processCount);
-	//$('#errorCount').html("" + errorData.length);
+	
+	
+	
 }
 
 function updateFileName(){
@@ -227,7 +227,7 @@ function tableColumns(){
 	return columns;
 }
 
-//INITIALIZATION CODE
+
 function init(){
 
 	$('#brand-table').DataTable( {
@@ -256,5 +256,5 @@ function init(){
 }
 
 $(document).ready(init);
-//$(document).ready(getBrandList);
+
 

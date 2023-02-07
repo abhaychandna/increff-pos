@@ -70,7 +70,7 @@ public class DaySalesDto {
         svc.add(ConvertUtil.convert(daySalesData, DaySalesPojo.class));
     }
 
-    // calcualtes according to UTC time
+    
     private DaySalesData calculateSales(ZonedDateTime startDate, ZonedDateTime endDate) throws ApiException {
         List<OrderPojo> orders = orderService.filterByDate(startDate, endDate);
         List<Integer> orderIds = orders.stream().map(OrderPojo::getId).collect(Collectors.toList());

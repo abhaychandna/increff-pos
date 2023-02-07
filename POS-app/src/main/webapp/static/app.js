@@ -45,7 +45,7 @@ function validateFile(fileData, headerColumns){
 }
 
 function resetForm(formSelector){
-	//Reset form values
+	
 	var $form = $(formSelector);
 	$form.trigger("reset");
 }
@@ -206,7 +206,7 @@ function convertValuesToString(json){
 function checkFormEqualsData(form, data, fieldList){
 	var json = toJson(form);
 	
-	// if field list is not null, check only those fields
+	
 	if(fieldList != null){
 		var jsonFieldList = {};
 		var dataFieldList = {};

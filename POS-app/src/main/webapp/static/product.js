@@ -45,11 +45,11 @@ function toggleEditProductModal(){
 	$('#edit-Product-modal').modal('toggle');
 }
 function updateProduct(event){
-	//Get the ID
+	
 	var id = $("#Product-edit-form input[name=id]").val();	
 	var url = getProductUrl() + "/" + id;
 
-	//Set the values to update
+	
 	var $form = $("#Product-edit-form");
 	if(!validateFormHTML($form)) return;
 	var json = toJsonString($form);
@@ -91,7 +91,7 @@ function deleteProduct(id){
 	});
 }
 
-// FILE UPLOAD METHODS
+
 var fileData = [];
 var errorData = [];
 var processCount = 0;
@@ -165,7 +165,7 @@ function getBrandUrl(){
 	return baseUrl + "/api/brands";
 }
 
-//UI DISPLAY METHODS
+
 
 function toggleAddProductModal(){
 	$('#add-Product-modal').modal('toggle');
@@ -204,17 +204,17 @@ function displayEditProduct(id){
 }
 
 function resetUploadDialog(){
-	//Reset file name
+	
 	var $file = $('#ProductFile');
 	$file.val('');
 	$('#ProductFileName').html("Choose File");
 	$('#statusView').html('Status : Please Upload TSV file');
 	document.getElementById('download-errors').disabled=true;
-	//Reset various counts
+	
 	processCount = 0;
 	fileData = [];
 	errorData = [];
-	//Update counts	
+	
 	updateUploadDialog();
 }
 
@@ -277,7 +277,7 @@ function tableColumns(){
 	return columns;
 }
 
-//INITIALIZATION CODE
+
 function init(){
 
 	$('#Product-table').DataTable( {
@@ -306,5 +306,5 @@ function init(){
 }
 
 $(document).ready(init);
-//$(document).ready(getProductList);
+
 

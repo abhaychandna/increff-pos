@@ -116,8 +116,6 @@ public class BrandTest extends AbstractUnitTest {
         BrandForm brandForm3 = testUtil.getBrandForm("puma", "tshirts");
         List<BrandForm> brandForms = List.of(brandForm1, brandForm2, brandForm3);
         brandDto.bulkAdd(brandForms);
-
-        // Adding same brand/category twice should throw error
         brandDto.bulkAdd(brandForms);
     }
 

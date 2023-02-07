@@ -14,7 +14,7 @@ function getDaySalesList(){
 
 function stringToISOString(dateString){
 	var date = new Date(dateString);
-	//date = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+	
 	
 
 	var isoString = date.toISOString();
@@ -46,10 +46,10 @@ function initializeDateInputs(){
 	var endDate = new Date();
 	var startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
 	
-	// increasing time since conversion to ISOString decreases time by timezone offset
+	
 	startDate = increaseTimeByTimeZoneOffset(startDate);
 	endDate = increaseTimeByTimeZoneOffset(endDate);
-	// Converting to yyyy-mm-dd format
+	
 	startDate = startDate.toISOString().slice(0,10);
 	endDate = endDate.toISOString().slice(0,10);
 
@@ -83,7 +83,7 @@ function init(){
             "render": function (timestamp) {
                 var millisecondTimestamp = timestamp * 1000;
                 var date = new Date(millisecondTimestamp).toLocaleString();
-				// show only date
+				
 				date = date.split(',')[0];
 				return date;
             } },
