@@ -141,6 +141,12 @@ public class OrderTest extends AbstractUnitTest {
         orderDto.add(List.of(orderItemForm));
     }
 
+    @Test(expected = ApiException.class)
+    public void testAddIncorrectBarcode() throws ApiException {
+        orderItemForm.setBarcode("incorrect");
+        orderDto.add(List.of(orderItemForm));
+    }
+
     private void checkEquals(List<OrderItemData> orderItems, List<OrderItemForm> orderItemFormList) {
         assertEquals(orderItems.size(), orderItemFormList.size());
         assertTrue(orderItems.size() > 0);
