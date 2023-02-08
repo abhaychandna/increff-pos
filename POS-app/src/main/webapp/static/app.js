@@ -18,11 +18,21 @@ function validateFormHTML($form){
 var fileErrorMessages = [];
 
 function validateFileHeaders(json, headerColumns){
-	for(var i in headerColumns){
-		if(!json.hasOwnProperty(headerColumns[i])){
-			fileErrorMessages.push('File columns do not match. Please check the file and try again');
+	
+	var errors = [];
+	if(Object.keys(json).length != headerColumns.length){
+		errors.push('No. of columns in file do not match.');
+	}
+	else {
+		for(var i in headerColumns){
+			if(!json.hasOwnProperty(headerColumns[i])){
+				errors.push('File columns do not match. Column ' + headerColumns[i] + ' is missing.');
+			}
 		}
 	}
+	if(errors.length > 0) errors.push('Expected columns: ' + headerColumns.join(', '));
+
+	fileErrorMessages = fileErrorMessages.concat(errors);
 }
 
 function validateFileLength(fileData, length){
