@@ -114,7 +114,7 @@ public class OrderDto {
     public List<OrderItemData> add(List<OrderItemForm> forms) throws ApiException {
         List<OrderItemPojo> items = new ArrayList<OrderItemPojo>();
         PreProcessingUtil.normalizeAndValidate(forms);
-        checkDuplicateBarcodesInOrder(forms);
+        checkDuplicateBarcodes(forms);
         validateOrderQuantityInInventory(forms);
         for (OrderItemForm form : forms) {
             items.add(convert(form));
@@ -193,7 +193,7 @@ public class OrderDto {
         return itemData;
     }
 
-    private void checkDuplicateBarcodesInOrder(List<OrderItemForm> items) throws ApiException {
+    private void checkDuplicateBarcodes(List<OrderItemForm> items) throws ApiException {
         Set<String> barcodes = new HashSet<String>();
         for(OrderItemForm item : items) {
             if(barcodes.contains(item.getBarcode()))
