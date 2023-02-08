@@ -1,7 +1,7 @@
 package com.increff.pos.dto;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,31 +76,39 @@ public class InventoryTest extends AbstractUnitTest {
         assertEquals(inventoryData.getBarcode(), expectedBarcode);
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void testAddInventoryEmptyBarcode() throws ApiException {
-        String emptyBarcode = "";
-        InventoryForm form = new InventoryForm(emptyBarcode, quantity);
-        inventoryDto.add(form);
-    }
+        InventoryForm form = new InventoryForm("", quantity);
+        String expectedMessage = testUtil.createFieldEmptyErrorMessage("Barcode");
+        Exception exception = assertThrows(ApiException.class, () -> {
+            inventoryDto.add(form);
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
+    } 
 
     @Test
     public void testAddInventoryBarcodeDoesntExist() throws ApiException {
         String barcode = "abcdef12";
         Integer quantity = 10;
-        try {
-            inventoryDto.add(new InventoryForm(barcode, quantity));
-        } catch (ApiException e) {
-            return;
-        }
-        fail();
+        InventoryForm form = new InventoryForm(barcode, quantity);
+
+        String expectedMessage = "Product with barcode: " + barcode + " does not exist";
+        Exception exception = assertThrows(ApiException.class, () -> {
+            inventoryDto.add(form);
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void testAddInventoryNegativeQuantity() throws ApiException {
         Integer negativeQuantity = -10;
         testUtil.createProductCascade(barcode, brand, category, name, mrp);
         InventoryForm form = new InventoryForm(barcode, negativeQuantity);
-        inventoryDto.add(form);
+        String expectedMessage = testUtil.createErrorMessage("Quantity should be positive");
+        Exception exception = assertThrows(ApiException.class, () -> {
+            inventoryDto.add(form);
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
     }
 
     @Test
@@ -131,11 +139,16 @@ public class InventoryTest extends AbstractUnitTest {
         assertEquals(newQuantity, newData.getQuantity());
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void testUpdateInventoryDoesntExist() throws ApiException {
         InventoryForm inventoryForm = testUtil.getInventoryForm(barcode, quantity);
-        inventoryDto.update(inventoryForm);
+        String expectedMessage = "Product with barcode: " + barcode + " does not exist";
+        Exception exception = assertThrows(ApiException.class, () -> {
+            inventoryDto.update(inventoryForm);
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
     }
+
 
     @Test
     public void testGet() throws ApiException {
@@ -145,11 +158,16 @@ public class InventoryTest extends AbstractUnitTest {
         assertEquals(barcode, inventoryData.getBarcode());
     }
 
-
-    @Test(expected = ApiException.class)
+    @Test
     public void testGetDoesntExist() throws ApiException {
-        inventoryDto.get(1);
+        String expectedMessage = "Inventory does not exist";
+        Exception exception = assertThrows(ApiException.class, () -> {
+            inventoryDto.get(1);
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
     }
+
+    
 
     @Test
     public void testGetAll() throws ApiException {
