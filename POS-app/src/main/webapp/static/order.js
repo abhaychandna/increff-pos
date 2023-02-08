@@ -222,13 +222,13 @@ function getOrderList() {
 	$("#Order-table").DataTable().ajax.reload();
 }
 
-function arrayToJson() {
+function orderListToJson(orderList) {
     let json = [];
-    for(i in wholeOrder) {
+    for(i in orderList) {
         let data = {};
-        data["barcode"]=JSON.parse(wholeOrder[i]).barcode;
-        data["quantity"]=JSON.parse(wholeOrder[i]).quantity;
-        data["sellingPrice"]=JSON.parse(wholeOrder[i]).sellingPrice;
+        data["barcode"]=JSON.parse(orderList[i]).barcode;
+        data["quantity"]=JSON.parse(orderList[i]).quantity;
+        data["sellingPrice"]=JSON.parse(orderList[i]).sellingPrice;
         json.push(data);
     }
     return JSON.stringify(json);
@@ -252,7 +252,7 @@ function getProductName(productId) {
 function placeOrder() {
     var url = getOrderItemUrl();
 
-    var jsonObj = arrayToJson();
+    var jsonObj = orderListToJson(wholeOrder);
     
     $.ajax({
         url: url,
