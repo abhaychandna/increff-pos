@@ -82,10 +82,13 @@ function init(){
             { "data": "date",
             "render": function (timestamp) {
                 var millisecondTimestamp = timestamp * 1000;
-                var date = new Date(millisecondTimestamp).toLocaleString();
+				var date = new Date(millisecondTimestamp);
+				// Increase time by timezone offset since conversion to ISO string will decrease time by timezone offset
+				const offset = date.getTimezoneOffset()
+				var date = new Date(date.getTime() - (offset*60*1000))
+				// Convert to ISO string and split to get date only
+				return date.toISOString().split('T')[0]
 				
-				date = date.split(',')[0];
-				return date;
             } },
 			{ "data": "invoicedItemsCount" },
             { "data": "invoicedOrdersCount" },
