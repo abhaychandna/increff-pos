@@ -16,12 +16,9 @@ import lombok.Setter;
 @Setter
 @Table(indexes = {
     @Index(name = "IX_productpojo_brand_category", columnList = "brandCategory"),
-    @Index(name = "UK_productpojo_barcode", columnList = "barcode"),
-      },
-  uniqueConstraints = { 
-      @UniqueConstraint(name = "UniqueBarcode", columnNames = { "barcode"})
-     }
-)
+},  uniqueConstraints = {
+    @UniqueConstraint(name = "unique_barcode", columnNames = {"barcode"}),
+})
 @Entity
 public class ProductPojo extends AbstractPojo {
     

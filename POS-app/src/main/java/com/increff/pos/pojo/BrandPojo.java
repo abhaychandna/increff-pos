@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -14,9 +13,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Table(indexes = {
-	@Index(name="UX_brandpojo_brand_category", columnList = "brand, category"),
-  },
+@Table(
   uniqueConstraints = {
 	@UniqueConstraint(name="unique_brand_category", columnNames = {"brand", "category"})
 }

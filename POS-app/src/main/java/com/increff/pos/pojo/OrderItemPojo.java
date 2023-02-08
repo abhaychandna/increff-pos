@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +14,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Table(indexes = {
-    @Index(name="IX_orderitempojo_orderId", columnList = "orderId"),
     @Index(name="IX_orderitempojo_productId", columnList = "productId"),
+}, uniqueConstraints = {
+    @UniqueConstraint(name="unique_orderId_productId", columnNames = {"orderId", "productId"})
 })
 @Setter
 public class OrderItemPojo extends AbstractPojo{
