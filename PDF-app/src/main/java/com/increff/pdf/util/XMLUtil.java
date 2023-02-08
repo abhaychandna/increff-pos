@@ -77,9 +77,6 @@ public class XMLUtil {
       StreamResult result = new StreamResult(new File(filename));
       transformer.transform(source, result);
   
-      // Output to console for testing
-      StreamResult consoleResult = new StreamResult(System.out);
-      transformer.transform(source, consoleResult);
   }
   
   private static Document getDocument() throws ParserConfigurationException {
