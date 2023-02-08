@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.increff.pos.dao.DaySalesDao;
 import com.increff.pos.pojo.DaySalesPojo;
 import com.increff.pos.pojo.OrderItemPojo;
-import com.increff.pos.util.TimeUtil;
 
 @Service
 @Transactional(rollbackOn = ApiException.class)
@@ -20,18 +19,6 @@ public class DaySalesService {
 
 	@Autowired
 	private DaySalesDao dao;
-
-	public DaySalesPojo add(List<OrderItemPojo> items) throws ApiException {
-		DaySalesPojo daySales = new DaySalesPojo();
-		ZonedDateTime date = TimeUtil.getCurrentZonedDateSetTimeZero();
-		
-		daySales.setDate(date);
-		daySales.setInvoicedItemsCount(items.size());
-		daySales.setInvoicedOrdersCount(1);
-		daySales.setTotalRevenue(totalRevenue(items));
-		
-		return dao.insert(daySales);
-	}
 
 	public DaySalesPojo add(DaySalesPojo daySales) throws ApiException {
 		DaySalesPojo existing = dao.select(daySales.getDate());
@@ -42,18 +29,6 @@ public class DaySalesService {
 		existing.setInvoicedOrdersCount(daySales.getInvoicedOrdersCount());
 		existing.setTotalRevenue(daySales.getTotalRevenue());
 		return existing;
-	}
-
-	public DaySalesPojo update(List<OrderItemPojo> items) throws ApiException {
-		ZonedDateTime date = TimeUtil.getCurrentZonedDateSetTimeZero();
-		DaySalesPojo daySales = dao.select(date);
-		if(Objects.isNull(daySales)) {
-			return add(items);
-		}
-		daySales.setInvoicedItemsCount(daySales.getInvoicedItemsCount() + items.size());
-		daySales.setInvoicedOrdersCount(daySales.getInvoicedOrdersCount() + 1);
-		daySales.setTotalRevenue(daySales.getTotalRevenue() + totalRevenue(items));
-		return daySales;
 	}
 
 	public Double totalRevenue(List<OrderItemPojo> items) throws ApiException {
