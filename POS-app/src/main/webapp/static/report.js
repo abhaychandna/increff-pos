@@ -37,8 +37,9 @@ function salesReport(){
     var url = getReportUrl() + "/sales";
     var $form = $("#sales-report-form");
 
-	var json = JSON.parse(toJsonString($form));
+	var json = toJson($form);
 
+    // Remove filters with empty values
     for (var key in json) {
         if (json[key] === "") {
             delete json[key];
@@ -54,8 +55,18 @@ function salesReport(){
         })
         return;
     }
+    if(json["startDate"] > json["endDate"]){
+        var errorString = "Start date must be before end date";
+        raiseAlert({
+            icon: 'error',
+            title: 'Oops...',
+            html: errorString,
+        })
+        return;
+    }
     json["startDate"] = new Date(json["startDate"]).toISOString();
-    json["endDate"] = new Date(json["endDate"]).toISOString();
+    // increase date by 23 hours, 59 minutes, 59 seconds, 999 milliseconds time to include all transactions in the day
+    json["endDate"] = new Date(new Date(json["endDate"]).getTime() + 86399999).toISOString();
     
     json = JSON.stringify(json);
     $.ajax({
@@ -64,7 +75,6 @@ function salesReport(){
         data: json,
         contentType: "application/json",
         success: function (data) {
-            
             downloadPDF(data, "SalesReport");
         },
         error: function (response) {
