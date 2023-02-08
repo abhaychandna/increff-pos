@@ -194,7 +194,8 @@ function emphasizeNavbarCurrentLink(){
 	var url = document.URL;
 	path = url.substring(url.indexOf(baseUrl));
 	var element = document.querySelectorAll('[href="' + path + '"][class="nav-link"]');
-	element[0].style.fontWeight = "bold";	
+	if (element.length > 0)
+		element[0].style.fontWeight = "bold";	
 }
 
 function convertValuesToString(json){
@@ -239,7 +240,8 @@ function enableButtonOnFormChange(formSelector, buttonSelector, jsonData, fieldL
 
 function init(){
 	emphasizeNavbarCurrentLink();
-	document.getElementById("logout-btn").addEventListener("click", logout);
+	var logoutBtn = document.getElementById("logout-btn");
+	if(logoutBtn != null) logoutBtn.addEventListener("click", logout);
 }
 
 $(document).ready(init);
