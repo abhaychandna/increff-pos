@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.increff.pos.model.data.InvoiceItemData;
@@ -28,6 +27,7 @@ import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.OrderItemService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
+import com.increff.pos.spring.Properties;
 import com.increff.pos.util.ClientWrapper;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.PreProcessingUtil;
@@ -46,8 +46,8 @@ public class OrderDto {
     @Autowired
     private ClientWrapper ClientWrapper;
 
-    @Value("${resourcePath}")
-    private String resourcePath;
+    @Autowired
+    private Properties Properties;
 
 
 
@@ -56,7 +56,7 @@ public class OrderDto {
         
         List<OrderItemPojo> items = orderItemService.getByOrderId(id);
 
-        String folderPath = resourcePath + "/invoices";
+        String folderPath = Properties.getResourcePath() + "/invoices";
         File folder = new File(folderPath);
         folder.getParentFile().mkdirs();
         

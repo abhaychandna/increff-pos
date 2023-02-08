@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -31,9 +30,6 @@ public class UserTest extends AbstractUnitTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Value("${supervisorEmail}")
-    private String supervisorEmail;
-
     private String email;
     private String password;
     @Before
@@ -53,10 +49,10 @@ public class UserTest extends AbstractUnitTest {
 
     @Test
     public void testSignupSupervisor() throws ApiException {
-        SignupForm form = testUtil.getSignupForm(supervisorEmail, password);
+        SignupForm form = testUtil.getSignupForm(testUtil.getProperties().getSupervisorEmail() , password);
         MockHttpServletRequest request = new MockHttpServletRequest();
         userDto.signup(request, form);
-        UserPojo user = userService.get(supervisorEmail);
+        UserPojo user = userService.get(testUtil.getProperties().getSupervisorEmail());
         checkEquals(user, form); 
         assertEquals("supervisor", user.getRole().toString());
     }    

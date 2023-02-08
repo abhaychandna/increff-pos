@@ -7,7 +7,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import com.increff.pos.config.AbstractUnitTest;
 import com.increff.pos.dao.UserDao;
@@ -20,9 +19,6 @@ public class UserServiceTest extends AbstractUnitTest {
     private UserService userService;
     @Autowired
     private UserDao userDao;
-
-    @Value("${supervisorEmail}")
-    private String supervisorEmail;
 
     private String email;
     private String password;

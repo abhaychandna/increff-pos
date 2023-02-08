@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.increff.pos.config.PropertiesTest;
 import com.increff.pos.dao.BrandDao;
 import com.increff.pos.dao.DaySalesDao;
 import com.increff.pos.dao.InventoryDao;
@@ -50,6 +51,13 @@ public class TestUtil {
     private DaySalesDao daySalesDao;
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private PropertiesTest Properties;
+
+    public PropertiesTest getProperties() {
+        return Properties;
+    }
 
     public ProductPojo createProductCascade(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
         createBrand(brand, category);

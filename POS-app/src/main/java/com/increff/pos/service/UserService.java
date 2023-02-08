@@ -6,13 +6,13 @@ import java.util.Objects;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.increff.pos.dao.UserDao;
 import com.increff.pos.model.data.Role;
 import com.increff.pos.pojo.UserPojo;
+import com.increff.pos.spring.Properties;
 
 @Service
 @Transactional(rollbackOn = ApiException.class)
@@ -21,8 +21,9 @@ public class UserService {
 	private PasswordEncoder passwordEncoder;
 	@Autowired
 	private UserDao dao;
-	@Value("${supervisorEmail}")
-	private String supervisorEmail;
+	
+	@Autowired
+	private Properties Properties;
 
 	public void add(UserPojo user) throws ApiException {
 		UserPojo existing = dao.selectByColumn("email", user.getEmail());
@@ -43,7 +44,7 @@ public class UserService {
 	}
 
 	private boolean isSupervisor(String email) {
-		return email.equals(supervisorEmail); 
+		return email.equals(Properties.getSupervisorEmail()); 
 	}
 
 }

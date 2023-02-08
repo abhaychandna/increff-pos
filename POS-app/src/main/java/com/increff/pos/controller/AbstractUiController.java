@@ -3,12 +3,12 @@ package com.increff.pos.controller;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.increff.pos.model.data.InfoData;
 import com.increff.pos.model.data.UserPrincipal;
+import com.increff.pos.spring.Properties;
 import com.increff.pos.util.SecurityUtil;
 
 @Controller
@@ -17,8 +17,8 @@ public abstract class AbstractUiController {
 	@Autowired
 	private InfoData info;
 
-	@Value("${app.baseUrl}")
-	private String baseUrl;
+	@Autowired
+	private Properties Properties;
 
 	protected ModelAndView mav(String page) {
 		
@@ -30,7 +30,7 @@ public abstract class AbstractUiController {
 		
 		ModelAndView mav = new ModelAndView(page);
 		mav.addObject("info", info);
-		mav.addObject("baseUrl", baseUrl);
+		mav.addObject("baseUrl", Properties.getAppBaseUrl());
 		return mav;
 	}
 
