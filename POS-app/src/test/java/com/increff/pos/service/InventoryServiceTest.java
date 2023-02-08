@@ -121,7 +121,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
     @Test
     public void testGetCheckInventoryDoesNotExist() throws ApiException {
-        String expectedMessage = "Inventory with given ID does not exist";
+        String expectedMessage = "Inventory does not exist";
         Exception exception = assertThrows(ApiException.class, () -> {
             inventoryService.getCheck(1);
         });

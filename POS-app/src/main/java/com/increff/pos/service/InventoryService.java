@@ -58,7 +58,7 @@ public class InventoryService {
 	public InventoryPojo getCheck(Integer id) throws ApiException {
 		InventoryPojo inventory = dao.selectByColumn("productId", id);
 		if (Objects.isNull(inventory)) {
-			throw new ApiException("Inventory with given ID does not exist");
+			throw new ApiException("Inventory does not exist");
 		}
 		return inventory;
 	}
