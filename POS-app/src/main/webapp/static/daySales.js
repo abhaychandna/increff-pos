@@ -22,18 +22,33 @@ function stringToISOString(dateString){
 	return isoString;
 }
 
+function validateDates(startDate, endDate){
+	var errorList = [];
+	if(startDate == "" || endDate == ""){
+		errorList.push("Please select both Start Date and End Date");
+	}
+	else if(startDate > endDate){
+		errorList.push("Start Date must be before End Date");
+	}
+	if (errorList.length > 0){
+		var errorString = errorList.join("\n");
+		raiseAlert({
+			icon: 'error',
+			title: 'Oops...',
+			html: errorString,
+		})
+		return false;
+	}
+	return true;
+
+}
+
+
 function filterDaySalesList(){
 	var startDate = $('#startDate').val();
 	var endDate = $('#endDate').val();
-	if(startDate == "" || endDate == ""){
-		var errorString = "Please select both start date and end date";
-		raiseAlert({
-            icon: 'error',
-            title: 'Oops...',
-            html: errorString,
-        })
-		return;
-	}
+	if(!validateDates(startDate, endDate)) return;
+
 	startDate = stringToISOString(startDate);
 	endDate = stringToISOString(endDate);
 	
