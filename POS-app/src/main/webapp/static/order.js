@@ -53,6 +53,9 @@ function displayOrderItemList(data){
 }
 
 function displayOrderItemViewList(data){
+    var $title = $('#order-view-title');
+    $title.html("Order ID : " + data[0].orderId);
+
 	var $tbody = $('#order-view-table').find('tbody');
 	$tbody.empty();
 
