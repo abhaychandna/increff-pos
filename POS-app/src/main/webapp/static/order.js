@@ -1,5 +1,4 @@
 var wholeOrder = [];
-var alertErrorMessages = [];
 
 function getOrderItemUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
@@ -132,21 +131,6 @@ function itemInCart() {
     return -1;
 }
 
-
-function getProductList() {
-    var url = getProductUrl();
-    $.ajax({
-        url: url,
-        type: 'GET',
-        success: function(data) {
-            barcode = []
-            getBarcode(data);
-            
-        },
-        error: handleAjaxError
-     });
-}
-
 function addOrderItem(event) {
     var $form = $("#order-item-form");
     if(validateFormHTML($form) == false)return;
@@ -193,11 +177,6 @@ function getInvoice(id){
         },
         error: handleAjaxError
      });
-}
-
-function getOrderItemList() {
-    var jsonObj = $.parseJSON('[' + wholeOrder + ']');
-    
 }
 
 function displayOrderList(data) {
@@ -287,13 +266,6 @@ function placeOrder() {
 }
 
 
-function getBrandUrl(){
-	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/brands";
-}
-
-
-
 function init(){
 
     
@@ -334,4 +306,3 @@ function init(){
 }
 
 $(document).ready(init);
-$(document).ready(getOrderItemList)
