@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import com.increff.pos.model.data.XSLTFilname;
+import com.increff.pos.model.data.XSLTFilename;
 import com.increff.pos.model.form.PDFForm;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.spring.Properties;
@@ -25,7 +25,7 @@ public class PDFClient {
     @Autowired
     private Properties Properties;
 
-    public <T> String getPDFInBase64(List<T> pdfData, XSLTFilname xsltFilename, HashMap<String, String> XMLheaders) throws ApiException{
+    public <T> String getPDFInBase64(List<T> pdfData, XSLTFilename xsltFilename, HashMap<String, String> XMLheaders) throws ApiException{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String apiUrl = Properties.getPdfAppBaseUrl() + Properties.getPdfAppGenerateReportUrl();
