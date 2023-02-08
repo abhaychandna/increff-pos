@@ -1,4 +1,4 @@
-var wholeOrder = []
+var wholeOrder = [];
 var alertErrorMessages = [];
 
 function getOrderItemUrl() {
