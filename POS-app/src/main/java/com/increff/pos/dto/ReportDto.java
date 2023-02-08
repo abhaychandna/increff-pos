@@ -95,7 +95,7 @@ public class ReportDto {
     public String salesReport(SalesReportForm form) throws ApiException {
         ZonedDateTime startDate = TimeUtil.isoTimeStringToZonedDateTime(form.getStartDate());
         ZonedDateTime endDate = TimeUtil.isoTimeStringToZonedDateTime(form.getEndDate());
-        
+        if(endDate.isBefore(startDate)) throw new ApiException("Start date cannot be greater than end date");
         List<BrandPojo> brands = getBrandPojoList(form.getBrand(), form.getCategory());
 
         List<ProductPojo> products = getProducts(brands);

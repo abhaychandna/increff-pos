@@ -45,12 +45,13 @@ public class DaySalesDto {
         if (strStartDate.isEmpty() || strEndDate.isEmpty()) {
             return getAll(start, pageSize, draw);
         }
-
         Integer pageNo = start/pageSize;
 
         ZonedDateTime startDate = TimeUtil.isoTimeStringToZonedDateTime(strStartDate);
         ZonedDateTime endDate = TimeUtil.isoTimeStringToZonedDateTime(strEndDate);
-
+        if(endDate.isBefore(startDate)) {
+            throw new ApiException("Start date cannot be greater than end date");
+        }
         List<DaySalesPojo> daySales = svc.getAll(pageNo, pageSize, startDate, endDate);
         List<DaySalesData> daySaleList = new ArrayList<DaySalesData>();
         for (DaySalesPojo daySale : daySales) {
