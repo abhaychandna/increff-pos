@@ -30,19 +30,17 @@ function deleteOrderItem(id) {
     displayOrderItemList(wholeOrder);
 } 
 
-function displayOrderItemList(data){
+function displayOrderItemList(){
 	var $tbody = $('#order-item-table').find('tbody');
 	$tbody.empty();
-
 	for(var i in wholeOrder) {
-        var e = wholeOrder[i]; 
         var rowNo = parseInt(i)+1; 
         var buttonHtml = '<button onclick="deleteOrderItem('+i+')" class="btn btn-danger">Delete</button>';
         var row = '<tr>'
             + '<td>' + rowNo + '</td>'
-            + '<td>' + JSON.parse(wholeOrder[i]).barcode + '</td>'
-            + '<td>'  + JSON.parse(wholeOrder[i]).quantity + '</td>'
-            + '<td>'  + JSON.parse(wholeOrder[i]).sellingPrice + '</td>'
+            + '<td>' + wholeOrder[i].barcode + '</td>'
+            + '<td>'  + wholeOrder[i].quantity + '</td>'
+            + '<td>'  + wholeOrder[i].sellingPrice + '</td>'
             + '<td>'  + buttonHtml + '</td>'
             + '</tr>';
 
@@ -113,18 +111,15 @@ function validateInventory(barcode, quantity, inputJson) {
             })
         }
     });
-    displayOrderItemList(wholeOrder);
+    displayOrderItemList();
 
 }
 
 function itemInCart() {
     for(i in wholeOrder) {
-        var barcode = JSON.parse(wholeOrder[i]).barcode;
-        
-        var temp_barcode = $("#order-item-form input[name=barcode]").val();
-        
-        if(temp_barcode == barcode) {
-            
+        var existingBarcode = wholeOrder[i].barcode;
+        var currentBarcode = $("#order-item-form input[name=barcode]").val();
+        if(currentBarcode == existingBarcode) {     
             return i;
         }
     }
@@ -134,7 +129,7 @@ function itemInCart() {
 function addOrderItem(event) {
     var $form = $("#order-item-form");
     if(validateFormHTML($form) == false)return;
-    var json = toJsonString($form);
+    var json = toJson($form);
     var barcode = $("#order-item-form input[name=barcode]").val();
     var quantity = $("#order-item-form input[name=quantity]").val();
     var sp = $("#order-item-form input[name=sellingPrice]").val();    
@@ -205,9 +200,9 @@ function orderListToJson(orderList) {
     let json = [];
     for(i in orderList) {
         let data = {};
-        data["barcode"]=JSON.parse(orderList[i]).barcode;
-        data["quantity"]=JSON.parse(orderList[i]).quantity;
-        data["sellingPrice"]=JSON.parse(orderList[i]).sellingPrice;
+        data["barcode"]=orderList[i].barcode;
+        data["quantity"]=orderList[i].quantity;
+        data["sellingPrice"]=orderList[i].sellingPrice;
         json.push(data);
     }
     return JSON.stringify(json);
