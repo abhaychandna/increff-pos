@@ -2,6 +2,7 @@ package com.increff.pos.dto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -116,13 +117,6 @@ public class OrderTest extends AbstractUnitTest {
         assertNotNull(base64);
     }
 
-    @Test(expected = ApiException.class)
-    public void testAddDuplicateBarcode() throws ApiException {
-        orderItemForm.setBarcode(barcode2);
-        orderItemForm2.setBarcode(barcode2);
-        orderDto.add(List.of(orderItemForm, orderItemForm2));
-    }
-
     @Test
     public void testInventoryQuantityReducedAfterPlaceOrder() throws ApiException {
         Integer originalQuantity = inventoryDto.getByBarcode(barcode).getQuantity();
@@ -133,18 +127,37 @@ public class OrderTest extends AbstractUnitTest {
         Integer finalQuantity = inventoryDto.getByBarcode(barcode).getQuantity();
         assertEquals(finalQuantityExpected, finalQuantity);
     }
-
-    @Test(expected = ApiException.class)
+     
+    @Test
     public void testAddInsufficientInventory() throws ApiException {
         Integer originalQuantity = inventoryDto.getByBarcode(barcode).getQuantity();
         orderItemForm.setQuantity(originalQuantity + 1);
-        orderDto.add(List.of(orderItemForm));
+        String expectedMessage = "Insufficient inventory for barcode: " + barcode + ". Available: " + originalQuantity + ", Required: " + (originalQuantity + 1);
+        Exception exception = assertThrows(ApiException.class, () -> {
+            orderDto.add(List.of(orderItemForm));
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void testAddIncorrectBarcode() throws ApiException {
         orderItemForm.setBarcode("incorrect");
-        orderDto.add(List.of(orderItemForm));
+        String expectedMessage = "Product with barcode: incorrect does not exist";
+        Exception exception = assertThrows(ApiException.class, () -> {
+            orderDto.add(List.of(orderItemForm));
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
+    }
+
+    @Test
+    public void testAddDuplicateBarcode() throws ApiException {
+        orderItemForm.setBarcode(barcode2);
+        orderItemForm2.setBarcode(barcode2);
+        String expectedMessage = "Duplicate barcode: " + barcode2 + " in order";
+        Exception exception = assertThrows(ApiException.class, () -> {
+            orderDto.add(List.of(orderItemForm, orderItemForm2));
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
     }
 
     private void checkEquals(List<OrderItemData> orderItems, List<OrderItemForm> orderItemFormList) {
