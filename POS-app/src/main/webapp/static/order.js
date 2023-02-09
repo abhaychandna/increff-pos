@@ -71,7 +71,9 @@ function displayOrderItemViewList(data){
 
 }
 
-function validateInventory(barcode, quantity, inputJson) {
+function addInCart(inputJson) {
+    var barcode = inputJson["barcode"];
+    var quantity = inputJson["quantity"];
     var url = getInventoryUrl() + "/barcode/" + barcode;
     $.ajax({
         async: false,
@@ -129,12 +131,9 @@ function itemInCart() {
 function addOrderItem(event) {
     var $form = $("#order-item-form");
     if(validateFormHTML($form) == false)return;
-    var json = toJson($form);
-    var barcode = $("#order-item-form input[name=barcode]").val();
-    var quantity = $("#order-item-form input[name=quantity]").val();
-    var sp = $("#order-item-form input[name=sellingPrice]").val();    
+    var json = toJson($form);  
 
-    validateInventory(barcode, quantity, json);
+    addInCart(json);
     
 }
 
