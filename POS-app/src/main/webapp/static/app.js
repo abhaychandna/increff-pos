@@ -148,7 +148,7 @@ function writeFileData(arr){
 
 
 function increaseTimeByTimeZoneOffset(datetime){
-	// datetime.getTimezoneOffset() return offset in minutes. GMT +5:30 reutrn -330
+	// datetime.getTimezoneOffset() returns offset in minutes. GMT +5:30 returns -330. Converting to milliseconds
 	var millSecondsOffset = datetime.getTimezoneOffset() * 60000;
 	return new Date(datetime.getTime() - millSecondsOffset);
 }
