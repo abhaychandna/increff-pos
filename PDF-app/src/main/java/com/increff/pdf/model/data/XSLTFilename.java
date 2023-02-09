@@ -1,6 +1,6 @@
 package com.increff.pdf.model.data;
 
-public enum XSLTFilname {
+public enum XSLTFilename {
     invoice,
     salesReport,
     inventoryReport,
