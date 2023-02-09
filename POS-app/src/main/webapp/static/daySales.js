@@ -12,14 +12,8 @@ function getDaySalesList(){
 	$('#day-sales-table').DataTable().draw();
 }
 
-function stringToISOString(dateString){
-	var date = new Date(dateString);
-	
-	
-
-	var isoString = date.toISOString();
-	
-	return isoString;
+function dateStringToISOString(dateString){
+	return new Date(dateString).toISOString();
 }
 
 function validateDates(startDate, endDate){
@@ -49,8 +43,8 @@ function filterDaySalesList(){
 	var endDate = $('#endDate').val();
 	if(!validateDates(startDate, endDate)) return;
 
-	startDate = stringToISOString(startDate);
-	endDate = stringToISOString(endDate);
+	startDate = dateStringToISOString(startDate);
+	endDate = dateStringToISOString(endDate);
 	
 	
 	$('#daySales-table').data('dt_params', { startDate: startDate, endDate: endDate });
@@ -61,10 +55,11 @@ function initializeDateInputs(){
 	var endDate = new Date();
 	var startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
 	
-	
+	// Increase time by timezone offset since conversion to ISO string will decrease time by timezone offset
 	startDate = increaseTimeByTimeZoneOffset(startDate);
 	endDate = increaseTimeByTimeZoneOffset(endDate);
 	
+	// Convert to ISO string and get date only
 	startDate = startDate.toISOString().slice(0,10);
 	endDate = endDate.toISOString().slice(0,10);
 
@@ -98,12 +93,7 @@ function init(){
             "render": function (timestamp) {
                 var millisecondTimestamp = timestamp * 1000;
 				var date = new Date(millisecondTimestamp);
-				// Increase time by timezone offset since conversion to ISO string will decrease time by timezone offset
-				const offset = date.getTimezoneOffset()
-				var date = new Date(date.getTime() - (offset*60*1000))
-				// Convert to ISO string and split to get date only
-				return date.toISOString().split('T')[0]
-				
+				return date.toLocaleDateString();				
             } },
 			{ "data": "invoicedItemsCount" },
             { "data": "invoicedOrdersCount" },
