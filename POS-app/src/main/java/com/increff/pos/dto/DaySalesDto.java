@@ -68,7 +68,7 @@ public class DaySalesDto {
         DaySalesData daySalesData = calculateSales(startDate, endDate);
         daySalesData.setDate(startDate);
 
-        svc.add(ConvertUtil.convert(daySalesData, DaySalesPojo.class));
+        svc.update(ConvertUtil.convert(daySalesData, DaySalesPojo.class));
     }
 
     

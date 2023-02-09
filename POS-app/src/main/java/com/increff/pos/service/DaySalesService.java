@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.increff.pos.dao.DaySalesDao;
 import com.increff.pos.pojo.DaySalesPojo;
-import com.increff.pos.pojo.OrderItemPojo;
 
 @Service
 @Transactional(rollbackOn = ApiException.class)
@@ -20,9 +19,10 @@ public class DaySalesService {
 	@Autowired
 	private DaySalesDao dao;
 
-	public DaySalesPojo add(DaySalesPojo daySales) throws ApiException {
+	public DaySalesPojo update(DaySalesPojo daySales) throws ApiException {
 		DaySalesPojo existing = dao.select(daySales.getDate());
 		if(Objects.isNull(existing)) {
+			// TODO : Can we insert directly from update?? 
 			return dao.insert(daySales);
 		}
 		existing.setInvoicedItemsCount(daySales.getInvoicedItemsCount());
