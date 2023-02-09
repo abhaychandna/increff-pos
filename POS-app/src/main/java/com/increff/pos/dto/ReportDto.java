@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,13 +123,13 @@ public class ReportDto {
         return headers;
     }
 
-    // Hashmap format : Key-productId, Value-List(brand, category)
+    // Return Hashmap format : Key-productId, Value-List(brand, category)
     private HashMap<Integer, List<String>> getProductIdToBrandCategoryMap(List<ProductPojo> products,
             List<BrandPojo> brands) {
         HashMap<Integer, BrandPojo> brandIdToBrandPojo = new HashMap<>();
-        brands.forEach(brand->{brandIdToBrandPojo.put(brand.getId(), brand);});
+        brands.stream().forEach(brand->{brandIdToBrandPojo.put(brand.getId(), brand);});
         HashMap<Integer, List<String>> productIdToBrandCategory = new HashMap<>();
-        products.forEach(product->{
+        products.stream().forEach(product->{
             BrandPojo brand = brandIdToBrandPojo.get(product.getBrandCategory());
             productIdToBrandCategory.put(product.getId(), Arrays.asList(brand.getBrand(), brand.getCategory()));
         });
@@ -159,7 +158,7 @@ public class ReportDto {
 
     private List<SalesReportData> getSalesReport(List<OrderItemPojo> orderItems, HashMap<Integer, List<String>> productIdToBrandCategory) {
         HashMap<Integer, SalesReportData> productIdToSalesReportData = new HashMap<Integer, SalesReportData>();
-        orderItems.forEach(item->{
+        orderItems.stream().forEach(item->{
             Integer productId = item.getProductId();
             List<String> brandCategory = productIdToBrandCategory.get(productId);
             String brand = brandCategory.get(0), category = brandCategory.get(1);
@@ -194,7 +193,7 @@ public class ReportDto {
         List<BrandPojo> brands = brandService.getAll();
         if(brands.isEmpty()) throw new ApiException("No brands found");
         List<BrandReportData> reportDataList = new ArrayList<>();
-        brands.forEach(brand->{
+        brands.stream().forEach(brand->{
             reportDataList.add(new BrandReportData(brand.getBrand(), brand.getCategory()));
         });
 
