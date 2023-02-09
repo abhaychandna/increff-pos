@@ -83,7 +83,6 @@ function addInCart(inputJson) {
             'Content-Type': 'application/json'
         },
         success: function(response) {
-            response["quantity"];
             if(response["quantity"] < quantity) {
                 var errorString = "Not enough quantity in inventory. Available: " + response["quantity"];
                 raiseAlert({
