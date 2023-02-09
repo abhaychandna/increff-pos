@@ -290,9 +290,6 @@ function init(){
 	$('#download-errors').click(downloadErrors);
     $('#ProductFile').on('change', updateFileName)
 
-	$('#Product-form').on('input change', function() {
-		$('#add-Product').attr('disabled', false);
-	});
 }
 
 $(document).ready(init);

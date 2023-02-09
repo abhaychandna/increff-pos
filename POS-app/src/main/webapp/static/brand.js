@@ -235,9 +235,6 @@ function init(){
 	$('#download-errors').click(downloadErrors);
     $('#BrandFile').on('change', updateFileName)
 
-	$('#Brand-form').on('input change', function() {
-		$('#add-Brand').attr('disabled', false);
-	});
 }
 
 $(document).ready(init);

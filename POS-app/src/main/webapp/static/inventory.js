@@ -239,10 +239,7 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#InventoryFile').on('change', updateFileName)
-	
-	$('#Inventory-form').on('input change', function() {
-		$('#add-Inventory').attr('disabled', false);
-	});
+
 }
 
 $(document).ready(init);
