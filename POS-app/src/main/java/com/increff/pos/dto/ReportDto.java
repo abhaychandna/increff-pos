@@ -154,10 +154,6 @@ public class ReportDto {
             productIds.stream().map(e->(Object)e).collect(Collectors.toList())
         );
         List<OrderItemPojo> orderItems = orderItemService.getByMultipleColumns(columns, values);
-        
-        // Converting to Set for faster lookup in filter orderItems
-        Set<Integer> productIdSet = productIds.stream().collect(Collectors.toSet());
-        orderItems = orderItems.stream().filter(e->productIdSet.contains(e.getProductId())).collect(Collectors.toList());
         return orderItems;
     }
 
