@@ -7,6 +7,9 @@
 # VS Code file
 .vscode/
 
+# IntelliJ file
+.idea/
+
 # Log file
 *.log
 
