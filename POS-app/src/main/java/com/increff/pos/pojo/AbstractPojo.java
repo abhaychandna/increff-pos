@@ -21,7 +21,7 @@ public abstract class AbstractPojo {
     private ZonedDateTime updated;
     @Version
     @Column(name = "version")
-    private long version;
+    private Long version;
 
     @PrePersist
     protected void onCreate() {
