@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.increff.pdf.model.PDFForm;
 import com.increff.pdf.service.ApiException;
 import com.increff.pdf.util.PDFUtil;
+import com.increff.pdf.util.PreProcessingUtil;
 import com.increff.pdf.util.XMLUtil;
 
 @Component
@@ -18,6 +19,7 @@ public class PDFDto {
     private String xmlDirectory;
     
     public <T> String generateReport(PDFForm<T> pdfForm) throws ApiException {
+        PreProcessingUtil.validate(pdfForm);
         List<T> reportForm = pdfForm.getReportData();
         String xsltFilename = pdfForm.getXsltFilename().toString();
         HashMap<String, String> headers = pdfForm.getHeaders();
