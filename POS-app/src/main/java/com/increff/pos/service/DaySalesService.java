@@ -31,14 +31,6 @@ public class DaySalesService {
 		return existing;
 	}
 
-	public Double totalRevenue(List<OrderItemPojo> items) throws ApiException {
-		Double totalRevenue = 0.0;
-		for(OrderItemPojo item : items) {
-			totalRevenue += item.getQuantity() * item.getSellingPrice();
-		}
-		return totalRevenue;
-	}
-
 	public List<DaySalesPojo> getAll(Integer pageNo, Integer pageSize) {
 		return dao.selectAll(pageNo, pageSize);
 	}
