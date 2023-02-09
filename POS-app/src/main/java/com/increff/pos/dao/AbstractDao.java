@@ -72,36 +72,15 @@ public abstract class AbstractDao<T> {
 	}
 
 	public <R> List<T> selectMultiple(String column, R value) {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<T> cq = cb.createQuery(clazz);
-		Root<T> root = cq.from(clazz);
-		cq.where(cb.equal(root.get(column), value));
-		TypedQuery<T> query = em.createQuery(cq);
-		return query.getResultList();
+		return selectByMultipleColumns(List.of(column), List.of(List.of(value)));
 	}
 
 	public <R> T selectByColumn(String column, R value) {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<T> cq = cb.createQuery(clazz);
-		Root<T> root = cq.from(clazz);
-		cq.where(cb.equal(root.get(column), value));
-		TypedQuery<T> query = em.createQuery(cq);
-		return getSingle(query);
+		return selectByMultipleColumns(List.of(column), List.of(List.of(value))).stream().findFirst().orElse(null);
 	}
 
 	public <R> List<T> selectByColumn(String column, List<R> values) {
-		if(values.isEmpty()) return Collections.emptyList(); 
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<T> cq = cb.createQuery(clazz);
-		Root<T> root = cq.from(clazz);
-
-		In<R> inClause = cb.in(root.get(column));
-		for (R val : values) {
-			inClause.value(val);
-		}
-		cq.select(root).where(inClause);
-		TypedQuery<T> query = em.createQuery(cq);
-		return query.getResultList();
+		return selectByMultipleColumns(List.of(column), List.of(values));
 	}
 
 	public <R> List<T> selectByMultipleColumns(List<String> columns, List<List<R>> values) {
