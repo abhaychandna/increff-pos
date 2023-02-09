@@ -1,6 +1,7 @@
 package com.increff.pdf.util;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +24,7 @@ import com.increff.pdf.service.ApiException;
 
 public class XMLUtil {
 
-   public static <T> void generateReportXML(List <T> reportData, String xmlFilepath, HashMap<String,String> headers) throws ApiException {
+   public static <T> String generateReportXMLBase64(List <T> reportData, HashMap<String,String> headers) throws ApiException {
       try {
             Document doc = getDocument();
       
@@ -34,12 +35,8 @@ public class XMLUtil {
 
             Element itemsList = doc.createElement("ItemsList");
             
-            // for each key value pair in linkedHashMap reportData
             reportData.forEach(reportDataItem ->{
-
-                  // reportDataItem is a LINKEDHASHMAP
                   Element items = doc.createElement("Items");
-
                   HashMap linkedHashMap = (HashMap) reportDataItem;
                   linkedHashMap.forEach((key, value) -> {
                         Element element = doc.createElement(key.toString());
@@ -50,7 +47,7 @@ public class XMLUtil {
             });
             
             rootElement.appendChild(itemsList);
-            transformDocumentToXML(xmlFilepath, doc);
+            return transformDocumentToXMLBase64(doc);
       }
       catch (Exception e) {
             e.printStackTrace();
@@ -69,19 +66,23 @@ public class XMLUtil {
       });
    }
   
-  private static void transformDocumentToXML(String filename, Document doc)
+  private static String transformDocumentToXMLBase64(Document doc)
   throws TransformerFactoryConfigurationError, TransformerConfigurationException, TransformerException {
       TransformerFactory transformerFactory = TransformerFactory.newInstance();
       Transformer transformer = transformerFactory.newTransformer();
-      DOMSource source = new DOMSource(doc);
-      StreamResult result = new StreamResult(new File(filename));
-      transformer.transform(source, result);
-  
+      
+      ByteArrayOutputStream bos = new ByteArrayOutputStream();
+      transformer.transform(new DOMSource(doc), new StreamResult(bos));
+
+      byte[] xmlBytes = bos.toByteArray();
+      String encodedXML = Base64.getEncoder().encodeToString(xmlBytes);
+      
+      return encodedXML;
   }
   
   private static Document getDocument() throws ParserConfigurationException {
       DocumentBuilderFactory dbFactory =
-          DocumentBuilderFactory.newInstance();
+      DocumentBuilderFactory.newInstance();
       DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
       Document doc = dBuilder.newDocument();
   

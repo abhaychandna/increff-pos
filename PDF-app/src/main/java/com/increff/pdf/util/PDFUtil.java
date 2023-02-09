@@ -1,5 +1,6 @@
 package com.increff.pdf.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -20,10 +21,10 @@ import org.apache.fop.apps.MimeConstants;
 import com.increff.pdf.service.ApiException;
 
 public class PDFUtil {
-    public static String generatePDFBase64(String xmlFilepath, File xsltFile)
+    public static String generatePDFBase64(File xsltFile, String xmlBase64)
     throws ApiException {
         try {
-            StreamSource xmlSource = new StreamSource(new File(xmlFilepath));
+            StreamSource xmlSource = getStreamSourceFromXMLBase64(xmlBase64);
 
             FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
@@ -39,8 +40,8 @@ public class PDFUtil {
 
             transformer.transform(xmlSource, res);
             byte[] pdfBytes = ((java.io.ByteArrayOutputStream)out).toByteArray();
-            String base64 = Base64.getEncoder().encodeToString(pdfBytes);
-            return base64;
+            String pdfBase64 = Base64.getEncoder().encodeToString(pdfBytes);
+            return pdfBase64;
         
         } catch (Exception e) {
             e.printStackTrace(System.err);
@@ -58,6 +59,12 @@ public class PDFUtil {
             e.printStackTrace();
             throw new ApiException("Failed to convert PDF To Base 64. " + e.getMessage());
         }
+    }
+
+    private static StreamSource getStreamSourceFromXMLBase64(String base64EncodedString) {
+        byte[] decodedBytes = Base64.getDecoder().decode(base64EncodedString);
+        ByteArrayInputStream bais = new ByteArrayInputStream(decodedBytes);
+        return new StreamSource(bais);
     }
 
 }
