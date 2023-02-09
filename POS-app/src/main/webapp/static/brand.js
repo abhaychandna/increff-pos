@@ -158,31 +158,16 @@ function displayEditBrand(id){
 }
 
 function resetUploadDialog(){
-	
 	var $file = $('#BrandFile');
 	$file.val('');
 	$('#BrandFileName').html("Choose File");
 	$('#statusView').html('Status : Please Upload TSV file');
 	document.getElementById('download-errors').disabled=true;
-
-	
-	processCount = 0;
-	fileData = [];
-	errorData = [];
-	
-	updateUploadDialog();
 }
 
 function resetAddDialog(){
-	
 	var $form = $("#Brand-form");
 	$form.trigger("reset");
-}
-
-function updateUploadDialog(){
-	
-	
-	
 }
 
 function updateFileName(){

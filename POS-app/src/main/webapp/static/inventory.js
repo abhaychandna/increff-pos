@@ -169,18 +169,7 @@ function resetUploadDialog(){
 	$('#InventoryFileName').html("Choose File");
 	$('#statusView').html('Status : Please Upload TSV file');
 	document.getElementById('download-errors').disabled=true;
-	
-	processCount = 0;
-	fileData = [];
-	errorData = [];
-	
-	updateUploadDialog();
-}
 
-function updateUploadDialog(){
-	$('#rowCount').html("" + fileData.length);
-	$('#processCount').html("" + processCount);
-	$('#errorCount').html("" + errorData.length);
 }
 
 function updateFileName(){
