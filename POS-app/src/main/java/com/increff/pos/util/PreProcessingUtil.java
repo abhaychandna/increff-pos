@@ -55,7 +55,6 @@ public class PreProcessingUtil {
 					f.set(form, StringUtil.toLowerCase(f.get(form).toString()).trim());
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
 				throw new ApiException(e.getMessage());
 			}
 		}

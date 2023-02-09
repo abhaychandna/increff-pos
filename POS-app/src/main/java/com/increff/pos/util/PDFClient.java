@@ -47,7 +47,6 @@ public class PDFClient {
             os.write(pdfAsBytes);
             os.close();
         } catch (Exception e) {
-            e.printStackTrace();
             throw new ApiException("Error in saving pdf file." + e.getMessage());
         }
     }
@@ -57,7 +56,6 @@ public class PDFClient {
         try{
             return Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(file));
         } catch (Exception e) {
-            e.printStackTrace();
             throw new ApiException("Error in reading pdf file." + e.getMessage());
         }
 }

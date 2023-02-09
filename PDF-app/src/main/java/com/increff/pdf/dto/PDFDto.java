@@ -27,7 +27,6 @@ public class PDFDto {
             return base64;
         }
         catch (Exception e){
-            e.printStackTrace();
             throw new ApiException("Error in generating report." + e.getMessage());
         }
     }

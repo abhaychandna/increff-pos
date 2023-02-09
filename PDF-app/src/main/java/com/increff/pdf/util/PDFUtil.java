@@ -44,7 +44,6 @@ public class PDFUtil {
             return pdfBase64;
         
         } catch (Exception e) {
-            e.printStackTrace(System.err);
             throw new ApiException(e.toString());
         }
     }
@@ -56,7 +55,6 @@ public class PDFUtil {
             String encodedString = new String(encoded);
             return encodedString;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new ApiException("Failed to convert PDF To Base 64. " + e.getMessage());
         }
     }

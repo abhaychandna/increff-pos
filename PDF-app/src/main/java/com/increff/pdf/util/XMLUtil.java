@@ -50,7 +50,6 @@ public class XMLUtil {
             return transformDocumentToXMLBase64(doc);
       }
       catch (Exception e) {
-            e.printStackTrace();
             throw new ApiException("Failed to generate XML");
       }
    }
