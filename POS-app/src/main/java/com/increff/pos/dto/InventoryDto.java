@@ -55,12 +55,12 @@ public class InventoryDto {
     public PaginatedData<InventoryData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
         Integer pageNo = start/pageSize;
         List<InventoryPojo> inventories = svc.getAll(pageNo, pageSize);
-        List<InventoryData> inventoryDatas = new ArrayList<InventoryData>();
+        List<InventoryData> inventoryDataList = new ArrayList<InventoryData>();
         for (InventoryPojo p : inventories) {
-            inventoryDatas.add(convert(p));
+            inventoryDataList.add(convert(p));
         }
         Integer count = svc.getRecordsCount();
-        return new PaginatedData<InventoryData>(inventoryDatas, draw, count, count);
+        return new PaginatedData<InventoryData>(inventoryDataList, draw, count, count);
     }
 
     public void update(InventoryForm form) throws ApiException {

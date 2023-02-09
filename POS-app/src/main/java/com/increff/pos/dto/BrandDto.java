@@ -52,9 +52,9 @@ public class BrandDto {
     public PaginatedData<BrandData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
         Integer pageNo = start/pageSize;
         List<BrandPojo> brands = svc.getAll(pageNo, pageSize);
-        List<BrandData> brandDatas = brands.stream().map(brand->convert(brand)).collect(Collectors.toList());
+        List<BrandData> brandDataList = brands.stream().map(brand->convert(brand)).collect(Collectors.toList());
         Integer count = svc.getRecordsCount();
-        return new PaginatedData<BrandData>(brandDatas, draw, count, count);
+        return new PaginatedData<BrandData>(brandDataList, draw, count, count);
     }
 
     public void update(Integer id, BrandForm form) throws ApiException {

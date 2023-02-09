@@ -207,8 +207,8 @@ public class ProductTest extends AbstractUnitTest{
         List<ProductForm> productForms = List.of(productForm1, productForm2, productForm3);
 
         productDto.bulkAdd(productForms);
-        List<ProductData> productDatas = productDto.getAll(0, 10, 1).getData();
-        assertEquals(productDatas.size(), 3);
+        List<ProductData> productDataList = productDto.getAll(0, 10, 1).getData();
+        assertEquals(productDataList.size(), 3);
     }
 
     @Test(expected = ApiException.class)
@@ -221,8 +221,8 @@ public class ProductTest extends AbstractUnitTest{
         List<ProductForm> productForms = List.of(productForm1, productForm2, productForm3);
 
         productDto.bulkAdd(productForms);
-        List<ProductData> productDatas = productDto.getAll(0, 10, 1).getData();
-        assertEquals(productDatas.size(), 3);
+        List<ProductData> productDataList = productDto.getAll(0, 10, 1).getData();
+        assertEquals(productDataList.size(), 3);
 
         productDto.bulkAdd(productForms);
     }
@@ -237,8 +237,8 @@ public class ProductTest extends AbstractUnitTest{
         List<ProductForm> productForms = List.of(productForm1, productForm2, productForm3);
 
         productDto.bulkAdd(productForms);
-        List<ProductData> productDatas = productDto.getAll(0, 10, 1).getData();
-        assertEquals(productDatas.size(), 3);
+        List<ProductData> productDataList = productDto.getAll(0, 10, 1).getData();
+        assertEquals(productDataList.size(), 3);
 
         productDto.bulkAdd(productForms);
     }

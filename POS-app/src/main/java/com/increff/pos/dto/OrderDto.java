@@ -103,12 +103,12 @@ public class OrderDto {
     public PaginatedData<OrderData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
         Integer pageNo = start/pageSize;
         List<OrderPojo> orders = orderService.getAll(pageNo, pageSize);
-        List<OrderData> orderDatas = new ArrayList<OrderData>();
+        List<OrderData> orderDataList = new ArrayList<OrderData>();
         for (OrderPojo p : orders) {
-            orderDatas.add(ConvertUtil.convert(p, OrderData.class));
+            orderDataList.add(ConvertUtil.convert(p, OrderData.class));
         }
         Integer count = orderService.getRecordsCount();
-        return new PaginatedData<OrderData>(orderDatas, draw, count, count);
+        return new PaginatedData<OrderData>(orderDataList, draw, count, count);
     }
 
     public List<OrderItemData> add(List<OrderItemForm> forms) throws ApiException {
@@ -137,22 +137,22 @@ public class OrderDto {
         List<Integer> orderIdList = new ArrayList<Integer>();
         orderIdList.add(orderId);
         List<OrderItemPojo> items = orderItemService.getByColumn("orderId", new ArrayList<>(orderIdList));
-        List<OrderItemData> itemDatas = new ArrayList<OrderItemData>();
+        List<OrderItemData> itemDataList = new ArrayList<OrderItemData>();
         for (OrderItemPojo item : items) {
-            itemDatas.add(convert(item));
+            itemDataList.add(convert(item));
         }
-        return itemDatas;
+        return itemDataList;
     }
 
     public PaginatedData<OrderItemData> getAllItems(Integer start, Integer pageSize, Integer draw) throws ApiException {
         Integer pageNo = start/pageSize;
         List<OrderItemPojo> items = orderItemService.getAll(pageNo, pageSize);
-        List<OrderItemData> itemDatas = new ArrayList<OrderItemData>();
+        List<OrderItemData> itemDataList = new ArrayList<OrderItemData>();
         for (OrderItemPojo item : items) {
-            itemDatas.add(convert(item));
+            itemDataList.add(convert(item));
         }
         Integer count = orderItemService.getRecordsCount();
-        return new PaginatedData<OrderItemData>(itemDatas, draw, count, count);
+        return new PaginatedData<OrderItemData>(itemDataList, draw, count, count);
     }
 
     private String getCachedInvoice(String outputFilepath) throws ApiException {

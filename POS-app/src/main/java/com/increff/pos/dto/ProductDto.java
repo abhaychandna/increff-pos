@@ -55,12 +55,12 @@ public class ProductDto {
     public PaginatedData<ProductData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
         Integer pageNo = start/pageSize;
         List<ProductPojo> products = svc.getAll(pageNo, pageSize);
-        List<ProductData> productDatas = new ArrayList<ProductData>();
+        List<ProductData> productDataList = new ArrayList<ProductData>();
         for (ProductPojo p : products) {
-            productDatas.add(convert(p));
+            productDataList.add(convert(p));
         }
         Integer count = svc.getRecordsCount();
-        return new PaginatedData<ProductData>(productDatas, draw, count, count);
+        return new PaginatedData<ProductData>(productDataList, draw, count, count);
     }
 
     public void update(Integer id, ProductPutForm form) throws ApiException {
