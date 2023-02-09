@@ -77,6 +77,9 @@ public class BrandDto {
         
         // TODO : Use streams to do this
         
+        // No return function in PreProcessingUtil.normalizeAndValidate(form) - so cannot use map. 
+        // Can use stream to create brandCategorySet, but then need to seprate brand and category from set again to ut in errors
+        // Also, current if input is b1 c1 , b1 c1 , error thrown only only on 2nd row. If we use stream, error thrown on both rows
         for (BrandForm form : forms){
             try {
                 PreProcessingUtil.normalizeAndValidate(form);
