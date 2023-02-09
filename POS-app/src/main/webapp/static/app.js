@@ -222,9 +222,6 @@ function checkFormEqualsData(form, data, fieldList){
 	}
 	json = JSON.stringify(convertValuesToString(json));
 	data = JSON.stringify(convertValuesToString(data));
-	console.log(json);
-	console.log(data);
-	console.log(fieldList);
 	return JSON.stringify(json) == JSON.stringify(data);
 }
 function enableButtonOnFormChange(formSelector, buttonSelector, jsonData, fieldList){
