@@ -89,12 +89,16 @@ public class BrandTest extends AbstractUnitTest {
         assertEquals("hoodies", brandData.getCategory());
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void testAddExistingBrandCategory() throws ApiException {
         BrandForm brandForm = testUtil.getBrandForm("adidas", "tshirts");
         brandDto.add(brandForm);
 
-        brandDto.add(brandForm);
+        String expectedMessage = "Brand Category pair already exists";
+        Exception exception = assertThrows(ApiException.class, () -> {
+            brandDto.add(brandForm);
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
     }
 
     @Test
