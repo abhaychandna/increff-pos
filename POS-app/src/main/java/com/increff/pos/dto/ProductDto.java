@@ -131,7 +131,7 @@ public class ProductDto {
         Boolean errorFound = false;
 
         Set<String> barcodeSet = forms.stream().map(ProductForm::getBarcode).collect(Collectors.toSet());
-        List<ProductPojo> products = svc.getByColumn("barcode", barcodeSet.stream().toList());
+        List<ProductPojo> products = svc.getByColumn("barcode", barcodeSet.stream().collect(Collectors.toList()));
         Set<String> existingBarcodes = products.stream().map(ProductPojo::getBarcode).collect(Collectors.toSet());
 
         for (ProductForm form : forms){
