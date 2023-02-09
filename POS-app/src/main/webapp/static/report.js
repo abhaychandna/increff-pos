@@ -43,7 +43,6 @@ function salesReport(){
     for (var key in json) {
         if (json[key] === "") {
             delete json[key];
-            continue;
         }
     }
     if(!json.hasOwnProperty("startDate") || !json.hasOwnProperty("endDate")){
@@ -91,7 +90,7 @@ function initializeDateInputs(){
 	// increasing time since conversion to ISOString decreases time by timezone offset
 	startDate = increaseTimeByTimeZoneOffset(startDate);
 	endDate = increaseTimeByTimeZoneOffset(endDate);
-	// Converting to yyyy-mm-dd format
+	// Keep date only
 	startDate = startDate.toISOString().slice(0,10);
 	endDate = endDate.toISOString().slice(0,10);
 
