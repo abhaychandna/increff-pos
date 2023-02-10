@@ -119,8 +119,8 @@ public class ReportDto {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("startDate", startDate.toString());
         headers.put("endDate", endDate.toString());
-        if(Objects.nonNull(brand)) headers.put("brand", brand);
-        if(Objects.nonNull(category)) headers.put("category", category);
+        headers.put("brand", Objects.nonNull(brand) ? brand : "All Brands");
+        headers.put("category", Objects.nonNull(category) ? category : "All Categories");
         return headers;
     }
 
