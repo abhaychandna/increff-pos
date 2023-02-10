@@ -45,6 +45,7 @@ public class UserDto {
         }
         catch (ApiException e) {
             info.setMessage(e.getMessage());
+			info.setHasError(true);
             return new ModelAndView("redirect:/site/signup");
         }
     }
@@ -54,6 +55,7 @@ public class UserDto {
 		boolean authenticated = (Objects.nonNull(user) && passwordEncoder.matches(form.getPassword(), user.getPassword()));
 		if (!authenticated) {
 			info.setMessage("Invalid username or password");
+			info.setHasError(true);
 			return new ModelAndView("redirect:/site/login");
 		}
 

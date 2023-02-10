@@ -20,11 +20,13 @@ public class InfoData implements Serializable {
 	private String message;
 	private String email;
 	private String role;
+	private Boolean hasError;
 
 	public InfoData() {
 		message = "";
 		email = "No email";
 		role = "No role";
+		hasError = false;
 	}
 
 }
