@@ -76,7 +76,7 @@ public abstract class AbstractDao<T> {
 	}
 
 	public <R> T selectByColumn(String column, R value) {
-		return selectByMultipleColumns(List.of(column), List.of(List.of(value))).stream().findFirst().orElse(null);
+		return getSingle(selectByMultipleColumns(List.of(column), List.of(List.of(value))));
 	}
 
 	public <R> List<T> selectByColumn(String column, List<R> values) {
@@ -100,5 +100,9 @@ public abstract class AbstractDao<T> {
 		cq.where(cb.and(preds.toArray(new Predicate[] {})));
 		TypedQuery<T> query = em.createQuery(cq);
 		return query.getResultList();
+	}
+
+	private <T> T getSingle(List<T> list) {
+		return list.stream().findFirst().orElse(null);
 	}
 }
