@@ -12,8 +12,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @MappedSuperclass
-@Getter
-@Setter
 public abstract class AbstractPojo {
     @Column(name = "created", nullable = false)
     private ZonedDateTime created;
