@@ -31,7 +31,7 @@ public class UserService {
 			throw new ApiException("User already exists");
 		}
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setRole(isSupervisor(user.getEmail()) ? Role.supervisor : Role.operator);
+		user.setRole(isSupervisor(user.getEmail()) ? Role.SUPERVISOR : Role.OPERATOR);
 		dao.insert(user);
 	}
 

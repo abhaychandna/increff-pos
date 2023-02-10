@@ -54,7 +54,7 @@ public class UserTest extends AbstractUnitTest {
         userDto.signup(request, form);
         UserPojo user = userService.get(testUtil.getProperties().getSupervisorEmail());
         checkEquals(user, form); 
-        assertEquals("supervisor", user.getRole().toString());
+        assertEquals("SUPERVISOR", user.getRole().toString());
     }    
 
     private void checkEquals(UserPojo user, SignupForm form) {

@@ -86,7 +86,7 @@ public class OrderDto {
         XMLheaders.put("Time", order.getTime().format(new DateTimeFormatterBuilder().appendPattern("dd-MM-yyyy HH:mm:ss z").toFormatter()));
         XMLheaders.put("Total", String.format("%.2f", total));
         
-        XSLTFilename xsltFilename = XSLTFilename.invoice;
+        XSLTFilename xsltFilename = XSLTFilename.INVOICE;
         base64 = ClientWrapper.pdfClient.getPDFInBase64(invoiceItems, xsltFilename, XMLheaders);
         
         ClientWrapper.pdfClient.saveBase64ToPDF(base64, outputFilepath);

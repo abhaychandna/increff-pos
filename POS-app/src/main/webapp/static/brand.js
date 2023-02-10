@@ -201,7 +201,7 @@ function tableColumns(){
 		{ "data": "brand" },
 		{ "data": "category" },
 	];
-	if (userRole == 'supervisor'){
+	if (userRole == 'SUPERVISOR'){
 		columns.push({
 			"data":null,
 			"render":function(o){

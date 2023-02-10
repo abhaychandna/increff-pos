@@ -1,8 +1,8 @@
 package com.increff.pos.model.data;
 
 public enum XSLTFilename {
-    invoice,
-    salesReport,
-    inventoryReport,
-    brandReport
+    INVOICE,
+    SALES_REPORT,
+    INVENTORY_REPORT,
+    BRAND_REPORT
 }

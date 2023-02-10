@@ -205,12 +205,12 @@ function tableColumns(){
 		{ "data": "barcode" },
 		{ "data": "quantity"},
 	];
-	if (userRole == 'supervisor'){
+	if (userRole == 'SUPERVISOR'){
 		columns.push({
 			"data":null,
 			"render":function(o){
 				
-				return '<button type="button" class="btn btn-info" onclick="displayEditInventory(' + o.productId + ')"th:if="${info.getRole() == "supervisor"}>Edit</button>'
+				return '<button type="button" class="btn btn-info" onclick="displayEditInventory(' + o.productId + ')"th:if="${info.getRole() == "SUPERVISOR"}>Edit</button>'
 			}
 		});
 	}

@@ -26,20 +26,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/ui/**")//
 				.and()
 				.authorizeRequests()//				
-				.antMatchers(HttpMethod.GET, "/api/brands/**").hasAnyAuthority("operator","supervisor")//
-				.antMatchers("/api/brands/**").hasAuthority("supervisor")
-				.antMatchers(HttpMethod.GET, "/api/products/**").hasAnyAuthority("operator","supervisor")//
-				.antMatchers("/api/products/**").hasAuthority("supervisor")
-				.antMatchers(HttpMethod.GET, "/api/inventory/**").hasAnyAuthority("operator","supervisor")//
-				.antMatchers("/api/inventory/**").hasAuthority("supervisor")
-				.antMatchers("/api/orders/**").hasAnyAuthority("supervisor", "operator")//
-				.antMatchers("/api/daySales/**").hasAnyAuthority("supervisor")//
-				.antMatchers("/api/reports/**").hasAnyAuthority("supervisor")//
+				.antMatchers(HttpMethod.GET, "/api/brands/**").hasAnyAuthority("OPERATOR","SUPERVISOR")//
+				.antMatchers("/api/brands/**").hasAuthority("SUPERVISOR")
+				.antMatchers(HttpMethod.GET, "/api/products/**").hasAnyAuthority("OPERATOR","SUPERVISOR")//
+				.antMatchers("/api/products/**").hasAuthority("SUPERVISOR")
+				.antMatchers(HttpMethod.GET, "/api/inventory/**").hasAnyAuthority("OPERATOR","SUPERVISOR")//
+				.antMatchers("/api/inventory/**").hasAuthority("SUPERVISOR")
+				.antMatchers("/api/orders/**").hasAnyAuthority("SUPERVISOR", "OPERATOR")//
+				.antMatchers("/api/daySales/**").hasAnyAuthority("SUPERVISOR")//
+				.antMatchers("/api/reports/**").hasAnyAuthority("SUPERVISOR")//
 				.antMatchers("/api/about/**").permitAll()
-				.antMatchers("/api/admin/**").hasAuthority("supervisor")
-				.antMatchers("/api/**").hasAnyAuthority("supervisor", "operator")
-				.antMatchers("/ui/admin/**").hasAuthority("supervisor")
-				.antMatchers("/ui/**").hasAnyAuthority("supervisor", "operator")
+				.antMatchers("/api/admin/**").hasAuthority("SUPERVISOR")
+				.antMatchers("/api/**").hasAnyAuthority("SUPERVISOR", "OPERATOR")
+				.antMatchers("/ui/admin/**").hasAuthority("SUPERVISOR")
+				.antMatchers("/ui/**").hasAnyAuthority("SUPERVISOR", "OPERATOR")
 				.and()
 				.csrf().disable()
 				.cors().disable();

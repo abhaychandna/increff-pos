@@ -112,7 +112,7 @@ public class TestUtil {
     }
 
     public UserPojo createUser(String username, String password) throws ApiException {
-        return createUser(username, password,Role.operator);
+        return createUser(username, password,Role.OPERATOR);
     }
 
     public UserPojo createUser(String username, String password, Role role) throws ApiException {

@@ -15,11 +15,11 @@
 		<!-- Top row with form-->
 		<div class="row">
 			<div class="col-12">
-				<button type="button" class="btn btn-primary" id="open-add-Product-modal" th:if="${info.getRole() == 'supervisor'}">Add</button>
+				<button type="button" class="btn btn-primary" id="open-add-Product-modal" th:if="${info.getRole() == 'SUPERVISOR'}">Add</button>
 				&nbsp;
 				<button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
 				&nbsp;
-				<button type="button" class="btn btn-primary" id="upload-data" th:if="${info.getRole() == 'supervisor'}">Upload</button>
+				<button type="button" class="btn btn-primary" id="upload-data" th:if="${info.getRole() == 'SUPERVISOR'}">Upload</button>
 			</div>
 		</div>
 
@@ -41,7 +41,7 @@
 							<th scope="col">Category</th>
 							<th scope="col">Name</th>
 							<th scope="col">MRP</th>
-							<th scope="col" th:if="${info.getRole() == 'supervisor'}">Actions</th>
+							<th scope="col" th:if="${info.getRole() == 'SUPERVISOR'}">Actions</th>
 							
 						</tr>
 					</thead>
@@ -53,7 +53,7 @@
 							<td>C1</td>
 							<td>N1</td>
 							<td>1.0</td>
-							<td th:if="${info.getRole() == 'supervisor'}">Edit | Delete</td>
+							<td th:if="${info.getRole() == 'SUPERVISOR'}">Edit | Delete</td>
 						</tr>
 					</tbody>
 				</table>

@@ -30,7 +30,7 @@ public class UserServiceTest extends AbstractUnitTest {
 
     @Test
     public void testAdd() throws ApiException {
-        UserPojo user = new UserPojo(email, password, Role.operator);
+        UserPojo user = new UserPojo(email, password, Role.OPERATOR);
         userService.add(user);
         UserPojo userGet = userDao.select(user.getId());
         assertEquals(user, userGet);
@@ -38,7 +38,7 @@ public class UserServiceTest extends AbstractUnitTest {
 
     @Test
     public void testGet() throws ApiException {
-        UserPojo user = new UserPojo(email, password, Role.operator);
+        UserPojo user = new UserPojo(email, password, Role.OPERATOR);
         userDao.insert(user);
         UserPojo userGet = userService.get(email);
         assertEquals(user, userGet);
@@ -46,9 +46,9 @@ public class UserServiceTest extends AbstractUnitTest {
 
     @Test
     public void testGetAll() throws ApiException {
-        UserPojo user = new UserPojo(email, password, Role.operator);
+        UserPojo user = new UserPojo(email, password, Role.OPERATOR);
         userDao.insert(user);
-        UserPojo user2 = new UserPojo("email2@gmail.com", "password", Role.supervisor);
+        UserPojo user2 = new UserPojo("email2@gmail.com", "password", Role.SUPERVISOR);
         userDao.insert(user2);
         List<UserPojo> userGet = userService.getAll();
         assertEquals(user, userGet.get(0));
