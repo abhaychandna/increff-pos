@@ -120,6 +120,7 @@ public class OrderDto {
             items.add(convert(form));
         }
         items = orderService.add(items);
+        reduceInventoryQuantity(items);
         List<OrderItemData> itemsData = new ArrayList<OrderItemData>();
         for (OrderItemPojo item : items) {
             itemsData.add(convert(item));
@@ -199,6 +200,21 @@ public class OrderDto {
             if(barcodes.contains(item.getBarcode()))
                 throw new ApiException("Duplicate barcode: " + item.getBarcode() + " in order");
             barcodes.add(item.getBarcode());
+        }
+    }
+
+    private void reduceInventoryQuantity(List<OrderItemPojo> items) throws ApiException {
+        List<String> errorMessages = new ArrayList<String>();
+        for(OrderItemPojo item : items){
+            try{
+                inventoryService.reduceInventory(item.getProductId(), item.getQuantity());
+            }
+            catch (ApiException e){
+                errorMessages.add(e.getMessage());
+            }
+        }
+        if(!errorMessages.isEmpty()){
+            throw new ApiException(String.join("\n", errorMessages));
         }
     }
 }
