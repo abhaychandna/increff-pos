@@ -32,6 +32,8 @@ import com.increff.pos.util.ClientWrapper;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.PreProcessingUtil;
 
+import javax.transaction.Transactional;
+
 @Component
 public class OrderDto {
 
@@ -111,15 +113,17 @@ public class OrderDto {
         return new PaginatedData<OrderData>(orderDataList, draw, count, count);
     }
 
+    @Transactional
     public List<OrderItemData> add(List<OrderItemForm> forms) throws ApiException {
         List<OrderItemPojo> items = new ArrayList<OrderItemPojo>();
         PreProcessingUtil.normalizeAndValidate(forms);
         checkDuplicateBarcodes(forms);
         validateOrderQuantityInInventory(forms);
+
         for (OrderItemForm form : forms) {
             items.add(convert(form));
         }
-        items = orderService.add(items);
+        orderService.add(items);
         reduceInventoryQuantity(items);
         List<OrderItemData> itemsData = new ArrayList<OrderItemData>();
         for (OrderItemPojo item : items) {
