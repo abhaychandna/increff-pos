@@ -52,7 +52,7 @@ public class ReportDto {
         if(inventory.isEmpty()) throw new ApiException("No inventory found");
 		HashMap<Integer, Integer> brandCategoryIdToQuantity = getBrandIdToQuantityMap(inventory);
         List<InventoryReportData> reportData = getInventoryReport(brandCategoryIdToQuantity);
-        String base64  = ClientWrapper.pdfClient.getPDFInBase64(reportData, XSLTFilename.INVENTORY_REPORT, null);
+        String base64  = ClientWrapper.getPdfClient().getPDFInBase64(reportData, XSLTFilename.INVENTORY_REPORT, null);
         return base64;
 	}
 
@@ -109,7 +109,7 @@ public class ReportDto {
         List<SalesReportData> salesReport = getSalesReport(orderItems, productIdToBrandCategory);
         
         HashMap<String, String> headers = salesReportHeaders(startDate, endDate, form.getBrand(), form.getCategory());
-        String base64 = ClientWrapper.pdfClient.getPDFInBase64(salesReport, XSLTFilename.SALES_REPORT, headers);
+        String base64 = ClientWrapper.getPdfClient().getPDFInBase64(salesReport, XSLTFilename.SALES_REPORT, headers);
 
         return base64;
     }
@@ -197,7 +197,7 @@ public class ReportDto {
             reportDataList.add(new BrandReportData(brand.getBrand(), brand.getCategory()));
         });
 
-        String base64  = ClientWrapper.pdfClient.getPDFInBase64(reportDataList, XSLTFilename.BRAND_REPORT, null);
+        String base64  = ClientWrapper.getPdfClient().getPDFInBase64(reportDataList, XSLTFilename.BRAND_REPORT, null);
         return base64;
 
     }

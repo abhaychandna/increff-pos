@@ -87,9 +87,9 @@ public class OrderDto {
         XMLheaders.put("Total", String.format("%.2f", total));
         
         XSLTFilename xsltFilename = XSLTFilename.INVOICE;
-        base64 = ClientWrapper.pdfClient.getPDFInBase64(invoiceItems, xsltFilename, XMLheaders);
+        base64 = ClientWrapper.getPdfClient().getPDFInBase64(invoiceItems, xsltFilename, XMLheaders);
         
-        ClientWrapper.pdfClient.saveBase64ToPDF(base64, outputFilepath);
+        ClientWrapper.getPdfClient().saveBase64ToPDF(base64, outputFilepath);
 
         return base64;
 
@@ -159,7 +159,7 @@ public class OrderDto {
     private String getCachedInvoice(String outputFilepath) throws ApiException {
         File file = new File(outputFilepath);
         if(file.exists()) {
-            return ClientWrapper.pdfClient.PDFToBase64(outputFilepath);
+            return ClientWrapper.getPdfClient().PDFToBase64(outputFilepath);
         }
         return null;        
     }
