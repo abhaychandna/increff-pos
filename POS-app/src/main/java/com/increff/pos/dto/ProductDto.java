@@ -19,7 +19,7 @@ import com.increff.pos.model.form.ProductFormErrorData;
 import com.increff.pos.model.form.ProductPutForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.ProductPojo;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.util.ApiException;
 import com.increff.pos.service.BrandService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ConvertUtil;

@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.increff.pos.dto.UserDto;
 import com.increff.pos.model.form.LoginForm;
 import com.increff.pos.model.form.SignupForm;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.util.ApiException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

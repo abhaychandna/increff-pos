@@ -16,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.increff.pos.model.data.XSLTFilename;
 import com.increff.pos.model.form.PDFForm;
-import com.increff.pos.service.ApiException;
 import com.increff.pos.spring.Properties;
 
 @Component

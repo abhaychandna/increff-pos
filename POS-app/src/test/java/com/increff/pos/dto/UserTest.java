@@ -13,7 +13,7 @@ import com.increff.pos.config.AbstractUnitTest;
 import com.increff.pos.dao.UserDao;
 import com.increff.pos.model.form.SignupForm;
 import com.increff.pos.pojo.UserPojo;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.util.ApiException;
 import com.increff.pos.service.UserService;
 import com.increff.pos.util.TestUtil;
 

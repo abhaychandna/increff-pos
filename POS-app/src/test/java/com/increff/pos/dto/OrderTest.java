@@ -16,7 +16,7 @@ import com.increff.pos.model.data.OrderData;
 import com.increff.pos.model.data.OrderItemData;
 import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.pojo.OrderItemPojo;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.util.ApiException;
 import com.increff.pos.util.TestUtil;
 
 public class OrderTest extends AbstractUnitTest {

@@ -15,7 +15,7 @@ import com.increff.pos.model.data.OrderData;
 import com.increff.pos.model.data.OrderItemData;
 import com.increff.pos.model.data.PaginatedData;
 import com.increff.pos.model.form.OrderItemForm;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.util.ApiException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

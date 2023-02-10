@@ -15,7 +15,7 @@ import com.increff.pos.dto.InventoryDto;
 import com.increff.pos.model.data.InventoryData;
 import com.increff.pos.model.data.PaginatedData;
 import com.increff.pos.model.form.InventoryForm;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.util.ApiException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

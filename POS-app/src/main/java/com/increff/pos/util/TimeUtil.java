@@ -4,7 +4,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
 
-import com.increff.pos.service.ApiException;
 import org.springframework.beans.factory.annotation.Value;
 
 public class TimeUtil {

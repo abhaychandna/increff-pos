@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.increff.pos.service.ApiException;
 
 public class ErrorUtil {
     public static <T> void throwErrors(List<T> errors) throws ApiException {

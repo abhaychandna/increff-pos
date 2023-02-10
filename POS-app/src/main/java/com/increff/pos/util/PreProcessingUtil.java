@@ -8,8 +8,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
-import com.increff.pos.service.ApiException;
-
 public class PreProcessingUtil {
 
 	private static String errorMessageSeparator = ".\n";

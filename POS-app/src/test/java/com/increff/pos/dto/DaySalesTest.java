@@ -15,7 +15,7 @@ import com.increff.pos.model.data.DaySalesData;
 import com.increff.pos.model.data.PaginatedData;
 import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.pojo.DaySalesPojo;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.util.ApiException;
 import com.increff.pos.util.TestUtil;
 
 public class DaySalesTest extends AbstractUnitTest {

@@ -14,7 +14,7 @@ import com.increff.pos.model.data.PaginatedData;
 import com.increff.pos.pojo.DaySalesPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.util.ApiException;
 import com.increff.pos.service.DaySalesService;
 import com.increff.pos.service.OrderItemService;
 import com.increff.pos.service.OrderService;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.increff.pos.dto.ReportDto;
 import com.increff.pos.model.form.SalesReportForm;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.util.ApiException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

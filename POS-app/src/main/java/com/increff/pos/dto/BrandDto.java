@@ -15,7 +15,7 @@ import com.increff.pos.model.data.BrandFormErrorData;
 import com.increff.pos.model.data.PaginatedData;
 import com.increff.pos.model.form.BrandForm;
 import com.increff.pos.pojo.BrandPojo;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.util.ApiException;
 import com.increff.pos.service.BrandService;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.ErrorUtil;

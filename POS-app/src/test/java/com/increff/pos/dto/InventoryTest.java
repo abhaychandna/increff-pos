@@ -16,7 +16,7 @@ import com.increff.pos.model.data.PaginatedData;
 import com.increff.pos.model.data.ProductData;
 import com.increff.pos.model.form.InventoryForm;
 import com.increff.pos.pojo.InventoryPojo;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.util.ApiException;
 import com.increff.pos.util.TestUtil;
 
 public class InventoryTest extends AbstractUnitTest {

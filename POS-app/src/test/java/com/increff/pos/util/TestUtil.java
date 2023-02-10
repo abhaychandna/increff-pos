@@ -32,7 +32,6 @@ import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.pojo.UserPojo;
-import com.increff.pos.service.ApiException;
 
 @Component
 public class TestUtil {

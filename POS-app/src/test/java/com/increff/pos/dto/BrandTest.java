@@ -13,7 +13,7 @@ import com.increff.pos.config.AbstractUnitTest;
 import com.increff.pos.model.data.BrandData;
 import com.increff.pos.model.data.PaginatedData;
 import com.increff.pos.model.form.BrandForm;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.util.ApiException;
 import com.increff.pos.util.TestUtil;
 
 public class BrandTest extends AbstractUnitTest {
