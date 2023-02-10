@@ -1,7 +1,7 @@
 package com.increff.pos.dto;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -86,64 +86,55 @@ public class ProductTest extends AbstractUnitTest{
     @Test
     public void testValidateEmptyBrand() throws ApiException{
         ProductForm productForm = testUtil.getProductForm(barcode,"",category,name,mrp);
-        try{
+        String expectedMessage = testUtil.createFieldEmptyErrorMessage("Brand");
+        Exception exception = assertThrows(ApiException.class, () -> {
             productDto.add(productForm);
-        }
-        catch(ApiException e){
-            return;
-        }
-        fail();
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
     }
 
     @Test
     public void testValidateEmptyName() throws ApiException{
         ProductForm productForm = testUtil.getProductForm(barcode,brand,category,"",mrp);
-        try{
+        String expectedMessage = testUtil.createFieldEmptyErrorMessage("Name");
+        Exception exception = assertThrows(ApiException.class, () -> {
             productDto.add(productForm);
-        }
-        catch(ApiException e){
-            return;
-        }
-        fail();
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
     }
 
     @Test
     public void testValidateEmptyMrp() throws ApiException{
         ProductForm productForm = testUtil.getProductForm(barcode,brand,category,name,null);
-        try{
+        String expectedMessage = testUtil.createFieldEmptyErrorMessage("Mrp");
+        Exception exception = assertThrows(ApiException.class, () -> {
             productDto.add(productForm);
-        }
-        catch(ApiException e){
-            return;
-        }
-        fail();
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
     }
 
     @Test
     public void testAddBrandCategoryDoesNotExist() throws ApiException{
         ProductForm productForm = testUtil.getProductForm(barcode,brand,category,name,mrp);
-        try{
+        String expectedMessage = "Brand Category pair does not exist";
+        Exception exception = assertThrows(ApiException.class, () -> {
             productDto.add(productForm);
-        }
-        catch(ApiException e){
-            return;
-        }
-        fail();
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
     }
 
     @Test
     public void testDuplicateBarcode() throws ApiException{
         testUtil.createProductCascade(barcode, brand, category, name, mrp);
         ProductForm productForm = testUtil.getProductForm(barcode,brand,category,name,mrp);
-        try{
+        String expectedMessage = "Product with barcode: " + barcode + " already exists";
+        Exception exception = assertThrows(ApiException.class, () -> {
             productDto.add(productForm);
-        }
-        catch(ApiException e){
-            return;
-        }
-        fail();
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
     }
-    
+
+     
     @Test
     public void testGet() throws ApiException {
         ProductPojo product = testUtil.createProductCascade(barcode, brand, category, name, mrp);
