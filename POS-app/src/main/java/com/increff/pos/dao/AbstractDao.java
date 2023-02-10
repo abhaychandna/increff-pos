@@ -24,18 +24,6 @@ public abstract class AbstractDao<T> {
 	@PersistenceContext
 	protected EntityManager em;
 
-	protected T getSingle(TypedQuery<T> query) {
-		return query.getResultList().stream().findFirst().orElse(null);
-	}
-
-	protected TypedQuery<T> getQuery(String jpql) {
-		return em.createQuery(jpql, clazz);
-	}
-
-	protected EntityManager em() {
-		return em;
-	}
-
 	public T insert(T b) {
 		em.persist(b);
 		return b;
