@@ -23,7 +23,7 @@ public class OrderItemPojo extends AbstractPojo{
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id", nullable=false)
+    @Column(name="id")
     private Integer id;
     @Column(name="orderId", nullable=false)
     private Integer orderId;

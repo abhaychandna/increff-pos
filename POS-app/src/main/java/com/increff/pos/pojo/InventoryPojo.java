@@ -13,7 +13,7 @@ import lombok.Setter;
 public class InventoryPojo extends AbstractPojo{
 
 	@Id
-	@Column(name="id", nullable=false)
+	@Column(name="id")
 	private Integer productId;
 	@Column(name="quantity", nullable=false)
 	private Integer quantity;

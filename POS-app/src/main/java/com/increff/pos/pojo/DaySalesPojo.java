@@ -21,7 +21,7 @@ import lombok.Setter;
 public class DaySalesPojo extends AbstractPojo{
 
     @Id
-    @Column(name="date", nullable=false)
+    @Column(name="date")
     private ZonedDateTime date;
     @Column(name="invoicedOrdersCount", nullable=false)
     private Integer invoicedOrdersCount;
