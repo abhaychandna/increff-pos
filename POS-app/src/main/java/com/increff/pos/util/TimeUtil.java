@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
 
+import com.increff.pos.service.ApiException;
 import org.springframework.beans.factory.annotation.Value;
 
 public class TimeUtil {
@@ -15,16 +16,20 @@ public class TimeUtil {
         return time.format(DateTimeFormatter.ofPattern(format));
     }
 
-    public static ZonedDateTime getZonedDateTime(String dateTime, DateTimeFormatter format) {
-        ZonedDateTime zdt = ZonedDateTime.parse(dateTime, format);
-        return zdt;
+    public static ZonedDateTime getZonedDateTime(String dateTime, DateTimeFormatter format) throws ApiException {
+        try {
+            return ZonedDateTime.parse(dateTime, format);
+        }
+        catch (Exception e) {
+            throw new ApiException("Failed to parse date time: " + dateTime);
+        }
     }
 
 	public static ZonedDateTime getCurrentZonedDateSetTimeZero(){
 		return ZonedDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
 	}
 
-    public static ZonedDateTime isoTimeStringToZonedDateTime(String isoDateTime) {
+    public static ZonedDateTime isoTimeStringToZonedDateTime(String isoDateTime) throws ApiException {
         return getZonedDateTime(isoDateTime, DateTimeFormatter.ISO_DATE_TIME);
     }
 
