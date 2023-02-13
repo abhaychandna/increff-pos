@@ -28,7 +28,7 @@ public class ReportApiController {
 
 	@ApiOperation(value = "Inventory Report")
 	@RequestMapping(path = "inventory", method = RequestMethod.GET)
-	public String inventoryReport() throws ApiException, FOPException, IOException, TransformerException {
+	public String inventoryReport() throws ApiException {
 		return dto.inventoryReport();
 	}
 
@@ -40,7 +40,7 @@ public class ReportApiController {
 
 	@ApiOperation(value = "Brand Report")
 	@RequestMapping(path = "brand", method = RequestMethod.GET)
-	public String brandReport() throws ApiException, FOPException, IOException, TransformerException {
+	public String brandReport() throws ApiException {
 		return dto.brandReport();
 	}
 
