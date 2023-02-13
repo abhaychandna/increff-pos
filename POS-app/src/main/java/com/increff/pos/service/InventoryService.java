@@ -22,7 +22,11 @@ public class InventoryService {
 	public InventoryPojo add(InventoryPojo inventory) throws ApiException {
         InventoryPojo existing = dao.select(inventory.getProductId());
 		if (Objects.nonNull(existing)) {
-			existing.setQuantity(existing.getQuantity() + inventory.getQuantity());
+			try {
+				existing.setQuantity(Math.addExact(existing.getQuantity(), inventory.getQuantity()));
+			} catch (ArithmeticException e) {
+				throw new ApiException("Inventory quantity overflow");
+			}
 			return existing;
         }
 		dao.insert(inventory);
