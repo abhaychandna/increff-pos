@@ -14,7 +14,4 @@ public class OrderItemDao extends AbstractDao<OrderItemPojo> {
 		super(OrderItemPojo.class);
 	}
 
-	public List<OrderItemPojo> selectByOrderId(Integer id) throws ApiException {
-        return selectMultiple("orderId", id);
-	}
 }

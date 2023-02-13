@@ -76,8 +76,8 @@ public class OrderServiceTest extends AbstractUnitTest {
     @Test
     public void testAdd() throws ApiException {
         orderService.add(orderItemPojoList);
-        List<OrderItemPojo> orderItemPojoListGet = orderItemDao.selectByOrderId(orderItemPojoList.get(0).getOrderId());
-        assertEquals(orderItemPojoList, orderItemPojoListGet);        
+        List<OrderItemPojo> orderItemPojoListGet = orderItemDao.selectMultiple("orderId", orderItemPojoList.get(0).getOrderId());
+        assertEquals(orderItemPojoList, orderItemPojoListGet);
     }
 
     @Test

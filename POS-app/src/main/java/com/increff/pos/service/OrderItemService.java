@@ -39,7 +39,7 @@ public class OrderItemService {
 	}
 
 	public List<OrderItemPojo> getByOrderId(Integer id) throws ApiException {
-		return dao.selectByOrderId(id);
+		return dao.selectMultiple("orderId", id);
 	}
 	
 	public Integer getRecordsCount() {
