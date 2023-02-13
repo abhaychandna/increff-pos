@@ -30,8 +30,8 @@ public class OrderApiController {
 
 	@ApiOperation(value = "Adds a Order")
 	@RequestMapping(path = "", method = RequestMethod.POST)
-	public void add(@RequestBody List<OrderItemForm> forms) throws ApiException {
-		orderDto.add(forms);
+	public List<OrderItemData> add(@RequestBody List<OrderItemForm> forms) throws ApiException {
+		return orderDto.add(forms);
 	}
 
 	@ApiOperation(value = "Gets list of Order Items by Order ID")
