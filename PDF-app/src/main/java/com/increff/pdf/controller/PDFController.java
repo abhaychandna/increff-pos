@@ -21,7 +21,7 @@ public class PDFController {
     @Autowired
     private PDFDto invoiceService;
 
-    @ApiOperation(value = "Adds multiple brands in bulk")
+    @ApiOperation(value = "Generates Report PDF in Base64")
     @RequestMapping(path="/generateReport", method = RequestMethod.POST) 
     public <T> String generateReport(@RequestBody PDFForm<T> pdfForm) throws ApiException {
         return invoiceService.generateReport(pdfForm);

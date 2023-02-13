@@ -34,7 +34,7 @@ public class OrderApiController {
 		orderDto.add(forms);
 	}
 
-	@ApiOperation(value = "Gets list of Order Items for that Order ID")
+	@ApiOperation(value = "Gets list of Order Items by Order ID")
 	@RequestMapping(path = "/{id}/items", method = RequestMethod.GET)
 	public List<OrderItemData> getItemsByOrderId(@PathVariable Integer id) throws ApiException {
 		return orderDto.getItemsByOrderId(id);
@@ -58,7 +58,7 @@ public class OrderApiController {
 		return orderDto.getInvoice(id);
 	}
 
-	@ApiOperation(value = "Gets all Order")
+	@ApiOperation(value = "Gets all Orders")
 	@RequestMapping(path = "", method = RequestMethod.GET)
 	public PaginatedData<OrderData> getAll(@RequestParam Integer start, @RequestParam Integer length, @RequestParam Integer draw) throws ApiException {
 		return orderDto.getAll(start, length, draw);

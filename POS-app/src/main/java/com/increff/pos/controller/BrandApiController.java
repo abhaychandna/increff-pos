@@ -40,7 +40,7 @@ public class BrandApiController {
 		dto.bulkAdd(forms);
 	}
 
-	@ApiOperation(value = "Gets an brand by ID")
+	@ApiOperation(value = "Gets a brand by ID")
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public BrandData get(@PathVariable Integer id) throws ApiException {
 		return dto.get(id);
@@ -52,7 +52,7 @@ public class BrandApiController {
 		return dto.getAll(start, length, draw);
 	}
 
-	@ApiOperation(value = "Updates an brand")
+	@ApiOperation(value = "Updates a brand")
 	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)
 	public void update(@PathVariable Integer id, @RequestBody BrandForm f) throws ApiException {
 		dto.update(id, f);
