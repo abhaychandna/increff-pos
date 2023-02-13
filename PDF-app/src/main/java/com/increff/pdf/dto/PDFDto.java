@@ -43,8 +43,7 @@ public class PDFDto {
     private <T> void validate(PDFForm<T> pdfForm) throws ApiException {
         validateNull(pdfForm);
         validateXSLTEnum(pdfForm.getXsltFilename());
-        validateHeaders(pdfForm.getHeaders(), pdfForm.getXsltFilename());
-        validateReportData(pdfForm.getReportData(), pdfForm.getXsltFilename());
+        validateData(pdfForm);
     }
 
     private void validateXSLTEnum(String xsltFilename) throws ApiException {
@@ -65,18 +64,32 @@ public class PDFDto {
         }
     }
 
-    private void validateHeaders(HashMap<String, String> headers, String xsltFilename) throws ApiException {
-        Set<String> validHeaders = getValidHeaders(xsltFilename);
-        if(validHeaders.size() == 0) return;
-        if(!validHeaders.equals(headers.keySet())) throw new ApiException("Invalid headers: " + headers.keySet() + ". Valid headers are: " + validHeaders);
+    private void validateData(PDFForm<?> pdfForm) throws ApiException {
+        List<String> errors = new ArrayList<String>();
+        errors.addAll(validateHeaders(pdfForm.getHeaders(), pdfForm.getXsltFilename()));
+        errors.addAll(validateReportData(pdfForm.getReportData(), pdfForm.getXsltFilename()));
+        if(errors.size() > 0){
+            throw new ApiException(String. join(".\n", errors));
+        }
     }
 
-    private <T> void validateReportData(List<T> reportDataList, String xsltFilename) throws ApiException {
+    private List<String> validateHeaders(HashMap<String, String> headers, String xsltFilename) throws ApiException {
+        Set<String> validHeaders = getValidHeaders(xsltFilename);
+        List<String> errors = new ArrayList<String>();
+        if(validHeaders.size() !=0 && !validHeaders.equals(headers.keySet())) return List.of("Invalid headers: " + headers.keySet() + ". Valid headers are: " + validHeaders);
+        return errors;
+    }
+
+    private <T> List<String> validateReportData(List<T> reportDataList, String xsltFilename) throws ApiException {
+        if(reportDataList.size() == 0) return List.of("Report data cannot be empty");
+
         Set<String> validKeys = getValidKeys(xsltFilename);
+        List<String> errors = new ArrayList<String>();
         for (T reportData : reportDataList) {
             HashMap<String, String> map = (HashMap<String, String>) reportData;
-            if(!map.keySet().equals(validKeys)) throw new ApiException("Invalid report data fields: " + map.keySet() + ". Valid fields are: " + validKeys);
+            if(!map.keySet().equals(validKeys)) errors.add("Invalid report data fields: " + map.keySet() + ". Valid fields are: " + validKeys);
         }
+        return errors;
     }
 
     private Set<String> getValidKeys(String xsltFilename) {
