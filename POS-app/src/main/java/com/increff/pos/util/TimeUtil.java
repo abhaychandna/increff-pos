@@ -2,6 +2,7 @@ package com.increff.pos.util;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,7 @@ public class TimeUtil {
     private static String serverTimezone;
 
     public static String getFormattedTime(ZonedDateTime time, String format) {
-        return time.format(DateTimeFormatter.ofPattern(format));
+        return time.format(new DateTimeFormatterBuilder().appendPattern(format).toFormatter());
     }
 
     public static ZonedDateTime getZonedDateTime(String dateTime, DateTimeFormatter format) {
