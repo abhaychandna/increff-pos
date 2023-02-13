@@ -40,12 +40,6 @@ public class OrderApiController {
 		return orderDto.getItemsByOrderId(id);
 	}
 
-	@ApiOperation(value = "Gets a OrderItem by ID")
-	@RequestMapping(path = "/items/{id}", method = RequestMethod.GET)
-	public OrderItemData getItem(@PathVariable Integer id) throws ApiException {
-		return orderDto.getItem(id);
-	}
-
 	@ApiOperation(value = "Gets a Order by ID")
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public OrderData get(@PathVariable Integer id) throws ApiException {

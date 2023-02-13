@@ -132,12 +132,6 @@ public class OrderDto {
         return itemsData;
     }
 
-    public OrderItemData getItem(Integer id) throws ApiException {
-        OrderItemPojo p = orderItemService.getCheck(id);
-        return convert(p);
-    }
-
-    
     public List<OrderItemData> getItemsByOrderId(Integer orderId) throws ApiException {
         List<Integer> orderIdList = new ArrayList<Integer>();
         orderIdList.add(orderId);

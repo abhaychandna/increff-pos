@@ -78,14 +78,6 @@ public class OrderTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetOrderItem() throws ApiException {
-        List<OrderItemPojo> orderItems = testUtil.createOrder(orderItemFormList);
-        OrderItemPojo orderItem = orderItems.get(0);
-        OrderItemData orderItemData = orderDto.getItem(orderItem.getId());
-        checkEquals(orderItemData, orderItemForm);
-    }
-
-    @Test
     public void testGetItemsByOrderId() throws ApiException {
         Integer orderId = testUtil.createOrder(orderItemFormList).get(0).getOrderId();
         List<OrderItemData> orderItemDataList = orderDto.getItemsByOrderId(orderId);
