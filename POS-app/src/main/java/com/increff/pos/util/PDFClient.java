@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.increff.pos.model.data.XSLTFilename;
@@ -30,10 +31,14 @@ public class PDFClient {
         String apiUrl = Properties.getPdfAppBaseUrl() + Properties.getPdfAppGenerateReportUrl();
         PDFForm<T> pdfForm = new PDFForm<T>(xsltFilename, XMLheaders, pdfData);
         RestTemplate RestTemplate = new RestTemplate();
-        ResponseEntity<String> apiResponse = RestTemplate.postForEntity(apiUrl, pdfForm, String.class);
-        String base64 = apiResponse.getBody();
-
-        return base64;
+        try {
+            ResponseEntity<String> apiResponse = RestTemplate.postForEntity(apiUrl, pdfForm, String.class);
+            String base64 = apiResponse.getBody();
+            return base64;
+        }
+        catch (RestClientException e) {
+            throw new ApiException("Failed to connect to pdf service. Please try again later.");
+        }
     }
 
     public void saveBase64ToPDF(String base64, String filepath) throws ApiException {
