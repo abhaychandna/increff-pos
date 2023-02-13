@@ -51,7 +51,7 @@ public class ProductService {
 	}
 	
 	public ProductPojo getCheckBarcode(String barcode) throws ApiException {
-		ProductPojo product = dao.getByBarcode(barcode);
+		ProductPojo product = dao.selectByColumn("barcode", barcode);
 		if (Objects.isNull(product)) {
 			throw new ApiException("Product with barcode: " + barcode + " does not exist");
 		}

@@ -12,8 +12,4 @@ public class ProductDao extends AbstractDao<ProductPojo>{
 		super(ProductPojo.class);
 	}
 
-	public ProductPojo getByBarcode(String barcode) throws ApiException{
-		return selectByColumn("barcode", barcode);
-	}
-
 }
