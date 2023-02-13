@@ -3,6 +3,7 @@ package com.increff.pos.model.form;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Setter
 public class ProductPutForm {
 
+	@Size(max = 255, message = "Name max size 255")
 	@NotBlank(message = "Name may not be empty")
 	private String name;
 	@NotNull(message = "Mrp may not be empty")
