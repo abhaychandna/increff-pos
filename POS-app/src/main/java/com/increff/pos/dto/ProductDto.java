@@ -15,7 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.model.data.PaginatedData;
 import com.increff.pos.model.data.ProductData;
 import com.increff.pos.model.form.ProductForm;
-import com.increff.pos.model.form.ProductFormErrorData;
+import com.increff.pos.model.data.ProductFormErrorData;
 import com.increff.pos.model.form.ProductPutForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.ProductPojo;
