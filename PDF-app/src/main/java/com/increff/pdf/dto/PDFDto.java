@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.increff.pdf.model.PDFForm;
@@ -12,14 +13,18 @@ import com.increff.pdf.util.PDFUtil;
 import com.increff.pdf.util.XMLUtil;
 
 @Component
-public class PDFDto {    
+public class PDFDto {
+
+    @Value("${xslt.path}")
+    private String xsltPath;
+
     public <T> String generateReport(PDFForm<T> pdfForm) throws ApiException {
         List<T> reportForm = pdfForm.getReportData();
         String xsltFilename = pdfForm.getXsltFilename().toString();
         HashMap<String, String> headers = pdfForm.getHeaders();
 
-        File xsltFile = new File(xsltFilename + ".xsl");
-           
+        File xsltFile = new File(new File(xsltPath + xsltFilename + ".xsl").getAbsolutePath());
+
         try {
             String xmlBase64 = XMLUtil.generateReportXMLBase64(reportForm, headers);
             
