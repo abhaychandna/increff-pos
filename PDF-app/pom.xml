@@ -6,7 +6,7 @@
 	<artifactId>PDF</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>employee-spring</name>
+	<name>PDF app</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<!-- Maven configuration -->
