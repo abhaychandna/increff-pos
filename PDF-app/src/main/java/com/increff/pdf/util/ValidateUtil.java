@@ -10,8 +10,13 @@ import java.util.stream.Collectors;
 public class ValidateUtil {
     public static <T> void validate(PDFForm<T> pdfForm) throws ApiException {
         validateNull(pdfForm);
+        normalize(pdfForm);
         validateXSLTEnum(pdfForm.getXsltFilename());
         validateData(pdfForm);
+    }
+
+    private static <T> void normalize(PDFForm<T> pdfForm) {
+        pdfForm.setXsltFilename(pdfForm.getXsltFilename().toUpperCase());
     }
 
     private static void validateXSLTEnum(String xsltFilename) throws ApiException {
@@ -55,8 +60,9 @@ public class ValidateUtil {
         List<String> errors = new ArrayList<String>();
         for (T reportData : reportDataList) {
             HashMap<String, String> map = (HashMap<String, String>) reportData;
-            if(!map.keySet().equals(validKeys)) errors.add("Invalid report data fields: " + map.keySet() + ". Valid fields are: " + validKeys);
+            if(!map.keySet().equals(validKeys)) errors.add("Invalid report data fields: " + map.keySet());
         }
+        if(errors.size() > 0) errors.add("Valid data fields are: " + validKeys);
         return errors;
     }
 
