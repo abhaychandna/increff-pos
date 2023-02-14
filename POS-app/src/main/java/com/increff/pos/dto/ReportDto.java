@@ -116,8 +116,8 @@ public class ReportDto {
 
     private HashMap<String, String> salesReportHeaders(ZonedDateTime startDate, ZonedDateTime endDate, String brand, String category) {
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("startDate", TimeUtil.getFormattedTime(startDate, "dd-MM-yyyy HH:mm:ss z"));
-        headers.put("endDate", TimeUtil.getFormattedTime(endDate, "dd-MM-yyyy HH:mm:ss z"));
+        headers.put("startDate", TimeUtil.getFormattedTime(startDate, "dd-MM-yyyy HH:mm:ss z").replace("Z","UTC"));
+        headers.put("endDate", TimeUtil.getFormattedTime(endDate, "dd-MM-yyyy HH:mm:ss z").replace("Z","UTC"));
         headers.put("brand", Objects.nonNull(brand) ? brand : "All Brands");
         headers.put("category", Objects.nonNull(category) ? category : "All Categories");
         return headers;
