@@ -1,9 +1,6 @@
 package com.increff.pos.dto;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,17 +95,26 @@ public class InventoryDto {
     }
 
     private void bulkAddValidate(List<InventoryForm> forms) throws ApiException {
+        checkDuplicateBarcodes(forms);
+    }
+
+
+    private void checkDuplicateBarcodes(List<InventoryForm> forms) throws ApiException {
         List<InventoryFormErrorData> errors = new ArrayList<InventoryFormErrorData>();
         Boolean errorFound = false;
-       for (InventoryForm form : forms){
+        Set<String> barcodeSet = new HashSet<String>();
+        for (InventoryForm form : forms) {
             try {
                 PreProcessingUtil.normalizeAndValidate(form);
+                if (barcodeSet.contains(form.getBarcode())) throw new ApiException("Duplicate Barcodes not allowed");
+                barcodeSet.add(form.getBarcode());
                 errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), ""));
             } catch (ApiException e) {
                 errorFound = true;
                 errors.add(new InventoryFormErrorData(form.getBarcode(), form.getQuantity(), e.getMessage()));
             }
-        };
+        }
+
         if(errorFound) ErrorUtil.throwErrors(errors);
     }
 
