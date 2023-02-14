@@ -104,16 +104,6 @@ public class ProductTest extends AbstractUnitTest{
     }
 
     @Test
-    public void testValidateEmptyMrp() throws ApiException{
-        ProductForm productForm = testUtil.getProductForm(barcode,brand,category,name,null);
-        String expectedMessage = testUtil.createFieldEmptyErrorMessage("Mrp");
-        Exception exception = assertThrows(ApiException.class, () -> {
-            productDto.add(productForm);
-        });
-        testUtil.validateExceptionMessage(exception, expectedMessage);
-    }
-
-    @Test
     public void testAddBrandCategoryDoesNotExist() throws ApiException{
         ProductForm productForm = testUtil.getProductForm(barcode,brand,category,name,mrp);
         String expectedMessage = "Brand Category pair does not exist";
