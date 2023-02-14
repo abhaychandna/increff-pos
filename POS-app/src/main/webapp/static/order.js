@@ -93,9 +93,8 @@ function addInCart(inputJson) {
                 return;
             }
 
-            var index = itemInCart();
+            var index = itemInCart(barcode);
             if(index != -1) {
-                
                 wholeOrder[i] = inputJson;
             }
             else{
@@ -116,11 +115,10 @@ function addInCart(inputJson) {
 
 }
 
-function itemInCart() {
+function itemInCart(barcode) {
     for(i in wholeOrder) {
         var existingBarcode = wholeOrder[i].barcode;
-        var currentBarcode = $("#order-item-form input[name=barcode]").val();
-        if(currentBarcode == existingBarcode) {     
+        if(barcode == existingBarcode) {
             return i;
         }
     }
@@ -131,7 +129,7 @@ function addOrderItem(event) {
     var $form = $("#order-item-form");
     if(validateFormHTML($form) == false)return;
     var json = toJson($form);  
-
+    normalizeJson(json);
     addInCart(json);
     
 }

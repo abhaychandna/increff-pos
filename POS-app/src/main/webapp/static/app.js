@@ -7,6 +7,15 @@ function validateFormHTML($form){
 	return $form[0].reportValidity();
 }
 
+function normalizeJson(json){
+	for (var key in json) {
+		if (typeof json[key] === 'string') {
+			json[key] = json[key].trim().toLowerCase();
+		}
+	}
+}
+
+
 var fileErrorMessages = [];
 
 function validateFileHeaders(json, headerColumns){
