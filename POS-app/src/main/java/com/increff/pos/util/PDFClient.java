@@ -60,7 +60,7 @@ public class PDFClient {
         try{
             return Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(file));
         } catch (Exception e) {
-            throw new ApiException("Error in reading pdf file." + e.getMessage());
+            throw new ApiException("Error in converting pdf file." + e.getMessage());
         }
 }
 
