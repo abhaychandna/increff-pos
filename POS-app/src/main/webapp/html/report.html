@@ -8,64 +8,55 @@
 
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
 
-<div class="container">
+<div class="container" style="max-width:1350px">
 
-<h3>Reports</h3>
+	<h3>Reports</h3>
 
 
 
-<!-- Blank Row -->
-<div class="row">
-	&nbsp;
-</div>
-<div class="row">
-	<button type="button" class="btn btn-info mb-4 btn-lg col-4" id="brand-report" style="padding:25px;font-weight:bold;">
-		<i class="fa-solid fa-download"></i>
-		Brand Report
-	  </button>
-</div>
-<hr>
-<div class="row">
-	  <button type="button" class="btn btn-info mb-4 mt-4 btn-lg col-4" id="inventory-report" style="padding:25px;font-weight:bold;">
-		<i class="fa-solid fa-download"></i>
-		Inventory Report
-	  </button>
-</div>
-<hr>
-<div class="row">
-	<button type="button" class="btn btn-info mb-4 mt-4 btn-lg col-4" id="sales-report" style="padding:25px;font-weight:bold;">
-	  <i class="fa-solid fa-download"></i>
-	  Sales Report
-	</button>
-	<div class="col-8 mt-4" style="display:inline;">
-	  <form class="form" id="sales-report-form">
-		<div class="form-group form-inline">
-		  <label for="startDate" class="col-sm-3 col-form-label">Start Date</label>
-		  <div class="col-sm-3">
-			  <input type="date" id="startDate" name="startDate">
-		  </div>
-		  <label for="endDate" class="col-sm-3 col-form-label">End Date</label>
-		  <div class="col-sm-3">
-			  <input type="date" id="endDate" name="endDate">
-		  </div>
+	<!-- Blank Row -->
+	<div class="row">
+		&nbsp;
+	</div>
+	<div class="row">
+		<button type="button" class="btn btn-info mb-4 btn-lg col-4" id="brand-report" style="padding:25px;font-weight:bold;">
+			<i class="fa-solid fa-download"></i>
+			Brand Report
+		</button>
+	</div>
+	<hr>
+	<div class="row">
+		<button type="button" class="btn btn-info mb-4 mt-4 btn-lg col-4" id="inventory-report" style="padding:25px;font-weight:bold;">
+			<i class="fa-solid fa-download"></i>
+			Inventory Report
+		</button>
+	</div>
+	<hr>
+	<div class="row">
+		<button type="button" class="btn btn-info mb-4 mt-4 btn-lg col-4" id="sales-report" style="padding:25px;font-weight:bold;">
+			<i class="fa-solid fa-download"></i>
+			Sales Report
+		</button>
+		<div class="col-8 mt-4" style="display:inline;">
+			<form class="form" id="sales-report-form">
+				<div class="form-group form-inline">
+					<label for="startDate" class="col-sm-3 col-form-label">Start Date (DD-MM-YYYY)</label>
+					<input type="date" class="col-sm-3" id="startDate" name="startDate">
+					<label for="endDate" class="col-sm-3 col-form-label">End Date (DD-MM-YYYY)</label>
+
+					<input type="date" class="col-sm-3" id="endDate" name="endDate">
+				</div>
+
+				<div class="form-group form-inline">
+					<label for="inputbrand" class="col-sm-3 col-form-label">Brand</label>
+					<input type="text" class="form-control col-sm-3" name="brand" id="inputbrand" placeholder="Enter Brand">
+					<label for="inputcategory" class="col-sm-3 col-form-label">Category</label>
+					<input type="text" class="form-control col-sm-3" name="category" id="inputcategory" placeholder="Enter Category">
+				</div>
+			</form>
 		</div>
-		
-		<div class="form-group form-inline">
-		  <label for="inputbrand" class="col-sm-3 col-form-label">Brand</label>
-		  <div class="col-sm-3">
-			  <input type="text" class="form-control" name="brand" id="inputbrand" placeholder="Enter Brand">
-		</div>
-		<label for="inputcategory" class="col-sm-3 col-form-label">Category</label>
-		<div class="col-sm-3">
-			  <input type="text" class="form-control" name="category" id="inputcategory" placeholder="Enter Category">
-		</div>
-	   </div>
-   </form>
-  </div>
+	</div>
 </div>
-
-</div> <!-- Container end-->
-
 <footer th:replace="snippets.html :: name_footer"></footer>
 
 <script th:src="@{/static/report.js}"/></script>
