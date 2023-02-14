@@ -92,19 +92,19 @@ public class PDFDto {
 
     private Set<String> getValidKeys(String xsltFilename) {
         HashMap<String, Set<String>> validKeysMap = new HashMap<String, Set<String>>();
-        validKeysMap.put("brandReport", new HashSet<String>(Arrays.asList("brand", "category")));
-        validKeysMap.put("inventoryReport", new HashSet<String>(Arrays.asList("brand", "category", "quantity")));
-        validKeysMap.put("salesReport", new HashSet<String>(Arrays.asList("brand", "category", "quantity", "revenue")));
-        validKeysMap.put("invoice", new HashSet<String>(Arrays.asList("name", "barcode", "quantity", "sellingPrice", "productId")));
+        validKeysMap.put("BRAND_REPORT", new HashSet<String>(Arrays.asList("brand", "category")));
+        validKeysMap.put("INVENTORY_REPORT", new HashSet<String>(Arrays.asList("brand", "category", "quantity")));
+        validKeysMap.put("SALES_REPORT", new HashSet<String>(Arrays.asList("brand", "category", "quantity", "revenue")));
+        validKeysMap.put("INVOICE", new HashSet<String>(Arrays.asList("name", "barcode", "quantity", "sellingPrice", "productId")));
         return validKeysMap.get(xsltFilename);
     }
 
     private Set<String> getValidHeaders(String xsltFilename) {
         HashMap<String, Set<String>> validKeysMap = new HashMap<String, Set<String>>();
-        validKeysMap.put("brandReport", new HashSet<>());
-        validKeysMap.put("inventoryReport", new HashSet<String>());
-        validKeysMap.put("salesReport", new HashSet<String>(Arrays.asList("startDate", "endDate", "brand", "category")));
-        validKeysMap.put("invoice", new HashSet<String>(Arrays.asList("OrderId", "Time", "Total")));
+        validKeysMap.put("BRAND_REPORT", new HashSet<>());
+        validKeysMap.put("INVENTORY_REPORT", new HashSet<String>());
+        validKeysMap.put("SALES_REPORT", new HashSet<String>(Arrays.asList("startDate", "endDate", "brand", "category")));
+        validKeysMap.put("INVOICE", new HashSet<String>(Arrays.asList("OrderId", "Time", "Total")));
         return validKeysMap.get(xsltFilename);
     }
 }
