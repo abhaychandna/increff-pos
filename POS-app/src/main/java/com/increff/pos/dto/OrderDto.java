@@ -74,7 +74,7 @@ public class OrderDto {
 
     private String generateInvoice(OrderPojo order, List<OrderItemPojo> items, String outputFilepath) throws ApiException {
         String base64;
-        Double total = 0.0;
+        double total = 0.0;
         List<InvoiceItemData> invoiceItems = new ArrayList<InvoiceItemData>();
         for(OrderItemPojo item: items) {
             ProductPojo product = productService.getCheck(item.getProductId());
