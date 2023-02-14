@@ -63,6 +63,16 @@ public class DaySalesServiceTest extends AbstractUnitTest {
     }
 
     @Test
+    public void testAddExistingDate() throws ApiException {
+        daySalesService.add(new DaySalesPojo(today, invoicedOrdersCount, invoicedItemsCount, totalRevenue));
+        String expectedMessage = "DaySales already exists with date: " + today;
+        Exception exception = assertThrows(ApiException.class, () -> {
+            daySalesService.add(new DaySalesPojo(today, invoicedOrdersCount, invoicedItemsCount, totalRevenue));
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
+    }
+
+    @Test
     public void testGetCheck() throws ApiException {
         DaySalesPojo daySales = daySalesService.update(new DaySalesPojo(today, invoicedOrdersCount, invoicedItemsCount, totalRevenue));
         daySales = daySalesDao.select(daySales.getDate());

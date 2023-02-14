@@ -20,11 +20,19 @@ public class DaySalesService {
 	@Autowired
 	private DaySalesDao dao;
 
+	public DaySalesPojo add(DaySalesPojo daySales) throws ApiException {
+		DaySalesPojo existing = dao.select(daySales.getDate());
+		if (Objects.nonNull(existing)) {
+			throw new ApiException("DaySales already exists with date: " + daySales.getDate());
+		}
+		dao.insert(daySales);
+		return daySales;
+	}
+
 	public DaySalesPojo update(DaySalesPojo daySales) throws ApiException {
 		DaySalesPojo existing = dao.select(daySales.getDate());
 		if(Objects.isNull(existing)) {
-			// TODO : Can we insert directly from update?? 
-			return dao.insert(daySales);
+			return add(daySales);
 		}
 		existing.setInvoicedItemsCount(daySales.getInvoicedItemsCount());
 		existing.setInvoicedOrdersCount(daySales.getInvoicedOrdersCount());
