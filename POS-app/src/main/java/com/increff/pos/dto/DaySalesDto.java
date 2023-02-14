@@ -86,7 +86,7 @@ public class DaySalesDto {
         return daySalesData;
     }    
 
-	private DaySalesData convert(DaySalesPojo p) {
-		return ConvertUtil.convert(p, DaySalesData.class);
+	private DaySalesData convert(DaySalesPojo pojo) {
+		return ConvertUtil.convert(pojo, DaySalesData.class);
 	}
 }

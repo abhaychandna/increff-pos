@@ -95,12 +95,12 @@ public class BrandDto {
         if(errorFound) ErrorUtil.throwErrors(errors);
     }
 
-	private BrandData convert(BrandPojo p) {
-		return ConvertUtil.convert(p, BrandData.class);
+	private BrandData convert(BrandPojo pojo) {
+		return ConvertUtil.convert(pojo, BrandData.class);
 	}
 
-	private BrandPojo convert(BrandForm f) {
-		return ConvertUtil.convert(f, BrandPojo.class);
+	private BrandPojo convert(BrandForm form) {
+		return ConvertUtil.convert(form, BrandPojo.class);
 	}
 
     private void checkBrandCategoryAlreadyExists(List<BrandForm> forms) throws ApiException, JsonProcessingException {

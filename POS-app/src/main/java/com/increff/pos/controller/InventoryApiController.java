@@ -30,8 +30,8 @@ public class InventoryApiController {
 
 	@ApiOperation(value = "Adds a Inventory")
 	@RequestMapping(path = "", method = RequestMethod.POST)
-	public void add(@RequestBody InventoryForm f) throws ApiException {
-		dto.add(f);
+	public void add(@RequestBody InventoryForm form) throws ApiException {
+		dto.add(form);
 	}
 
 	@ApiOperation(value = "Adds multiple inventories in bulk")
@@ -60,7 +60,7 @@ public class InventoryApiController {
 
 	@ApiOperation(value = "Updates a Inventory")
 	@RequestMapping(path = "", method = RequestMethod.PUT)
-	public void update(@RequestBody InventoryForm f) throws ApiException {
-		dto.update(f);
+	public void update(@RequestBody InventoryForm form) throws ApiException {
+		dto.update(form);
 	}
 }
