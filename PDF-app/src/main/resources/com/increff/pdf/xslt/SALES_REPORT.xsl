@@ -43,7 +43,58 @@
 					</fo:block>
 
 					<fo:block space-after="1cm"> </fo:block>
-					
+
+					<fo:block>
+						<fo:table>
+							<fo:table-column column-width="3cm"/>
+							<fo:table-column column-width="3cm"/>
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell padding-bottom="2px" padding-top="2px">
+										<fo:block>Start Date</fo:block>
+									</fo:table-cell>
+									<fo:table-cell padding-bottom="2px" padding-top="2px">
+										<fo:block>
+											<xsl:value-of select="ReportForm/startDate"/>
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+								<fo:table-row>
+									<fo:table-cell padding-bottom="2px" padding-top="2px">
+										<fo:block>End Date</fo:block>
+									</fo:table-cell>
+									<fo:table-cell padding-bottom="2px" padding-top="2px">
+										<fo:block>
+											<xsl:value-of select="ReportForm/endDate"/>
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+								<fo:table-row>
+									<fo:table-cell padding-bottom="2px" padding-top="2px">
+										<fo:block>Brand</fo:block>
+									</fo:table-cell>
+									<fo:table-cell padding-bottom="2px" padding-top="2px">
+										<fo:block>
+											<xsl:value-of select="ReportForm/brand"/>
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+								<fo:table-row>
+									<fo:table-cell padding-bottom="2px" padding-top="2px">
+										<fo:block>Category</fo:block>
+									</fo:table-cell>
+									<fo:table-cell padding-bottom="2px" padding-top="2px">
+										<fo:block>
+											<xsl:value-of select="ReportForm/category"/>
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+					</fo:block>
+
+					<fo:block space-after="1cm"> </fo:block>
+
 					<fo:block>
 							<fo:table width="100%"
 							border-style="double"

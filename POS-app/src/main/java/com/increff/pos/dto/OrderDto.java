@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import com.increff.pos.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -83,7 +84,7 @@ public class OrderDto {
 
         HashMap<String, String> XMLheaders = new HashMap<String, String>();
         XMLheaders.put("OrderId", order.getId().toString());
-        XMLheaders.put("Time", order.getTime().format(new DateTimeFormatterBuilder().appendPattern("dd-MM-yyyy HH:mm:ss z").toFormatter()));
+        XMLheaders.put("Time", TimeUtil.getFormattedTime(order.getTime(), "dd-MM-yyyy HH:mm::ss z"));
         XMLheaders.put("Total", String.format("%.2f", total));
 
         XSLTFilename xsltFilename = XSLTFilename.INVOICE;
