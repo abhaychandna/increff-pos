@@ -67,34 +67,31 @@ public class OrderDto {
         if(Objects.nonNull(base64)) {
             return base64;
         }
-        
+
+        return generateInvoice(order, items, outputFilepath);
+    }
+
+    private String generateInvoice(OrderPojo order, List<OrderItemPojo> items, String outputFilepath) throws ApiException {
+        String base64;
         Double total = 0.0;
         List<InvoiceItemData> invoiceItems = new ArrayList<InvoiceItemData>();
         for(OrderItemPojo item: items) {
-            InvoiceItemData invoiceItem = new InvoiceItemData();
-            invoiceItem.setQuantity(item.getQuantity());
-            invoiceItem.setSellingPrice(item.getSellingPrice());
             ProductPojo product = productService.getCheck(item.getProductId());
-            invoiceItem.setBarcode(product.getBarcode());
-            invoiceItem.setProductId(product.getId());
-            invoiceItem.setName(product.getName());
-
+            invoiceItems.add(new InvoiceItemData(product.getName(), product.getBarcode(), item.getQuantity(), item.getSellingPrice(), product.getId()));
             total += item.getQuantity() * item.getSellingPrice();
-            invoiceItems.add(invoiceItem);
-        }        
+        }
 
         HashMap<String, String> XMLheaders = new HashMap<String, String>();
         XMLheaders.put("OrderId", order.getId().toString());
         XMLheaders.put("Time", order.getTime().format(new DateTimeFormatterBuilder().appendPattern("dd-MM-yyyy HH:mm:ss z").toFormatter()));
         XMLheaders.put("Total", String.format("%.2f", total));
-        
+
         XSLTFilename xsltFilename = XSLTFilename.INVOICE;
         base64 = ClientWrapper.getPdfClient().getPDFInBase64(invoiceItems, xsltFilename, XMLheaders);
-        
+
         ClientWrapper.getPdfClient().saveBase64ToPDF(base64, outputFilepath);
 
         return base64;
-
     }
 
     public OrderData get(Integer id) throws ApiException {
