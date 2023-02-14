@@ -32,7 +32,7 @@ public class AppRestControllerAdvice {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public MessageData handleException(HttpMessageNotReadableException e) {
 		MessageData data = new MessageData();
-		data.setMessage("Failed not parse request body");
+		data.setMessage("Failed to parse request body");
 		return data;
 	}
 }
