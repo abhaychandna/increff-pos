@@ -18,7 +18,7 @@ public abstract class AbstractUiController {
 	private InfoData info;
 
 	@Autowired
-	private Properties Properties;
+	private Properties properties;
 
 	protected ModelAndView mav(String page) {
 
@@ -31,7 +31,7 @@ public abstract class AbstractUiController {
 
 		ModelAndView mav = new ModelAndView(page);
 		mav.addObject("info", info);
-		mav.addObject("baseUrl", Properties.getAppBaseUrl());
+		mav.addObject("baseUrl", properties.getAppBaseUrl());
 		return mav;
 	}
 

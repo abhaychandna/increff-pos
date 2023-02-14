@@ -9,14 +9,14 @@ import com.increff.pos.spring.Properties;
 public class AboutAppService {
 
 	@Autowired
-	private Properties Properties;
+	private Properties properties;
 	
 	public String getName() {
-		return Properties.getAppName();
+		return properties.getAppName();
 	}
 
 	public String getVersion() {
-		return Properties.getAppVersion();
+		return properties.getAppVersion();
 	}
 
 }

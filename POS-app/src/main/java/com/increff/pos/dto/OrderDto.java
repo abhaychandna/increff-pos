@@ -1,7 +1,6 @@
 package com.increff.pos.dto;
 
 import java.io.File;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,10 +46,10 @@ public class OrderDto {
     @Autowired
     private InventoryService inventoryService;
     @Autowired
-    private ClientWrapper ClientWrapper;
+    private ClientWrapper clientWrapper;
 
     @Autowired
-    private Properties Properties;
+    private Properties properties;
 
 
 
@@ -59,7 +58,7 @@ public class OrderDto {
         
         List<OrderItemPojo> items = orderItemService.getByOrderId(id);
 
-        String folderPath = Properties.getResourcePath() + "/invoices";
+        String folderPath = properties.getResourcePath() + "/invoices";
         File folder = new File(folderPath);
         folder.getParentFile().mkdirs();
         
@@ -88,9 +87,9 @@ public class OrderDto {
         XMLheaders.put("Total", String.format("%.2f", total));
 
         XSLTFilename xsltFilename = XSLTFilename.INVOICE;
-        base64 = ClientWrapper.getPdfClient().getPDFInBase64(invoiceItems, xsltFilename, XMLheaders);
+        base64 = clientWrapper.getPdfClient().getPDFInBase64(invoiceItems, xsltFilename, XMLheaders);
 
-        ClientWrapper.getPdfClient().saveBase64ToPDF(base64, outputFilepath);
+        clientWrapper.getPdfClient().saveBase64ToPDF(base64, outputFilepath);
 
         return base64;
     }
@@ -155,7 +154,7 @@ public class OrderDto {
     private String getCachedInvoice(String outputFilepath) throws ApiException {
         File file = new File(outputFilepath);
         if(file.exists()) {
-            return ClientWrapper.getPdfClient().PDFToBase64(outputFilepath);
+            return clientWrapper.getPdfClient().PDFToBase64(outputFilepath);
         }
         return null;        
     }

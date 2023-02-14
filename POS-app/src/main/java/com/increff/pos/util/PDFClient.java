@@ -23,12 +23,12 @@ import com.increff.pos.spring.Properties;
 public class PDFClient {
 
     @Autowired
-    private Properties Properties;
+    private Properties properties;
 
     public <T> String getPDFInBase64(List<T> pdfData, XSLTFilename xsltFilename, HashMap<String, String> XMLheaders) throws ApiException{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String apiUrl = Properties.getPdfAppBaseUrl() + Properties.getPdfAppGenerateReportUrl();
+        String apiUrl = properties.getPdfAppBaseUrl() + properties.getPdfAppGenerateReportUrl();
         PDFForm<T> pdfForm = new PDFForm<T>(xsltFilename, XMLheaders, pdfData);
         RestTemplate RestTemplate = new RestTemplate();
         try {

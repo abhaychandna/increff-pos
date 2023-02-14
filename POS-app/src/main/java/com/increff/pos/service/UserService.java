@@ -24,7 +24,7 @@ public class UserService {
 	private UserDao dao;
 	
 	@Autowired
-	private Properties Properties;
+	private Properties properties;
 
 	public void add(UserPojo user) throws ApiException {
 		UserPojo existing = dao.selectByColumn("email", user.getEmail());
@@ -45,7 +45,7 @@ public class UserService {
 	}
 
 	private boolean isSupervisor(String email) {
-		return email.equals(Properties.getSupervisorEmail()); 
+		return email.equals(properties.getSupervisorEmail()); 
 	}
 
 }
