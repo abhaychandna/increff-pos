@@ -241,16 +241,10 @@ public class InventoryTest extends AbstractUnitTest {
     @Test(expected = ApiException.class)
     public void testBulkAddDuplicateInput() throws ApiException {
         testUtil.createProductCascade(barcode, brand, category, name, mrp);
-
         List<InventoryForm> inventoryForms = new ArrayList<>();
         inventoryForms.add(testUtil.getInventoryForm(barcode, quantity));
         inventoryForms.add(testUtil.getInventoryForm(barcode, quantity));
         inventoryDto.bulkAdd(inventoryForms);
-
-        List<InventoryData> inventoryData = inventoryDto.getAll(0, 10, 1).getData();
-        assertEquals(1, inventoryData.size());
-        Integer newQuantity = quantity + quantity;
-        assertEquals(newQuantity, inventoryData.get(0).getQuantity());
     }
 
     @Test(expected = ApiException.class)
