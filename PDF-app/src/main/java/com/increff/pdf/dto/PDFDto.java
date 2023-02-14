@@ -2,13 +2,12 @@ package com.increff.pdf.dto;
 
 import java.io.File;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.increff.pdf.util.ValidateUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.increff.pdf.model.PDFForm;
+import com.increff.pdf.model.form.PDFForm;
 import com.increff.pdf.service.ApiException;
 import com.increff.pdf.util.PDFUtil;
 import com.increff.pdf.util.XMLUtil;

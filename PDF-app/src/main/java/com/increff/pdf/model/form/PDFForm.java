@@ -1,4 +1,4 @@
-package com.increff.pdf.model;
+package com.increff.pdf.model.form;
 
 import java.util.HashMap;
 import java.util.List;

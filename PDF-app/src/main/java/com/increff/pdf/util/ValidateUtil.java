@@ -1,6 +1,6 @@
 package com.increff.pdf.util;
 
-import com.increff.pdf.model.PDFForm;
+import com.increff.pdf.model.form.PDFForm;
 import com.increff.pdf.model.data.XSLTFilename;
 import com.increff.pdf.service.ApiException;
 
