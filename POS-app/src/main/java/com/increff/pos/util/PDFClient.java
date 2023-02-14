@@ -37,7 +37,7 @@ public class PDFClient {
             return base64;
         }
         catch (RestClientException e) {
-            throw new ApiException("Failed to connect to pdf service. Please try again later.");
+            throw new ApiException("Failed to generate PDF.");
         }
     }
 
