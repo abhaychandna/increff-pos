@@ -128,5 +128,18 @@ public class InventoryServiceTest extends AbstractUnitTest {
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }
+
+    @Test
+    public void testAddInventoryQuantityIntegerOverflow() throws ApiException {
+        Integer maxQuantity = Integer.MAX_VALUE;
+        InventoryPojo inventory = testUtil.createInventory(barcode, maxQuantity);
+        InventoryPojo newInventory = new InventoryPojo(1);
+        newInventory.setProductId(inventory.getProductId());
+        String expectedMessage = "Inventory quantity overflow";
+        Exception exception = assertThrows(ApiException.class, () -> {
+            inventoryService.add(newInventory);
+        });
+        testUtil.validateExceptionMessage(exception, expectedMessage);
+    }
     
 }
