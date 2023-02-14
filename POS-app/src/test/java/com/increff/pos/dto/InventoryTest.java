@@ -238,9 +238,8 @@ public class InventoryTest extends AbstractUnitTest {
         }
     }
 
-    @Test
-    public void testBulkAddDuplicateInput_thenIncreaseQuantity() throws ApiException {
-
+    @Test(expected = ApiException.class)
+    public void testBulkAddDuplicateInput() throws ApiException {
         testUtil.createProductCascade(barcode, brand, category, name, mrp);
 
         List<InventoryForm> inventoryForms = new ArrayList<>();
