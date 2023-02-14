@@ -24,7 +24,7 @@ public class BrandTest extends AbstractUnitTest {
 
     @Test
     public void testAddBrand() throws ApiException {
-        BrandData brandData = testUtil.createBrand("adidas", "tshirts");
+        BrandData brandData = brandDto.add(testUtil.getBrandForm("adidas", "tshirts"));
         assertEquals("adidas", brandData.getBrand());
         assertEquals("tshirts", brandData.getCategory());
     }
