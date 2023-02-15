@@ -189,11 +189,6 @@ public class InventoryTest extends AbstractUnitTest {
     @Test
     public void testBulkAdd() throws ApiException {
         String barcode1 = "abcdef12", barcode2 = "abcdef13", barcode3 = "abcdef14";
-        Integer quantity = 10;
-        String brand = "adidas";
-        String category = "tshirts";
-        String name = "polo";
-        Double mrp = 100.0;
         testUtil.createProductCascade(barcode1, brand, category, name, mrp);
         testUtil.createProduct(barcode2, brand, category, name, mrp);
         testUtil.createProduct(barcode3, brand, category, name, mrp);
@@ -210,11 +205,6 @@ public class InventoryTest extends AbstractUnitTest {
     @Test
     public void testBulkAddExisting_thenIncreaseQuantity() throws ApiException {
         String barcode1 = "abcdef12", barcode2 = "abcdef13", barcode3 = "abcdef14";
-        Integer quantity = 10;
-        String brand = "adidas";
-        String category = "tshirts";
-        String name = "polo";
-        Double mrp = 100.0;
         testUtil.createProductCascade(barcode1, brand, category, name, mrp);
         testUtil.createProduct(barcode2, brand, category, name, mrp);
         testUtil.createProduct(barcode3, brand, category, name, mrp);
