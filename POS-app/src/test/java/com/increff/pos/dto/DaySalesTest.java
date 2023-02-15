@@ -53,7 +53,7 @@ public class DaySalesTest extends AbstractUnitTest {
         testUtil.createInventoryCascade(barcode, brand, category, name, mrp, quantity1);
         barcode2 = "abcdef13";
         testUtil.createProduct(barcode2, brand, category, name, mrp);
-        testUtil.createInventory(barcode2, quantity1);
+        testUtil.createInventory(barcode2, quantity2);
 
         orderItemForm = new OrderItemForm(barcode, quantity1, sellingPrice1);
         orderItemForm2 = new OrderItemForm(barcode2, quantity2, sellingPrice2);
