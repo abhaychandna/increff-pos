@@ -75,15 +75,8 @@ public class DaySalesTest extends AbstractUnitTest {
         PaginatedData<DaySalesData> paginatedData = daySalesDto.getAll(0, 10, 1);
         List<DaySalesData> data = paginatedData.getData();
         assertEquals(2, data.size());
-        checkEquals(daySales1, data.get(0));
-        checkEquals(daySales2, data.get(1));
-    }
-
-    private void checkEquals(DaySalesPojo daySales, DaySalesData daySalesData) {
-        assertEquals(daySales.getDate().withNano(0), daySalesData.getDate().withNano(0));
-        assertEquals(daySales.getInvoicedOrdersCount(), daySalesData.getInvoicedOrdersCount());
-        assertEquals(daySales.getInvoicedItemsCount(), daySalesData.getInvoicedItemsCount());
-        assertEquals(daySales.getTotalRevenue(), daySalesData.getTotalRevenue());
+        testUtil.checkEquals(daySales1, data.get(0));
+        testUtil.checkEquals(daySales2, data.get(1));
     }
 
     @Test
@@ -153,7 +146,4 @@ public class DaySalesTest extends AbstractUnitTest {
         Double expectedRevenue = orderItemFormList.stream().mapToDouble(e->e.getQuantity() * e.getSellingPrice()).sum();
         assertEquals(expectedRevenue, daySales.getTotalRevenue());
     }
-
-
-
 }

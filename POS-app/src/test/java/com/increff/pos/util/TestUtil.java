@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.increff.pos.model.data.DaySalesData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -162,6 +163,13 @@ public class TestUtil {
     public void validateExceptionMessage(Exception exception, String expectedMessage) {
         String actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage);
+    }
+
+    public void checkEquals(DaySalesPojo daySales, DaySalesData daySalesData) {
+        assertEquals(daySales.getDate().withNano(0), daySalesData.getDate().withNano(0));
+        assertEquals(daySales.getInvoicedOrdersCount(), daySalesData.getInvoicedOrdersCount());
+        assertEquals(daySales.getInvoicedItemsCount(), daySalesData.getInvoicedItemsCount());
+        assertEquals(daySales.getTotalRevenue(), daySalesData.getTotalRevenue());
     }
     
 }
