@@ -59,10 +59,10 @@ public class TestUtil {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private PropertiesTest Properties;
+    private PropertiesTest properties;
 
     public PropertiesTest getProperties() {
-        return Properties;
+        return properties;
     }
 
     public ProductPojo createProductCascade(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
