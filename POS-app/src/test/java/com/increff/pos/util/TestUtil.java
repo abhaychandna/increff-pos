@@ -67,8 +67,7 @@ public class TestUtil {
 
     public ProductPojo createProductCascade(String barcode, String brand, String category, String name, Double mrp) throws ApiException {
         createBrand(brand, category);
-        ProductPojo p = createProduct(barcode, brand, category, name, mrp);
-        return p;
+        return createProduct(barcode, brand, category, name, mrp);
     }
 
     public BrandData createBrand(String brand, String category) throws ApiException{
