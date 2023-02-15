@@ -29,8 +29,6 @@ public class UserTest extends AbstractUnitTest {
     private UserDao userDao;
     @Autowired
     private TestUtil testUtil;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     private String email;
     private String password;
@@ -46,7 +44,7 @@ public class UserTest extends AbstractUnitTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         userDto.signup(request, form);
         UserPojo user = userDao.selectByColumn("email", email);
-        checkEquals(user, form);
+        testUtil.checkEquals(user, form);
     }
 
     @Test
@@ -55,7 +53,7 @@ public class UserTest extends AbstractUnitTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         userDto.signup(request, form);
         UserPojo user = userService.get(testUtil.getProperties().getSupervisorEmail());
-        checkEquals(user, form); 
+        testUtil.checkEquals(user, form);
         assertEquals("SUPERVISOR", user.getRole().toString());
     }
 
@@ -83,11 +81,5 @@ public class UserTest extends AbstractUnitTest {
         ModelAndView mav = userDto.signup(request, testUtil.getSignupForm(email, password));
         assertEquals("redirect:/site/signup", mav.getViewName());
     }
-
-    private void checkEquals(UserPojo user, SignupForm form) {
-        assertEquals(user.getEmail(), form.getEmail());
-        assertTrue(passwordEncoder.matches(form.getPassword(), user.getPassword()));
-    }
-
 
 }

@@ -11,6 +11,7 @@ import com.increff.pos.model.data.DaySalesData;
 import com.increff.pos.model.data.OrderItemData;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.increff.pos.config.PropertiesTest;
@@ -55,6 +56,8 @@ public class TestUtil {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private PropertiesTest Properties;
 
@@ -186,6 +189,11 @@ public class TestUtil {
     }
     public void checkEquals(OrderItemData orderItemData, OrderItemForm orderItemForm) {
         checkEquals(List.of(orderItemData), List.of(orderItemForm));
+    }
+
+    public void checkEquals(UserPojo user, SignupForm form) {
+        Assert.assertEquals(user.getEmail(), form.getEmail());
+        assertTrue(passwordEncoder.matches(form.getPassword(), user.getPassword()));
     }
     
 }
