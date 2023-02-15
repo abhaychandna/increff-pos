@@ -1,13 +1,13 @@
 package com.increff.pos.dto;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.map.MultiKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.model.data.BrandData;
@@ -69,18 +69,16 @@ public class BrandDto {
     }
 
     private void checkDuplicateBrandCategoryPair(List<BrandForm> forms) throws ApiException, JsonProcessingException {
-        String separator = "_", duplicateBrandCategoryErrorMessage = "Duplicate Brand and Category pair";
-      
-        List<BrandFormErrorData> errors = new ArrayList<BrandFormErrorData>();
+        String duplicateBrandCategoryErrorMessage = "Duplicate Brand and Category pair";
         Boolean errorFound = false;
-        Set<String> brandCategorySet = new HashSet<String>();
+        MultiKeyMap brandCategoryMap = new MultiKeyMap();
+        List<BrandFormErrorData> errors = new ArrayList<BrandFormErrorData>();
 
         for (BrandForm form : forms){
             try {
                 PreProcessingUtil.normalizeAndValidate(form);
-                String brandCategory = form.getBrand() + separator + form.getCategory();
-                if (brandCategorySet.contains(brandCategory)) throw new ApiException(duplicateBrandCategoryErrorMessage);
-                brandCategorySet.add(brandCategory);    
+                if(brandCategoryMap.containsKey(form.getBrand(), form.getCategory())) throw new ApiException(duplicateBrandCategoryErrorMessage);
+                brandCategoryMap.put(form.getBrand(), form.getCategory(), true);
                 errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), ""));
             } catch (ApiException e) {
                 errorFound = true;
@@ -99,20 +97,19 @@ public class BrandDto {
 	}
 
     private void checkBrandCategoryAlreadyExists(List<BrandForm> forms) throws ApiException, JsonProcessingException {
-        String separator = "_";
         String alreadyExistsErrorMessage = "Brand and Category pair already exists";
         
         List<String> brandList = forms.stream().map(e->e.getBrand()).collect(Collectors.toList());
         List<String> categoryList = forms.stream().map(e->e.getCategory()).collect(Collectors.toList());
-
         List<BrandPojo> existingBrands = svc.getByMultipleColumns(List.of("brand", "category"), List.of(brandList, categoryList));
-        Set<String> existingBrandCategorySet = existingBrands.stream().map(brand->brand.getBrand() + separator + brand.getCategory()).collect(Collectors.toSet());;
 
+        MultiKeyMap existingBrandCategoryMap = new MultiKeyMap();
+        existingBrands.stream().forEach(brand-> existingBrandCategoryMap.put(brand.getBrand(), brand.getCategory(), true));
         List<BrandFormErrorData> errors = new ArrayList<BrandFormErrorData>();
         Boolean errorFound = false;
+
         for (BrandForm form : forms){
-            String brandCategory = form.getBrand() + separator + form.getCategory();
-            if (existingBrandCategorySet.contains(brandCategory)) {
+            if (existingBrandCategoryMap.containsKey(form.getBrand(), form.getCategory())) {
                 errorFound = true;
                 errors.add(new BrandFormErrorData(form.getBrand(), form.getCategory(), alreadyExistsErrorMessage));
             }

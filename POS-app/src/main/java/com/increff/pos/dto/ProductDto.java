@@ -1,13 +1,13 @@
 package com.increff.pos.dto;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.map.MultiKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -79,16 +79,13 @@ public class ProductDto {
         List<String> categoriesList = forms.stream().map(ProductForm::getCategory).collect(Collectors.toList());
 
         List<BrandPojo> brands = brandService.getByMultipleColumns(List.of("brand", "category"), List.of(brandsList, categoriesList));
-        String separator = "_";
-        HashMap<String, Integer> brandCategoryToId = new HashMap<String, Integer>();
-        brands.forEach(brand->{
-            brandCategoryToId.put(brand.getBrand() + separator + brand.getCategory(), brand.getId());
-        });
+        MultiKeyMap brandCategoryToId = new MultiKeyMap();
+        brands.stream().forEach(brand -> brandCategoryToId.put(brand.getBrand(), brand.getCategory(), brand.getId()));
 
         List<ProductPojo> validProducts = new ArrayList<ProductPojo>();
         for (ProductForm form : forms){
             ProductPojo product = ConvertUtil.convert(form, ProductPojo.class);
-            Integer brandCategoryId = brandCategoryToId.get(form.getBrand() + separator + form.getCategory());
+            Integer brandCategoryId = (Integer) brandCategoryToId.get(form.getBrand(), form.getCategory());
             if(Objects.isNull(brandCategoryId))  {
                 errorFound = true;
                 errors.add(new ProductFormErrorData(form.getBarcode(), form.getBrand(), form.getCategory(), form.getName(), form.getMrp(), "Brand Category pair does not exist"));
