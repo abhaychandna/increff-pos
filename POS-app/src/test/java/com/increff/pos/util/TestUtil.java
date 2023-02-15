@@ -1,12 +1,15 @@
 package com.increff.pos.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.increff.pos.model.data.DaySalesData;
+import com.increff.pos.model.data.OrderItemData;
+import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -170,6 +173,19 @@ public class TestUtil {
         assertEquals(daySales.getInvoicedOrdersCount(), daySalesData.getInvoicedOrdersCount());
         assertEquals(daySales.getInvoicedItemsCount(), daySalesData.getInvoicedItemsCount());
         assertEquals(daySales.getTotalRevenue(), daySalesData.getTotalRevenue());
+    }
+
+    public void checkEquals(List<OrderItemData> orderItems, List<OrderItemForm> orderItemFormList) {
+        Assert.assertEquals(orderItems.size(), orderItemFormList.size());
+        assertTrue(orderItems.size() > 0);
+        for (int i = 0; i < orderItems.size(); i++) {
+            Assert.assertEquals(orderItems.get(i).getBarcode(), orderItemFormList.get(i).getBarcode());
+            Assert.assertEquals(orderItems.get(i).getQuantity(), orderItemFormList.get(i).getQuantity());
+            Assert.assertEquals(orderItems.get(i).getSellingPrice(), orderItemFormList.get(i).getSellingPrice());
+        }
+    }
+    public void checkEquals(OrderItemData orderItemData, OrderItemForm orderItemForm) {
+        checkEquals(List.of(orderItemData), List.of(orderItemForm));
     }
     
 }

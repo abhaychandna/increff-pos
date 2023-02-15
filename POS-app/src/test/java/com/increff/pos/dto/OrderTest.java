@@ -67,7 +67,7 @@ public class OrderTest extends AbstractUnitTest {
     @Test
     public void testAddOrder() throws ApiException {
         List<OrderItemData> orderItems = orderDto.add(orderItemFormList);
-        checkEquals(orderItems, orderItemFormList);
+        testUtil.checkEquals(orderItems, orderItemFormList);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class OrderTest extends AbstractUnitTest {
     public void testGetItemsByOrderId() throws ApiException {
         Integer orderId = testUtil.createOrder(orderItemFormList).get(0).getOrderId();
         List<OrderItemData> orderItemDataList = orderDto.getItemsByOrderId(orderId);
-        checkEquals(orderItemDataList, orderItemFormList);
+        testUtil.checkEquals(orderItemDataList, orderItemFormList);
     }
 
     @Test
@@ -150,19 +150,6 @@ public class OrderTest extends AbstractUnitTest {
             orderDto.add(List.of(orderItemForm, orderItemForm2));
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
-    }
-
-    private void checkEquals(List<OrderItemData> orderItems, List<OrderItemForm> orderItemFormList) {
-        assertEquals(orderItems.size(), orderItemFormList.size());
-        assertTrue(orderItems.size() > 0);
-        for (int i = 0; i < orderItems.size(); i++) {
-            assertEquals(orderItems.get(i).getBarcode(), orderItemFormList.get(i).getBarcode());
-            assertEquals(orderItems.get(i).getQuantity(), orderItemFormList.get(i).getQuantity());
-            assertEquals(orderItems.get(i).getSellingPrice(), orderItemFormList.get(i).getSellingPrice());
-        }
-    }
-    private void checkEquals(OrderItemData orderItemData, OrderItemForm orderItemForm) {
-        checkEquals(List.of(orderItemData), List.of(orderItemForm));
     }
 
 }
