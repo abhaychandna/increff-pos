@@ -12,16 +12,16 @@ import lombok.Setter;
 @Setter
 public class ProductForm {
 
-	@Size(max = 255, message = "Barcode max size 255")
+	@Size(max = 15, message = "Barcode max size 15")
 	@NotBlank(message = "Barcode may not be empty")
 	private String barcode;
-	@Size(max = 255, message = "Brand max size 255")
+	@Size(max = 15, message = "Brand max size 15")
 	@NotBlank(message = "Brand may not be empty")
 	private String brand;
-	@Size(max = 255, message = "Category max size 255")
+	@Size(max = 15, message = "Category max size 15")
 	@NotBlank(message = "Category may not be empty")
 	private String category;
-	@Size(max = 255, message = "Name max size 255")
+	@Size(max = 15, message = "Name max size 15")
 	@NotBlank(message = "Name may not be empty")
 	private String name;
 	@NotNull(message = "Mrp may not be empty")

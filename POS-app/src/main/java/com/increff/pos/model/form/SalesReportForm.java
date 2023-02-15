@@ -9,9 +9,9 @@ import javax.validation.constraints.Size;
 public class SalesReportForm {
 	private String startDate;
 	private String endDate;
-	@Size(max = 255, message = "Brand max size 255")
+	@Size(max = 15, message = "Brand max size 15")
 	private String brand;
-	@Size(max = 255, message = "Category max size 255")
+	@Size(max = 15, message = "Category max size 15")
 	private String category;
 
 	public SalesReportForm() {

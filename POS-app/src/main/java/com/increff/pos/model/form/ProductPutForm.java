@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class ProductPutForm {
 
-	@Size(max = 255, message = "Name max size 255")
+	@Size(max = 15, message = "Name max size 15")
 	@NotBlank(message = "Name may not be empty")
 	private String name;
 	@NotNull(message = "Mrp may not be empty")

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderItemForm {
-    @Size(max = 255, message = "Barcode max size 255")
+    @Size(max = 15, message = "Barcode max size 15")
     @NotBlank(message = "Barcode may not be empty")
     private String barcode ;
     @NotNull(message = "Quantity may not be empty")

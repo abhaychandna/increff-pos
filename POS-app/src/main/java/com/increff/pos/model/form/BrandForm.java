@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 public class BrandForm {
 
-	@Size(max = 255, message = "Brand max size 255")
+	@Size(max = 15, message = "Brand max size 15")
 	@NotBlank(message = "Brand may not be empty")
 	private String brand;
-	@Size(max = 255, message = "Category max size 255")
+	@Size(max = 15, message = "Category max size 15")
 	@NotBlank(message = "Category may not be empty")
 	private String category;
 	
