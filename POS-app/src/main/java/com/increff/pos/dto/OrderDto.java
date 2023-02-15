@@ -103,8 +103,8 @@ public class OrderDto {
         Integer pageNo = start/pageSize;
         List<OrderPojo> orders = orderService.getAll(pageNo, pageSize);
         List<OrderData> orderDataList = new ArrayList<OrderData>();
-        for (OrderPojo p : orders) {
-            orderDataList.add(ConvertUtil.convert(p, OrderData.class));
+        for (OrderPojo order : orders) {
+            orderDataList.add(ConvertUtil.convert(order, OrderData.class));
         }
         Integer count = orderService.getRecordsCount();
         return new PaginatedData<OrderData>(orderDataList, draw, count, count);

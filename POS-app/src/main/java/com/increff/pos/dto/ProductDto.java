@@ -56,8 +56,8 @@ public class ProductDto {
         Integer pageNo = start/pageSize;
         List<ProductPojo> products = svc.getAll(pageNo, pageSize);
         List<ProductData> productDataList = new ArrayList<ProductData>();
-        for (ProductPojo p : products) {
-            productDataList.add(convert(p));
+        for (ProductPojo product : products) {
+            productDataList.add(convert(product));
         }
         Integer count = svc.getRecordsCount();
         return new PaginatedData<ProductData>(productDataList, draw, count, count);

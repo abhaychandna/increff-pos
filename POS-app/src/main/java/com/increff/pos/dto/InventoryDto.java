@@ -53,8 +53,8 @@ public class InventoryDto {
         Integer pageNo = start/pageSize;
         List<InventoryPojo> inventories = svc.getAll(pageNo, pageSize);
         List<InventoryData> inventoryDataList = new ArrayList<InventoryData>();
-        for (InventoryPojo p : inventories) {
-            inventoryDataList.add(convert(p));
+        for (InventoryPojo inventory : inventories) {
+            inventoryDataList.add(convert(inventory));
         }
         Integer count = svc.getRecordsCount();
         return new PaginatedData<InventoryData>(inventoryDataList, draw, count, count);
@@ -70,8 +70,8 @@ public class InventoryDto {
         List<String> barcodeList = forms.stream().map(InventoryForm::getBarcode).collect(Collectors.toList());
         List<ProductPojo> products = productService.getByColumn("barcode", barcodeList);
         HashMap<String, Integer> barcodeToId = new HashMap<String, Integer>();
-        for (ProductPojo p : products) {
-            barcodeToId.put(p.getBarcode(), p.getId());
+        for (ProductPojo product : products) {
+            barcodeToId.put(product.getBarcode(), product.getId());
         }
 
         List<InventoryPojo> validInventories = new ArrayList<InventoryPojo>();
