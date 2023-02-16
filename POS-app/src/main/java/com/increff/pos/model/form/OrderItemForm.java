@@ -1,8 +1,5 @@
 package com.increff.pos.model.form;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +12,11 @@ public class OrderItemForm {
     private String barcode ;
     @NotNull(message = "Quantity may not be empty")
     @Min(value = 1, message = "Quantity should be positive")
+    @Max(value = 1000, message = "Quantity should be less than 1000")
     private Integer quantity ; 
     @NotNull(message = "Selling Price may not be empty")
     @Min(value = 0, message = "Selling Price should be greater than or equal to 0")
+    @Max(value = 100000, message = "Selling Price should be less than 100000")
     private Double  sellingPrice ;
 
     public OrderItemForm() {
