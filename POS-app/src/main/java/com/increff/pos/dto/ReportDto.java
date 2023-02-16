@@ -56,7 +56,7 @@ public class ReportDto {
         return base64;
 	}
 
-    private List<InventoryReportData> getInventoryReport(HashMap<Integer, Integer> brandCategoryIdToQuantity) throws ApiException {
+    private List<InventoryReportData> getInventoryReport(HashMap<Integer, Integer> brandCategoryIdToQuantity) {
         List<Integer> brandCategoryIdList = brandCategoryIdToQuantity.keySet().stream().collect(Collectors.toList());
         HashMap<Integer, BrandPojo> brandIdToBrandPojo = getBrandIdToBrandPojoMap(brandCategoryIdList);
 
