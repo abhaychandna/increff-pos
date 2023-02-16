@@ -208,6 +208,14 @@ function getProductName(productId) {
 }
 
 function placeOrder() {
+    if(wholeOrder.length == 0) {
+        raiseAlert({
+            icon: 'error',
+            title: 'Oops...',
+            html: "No items in cart",
+        });
+        return;
+    }
     var url = getOrderItemUrl();
 
     var jsonStr = JSON.stringify(wholeOrder);
