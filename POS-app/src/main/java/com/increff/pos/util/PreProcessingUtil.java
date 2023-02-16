@@ -1,5 +1,8 @@
 package com.increff.pos.util;
 
+import com.increff.pos.model.data.ErrorData;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -7,6 +10,8 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+
+import static com.increff.pos.util.ErrorUtil.throwErrors;
 
 public class PreProcessingUtil {
 
@@ -26,9 +31,18 @@ public class PreProcessingUtil {
 		validate(form);
 	}
 	
-	public static <T> void normalizeAndValidate(List<T> form) throws ApiException {
-		for(T f : form) {
-			normalizeAndValidate(f);
+	public static <T> void normalizeAndValidate(List<T> forms) throws ApiException {
+		List<ErrorData<T>> errorList = new ArrayList<ErrorData<T>>();
+		for(T form : forms) {
+			try{
+				normalizeAndValidate(form);
+			}
+			catch (ApiException e) {
+				errorList.add(new ErrorData<T>(form, e.getMessage()));
+			}
+		}
+		if(errorList.size()>0) {
+			throwErrors(errorList);
 		}
 	}
 
