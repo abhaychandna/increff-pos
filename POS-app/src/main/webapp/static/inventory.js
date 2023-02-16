@@ -8,7 +8,7 @@ function getInventoryUrl(){
 function openAddInventoryModal(){
 	$('#add-Inventory-modal').modal('toggle');
 }
-function addInventory(event){
+function addInventory(){
 	var $form = $("#Inventory-form");
 	if(!validateFormHTML($form)) return;
 	var json = toJsonString($form);
@@ -33,7 +33,7 @@ function addInventory(event){
 	return false;
 }
 
-function updateInventory(event){
+function updateInventory(){
 	
 	var id = $("#Inventory-edit-form input[name=id]").val();	
 	var url = getInventoryUrl();

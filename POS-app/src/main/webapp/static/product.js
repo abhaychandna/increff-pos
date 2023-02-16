@@ -4,7 +4,7 @@ function getProductUrl(){
 	return baseUrl + "/api/products";
 }
 
-function addProduct(event){
+function addProduct(){
 	var $form = $("#Product-form");
 	if(!validateFormHTML($form)) return;
 	var json = toJsonString($form);
@@ -44,7 +44,7 @@ function displayEditProduct(id){
 function toggleEditProductModal(){
 	$('#edit-Product-modal').modal('toggle');
 }
-function updateProduct(event){
+function updateProduct(){
 	
 	var id = $("#Product-edit-form input[name=id]").val();	
 	var url = getProductUrl() + "/" + id;

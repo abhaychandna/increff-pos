@@ -15,7 +15,7 @@ function toggleEditBrandModal(){
 }
 
 
-function addBrand(event){
+function addBrand(){
 	
 	var $form = $("#Brand-form");
 	if(!validateFormHTML($form)) return;
@@ -41,7 +41,7 @@ function addBrand(event){
 	return false;
 }
 
-function updateBrand(event){
+function updateBrand(){
 	
 	var id = $("#Brand-edit-form input[name=id]").val();	
 	var url = getBrandUrl() + "/" + id;
