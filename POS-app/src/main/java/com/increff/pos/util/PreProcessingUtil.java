@@ -60,11 +60,11 @@ public class PreProcessingUtil {
 	}
     
 	public static <T> void normalize(T form) throws ApiException{
-		for(java.lang.reflect.Field f : form.getClass().getDeclaredFields()) {
+		for(java.lang.reflect.Field field : form.getClass().getDeclaredFields()) {
 			try {					
-				f.setAccessible(true);
-				if(f.getType().equals(String.class) && Objects.nonNull(f.get(form))) {
-					f.set(form, StringUtil.toLowerCase(f.get(form).toString()).trim());
+				field.setAccessible(true);
+				if(field.getType().equals(String.class) && Objects.nonNull(field.get(form))) {
+					field.set(form, StringUtil.toLowerCase(field.get(form).toString()).trim());
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				throw new ApiException(e.getMessage());
