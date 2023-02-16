@@ -8,15 +8,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import com.increff.pos.model.data.*;
 import com.increff.pos.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.increff.pos.model.data.InvoiceItemData;
-import com.increff.pos.model.data.OrderData;
-import com.increff.pos.model.data.OrderItemData;
-import com.increff.pos.model.data.PaginatedData;
-import com.increff.pos.model.data.XSLTFilename;
 import com.increff.pos.model.form.OrderItemForm;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
@@ -33,6 +29,8 @@ import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.PreProcessingUtil;
 
 import javax.transaction.Transactional;
+
+import static com.increff.pos.util.ErrorUtil.throwErrors;
 
 @Component
 public class OrderDto {
@@ -110,13 +108,14 @@ public class OrderDto {
         return new PaginatedData<OrderData>(orderDataList, draw, count, count);
     }
 
-    @Transactional
+    @Transactional(rollbackOn = ApiException.class)
     public List<OrderItemData> add(List<OrderItemForm> forms) throws ApiException {
-        List<OrderItemPojo> items = new ArrayList<OrderItemPojo>();
+        if(forms.isEmpty()) throwErrors(List.of(new ErrorData<>(null, "No items to add")));
         PreProcessingUtil.normalizeAndValidate(forms);
         checkDuplicateBarcodes(forms);
         validateOrderQuantityInInventory(forms);
 
+        List<OrderItemPojo> items = new ArrayList<OrderItemPojo>();
         for (OrderItemForm form : forms) {
             items.add(convert(form));
         }
@@ -160,21 +159,21 @@ public class OrderDto {
     }
 
     private void validateOrderQuantityInInventory(List<OrderItemForm> forms) throws ApiException {
-        List<String> errorMessages = new ArrayList<String>();
+        List<ErrorData<OrderItemForm>> errorList = new ArrayList<ErrorData<OrderItemForm>>();
         for(OrderItemForm form : forms){
             try{
                 InventoryPojo inventory = inventoryService.getCheck(productService.getCheckBarcode(form.getBarcode()).getId());
                 if(inventory.getQuantity() < form.getQuantity()){
-                    errorMessages.add("Insufficient inventory for barcode: " + form.getBarcode() + ". Available: " + inventory.getQuantity() + ", Required: " + form.getQuantity());
+                    throw new ApiException("Insufficient inventory for barcode: " + form.getBarcode() + ". Available: " + inventory.getQuantity() + ", Required: " + form.getQuantity());
                 }
             }
             catch (ApiException e){
-                errorMessages.add(e.getMessage());
+                errorList.add(new ErrorData<OrderItemForm>(form, e.getMessage()));
             }
         }
-        if(!errorMessages.isEmpty()){
-            throw new ApiException(String.join("\n", errorMessages));
-        } 
+        if (!errorList.isEmpty()) {
+            throwErrors(errorList);
+        }
     }
 
     private OrderItemPojo convert(OrderItemForm form) throws ApiException {
@@ -191,25 +190,25 @@ public class OrderDto {
 
     private void checkDuplicateBarcodes(List<OrderItemForm> items) throws ApiException {
         Set<String> barcodes = new HashSet<String>();
+        List<ErrorData<OrderItemForm>> errorList = new ArrayList<ErrorData<OrderItemForm>>();
         for(OrderItemForm item : items) {
             if(barcodes.contains(item.getBarcode()))
-                throw new ApiException("Duplicate barcode: " + item.getBarcode() + " in order");
+                errorList.add(new ErrorData<OrderItemForm>(item, "Duplicate barcode: " + item.getBarcode() + " in order"));
             barcodes.add(item.getBarcode());
         }
+        if (!errorList.isEmpty()) throwErrors(errorList);
     }
 
     private void reduceInventoryQuantity(List<OrderItemPojo> items) throws ApiException {
-        List<String> errorMessages = new ArrayList<String>();
+        List<ErrorData<OrderItemForm>> errorList = new ArrayList<ErrorData<OrderItemForm>>();
         for(OrderItemPojo item : items){
             try{
                 inventoryService.reduceInventory(item.getProductId(), item.getQuantity());
             }
             catch (ApiException e){
-                errorMessages.add(e.getMessage());
+                errorList.add(new ErrorData<OrderItemForm>(null, e.getMessage()));
             }
         }
-        if(!errorMessages.isEmpty()){
-            throw new ApiException(String.join("\n", errorMessages));
-        }
+        if(!errorList.isEmpty()) throwErrors(errorList);
     }
 }
