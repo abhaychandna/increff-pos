@@ -95,7 +95,7 @@
 							background-color="#69468D"
 							color="white">								<fo:table-row>
 									<fo:table-cell padding-bottom="2px" padding-top="2px">
-										<fo:block font-weight="bold">Item S.No.</fo:block>
+										<fo:block font-weight="bold">S.No.</fo:block>
 									</fo:table-cell>
 									<fo:table-cell padding-bottom="2px" padding-top="2px">
 										<fo:block font-weight="bold">Name</fo:block>
