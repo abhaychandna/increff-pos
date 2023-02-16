@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 public class SignupForm {
 
-	@Size(max = 15, message = "Email max size 15")
+	@Size(max = 64, message = "Email max size 64")
 	@NotBlank(message = "Email may not be empty")
 	private String email;
-	@Size(max = 15, message = "Password max size 15")
+	@Size(max = 64, message = "Password max size 64")
 	@NotBlank(message = "Password may not be empty")
 	private String password;
 
