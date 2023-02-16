@@ -238,9 +238,10 @@ function placeOrder() {
             wholeOrder = []
         },
         error: function(e) {
-            var error = e.responseJSON.message
-            
-            var errorString = error;
+            var errorList = JSON.parse(e.responseJSON.message);
+            var errorString = "";
+            for (var i in errorList) errorString += errorList[i].error + '\n';
+
             raiseAlert({
                 icon: 'error',
                 title: 'Oops...',
