@@ -1,9 +1,6 @@
 package com.increff.pos.model.form;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +23,7 @@ public class ProductForm {
 	private String name;
 	@NotNull(message = "Mrp may not be empty")
 	@Min(value = 0, message = "Mrp should be greater than or equal to 0")
+	@Max(value = 100000, message = "Mrp should be less than 100000")
 	private Double mrp;
 
 }
