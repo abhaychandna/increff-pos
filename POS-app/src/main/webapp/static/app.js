@@ -74,19 +74,13 @@ function raiseAlert(title, text, icon){
 	
 	text = replaceNewLineWithBr(text);
 	if(icon == 'error'){
-		Swal.fire({
-			icon: icon,
-			title: title,
-			html: text,
-		})
+		toastr.error(text, title, {
+			"closeButton": true,
+			"timeOut": ERROR_ALERT_TIME_MILLI,
+		});
 	}
 	else if (icon == 'success'){
-		Swal.fire({
-			icon: icon,
-			title: title,
-			html: text,
-			timer: 1000,
-		})
+		toastr.success(text, title);
 	}
 }
 
@@ -188,11 +182,9 @@ function showLogoutAlert(){
 	const title = 'Logging out';
 	const text = 'Redirecting to login page...';
 	const icon = 'success';
-	Swal.fire({
-		icon: icon,
-		title: title,
-		text: text,
-		timer: LOGOUT_ALERT_TIME_MILLI,
+	toastr.success(text, title, {
+		"closeButton": true,
+		"timeOut": LOGOUT_ALERT_TIME_MILLI,
 	});
 	setTimeout(function(){
 		window.location = LOGOUT_REDIRECT_URL;
