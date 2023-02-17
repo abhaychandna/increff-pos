@@ -18,7 +18,7 @@ function addProduct(){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-			raiseAlert('Success', 'Brand added successfully', 'success');
+			raiseAlert('Success', 'Product added successfully', 'success');
 	   		getProductList(); 
 			resetForm("#Product-form");
 			toggleAddProductModal();
