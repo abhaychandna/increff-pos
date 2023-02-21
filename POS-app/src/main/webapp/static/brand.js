@@ -136,6 +136,7 @@ function uploadRows(){
 	        $file.val('');       
             $('#BrandFileName').html("Choose File");
 			document.getElementById('download-errors').disabled=false;
+			document.getElementById('download-errors').style.display = "block";
 			$('#statusView').html("Status : Upload failed. Download errors to see error descriptions.");
 			raiseAlert('Error', 'Failed to upload brands. Download errors to see detailed descriptions.', 'error');
 		}
@@ -167,6 +168,7 @@ function resetUploadDialog(){
 	$('#BrandFileName').html("Choose File");
 	$('#statusView').html('Status : Please Upload TSV file');
 	document.getElementById('download-errors').disabled=true;
+	document.getElementById('download-errors').style.display = "none";
 }
 
 function resetAddDialog(){
