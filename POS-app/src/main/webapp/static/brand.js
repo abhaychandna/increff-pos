@@ -74,6 +74,10 @@ function getBrandList(){
 	$("#brand-table").DataTable().ajax.reload();
 }
 
+function refreshList(){
+	raiseAlert('Success', 'Refreshing Table', 'success')
+	getBrandList();
+}
 
 var fileData = [];
 var errorData = [];
@@ -229,7 +233,7 @@ function init(){
 	$('#add-Brand').click(addBrand);
 	$('#open-add-Brand-modal').click(toggleAddBrandModal)
 	$('#update-Brand').click(updateBrand);
-	$('#refresh-data').click(getBrandList);
+	$('#refresh-data').click(refreshList);
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);

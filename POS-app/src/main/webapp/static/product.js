@@ -78,6 +78,11 @@ function getProductList(){
 	$("#Product-table").DataTable().ajax.reload();
 }
 
+function refreshList(){
+	raiseAlert('Success', 'Refreshing Table', 'success')
+	getProductList();
+}
+
 function deleteProduct(id){
 	var url = getProductUrl() + "/" + id;
 
@@ -284,7 +289,7 @@ function init(){
 	$('#add-Product').click(addProduct);
 	$('#open-add-Product-modal').click(toggleAddProductModal)
 	$('#update-Product').click(updateProduct);
-	$('#refresh-data').click(getProductList);
+	$('#refresh-data').click(refreshList);
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);

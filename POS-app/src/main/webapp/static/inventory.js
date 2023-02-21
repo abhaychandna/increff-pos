@@ -66,6 +66,11 @@ function getInventoryList(){
 	$("#Inventory-table").DataTable().ajax.reload();
 }
 
+function refreshList(){
+	raiseAlert('Success', 'Refreshing Table', 'success')
+	getInventoryList();
+}
+
 function deleteInventory(id){
 	var url = getInventoryUrl() + "/" + id;
 
@@ -234,7 +239,7 @@ function init(){
 	$('#add-Inventory').click(addInventory);
 	$('#open-add-Inventory-modal').click(openAddInventoryModal)
 	$('#update-Inventory').click(updateInventory);
-	$('#refresh-data').click(getInventoryList);
+	$('#refresh-data').click(refreshList);
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);

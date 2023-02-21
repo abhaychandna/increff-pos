@@ -192,6 +192,11 @@ function getOrderList() {
 	$("#Order-table").DataTable().ajax.reload();
 }
 
+function refreshList(){
+    raiseAlert('Success', 'Refreshing Table', 'success')
+    getOrderList();
+}
+
 function getProductName(productId) {
     var url = getProductUrl() + "/" + productId;
     var name = "";
@@ -260,7 +265,7 @@ function init(){
 	$('#add-order').click(displayCart);
 	$('#add-order-item').click(addOrderItem);
 	$('#place-order').click(placeOrder);
-	$('#refresh-data').click(getOrderList);
+	$('#refresh-data').click(refreshList);
     $('#Order-table').DataTable( {
 		"processing": true,
 		"serverSide": true,
