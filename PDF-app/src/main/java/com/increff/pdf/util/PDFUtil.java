@@ -48,17 +48,6 @@ public class PDFUtil {
         }
     }
 
-    public static String getBase64(String IN_FILE) throws ApiException{
-        try {
-            byte[] inFileBytes = Files.readAllBytes(Paths.get(IN_FILE));
-            byte[] encoded = Base64.getEncoder().encode(inFileBytes);
-            String encodedString = new String(encoded);
-            return encodedString;
-        } catch (Exception e) {
-            throw new ApiException("Failed to convert PDF To Base 64. " + e.getMessage());
-        }
-    }
-
     private static StreamSource getStreamSourceFromXMLBase64(String base64EncodedString) {
         byte[] decodedBytes = Base64.getDecoder().decode(base64EncodedString);
         ByteArrayInputStream bais = new ByteArrayInputStream(decodedBytes);
