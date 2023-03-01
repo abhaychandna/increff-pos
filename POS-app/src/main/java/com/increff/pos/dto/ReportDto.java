@@ -27,7 +27,7 @@ import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.OrderItemService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
-import com.increff.pos.util.ClientWrapper;
+import com.increff.pos.service.ClientWrapper;
 import com.increff.pos.util.TimeUtil;
 
 

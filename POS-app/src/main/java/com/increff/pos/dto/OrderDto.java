@@ -24,7 +24,7 @@ import com.increff.pos.service.OrderItemService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.spring.Properties;
-import com.increff.pos.util.ClientWrapper;
+import com.increff.pos.service.ClientWrapper;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.PreProcessingUtil;
 
