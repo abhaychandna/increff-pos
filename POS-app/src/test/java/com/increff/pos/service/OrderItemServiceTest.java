@@ -85,7 +85,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
 
     @Test
     public void testAdd() throws ApiException {
-        orderItemService.add(orderItemPojoList);
+        orderItemService.addItem(orderItemPojoList);
         Integer orderId = orderItemPojoList.get(0).getOrderId();
         List<OrderItemPojo> orderItemPojoListGet = orderItemDao.selectByColumn("orderId", List.of(orderId));
         assertEquals(orderItemPojoList, orderItemPojoListGet);
@@ -93,16 +93,16 @@ public class OrderItemServiceTest extends AbstractUnitTest {
 
     @Test
     public void testGetCheck() throws ApiException {
-        orderItemService.add(orderItemPojoList);
-        OrderItemPojo orderItemPojoListGet = orderItemService.getCheck(orderItemPojoList.get(0).getId());
+        orderItemService.addItem(orderItemPojoList);
+        OrderItemPojo orderItemPojoListGet = orderItemService.getCheckItem(orderItemPojoList.get(0).getId());
         assertEquals(orderItemPojoList.get(0), orderItemPojoListGet);
     }
 
     @Test
     public void testGetByOrderId() throws ApiException {
-        orderItemService.add(orderItemPojoList);
+        orderItemService.addItem(orderItemPojoList);
         Integer orderId = orderItemPojoList.get(0).getOrderId();
-        List<OrderItemPojo> orderItemPojoListGet = orderItemService.getByOrderId(orderId);
+        List<OrderItemPojo> orderItemPojoListGet = orderItemService.getItemByOrderId(orderId);
         assertEquals(orderItemPojoList, orderItemPojoListGet);
     }
 
@@ -111,7 +111,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         Integer id = 1;
         String expectedMessage = "Order with given ID does not exist, id: " + id;
         Exception exception = assertThrows(ApiException.class, () -> {
-            orderItemService.getCheck(id);
+            orderItemService.getCheckItem(id);
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }
@@ -120,7 +120,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
     public void testGetByMultipleColumnDifferentColumnAndValueListSize() throws ApiException {
         String expectedMessage = "Column and value list size should be same";
         Exception exception = assertThrows(ApiException.class, () -> {
-            orderItemService.getByMultipleColumns(List.of("orderId"), List.of(List.of(1),List.of(2)));
+            orderItemService.getItemByMultipleColumns(List.of("orderId"), List.of(List.of(1),List.of(2)));
         });
         testUtil.validateExceptionMessage(exception, expectedMessage);
     }

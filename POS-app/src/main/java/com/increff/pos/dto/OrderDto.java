@@ -54,7 +54,7 @@ public class OrderDto {
     public String getInvoice(Integer id) throws ApiException {
         OrderPojo order = orderService.getCheck(id);
         
-        List<OrderItemPojo> items = orderItemService.getByOrderId(id);
+        List<OrderItemPojo> items = orderItemService.getItemByOrderId(id);
 
         String folderPath = properties.getResourcePath() + "/invoices";
         File folder = new File(folderPath);
@@ -131,7 +131,7 @@ public class OrderDto {
     public List<OrderItemData> getItemsByOrderId(Integer orderId) throws ApiException {
         List<Integer> orderIdList = new ArrayList<Integer>();
         orderIdList.add(orderId);
-        List<OrderItemPojo> items = orderItemService.getByColumn("orderId", new ArrayList<>(orderIdList));
+        List<OrderItemPojo> items = orderItemService.getItemByColumn("orderId", new ArrayList<>(orderIdList));
         List<OrderItemData> itemDataList = new ArrayList<OrderItemData>();
         for (OrderItemPojo item : items) {
             itemDataList.add(convert(item));
@@ -141,12 +141,12 @@ public class OrderDto {
 
     public PaginatedData<OrderItemData> getAllItems(Integer start, Integer pageSize, Integer draw) throws ApiException {
         Integer pageNo = start/pageSize;
-        List<OrderItemPojo> items = orderItemService.getAll(pageNo, pageSize);
+        List<OrderItemPojo> items = orderItemService.getAllItems(pageNo, pageSize);
         List<OrderItemData> itemDataList = new ArrayList<OrderItemData>();
         for (OrderItemPojo item : items) {
             itemDataList.add(convert(item));
         }
-        Integer count = orderItemService.getRecordsCount();
+        Integer count = orderItemService.getItemsRecordsCount();
         return new PaginatedData<OrderItemData>(itemDataList, draw, count, count);
     }
 

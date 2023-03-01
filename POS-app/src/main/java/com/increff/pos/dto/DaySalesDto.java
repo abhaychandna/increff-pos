@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.increff.pos.model.data.DaySalesData;
@@ -65,7 +64,7 @@ public class DaySalesDto {
         List<OrderPojo> orders = orderService.filterByDate(startDate, endDate);
         List<Integer> orderIds = orders.stream().map(OrderPojo::getId).collect(Collectors.toList());
 
-        List<OrderItemPojo> orderItems = orderItemService.getByColumn("orderId", orderIds);
+        List<OrderItemPojo> orderItems = orderItemService.getItemByColumn("orderId", orderIds);
         Double totalRevenue = orderItems.stream().mapToDouble(OrderItemPojo::getCost).sum();
 
         DaySalesData daySalesData = new DaySalesData();

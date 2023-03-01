@@ -19,7 +19,7 @@ import com.increff.pos.pojo.OrderPojo;
 public class OrderService {
 
 	@Autowired
-	private OrderDao dao;
+	private OrderDao orderDao;
 	@Autowired
 	private OrderItemService orderItemService;
 
@@ -28,32 +28,32 @@ public class OrderService {
 
 		OrderPojo order = new OrderPojo();
 		order.setTime(ZonedDateTime.now());
-		dao.insert(order);
+		orderDao.insert(order);
 
 		for (OrderItemPojo item : items) {
 			item.setOrderId(order.getId());
 		}
-		orderItemService.add(items);
+		orderItemService.addItem(items);
 		return items;
 	}
 
 	public List<OrderPojo> filterByDate(ZonedDateTime start, ZonedDateTime end) {
-		return dao.filterByDate(start, end);
+		return orderDao.filterByDate(start, end);
 	}
 
 	public List<OrderPojo> getAll(Integer pageNo, Integer pageSize) {
-		return dao.selectAll(pageNo, pageSize);
+		return orderDao.selectAll(pageNo, pageSize);
 	}
 
 	public OrderPojo getCheck(Integer id) throws ApiException {
-		OrderPojo order = dao.select(id);
+		OrderPojo order = orderDao.select(id);
 		if (Objects.isNull(order))
 			throw new ApiException("Order does not exist with id: " + id);
 		return order;
 	}
 
 	public Integer getRecordsCount() {
-		return dao.getRecordsCount();
+		return orderDao.getRecordsCount();
 	}
 
 

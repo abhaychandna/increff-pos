@@ -17,43 +17,43 @@ import com.increff.pos.pojo.OrderItemPojo;
 public class OrderItemService {
 
 	@Autowired
-	private OrderItemDao dao;
+	private OrderItemDao orderItemDao;
 
-	public List<OrderItemPojo> add(List<OrderItemPojo> items) throws ApiException {
+	public List<OrderItemPojo> addItem(List<OrderItemPojo> items) throws ApiException {
 		for (OrderItemPojo item : items) {
-			dao.insert(item);
+			orderItemDao.insert(item);
 		}
 		return items;
 	}
 
-	public List<OrderItemPojo> getAll(Integer pageNo, Integer pageSize) {
-		return dao.selectAll(pageNo, pageSize);
+	public List<OrderItemPojo> getAllItems(Integer pageNo, Integer pageSize) {
+		return orderItemDao.selectAll(pageNo, pageSize);
 	}
 
-	public OrderItemPojo getCheck(Integer id) throws ApiException {
-		OrderItemPojo item = dao.select(id);
+	public OrderItemPojo getCheckItem(Integer id) throws ApiException {
+		OrderItemPojo item = orderItemDao.select(id);
 		if (Objects.isNull(item)) {
 			throw new ApiException("Order with given ID does not exist, id: " + id);
 		}
 		return item;
 	}
 
-	public List<OrderItemPojo> getByOrderId(Integer id) throws ApiException {
-		return dao.selectMultiple("orderId", id);
+	public List<OrderItemPojo> getItemByOrderId(Integer id) throws ApiException {
+		return orderItemDao.selectMultiple("orderId", id);
 	}
 	
-	public Integer getRecordsCount() {
-		return dao.getRecordsCount();
+	public Integer getItemsRecordsCount() {
+		return orderItemDao.getRecordsCount();
 	}
 	
-	public <T> List<OrderItemPojo> getByColumn(String column, List<T> values){
-		return dao.selectByColumn(column, values);
+	public <T> List<OrderItemPojo> getItemByColumn(String column, List<T> values){
+		return orderItemDao.selectByColumn(column, values);
 	}
 
-	public <T> List<OrderItemPojo> getByMultipleColumns(List<String> columns, List<List<T>> values) throws ApiException{
+	public <T> List<OrderItemPojo> getItemByMultipleColumns(List<String> columns, List<List<T>> values) throws ApiException{
 		if(columns.size() != values.size()) {
 			throw new ApiException("Column and value list size should be same");
 		}
-		return dao.selectByMultipleColumns(columns, values);
+		return orderItemDao.selectByMultipleColumns(columns, values);
 	}
 }
