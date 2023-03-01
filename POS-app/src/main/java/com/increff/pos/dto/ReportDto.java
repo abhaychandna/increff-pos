@@ -24,7 +24,7 @@ import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.util.ApiException;
 import com.increff.pos.service.BrandService;
 import com.increff.pos.service.InventoryService;
-import com.increff.pos.service.OrderItemService;
+import com.increff.pos.service.OrderService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.service.ClientWrapper;
@@ -43,8 +43,6 @@ public class ReportDto {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private OrderItemService orderItemService;
-    @Autowired
     private ClientWrapper clientWrapper;
 
     public String inventoryReport() throws ApiException{
@@ -55,41 +53,6 @@ public class ReportDto {
         String base64  = clientWrapper.getPdfClient().getPDFInBase64(reportData, XSLTFilename.INVENTORY_REPORT, null);
         return base64;
 	}
-
-    private List<InventoryReportData> getInventoryReport(HashMap<Integer, Integer> brandCategoryIdToQuantity) {
-        List<Integer> brandCategoryIdList = brandCategoryIdToQuantity.keySet().stream().collect(Collectors.toList());
-        HashMap<Integer, BrandPojo> brandIdToBrandPojo = getBrandIdToBrandPojoMap(brandCategoryIdList);
-
-        List<InventoryReportData> inventoryReportList = new ArrayList<InventoryReportData>();   
-        for (Integer brandCategoryId : brandCategoryIdToQuantity.keySet()) {
-			BrandPojo brand = brandIdToBrandPojo.get(brandCategoryId);
-			InventoryReportData inventoryReportData = new InventoryReportData(brand.getBrand(), brand.getCategory(),
-                     brandCategoryIdToQuantity.get(brandCategoryId));
-            inventoryReportList.add(inventoryReportData);
-        }
-        return inventoryReportList;
-    }
-
-    private HashMap<Integer, BrandPojo> getBrandIdToBrandPojoMap(List<Integer> brandCategoryIdList) {
-        List<BrandPojo> brands = brandService.getByColumn("id", brandCategoryIdList);
-        HashMap<Integer, BrandPojo> brandIdToBrandPojo = new HashMap<>();
-		for(BrandPojo brand:brands) brandIdToBrandPojo.put(brand.getId(), brand);
-        return brandIdToBrandPojo;
-    }
-
-    private HashMap<Integer, Integer> getBrandIdToQuantityMap(List<InventoryPojo> inventory) throws ApiException{
-        HashMap<Integer, Integer> brandCategoryIdToQuantity = new HashMap<>();
-        for (InventoryPojo inv : inventory) {
-			Integer brandCategoryId = productService.getCheck(inv.getProductId()).getBrandCategory();
-            Integer quantity =  brandCategoryIdToQuantity.get(brandCategoryId);
-            if(Objects.isNull(quantity)) quantity = 0;
-            brandCategoryIdToQuantity.put(brandCategoryId, quantity + inv.getQuantity());
-		}
-        return brandCategoryIdToQuantity;
-    }
-
-
-
 
     public String salesReport(SalesReportForm form) throws ApiException {
         ZonedDateTime startDate = TimeUtil.isoTimeStringToZonedDateTime(form.getStartDate());
@@ -114,6 +77,54 @@ public class ReportDto {
         return base64;
     }
 
+    public String brandReport() throws ApiException{
+        List<BrandPojo> brands = brandService.getAll();
+        if(brands.isEmpty()) throw new ApiException("No brands found");
+        List<BrandReportData> reportDataList = new ArrayList<>();
+        brands.stream().forEach(brand->{
+            reportDataList.add(new BrandReportData(brand.getBrand(), brand.getCategory()));
+        });
+
+        String base64  = clientWrapper.getPdfClient().getPDFInBase64(reportDataList, XSLTFilename.BRAND_REPORT, null);
+        return base64;
+
+    }
+
+
+    private List<InventoryReportData> getInventoryReport(HashMap<Integer, Integer> brandCategoryIdToQuantity) {
+        List<Integer> brandCategoryIdList = brandCategoryIdToQuantity.keySet().stream().collect(Collectors.toList());
+        HashMap<Integer, BrandPojo> brandIdToBrandPojo = getBrandIdToBrandPojoMap(brandCategoryIdList);
+
+        List<InventoryReportData> inventoryReportList = new ArrayList<InventoryReportData>();
+        for (Integer brandCategoryId : brandCategoryIdToQuantity.keySet()) {
+            BrandPojo brand = brandIdToBrandPojo.get(brandCategoryId);
+            InventoryReportData inventoryReportData = new InventoryReportData(brand.getBrand(), brand.getCategory(),
+                    brandCategoryIdToQuantity.get(brandCategoryId));
+            inventoryReportList.add(inventoryReportData);
+        }
+        return inventoryReportList;
+    }
+
+    private HashMap<Integer, BrandPojo> getBrandIdToBrandPojoMap(List<Integer> brandCategoryIdList) {
+        List<BrandPojo> brands = brandService.getByColumn("id", brandCategoryIdList);
+        HashMap<Integer, BrandPojo> brandIdToBrandPojo = new HashMap<>();
+        for(BrandPojo brand:brands) brandIdToBrandPojo.put(brand.getId(), brand);
+        return brandIdToBrandPojo;
+    }
+
+    private HashMap<Integer, Integer> getBrandIdToQuantityMap(List<InventoryPojo> inventory) throws ApiException{
+        HashMap<Integer, Integer> brandCategoryIdToQuantity = new HashMap<>();
+        for (InventoryPojo inv : inventory) {
+            Integer brandCategoryId = productService.getCheck(inv.getProductId()).getBrandCategory();
+            Integer quantity =  brandCategoryIdToQuantity.get(brandCategoryId);
+            if(Objects.isNull(quantity)) quantity = 0;
+            brandCategoryIdToQuantity.put(brandCategoryId, quantity + inv.getQuantity());
+        }
+        return brandCategoryIdToQuantity;
+    }
+
+
+
     private HashMap<String, String> salesReportHeaders(ZonedDateTime startDate, ZonedDateTime endDate, String brand, String category) {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("startDate", TimeUtil.getFormattedTime(startDate, "dd-MM-yyyy HH:mm:ss z").replace("Z","UTC"));
@@ -125,7 +136,7 @@ public class ReportDto {
 
     // Return Hashmap format : Key-productId, Value-List(brand, category)
     private HashMap<Integer, List<String>> getProductIdToBrandCategoryMap(List<ProductPojo> products,
-            List<BrandPojo> brands) {
+                                                                          List<BrandPojo> brands) {
         HashMap<Integer, BrandPojo> brandIdToBrandPojo = new HashMap<>();
         brands.stream().forEach(brand->{brandIdToBrandPojo.put(brand.getId(), brand);});
         HashMap<Integer, List<String>> productIdToBrandCategory = new HashMap<>();
@@ -149,10 +160,10 @@ public class ReportDto {
         List<Integer> orderIds = getOrderIds(startDate, endDate);
         List<String> columns = Arrays.asList("orderId", "productId");
         List<List<Object>> values = Arrays.asList(
-            orderIds.stream().map(e->(Object)e).collect(Collectors.toList()),
-            productIds.stream().map(e->(Object)e).collect(Collectors.toList())
+                orderIds.stream().map(e->(Object)e).collect(Collectors.toList()),
+                productIds.stream().map(e->(Object)e).collect(Collectors.toList())
         );
-        List<OrderItemPojo> orderItems = orderItemService.getByMultipleColumns(columns, values);
+        List<OrderItemPojo> orderItems = orderService.getItemByMultipleColumns(columns, values);
         return orderItems;
     }
 
@@ -176,8 +187,8 @@ public class ReportDto {
     private List<BrandPojo> getBrandPojoList(String brand, String category) throws ApiException {
         if(Objects.nonNull(category) && Objects.nonNull(brand)) {
             List<BrandPojo> brands = brandService.getByMultipleColumns(Arrays.asList("category", "brand"), Arrays.asList(
-                Arrays.asList(category),
-                Arrays.asList(brand))
+                    Arrays.asList(category),
+                    Arrays.asList(brand))
             );
             return brands;
         }
@@ -188,18 +199,5 @@ public class ReportDto {
 
 
 
-
-    public String brandReport() throws ApiException{
-        List<BrandPojo> brands = brandService.getAll();
-        if(brands.isEmpty()) throw new ApiException("No brands found");
-        List<BrandReportData> reportDataList = new ArrayList<>();
-        brands.stream().forEach(brand->{
-            reportDataList.add(new BrandReportData(brand.getBrand(), brand.getCategory()));
-        });
-
-        String base64  = clientWrapper.getPdfClient().getPDFInBase64(reportDataList, XSLTFilename.BRAND_REPORT, null);
-        return base64;
-
-    }
 
 }
