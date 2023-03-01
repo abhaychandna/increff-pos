@@ -1,4 +1,4 @@
-package com.increff.pos.util;
+package com.increff.pos.clients;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -6,6 +6,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 
+import com.increff.pos.util.ApiException;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +26,7 @@ public class PDFClient {
     @Autowired
     private Properties properties;
 
-    public <T> String getPDFInBase64(List<T> pdfData, XSLTFilename xsltFilename, HashMap<String, String> XMLheaders) throws ApiException{
+    public <T> String getPDFInBase64(List<T> pdfData, XSLTFilename xsltFilename, HashMap<String, String> XMLheaders) throws ApiException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String apiUrl = properties.getPdfAppBaseUrl() + properties.getPdfAppGenerateReportUrl();
@@ -40,7 +41,6 @@ public class PDFClient {
             throw new ApiException("Failed to generate PDF.");
         }
     }
-
     public void saveBase64ToPDF(String base64, String filepath) throws ApiException {
         try {
             byte[] pdfAsBytes = Base64.getDecoder().decode(base64);

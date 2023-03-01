@@ -1,5 +1,6 @@
-package com.increff.pos.util;
+package com.increff.pos.service;
 
+import com.increff.pos.clients.PDFClient;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
