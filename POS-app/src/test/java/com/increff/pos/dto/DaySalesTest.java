@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.increff.pos.scheduler.DaySalesScheduler;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class DaySalesTest extends AbstractUnitTest {
 
     @Autowired
     private DaySalesDto daySalesDto;
+    @Autowired
+    private DaySalesScheduler daySalesScheduler;
     @Autowired
     private TestUtil testUtil;
 
@@ -136,7 +139,7 @@ public class DaySalesTest extends AbstractUnitTest {
 
     @Test
     public void testCalculateDaySales() throws ApiException {
-        daySalesDto.calculateSales();
+        daySalesScheduler.calculateSales();
         PaginatedData<DaySalesData> paginatedData = daySalesDto.getAll(0, 10, 1);
         List<DaySalesData> data = paginatedData.getData();
         assertEquals(1, data.size());

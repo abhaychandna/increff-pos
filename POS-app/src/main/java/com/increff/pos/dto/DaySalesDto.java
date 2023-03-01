@@ -60,19 +60,8 @@ public class DaySalesDto {
         Integer count = svc.getRecordsCount();
         return new PaginatedData<DaySalesData>(daySaleList, draw, count, count);
     }
-
-    @Scheduled(fixedDelayString = "${daySalesScheduler.delay.seconds}000")
-    public void calculateSales() throws ApiException {
-        ZonedDateTime startDate = ZonedDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
-        ZonedDateTime endDate = ZonedDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(999999999);
-        DaySalesData daySalesData = calculateSales(startDate, endDate);
-        daySalesData.setDate(startDate);
-
-        svc.update(ConvertUtil.convert(daySalesData, DaySalesPojo.class));
-    }
-
     
-    private DaySalesData calculateSales(ZonedDateTime startDate, ZonedDateTime endDate) throws ApiException {
+    public DaySalesData calculateSales(ZonedDateTime startDate, ZonedDateTime endDate) throws ApiException {
         List<OrderPojo> orders = orderService.filterByDate(startDate, endDate);
         List<Integer> orderIds = orders.stream().map(OrderPojo::getId).collect(Collectors.toList());
 
