@@ -15,7 +15,7 @@ import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.util.ApiException;
 import com.increff.pos.service.DaySalesService;
-import com.increff.pos.service.OrderItemService;
+import com.increff.pos.service.OrderService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.TimeUtil;
@@ -29,8 +29,6 @@ public class DaySalesDto {
     private DaySalesService svc;
     @Autowired
     private OrderService orderService;
-    @Autowired 
-    private OrderItemService orderItemService;
 
     public PaginatedData<DaySalesData> getAll(Integer start, Integer pageSize, Integer draw) throws ApiException {
         Integer pageNo = start/pageSize;
@@ -64,7 +62,7 @@ public class DaySalesDto {
         List<OrderPojo> orders = orderService.filterByDate(startDate, endDate);
         List<Integer> orderIds = orders.stream().map(OrderPojo::getId).collect(Collectors.toList());
 
-        List<OrderItemPojo> orderItems = orderItemService.getItemByColumn("orderId", orderIds);
+        List<OrderItemPojo> orderItems = orderService.getItemByColumn("orderId", orderIds);
         Double totalRevenue = orderItems.stream().mapToDouble(OrderItemPojo::getCost).sum();
 
         DaySalesData daySalesData = new DaySalesData();

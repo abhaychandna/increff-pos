@@ -20,7 +20,7 @@ import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.util.ApiException;
 import com.increff.pos.service.InventoryService;
-import com.increff.pos.service.OrderItemService;
+import com.increff.pos.service.OrderService;
 import com.increff.pos.service.OrderService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.spring.Properties;
@@ -38,8 +38,6 @@ public class OrderDto {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private OrderItemService orderItemService;
-    @Autowired
     private ProductService productService;
     @Autowired
     private InventoryService inventoryService;
@@ -54,7 +52,7 @@ public class OrderDto {
     public String getInvoice(Integer id) throws ApiException {
         OrderPojo order = orderService.getCheck(id);
         
-        List<OrderItemPojo> items = orderItemService.getItemByOrderId(id);
+        List<OrderItemPojo> items = orderService.getItemByOrderId(id);
 
         String folderPath = properties.getResourcePath() + "/invoices";
         File folder = new File(folderPath);
@@ -131,7 +129,7 @@ public class OrderDto {
     public List<OrderItemData> getItemsByOrderId(Integer orderId) throws ApiException {
         List<Integer> orderIdList = new ArrayList<Integer>();
         orderIdList.add(orderId);
-        List<OrderItemPojo> items = orderItemService.getItemByColumn("orderId", new ArrayList<>(orderIdList));
+        List<OrderItemPojo> items = orderService.getItemByColumn("orderId", new ArrayList<>(orderIdList));
         List<OrderItemData> itemDataList = new ArrayList<OrderItemData>();
         for (OrderItemPojo item : items) {
             itemDataList.add(convert(item));
@@ -141,12 +139,12 @@ public class OrderDto {
 
     public PaginatedData<OrderItemData> getAllItems(Integer start, Integer pageSize, Integer draw) throws ApiException {
         Integer pageNo = start/pageSize;
-        List<OrderItemPojo> items = orderItemService.getAllItems(pageNo, pageSize);
+        List<OrderItemPojo> items = orderService.getAllItems(pageNo, pageSize);
         List<OrderItemData> itemDataList = new ArrayList<OrderItemData>();
         for (OrderItemPojo item : items) {
             itemDataList.add(convert(item));
         }
-        Integer count = orderItemService.getItemsRecordsCount();
+        Integer count = orderService.getItemsRecordsCount();
         return new PaginatedData<OrderItemData>(itemDataList, draw, count, count);
     }
 
